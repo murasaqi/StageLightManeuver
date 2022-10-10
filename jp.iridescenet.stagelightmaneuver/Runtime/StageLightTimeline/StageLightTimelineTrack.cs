@@ -7,7 +7,7 @@ using StageLightManeuver;
 
 [TrackColor(0.8239978f, 0.9150943f, 0.3338079f)]
 [TrackClipType(typeof(StageLightTimelineClip))]
-[TrackBindingType(typeof(StageLight))]
+[TrackBindingType(typeof(StageLightSupervisor))]
 public class StageLightTimelineTrack : TrackAsset
 {
     [Header("Clip UI Options", order = 0)] 

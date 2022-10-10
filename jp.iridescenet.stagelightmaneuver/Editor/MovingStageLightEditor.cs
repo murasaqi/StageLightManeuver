@@ -19,10 +19,13 @@ namespace StageLightManeuver
             // return base.CreateInspectorGUI();
             
             var movingStageLight = target as MovingStageLight;
-            
+            var indexField = new PropertyField(serializedObject.FindProperty("index"));
+            indexField.SetEnabled(false); 
+            root.Add(indexField);
             root.Add(new PropertyField(serializedObject.FindProperty("stageLightFixtures")));
-
+           
             
+
             var fixtureList = new List<string>();
             
             

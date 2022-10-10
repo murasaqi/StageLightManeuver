@@ -18,34 +18,35 @@ namespace StageLightManeuver
             get => stageLightChild;
             set=> stageLightChild = value;
         }
+        
 
-           public void Update()
-        {
-        }
-
-        public virtual void AddQue(StageLightQueData stageLightQueData, float weight)
+        private void Update()
         {
             
-           
+        }
 
+        public virtual void AddQue(StageLightQueData stageLightQueData)
+        {
+            
             foreach (var stageLight in StageLightChild)
             {
-                stageLight.AddQue(stageLightQueData,weight);
+                stageLight.AddQue(stageLightQueData);
             }
         }
 
-        public virtual void UpdateFixture(float time)
+        public virtual void EvaluateQue(float time)
         {
             var i = 0;
             foreach (var stageLight in StageLightChild)
             {
                 // Debug.Log(stageLight.name);
                 stageLight.Index = i;
-                stageLight.UpdateFixture(time);
+                stageLight.EvaluateQue(time);
                 i++;
             }
            
         }
+        
         
         [ContextMenu("Get StageLights in Children")]
         public void AddStageLightInChild()

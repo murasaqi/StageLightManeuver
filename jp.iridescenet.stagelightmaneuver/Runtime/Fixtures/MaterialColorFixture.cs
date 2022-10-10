@@ -30,14 +30,14 @@ namespace StageLightManeuver
             _materialPropertyBlock = new MaterialPropertyBlock();
             if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
         }
-        public override void UpdateFixture(float currentTime)
+        public override void EvaluateQue(float currentTime)
         {
             if(meshRenderer == null || _materialPropertyBlock == null) return;
-            base.UpdateFixture(currentTime);
+            base.EvaluateQue(currentTime);
 
         }
 
-        private void Update()
+        public override void UpdateFixture()
         {
            
             meshRenderer.SetPropertyBlock(_materialPropertyBlock);

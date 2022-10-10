@@ -11,6 +11,7 @@ namespace StageLightManeuver
         [DisplayName("Range")]public Vector2 rollRange = new Vector2(0, 0);
         public Vector2 rollMinMax = new Vector2(-180, 180);
         [DisplayName("Easing")]public EaseType easeType = EaseType.Linear;
+        [DisplayName("Constant")]public float constant = 0;
         [DisplayName("Curve")]public AnimationCurve animationCurve = new AnimationCurve(new Keyframe[]
         {
             new Keyframe(0,0),
@@ -24,11 +25,22 @@ namespace StageLightManeuver
             rollRange = new Vector2(0, 0);
             rollMinMax = new Vector2(-180, 180);
             easeType = EaseType.Linear;
+            constant = 0;
             animationCurve = new AnimationCurve(new Keyframe[]
             {
                 new Keyframe(0,0),
                 new Keyframe(1,1)
             });
+        }
+        
+        public MinMaxEasingValue(AnimationMode mode, Vector2 rollRange, Vector2 rollMinMax, EaseType easeType, float constant, AnimationCurve animationCurve)
+        {
+            this.mode = mode;
+            this.rollRange = rollRange;
+            this.rollMinMax = rollMinMax;
+            this.easeType = easeType;
+            this.constant = constant;
+            this.animationCurve = animationCurve;
         }
     }
     [Serializable]

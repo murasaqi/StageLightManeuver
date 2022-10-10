@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +15,19 @@ namespace StageLightManeuver
         [ContextMenu("Init")]
         public void Init()
         {
+            FindFixtures();
+            stageLightFixtures.Sort( (a,b) => a.updateOrder.CompareTo(b.updateOrder));
+        }
 
+
+        private void Start()
+        {
+            Init();
+        }
+
+        [ContextMenu("Apply Fixture Set")]
+        public void ApplyBaseFixtureSet()
+        {
             for (int i = StageLightFixtures.Count-1; i >= 0; i--)  
             {
                 DestroyImmediate(StageLightFixtures[i]);
@@ -30,26 +43,40 @@ namespace StageLightManeuver
             StageLightFixtures.Add(gameObject.AddComponent<DecalFixture>());
             StageLightFixtures.Add(gameObject.AddComponent<GoboFixture>());
         }
-
-        public override void AddQue(StageLightQueData stageLightQueData, float weight)
+        public override void AddQue(StageLightQueData stageLightQueData)
         {
-            base.AddQue(stageLightQueData, weight);
+            base.AddQue(stageLightQueData);
             foreach (var stageLightFixture in StageLightFixtures)
             {
                 stageLightFixture.stageLightDataQueue.Enqueue(stageLightQueData);
             }
         }
 
-        public override void UpdateFixture(float time)
+        public override void EvaluateQue(float time)
         {
-            base.UpdateFixture(time);
+            base.EvaluateQue(time);
             foreach (var stageLightFixture in StageLightFixtures)
             {
-                stageLightFixture.UpdateFixture(time);
+                stageLightFixture.EvaluateQue(time);
                 stageLightFixture.Index = Index;
             }
         }
-        
+
+        public void UpdateFixture()
+        {
+            foreach (var stageLightFixture in stageLightFixtures)
+            {
+                stageLightFixture.UpdateFixture();
+            }
+        }
+
+
+        private void Update()
+        {
+            UpdateFixture();
+        }
+
+
         [ContextMenu("Find Fixtures")]
         public void FindFixtures()
         {

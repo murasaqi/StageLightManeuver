@@ -31,7 +31,7 @@ namespace StageLightManeuver
             Init();
         }
         
-        public override void UpdateFixture(float time)
+        public override void EvaluateQue(float time)
         {
             if(decalMaterial == null || decalProjector == null || decalProjector.material == null) return;
             
@@ -79,7 +79,7 @@ namespace StageLightManeuver
 
         }
 
-        private void Update()
+        public override void UpdateFixture()
         {
             if(decalProjector ==null) return;
             

@@ -33,7 +33,7 @@ namespace StageLightManeuver
             if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
         }
 
-        public override void UpdateFixture(float time)
+        public override void EvaluateQue(float time)
         {
             goboTexture = null;
             speed = 0f;
@@ -84,7 +84,7 @@ namespace StageLightManeuver
             }
         }
 
-        private void Update()
+        public override void UpdateFixture()
         {
             
             if (goboTransform != null)
