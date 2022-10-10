@@ -14,10 +14,10 @@ namespace StageLightManeuver
         public float innerSpotAngle;
         public UniversalAdditionalLightData universalAdditionalLightData;
         
-        public override void UpdateFixture(float currentTime)
+        public override void EvaluateQue(float currentTime)
         {
             if(light == null) return;
-            base.UpdateFixture(currentTime);
+            base.EvaluateQue(currentTime);
 
             lightColor = new Color(0,0,0,1);
             lightIntensity = 0f;
@@ -51,7 +51,7 @@ namespace StageLightManeuver
             }
         }
 
-        private void Update()
+        public override void UpdateFixture()
         {
             if (light==null) return; 
             light.color = lightColor;

@@ -9,17 +9,20 @@ namespace StageLightManeuver
     [Serializable]
     public abstract class StageLightFixtureBase: MonoBehaviour,IStageLight
     {
-        // public StageLightBaseProperty stageLightBaseProperty = new StageLightBaseProperty();
-        // public ClipProperty clipProperty = new ClipProperty();
         public Queue<StageLightQueData> stageLightDataQueue = new Queue<StageLightQueData>();
-
+        public int updateOrder = 0;
         public int Index { get; set; }
         public List<StageLight> StageLightChild { get; set; }
         public float offsetDuration = 0f;
 
-        public virtual void UpdateFixture(float currentTime)
+        public virtual void EvaluateQue(float currentTime)
         {
 
+        }
+
+        public virtual void UpdateFixture()
+        {
+            
         }
 
         public virtual void Init()
@@ -28,12 +31,13 @@ namespace StageLightManeuver
         }
         
         
+        
         public float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType)
         {
             
             var scaledBpm = bpm * bpmScale;
             var duration = 60 / scaledBpm;
-            var offset = duration* bpmOffset * Index;
+            var offset = duration* bpmOffset * (Index+1);
             var offsetTime = time + offset;
             offsetDuration = offset;
             var result = 0f;

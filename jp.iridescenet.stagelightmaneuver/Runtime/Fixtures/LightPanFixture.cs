@@ -13,7 +13,8 @@ namespace StageLightManeuver
     public enum AnimationMode
     {
         Ease,
-        AnimationCurve
+        AnimationCurve,
+        Constant
     }
     
     [ExecuteAlways]
@@ -22,10 +23,12 @@ namespace StageLightManeuver
         private LightTransformType _lightTransformType = LightTransformType.Pan;
         private float _angle;
         public Transform rotateTransform;
-        
-        public override void UpdateFixture(float currentTime)
+
+
+        public LightTransformType LightTransformType => _lightTransformType;
+        public override void EvaluateQue(float currentTime)
         {   
-            base.UpdateFixture(currentTime);
+            base.EvaluateQue(currentTime);
             if(rotateTransform == null) return;
            
             _angle = 0f;
@@ -51,21 +54,43 @@ namespace StageLightManeuver
                 var clipProperty = qLightBaseProperty.clipProperty;
                 var time = GetNormalizedTime(currentTime,bpm,bpmOffset,bpmScale,clipProperty,loopType);
                 // Debug.Log($"{queueData.stageLightSetting.name},{time}");
-                if (qPanProperty.rollTransform.value.mode == AnimationMode.Ease)
+                
+                var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
+                
+                if(manualPanTiltProperty != null)
                 {
-                    _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.rollRange.x,
-                        qPanProperty.rollTransform.value.rollRange.y) * weight;
+                    var positions = manualPanTiltProperty.positions.value;
+                    if (Index < positions.Count)
+                    {
+                        _angle += positions[Index].tilt * weight;
+                    }
+                    
                 }
                 else
                 {
-                    _angle += qPanProperty.rollTransform.value.animationCurve.Evaluate(time) * weight;
+                    if (qPanProperty.rollTransform.value.mode == AnimationMode.Ease)
+                    {
+                        _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.rollRange.x,
+                            qPanProperty.rollTransform.value.rollRange.y) * weight;
+                    }
+                    if (qPanProperty.rollTransform.value.mode == AnimationMode.AnimationCurve)
+                    {
+                        _angle += qPanProperty.rollTransform.value.animationCurve.Evaluate(time) * weight;
+                    }
+                    if (qPanProperty.rollTransform.value.mode == AnimationMode.Constant)
+                    {
+                        _angle += qPanProperty.rollTransform.value.constant * weight;
+                    }    
                 }
+                
+                
+               
                 
             }
             
         }
 
-        void Update()
+        public override void UpdateFixture()
         {
             var vec = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
             rotateTransform.localEulerAngles =  vec * _angle;

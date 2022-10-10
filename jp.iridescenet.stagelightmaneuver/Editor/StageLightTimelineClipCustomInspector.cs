@@ -116,10 +116,17 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             // var stageLightProfile = new SerializedObject( stageLightTimelineClip.stageLightQueData);
             
             _stageLightPropertyEditors.Clear();
-            foreach (var property in stageLightProperties)
+            for (int i = 0; i < stageLightProperties.Count; i++)
             {
-                
-                DrawStageLightPropertyGUI(property, stageLightTimelineClip);
+
+                var property = stageLightProperties[i];
+                if(property == null) continue;
+                var action = new Action(() =>
+                {
+                    stageLightProperties.Remove(property);
+                    return;
+                });
+                DrawStageLightPropertyGUI(property, stageLightTimelineClip,action);
                
             }
             
@@ -133,48 +140,41 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         {
             EditorGUI.BeginChangeCheck();
 
-            var selectList = new List<string>()
+
+            // var propertyTypes = SlmUtility.GetTypes(typeof(SlmAdditionalProperty));
+
+            // propertyTypes.Remove(typeof(RollProperty));
+            var selectList = new List<string>();
+            
+            SlmUtility.SlmAdditionalTypes.ForEach(t =>
             {
-                "Add Property",
-                "Light Property",
-                "Pan Property",
-                "Tilt Property",
-                "Gobo Property",
-                "Decal Property",
-            };
-
-
+                if(t != typeof(RollProperty))selectList.Add(t.Name);
+            });
+            
+            
+            
+            // var typeDict = new Dictionary<string, Type>();
+            
+            selectList.Insert(0,"Add Property");
             foreach (var property in stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData
                          .stageLightProperties)
             {
-                if (selectList.Find(x => x == property.propertyName + " Property") != null)
+               
+                if (selectList.Find(x => x== property.GetType().Name) != null)
                 {
-                    selectList.Remove(property.propertyName + " Property");
+                    selectList.Remove(property.GetType().Name);
                 }
+                    
+                
             }
             EditorGUI.BeginDisabledGroup(selectList.Count  <= 1);
             var select = EditorGUILayout.Popup(0, selectList.ToArray());
             EditorGUI.EndDisabledGroup();
             if (EditorGUI.EndChangeCheck())
             {
-                switch (select-1)
-                {
-                    case 0:
-                        stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(new LightProperty());
-                        break;
-                    case 1:
-                        stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(new PanProperty());
-                        break;
-                    case 2:
-                        stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(new TiltProperty());
-                        break;
-                    case 3:
-                        stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(new GoboProperty());
-                        break;
-                    case 4:
-                        stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(new DecalProperty());
-                        break;
-                }
+                var type = SlmUtility.GetTypeByClassName(selectList[select]);
+                var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
+                stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(property);
             }
             
             
@@ -188,9 +188,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         }
         
 
-        private void DrawStageLightPropertyGUI(SlmProperty property, Object undoTarget)
+        private void DrawStageLightPropertyGUI(SlmProperty property, Object undoTarget, Action onRemove)
         {
 
+            if(property == null) return;
 
             using (new EditorGUILayout.VerticalScope("GroupBox"))
             {
@@ -304,7 +305,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
                             if (stageLightValueFieldInfo.FieldType == typeof(MinMaxEasingValue))
                             {
-
                                 DrawMinMaxEaseUI(labelValue, stageLightValueFieldInfo, fieldValue, undoTarget);
                             }
 
@@ -460,6 +460,51 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                     (Gradient)stageLightValueFieldInfo.GetValue(fieldValue));
                             }
 
+                            if (stageLightValueFieldInfo.FieldType == typeof(List<PanTiltPrimitive>))
+                            {
+                                using (new EditorGUILayout.VerticalScope())
+                                {
+                                    
+                                    using (new EditorGUILayout.HorizontalScope())
+                                    {
+                                        
+                                        EditorGUILayout.LabelField("Pan Tilt List");
+                                    }
+                                    
+                                    // var rect = EditorGUI.RectField()
+                                    var panTiltList = stageLightValueFieldInfo.GetValue(fieldValue) as List<PanTiltPrimitive>;
+                                   
+                                    for (int k = 0; k< panTiltList.Count; k++)
+                                    {
+                                        var panTilt = panTiltList[k];
+
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            GUI.color = Color.gray;
+                                            EditorGUILayout.LabelField(panTilt.name);
+                                            GUI.color = Color.white;
+                                        }
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            
+
+                                            using (new LabelWidth(60))
+                                            {
+                                                var pan = EditorGUILayout.FloatField("Pan", panTilt.pan);
+                                                var tilt =
+                                                    EditorGUILayout.FloatField("Tilt", panTilt.tilt);
+                                                panTiltList[k].pan = pan;
+                                                panTiltList[k].tilt = tilt;
+                                            }
+
+                                        }
+                                    }
+                                    
+                                    resultValue = panTiltList;
+                                
+                                
+                                }
+                            }
                             if (EditorGUI.EndChangeCheck())
                             {
                                 Undo.RecordObject(undoTarget, "Changed Area Of Effect");
@@ -475,6 +520,24 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         }
                     }
 
+                    using (new EditorGUILayout.VerticalScope())
+                    {
+                        GUILayout.Space(2);
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            
+                            GUILayout.FlexibleSpace();
+                            if (GUILayout.Button("Remove", GUILayout.Width(120)))
+                            {
+
+                                onRemove?.Invoke();
+                                serializedObject.ApplyModifiedProperties();
+                            }
+
+                            GUILayout.FlexibleSpace();
+                            
+                        }
+                    }
 
                     EditorGUI.indentLevel--;
                 }
@@ -518,6 +581,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             minMaxEasingValue.GetType().GetField("easeType").SetValue(minMaxEasingValue,resultEaseType);
                         }
                     }
+                    
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
@@ -571,7 +635,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         EditorGUILayout.FloatField(minMaxEasingValue.rollRange.y, GUILayout.Width(80));
 
                     }
-                }else
+                }
+                if(minMaxEasingValue.mode == AnimationMode.AnimationCurve)
                 {
                     EditorGUI.BeginChangeCheck();
                     var curveResult = EditorGUILayout.CurveField("Curve",
@@ -582,6 +647,20 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         minMaxEasingValue.GetType().GetField("animationCurve")
                             .SetValue(minMaxEasingValue,
                                 curveResult);
+                    }
+                }
+
+                if (minMaxEasingValue.mode == AnimationMode.Constant)
+                {
+                    EditorGUI.BeginChangeCheck();
+                    var floatResult = EditorGUILayout.FloatField("constant",
+                        minMaxEasingValue.constant);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        Undo.RecordObject(undoTarget, "Changed Area Of Effect");
+                        minMaxEasingValue.GetType().GetField("constant")
+                            .SetValue(minMaxEasingValue,
+                                floatResult);
                     }
                 }
             }

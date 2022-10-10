@@ -78,7 +78,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             var tex = GetGradientTexture(clip, update);
             if(stageLightTimelineClip.track == null) return;
             var colorHeight = region.position.height * stageLightTimelineClip.track.colorLineHeight;
-            var beatHeight = 2f;
+            // var beatHeight = 2f;
 
             UpdateBeatPoint(clip);
             if (stageLightTimelineClip.track.drawBeat)
@@ -192,10 +192,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 _beatPoint.Add(customClip, beatPointList);    
             }
 
-
-
-           
-                 
         }
         
         Texture2D GetGradientTexture(TimelineClip clip, bool update = false)
