@@ -39,7 +39,7 @@ namespace StageLightManeuver
             var tilt = gameObject.AddComponent<LightTiltFixture>();
             StageLightFixtures.Add(tilt);
             StageLightFixtures.Add(gameObject.AddComponent<LightFixture>());
-            StageLightFixtures.Add(gameObject.AddComponent<MaterialColorFixture>());
+            StageLightFixtures.Add(gameObject.AddComponent<SyncLightMaterialFixture>());
             StageLightFixtures.Add(gameObject.AddComponent<DecalFixture>());
             StageLightFixtures.Add(gameObject.AddComponent<GoboFixture>());
         }

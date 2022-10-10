@@ -51,6 +51,11 @@ namespace StageLightManeuver
             }
             return null;
         }
+        
+        public static Color GetHDRColor(Color color, float intensity)
+        {
+            return new Color(color.r, color.g, color.b, color.a) *Mathf.Pow(2.0f,intensity);
+        }
         // public static float GetNormalizedTime(float time,float bpm, float bpmScale,float bpmOffset,int index,LoopType loopType)
         // {
         //     
