@@ -35,6 +35,20 @@ namespace StageLightManeuver
             }
             return null;
         }
+        
+        public SlmAdditionalProperty TryGetAdditionalProperty(Type T) 
+        {
+            foreach (var property in stageLightProperties)
+            {
+                if (property.GetType() ==T)
+                {
+                    return property as SlmAdditionalProperty;
+                }
+            }
+            return null;
+        }
+        
+        
 
         public void TryAdd(Type T) 
         {

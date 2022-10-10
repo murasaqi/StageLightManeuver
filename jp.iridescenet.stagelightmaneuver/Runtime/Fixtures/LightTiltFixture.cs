@@ -17,17 +17,10 @@ namespace StageLightManeuver
             {
                 var queueData = stageLightDataQueue.Dequeue();
                 var qTiltProperty = queueData.TryGet<TiltProperty>() as TiltProperty;
-                var stageLightBaseProperty = queueData.TryGet<TimeProperty>() as TimeProperty;
+                var timeProperty = queueData.TryGet<TimeProperty>() as TimeProperty;
                 var weight = queueData.weight;
-                if (qTiltProperty == null || stageLightBaseProperty == null) continue;
-                var bpm = stageLightBaseProperty.bpm.value;
-                var bpmOffset = qTiltProperty.bpmOverrideData.value.bpmOverride ? qTiltProperty.bpmOverrideData.value.bpmOffset : stageLightBaseProperty.bpmOffset.value;
-                var bpmScale = qTiltProperty.bpmOverrideData.value.bpmOverride ? qTiltProperty.bpmOverrideData.value.bpmScale : stageLightBaseProperty.bpmScale.value;
-                var loopType = qTiltProperty.bpmOverrideData.value.bpmOverride ? qTiltProperty.bpmOverrideData.value.loopType : stageLightBaseProperty.loopType.value;
-                var clipProperty = stageLightBaseProperty.clipProperty;
-                var time = GetNormalizedTime(currentTime,bpm,bpmOffset,bpmScale,clipProperty,loopType);
-               
-                // var end = qTiltProperty.endRoll.value;
+                if (qTiltProperty == null || timeProperty == null) continue;
+                var time = GetNormalizedTime(currentTime, queueData, typeof(TiltProperty));
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
                 if(manualPanTiltProperty != null)
                 {

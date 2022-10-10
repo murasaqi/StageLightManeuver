@@ -6,10 +6,10 @@ namespace StageLightManeuver
     public class TimeProperty: SlmProperty
     {
         [DisplayName("Clip Duration")] public ClipProperty clipProperty;
-        [DisplayName("Loop Type")] public SlmToggleValue<LoopType> loopType = new SlmToggleValue<LoopType>() { value = LoopType.Loop };
-        [DisplayName("BPM")]public SlmToggleValue<float> bpm = new SlmToggleValue<float>() { value = 120 };
-        [DisplayName("BPM Scale")]public SlmToggleValue<float> bpmScale = new SlmToggleValue<float>(){value = 1f};
-        [DisplayName("BPM Offset")]public SlmToggleValue<float> bpmOffset = new SlmToggleValue<float>() { value = 0f };
+        [DisplayName("Loop Type")] public SlmToggleValue<LoopType> loopType;
+        [DisplayName("BPM")]public SlmToggleValue<float> bpm;
+        [DisplayName("BPM Scale")]public SlmToggleValue<float> bpmScale;
+        [DisplayName("BPM Offset")]public SlmToggleValue<float> bpmOffset;
         
         public TimeProperty()
         {
@@ -17,7 +17,7 @@ namespace StageLightManeuver
             propertyOverride = false;
             loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop};
             clipProperty = new ClipProperty(){clipStartTime = 0, clipEndTime = 0};
-            bpm = new SlmToggleValue<float>() { value = 120 };
+            bpm = new SlmToggleValue<float>() { value = 60 };
             bpmScale = new SlmToggleValue<float>() { value = 1f };
             bpmOffset = new SlmToggleValue<float>() { value = 0f };
         }
