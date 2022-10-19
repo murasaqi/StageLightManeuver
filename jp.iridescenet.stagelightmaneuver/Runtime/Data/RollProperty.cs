@@ -42,6 +42,26 @@ namespace StageLightManeuver
             this.constant = constant;
             this.animationCurve = animationCurve;
         }
+
+        public float Evaluate(float t)
+        {
+            var value = 0f;
+            if (mode == AnimationMode.AnimationCurve)
+            {
+                value = animationCurve.Evaluate(t);
+            }
+            else if (mode == AnimationMode.Ease)
+            {
+                value = EaseUtil.GetEaseValue(easeType, t, 1f, rollRange.x,
+                    rollRange.y);
+            }
+            else if (mode == AnimationMode.Constant)
+            {
+                value = constant;
+            }
+
+            return value;
+        }
     }
     [Serializable]
     public class RollProperty:SlmAdditionalProperty

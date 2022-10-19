@@ -34,9 +34,19 @@ namespace StageLightManeuver
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverrideData);
-            goboTexture = new SlmToggleValue<Texture2D>(other.goboTexture);
-            goboPropertyName = new SlmToggleValue<string>(other.goboPropertyName);
-            goroRotationSpeed = new SlmToggleValue<MinMaxEasingValue>(other.goroRotationSpeed);
+            goboTexture = new SlmToggleValue<Texture2D>(){value =  other.goboTexture.value};
+            goboPropertyName = new SlmToggleValue<string>(){value = other.goboPropertyName.value};
+            goroRotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                    value = new MinMaxEasingValue()
+                    {
+                        rollRange = other.goroRotationSpeed.value.rollRange,
+                        rollMinMax = other.goroRotationSpeed.value.rollMinMax,
+                        easeType = other.goroRotationSpeed.value.easeType,
+                        mode = other.goroRotationSpeed.value.mode,
+                        animationCurve =  new AnimationCurve(other.goroRotationSpeed.value.animationCurve.keys)
+                    }
+            };
         }
     }
 }

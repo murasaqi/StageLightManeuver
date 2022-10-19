@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 
 using VLB;
+using Random = UnityEngine.Random;
+
 namespace StageLightManeuver
 {
     [ExecuteAlways]
@@ -21,6 +23,8 @@ namespace StageLightManeuver
         public float speed = 0f;
         public Vector3 goboRotateVector = new Vector3(0, 0, 1);
         
+        public bool rotateStartOffsetRandom = false;
+        // private float _rotateStartOffset = 0f;
         private void Start()
         {
             Init();
@@ -34,7 +38,7 @@ namespace StageLightManeuver
         [ContextMenu("Init")]
         public override void Init()
         {
-            
+            goboTransform.localEulerAngles = goboRotateVector * (rotateStartOffsetRandom ? Random.Range(0f, 360f) : 0f);
             _materialPropertyBlock = new MaterialPropertyBlock();
             
 #if USE_VLB_ALTER

@@ -245,7 +245,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     
                     var color = gradient.Evaluate(t);
                     if (b > 0f) color.a = Mathf.Min(t / b, 1f);
-                    var intensityValue = Mathf.Clamp(intensity.Evaluate(t),0,1);
+
+
+                    var intensityValue = lightProperty.lightToggleIntensity.value.Evaluate(t);
+
                     color = new Color(color.r,
                         color.g,
                         color.b,
