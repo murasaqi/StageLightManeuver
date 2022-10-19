@@ -7,6 +7,7 @@ namespace StageLightManeuver
     public class GoboFixture:StageLightFixtureBase
     
     {
+        
         public MeshRenderer meshRenderer;
         public Texture2D goboTexture;
         public string goboPropertyName = "_GoboTexture";
@@ -76,9 +77,13 @@ namespace StageLightManeuver
                         goboProperty.goroRotationSpeed.value.rollRange.y) * queueData.weight;
                     
                 }
-                else
+                else if (goboProperty.goroRotationSpeed.value.mode == AnimationMode.AnimationCurve)
                 {
                     speed += goboProperty.goroRotationSpeed.value.animationCurve.Evaluate(t) * queueData.weight;     
+                }
+                else
+                {
+                    speed += goboProperty.goroRotationSpeed.value.constant * queueData.weight;
                 }
                
             }
