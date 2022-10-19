@@ -20,7 +20,7 @@ MonoBehaviour:
       - rid: 6126432847694921745
       - rid: 6126432847694921746
       - rid: 6126432847694921747
-      weight: 1
+      weight: 0.13384382
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -30,7 +30,7 @@ MonoBehaviour:
     - rid: 6126432847694921729
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Time
         clipProperty:
           clipStartTime: 4.983333
@@ -50,7 +50,7 @@ MonoBehaviour:
     - rid: 6126432847694921745
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Pan
         bpmOverrideData:
           propertyOverride: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
     - rid: 6126432847694921746
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Tilt
         bpmOverrideData:
           propertyOverride: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
     - rid: 6126432847694921747
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light
         bpmOverrideData:
           propertyOverride: 0
@@ -421,8 +421,8 @@ MonoBehaviour:
       - rid: 6126432847694921734
       - rid: 6126432847694921735
       - rid: 6126432847694921736
-      - rid: 6126432847694921737
-      weight: 0.00079745054
+      - rid: 6126432847694921752
+      weight: 0.86615616
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -432,7 +432,7 @@ MonoBehaviour:
     - rid: 6126432847694921731
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Time
         clipProperty:
           clipStartTime: 1
@@ -452,7 +452,7 @@ MonoBehaviour:
     - rid: 6126432847694921732
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light
         bpmOverrideData:
           propertyOverride: 1
@@ -528,7 +528,7 @@ MonoBehaviour:
     - rid: 6126432847694921733
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Pan
         bpmOverrideData:
           propertyOverride: 1
@@ -587,7 +587,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
-            rollRange: {x: -31.106352, y: 122.352905}
+            rollRange: {x: -105.0523, y: 48.40696}
             rollMinMax: {x: -180, y: 180}
             easeType: 6
             constant: 0
@@ -618,7 +618,7 @@ MonoBehaviour:
     - rid: 6126432847694921735
       type: {class: DecalProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Decal
         bpmOverrideData:
           propertyOverride: 0
@@ -697,11 +697,11 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 6126432847694921737
-      type: {class: ManualPanTiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+    - rid: 6126432847694921752
+      type: {class: SyncLightMaterialProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
-        propertyName: Manual Pan Tilt
+        propertyName: Sync Light Material
         bpmOverrideData:
           propertyOverride: 0
           value:
@@ -710,18 +710,6 @@ MonoBehaviour:
             bpmOverride: 0
             bpmScale: 1
             bpmOffset: 0
-        positions:
+        intensitymultiplier:
           propertyOverride: 1
-          value:
-          - name: SLM_MovingLight
-            pan: 60.68
-            tilt: 3.12
-          - name: SLM_MovingLight (1)
-            pan: 0
-            tilt: 0
-          - name: SLM_MovingLight (2)
-            pan: 0
-            tilt: 0
-          - name: SLM_MovingLight (3)
-            pan: 0
-            tilt: 0
+          value: 1.56
