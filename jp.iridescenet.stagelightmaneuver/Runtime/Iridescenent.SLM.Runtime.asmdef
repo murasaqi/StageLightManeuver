@@ -20,9 +20,9 @@
             "define": "USE_URP"
         },
         {
-            "name": "com.saladgamer.volumetriclightbeam",
+            "name": "com.iridescent.volumetriclightbeam",
             "expression": "",
-            "define": "USE_VLB"
+            "define": "USE_VLB_ALTER"
         }
     ],
     "noEngineReferences": false
