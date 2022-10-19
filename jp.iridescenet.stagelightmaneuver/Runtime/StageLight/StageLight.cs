@@ -30,7 +30,7 @@ namespace StageLightManeuver
             
             foreach (var stageLight in StageLightChild)
             {
-                stageLight.AddQue(stageLightQueData);
+                if(stageLight!=null)stageLight.AddQue(stageLightQueData);
             }
         }
 

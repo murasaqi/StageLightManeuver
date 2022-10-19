@@ -46,7 +46,7 @@ namespace StageLightManeuver
         {
             foreach (var stageLight in allStageLights)
             {
-                stageLight.AddQue(stageLightQueData);
+                if(stageLight != null)stageLight.AddQue(stageLightQueData);
             }
         }
 
@@ -54,7 +54,7 @@ namespace StageLightManeuver
         {
             foreach (var stageLight in stageLights)
             {
-                stageLight.EvaluateQue(time);
+                 if(stageLight != null)stageLight.EvaluateQue(time);
             }
         }
         void Update()
