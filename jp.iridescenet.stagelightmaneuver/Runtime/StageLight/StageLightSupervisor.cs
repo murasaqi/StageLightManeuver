@@ -37,6 +37,7 @@ namespace StageLightManeuver
             }
         }
 
+        
         private void OnValidate()
         {
             Init();

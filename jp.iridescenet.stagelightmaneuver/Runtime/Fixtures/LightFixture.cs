@@ -12,6 +12,7 @@ namespace StageLightManeuver
         public float lightIntensity;
         public float spotAngle;
         public float innerSpotAngle;
+        public float spotRange;
         public UniversalAdditionalLightData universalAdditionalLightData;
         
         public override void EvaluateQue(float currentTime)
@@ -23,7 +24,7 @@ namespace StageLightManeuver
             lightIntensity = 0f;
             spotAngle = 0f;
             innerSpotAngle = 0f;
-            
+            spotRange = 0f;
             while (stageLightDataQueue.Count>0)
             {
                 var data = stageLightDataQueue.Dequeue();
@@ -45,9 +46,22 @@ namespace StageLightManeuver
                 var clipProperty = stageLightBaseProperty.clipProperty;
                 var t = GetNormalizedTime(currentTime,bpm,bpmOffset,bpmScale, clipProperty,loopType);
                 lightColor += lightProperty.lightToggleColor.value.Evaluate(t) * weight;
-                lightIntensity += lightProperty.lightToggleIntensity.value.Evaluate(t) * weight;
+                if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.AnimationCurve)
+                {
+                    lightIntensity += lightProperty.lightToggleIntensity.value.animationCurve.Evaluate(t) * weight;
+                }
+                else if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.Ease)
+                {
+                    lightIntensity += EaseUtil.GetEaseValue(lightProperty.lightToggleIntensity.value.easeType, t, 1f, lightProperty.lightToggleIntensity.value.rollRange.x,
+                        lightProperty.lightToggleIntensity.value.rollRange.y) * weight;
+                }else if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.Constant)
+                {
+                    lightIntensity += lightProperty.lightToggleIntensity.value.constant * weight;
+                }
+
                 spotAngle += lightProperty.spotAngle.value * weight;
                 innerSpotAngle += lightProperty.innerSpotAngle.value * weight;
+                spotRange += lightProperty.range.value * weight;
             }
         }
 
@@ -57,7 +71,8 @@ namespace StageLightManeuver
             light.color = lightColor;
             light.intensity = lightIntensity;
             light.spotAngle = spotAngle;
-            light.range = innerSpotAngle;
+            light.innerSpotAngle = innerSpotAngle;
+            light.range = spotRange;
         }
     }
 }
