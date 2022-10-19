@@ -1,13 +1,17 @@
 using System;
 using UnityEngine;
 
+using VLB;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
     public class GoboFixture:StageLightFixtureBase
     
     {
+#if USE_VLB_ALTER
+        public VolumetricLightBeam volumetricLightBeam;
         
+#endif
         public MeshRenderer meshRenderer;
         public Texture2D goboTexture;
         public string goboPropertyName = "_GoboTexture";
@@ -30,8 +34,26 @@ namespace StageLightManeuver
         [ContextMenu("Init")]
         public override void Init()
         {
+            
             _materialPropertyBlock = new MaterialPropertyBlock();
-            if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
+            
+#if USE_VLB_ALTER
+            if (volumetricLightBeam)
+            {
+                volumetricLightBeam.RegisterOnBeamGeometryInitializedCallback(() =>
+                {
+                    var beamGeometry = volumetricLightBeam.transform.GetChild(0).GetComponent<MeshRenderer>(); 
+                    meshRenderer = beamGeometry;
+                    if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
+                });     
+            }
+           
+#else
+             if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
+#endif
+            
+           
+
         }
 
         public override void EvaluateQue(float time)
@@ -77,13 +99,13 @@ namespace StageLightManeuver
                         goboProperty.goroRotationSpeed.value.rollRange.y) * queueData.weight;
                     
                 }
-                else if (goboProperty.goroRotationSpeed.value.mode == AnimationMode.AnimationCurve)
+                else if(goboProperty.goroRotationSpeed.value.mode == AnimationMode.AnimationCurve)
                 {
                     speed += goboProperty.goroRotationSpeed.value.animationCurve.Evaluate(t) * queueData.weight;     
                 }
-                else
+                else if(goboProperty.goroRotationSpeed.value.mode == AnimationMode.Constant)
                 {
-                    speed += goboProperty.goroRotationSpeed.value.constant * queueData.weight;
+                    speed += goboProperty.goroRotationSpeed.value.constant * queueData.weight;     
                 }
                
             }
