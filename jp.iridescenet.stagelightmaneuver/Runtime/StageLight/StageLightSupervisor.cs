@@ -32,8 +32,12 @@ namespace StageLightManeuver
             var index = 0;
             foreach (var stageLight in allStageLights)
             {
-                stageLight.Index = index;
-                index++;
+                if (stageLight)
+                {
+                    stageLight.Index = index;
+                    index++;
+                }
+                
             }
         }
 
