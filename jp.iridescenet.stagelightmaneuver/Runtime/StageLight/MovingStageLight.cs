@@ -64,9 +64,10 @@ namespace StageLightManeuver
 
         public void UpdateFixture()
         {
+            if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureBase>();
             foreach (var stageLightFixture in stageLightFixtures)
             {
-                stageLightFixture.UpdateFixture();
+                if(stageLightFixture)stageLightFixture.UpdateFixture();
             }
         }
 
