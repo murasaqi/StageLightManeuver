@@ -52,10 +52,14 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     public void LoadProfile()
     {
         if (referenceStageLightProfile == null) return;
-        var stageLightProfile = referenceStageLightProfile.Clone();
         stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Clear();
-        stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = stageLightProfile.stageLightProperties;
 
+        foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
+        {
+            var type = stageLightProperty.GetType();
+            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
+                as SlmProperty);
+        }
     }
 
     public void SaveProfile()
