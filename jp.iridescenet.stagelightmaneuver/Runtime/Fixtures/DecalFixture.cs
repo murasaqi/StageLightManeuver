@@ -45,28 +45,13 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count >0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperties = queueData.TryGet<TimeProperty>() as TimeProperty;
+                var timeProperty = queueData.TryGet<TimeProperty>() as TimeProperty;
                 var qDecalProperty = queueData.TryGet<DecalProperty>() as DecalProperty;
-                if (qDecalProperty == null || stageLightBaseProperties == null) continue;
+                if (qDecalProperty == null || timeProperty == null) continue;
                 var weight = queueData.weight;
-                var bpm = stageLightBaseProperties.bpm.value;
-                var bpmOffset = qDecalProperty.bpmOverrideData.value.bpmOverride
-                    ? qDecalProperty.bpmOverrideData.value.bpmOffset
-                    : stageLightBaseProperties.bpmOffset.value;
-                var bpmScale = qDecalProperty.bpmOverrideData.value.bpmOverride
-                    ? qDecalProperty.bpmOverrideData.value.bpmScale
-                    : stageLightBaseProperties.bpmScale.value;
-                var loopType = qDecalProperty.bpmOverrideData.value.bpmOverride
-                    ? qDecalProperty.bpmOverrideData.value.loopType
-                    : stageLightBaseProperties.loopType.value;
-                var t = GetNormalizedTime(
-                    time,
-                    bpm,
-                    bpmOffset,
-                    bpmScale,
-                    stageLightBaseProperties.clipProperty,
-                    loopType);
                 
+                var t = GetNormalizedTime(time, queueData,typeof(DecalProperty));
+
                 opacity += qDecalProperty.opacity.value * weight;
                 fadeFactor += qDecalProperty.fadeFactor.value * weight;
                 decalSizeScaler += qDecalProperty.decalSizeScaler.value * weight;

@@ -39,9 +39,21 @@ namespace StageLightManeuver
         {
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverrideData);
-            lightToggleColor = new SlmToggleValue<Gradient>(other.lightToggleColor);
-            lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>(other.lightToggleIntensity);
+            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            {
+                propertyOverride =  other.bpmOverrideData.propertyOverride,
+                value =  new BpmOverrideToggleValueBase(other.bpmOverrideData.value),
+            };
+            lightToggleColor = new SlmToggleValue<Gradient>()
+            {
+                propertyOverride = other.lightToggleColor.propertyOverride,
+                value = SlmUtility.CloneGradient(other.lightToggleColor.value)
+            };
+            var intensity = other.lightToggleIntensity.value;
+            lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                value = new MinMaxEasingValue(intensity.mode,intensity.rollMinMax,intensity.rollMinMax,intensity.easeType,intensity.constant,intensity.animationCurve )
+            };
             spotAngle = new SlmToggleValue<float>(other.spotAngle);
             innerSpotAngle = new SlmToggleValue<float>(other.innerSpotAngle);
             range = new SlmToggleValue<float>(other.range);

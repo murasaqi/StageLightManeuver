@@ -56,30 +56,23 @@ namespace StageLightManeuver
         {
             return new Color(color.r, color.g, color.b, color.a) *Mathf.Pow(2.0f,intensity);
         }
-        // public static float GetNormalizedTime(float time,float bpm, float bpmScale,float bpmOffset,int index,LoopType loopType)
-        // {
-        //     
-        //     var scaledBpm = bpm * bpmScale;
-        //     var duration = 60 / scaledBpm;
-        //     var offset = duration* bpmOffset * index;
-        //     var offsetTime = time + offset;
-        //     var result = 0f;   
-        //     var t = (float)offsetTime % duration;
-        //     var normalisedTime = t / duration;
-        //     
-        //     if (loopType == LoopType.Loop)
-        //     {
-        //         result = normalisedTime;     
-        //     }else if (loopType == LoopType.PingPong)
-        //     {
-        //         result = Mathf.PingPong(offsetTime / duration, 1f);
-        //     }
-        //     else if(loopType == LoopType.Fixed)
-        //     {
-        //         result = Mathf.InverseLerp(clipProperty.clipStartTime, clipProperty.clipEndTime, normalisedTime);
-        //     }
-        //    
-        //     return result;
-        // }
+        public static Gradient CloneGradient(Gradient gradient)
+        {
+            Gradient newGradient = new Gradient();
+            var colorKeys = new GradientColorKey[gradient.colorKeys.Length];
+            var alphaKeys = new GradientAlphaKey[gradient.alphaKeys.Length];
+            
+            for (int i = 0; i < gradient.colorKeys.Length; i++)
+            {
+                colorKeys[i] = gradient.colorKeys[i];
+            }
+            
+            for (int i = 0; i < gradient.alphaKeys.Length; i++)
+            {
+                alphaKeys[i] = gradient.alphaKeys[i];
+            }
+            newGradient.SetKeys(colorKeys, alphaKeys);
+            return newGradient;
+        }
     }
 }

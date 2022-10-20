@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StageLightManeuver
@@ -36,11 +37,17 @@ namespace StageLightManeuver
         public MinMaxEasingValue(AnimationMode mode, Vector2 rollRange, Vector2 rollMinMax, EaseType easeType, float constant, AnimationCurve animationCurve)
         {
             this.mode = mode;
-            this.rollRange = rollRange;
-            this.rollMinMax = rollMinMax;
+            this.rollRange = new Vector2( rollRange.x, rollRange.y);
+            this.rollMinMax = new Vector2( rollMinMax.x, rollMinMax.y);
             this.easeType = easeType;
             this.constant = constant;
-            this.animationCurve = animationCurve;
+            var keys = new List<Keyframe>();
+            
+            foreach (var keyframe in animationCurve.keys)
+            {
+                keys.Add(new Keyframe(keyframe.time, keyframe.value));
+            }
+            this.animationCurve = new AnimationCurve(keys.ToArray());
         }
 
         public float Evaluate(float t)
