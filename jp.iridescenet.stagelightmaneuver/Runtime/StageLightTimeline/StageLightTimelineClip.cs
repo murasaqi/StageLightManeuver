@@ -51,14 +51,21 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     [ContextMenu("Apply")]
     public void LoadProfile()
     {
-        if (referenceStageLightProfile == null) return;
+        if (referenceStageLightProfile == null || syncReferenceProfile) return;
         stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Clear();
 
+        var hasTimeProperty = false;
         foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
         {
             var type = stageLightProperty.GetType();
+            if(type == typeof(TimeProperty)) hasTimeProperty = true;
             stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
                 as SlmProperty);
+        }
+        
+        if(hasTimeProperty == false)
+        {
+            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Insert(0,new TimeProperty());
         }
     }
 
