@@ -71,25 +71,10 @@ namespace StageLightManeuver
                 var goboProperty = queueData.TryGet<GoboProperty>() as GoboProperty;
                 
                 if(goboProperty == null || stageLightBaseProperties == null)continue;
-                var bpm = stageLightBaseProperties.bpm.value;
-                var bpmOffset = goboProperty.bpmOverrideData.value.bpmOverride
-                    ? goboProperty.bpmOverrideData.value.bpmOffset
-                    : stageLightBaseProperties.bpmOffset.value;
-                var bpmScale = goboProperty.bpmOverrideData.value.bpmOverride
-                    ? goboProperty.bpmOverrideData.value.bpmScale
-                    : stageLightBaseProperties.bpmScale.value;
-                var loopType = goboProperty.bpmOverrideData.value.bpmOverride
-                    ? goboProperty.bpmOverrideData.value.loopType
-                    : stageLightBaseProperties.loopType.value;
-                var clipProperty = stageLightBaseProperties.clipProperty;
-                var t =GetNormalizedTime(time,
-                    bpm,
-                    bpmOffset,
-                    bpmScale, 
-                    clipProperty,
-                    loopType);
-                
-                
+
+                var t = GetNormalizedTime(time, queueData, typeof(GoboProperty));
+
+
                 if(goboProperty ==null || stageLightBaseProperties == null) continue;
                 if (queueData.weight > 0.5f)
                 {

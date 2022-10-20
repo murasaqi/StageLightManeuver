@@ -167,7 +167,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 for (float i =(float) clip.start; i < (float)clip.end; i+=step)
                 {
                     var bpm = timeProperty.bpm.value;
-                    var bpmOffset =timeProperty.bpmOffset.value;
+                    var bpmOffset =timeProperty.childStagger.value;
                     var bpmScale = timeProperty.bpmScale.value;
                     var loopType = timeProperty.loopType.value;
                     float offsetTime = (60 / bpmScale) * bpmOffset;
@@ -232,8 +232,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     var bpm = timeProperty.bpm.value;
                     var bpmOffset = lightProperty.bpmOverrideData.value.bpmOverride
-                        ? lightProperty.bpmOverrideData.value.bpmOffset
-                        : timeProperty.bpmOffset.value;
+                        ? lightProperty.bpmOverrideData.value.childStagger
+                        : timeProperty.childStagger.value;
                     var bpmScale = lightProperty.bpmOverrideData.value.bpmOverride
                         ? lightProperty.bpmOverrideData.value.bpmScale
                         : timeProperty.bpmScale.value;

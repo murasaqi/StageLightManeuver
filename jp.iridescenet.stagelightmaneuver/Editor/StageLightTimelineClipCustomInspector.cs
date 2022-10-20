@@ -354,33 +354,46 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                             }
                                             // }
                                         }
+                                        
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            EditorGUI.BeginChangeCheck();
+                                            var bpmScaleValue = EditorGUILayout.FloatField("Offset Time",
+                                                bpmOverrideData.offsetTime);
+                                            if (EditorGUI.EndChangeCheck())
+                                            {
+                                                bpmOverrideData.GetType().GetField("offsetTime")
+                                                    .SetValue(bpmOverrideData, bpmScaleValue);
+                                            }
+                                            
+                                        }
+
 
                                         using (new EditorGUILayout.HorizontalScope())
                                         {
-                                            using (new LabelWidth(120))
+                                            EditorGUI.BeginChangeCheck();
+                                            var bpmScaleValue = EditorGUILayout.FloatField("BPM Scale",
+                                                bpmOverrideData.bpmScale);
+                                            if (EditorGUI.EndChangeCheck())
                                             {
-                                                EditorGUI.BeginChangeCheck();
-                                                var bpmScaleValue = EditorGUILayout.FloatField("BPM Scale",
-                                                    bpmOverrideData.bpmScale,
-                                                    GUILayout.Width(180));
-                                                if (EditorGUI.EndChangeCheck())
-                                                {
-                                                    bpmOverrideData.GetType().GetField("bpmScale")
-                                                        .SetValue(bpmOverrideData, bpmScaleValue);
-                                                }
-
-                                                EditorGUI.BeginChangeCheck();
-                                                var bpmOffsetValue = EditorGUILayout.FloatField("BPM Offset",
-                                                    bpmOverrideData.bpmOffset,
-                                                    GUILayout.Width(180));
-                                                if (EditorGUI.EndChangeCheck())
-                                                {
-                                                    bpmOverrideData.GetType().GetField("bpmOffset")
-                                                        .SetValue(bpmOverrideData, bpmOffsetValue);
-                                                }
+                                                bpmOverrideData.GetType().GetField("bpmScale")
+                                                    .SetValue(bpmOverrideData, bpmScaleValue);
                                             }
                                         }
-                                        
+
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            EditorGUI.BeginChangeCheck();
+                                            var bpmOffsetValue = EditorGUILayout.FloatField("Child Stagger",
+                                                bpmOverrideData.childStagger);
+                                            if (EditorGUI.EndChangeCheck())
+                                            {
+                                                bpmOverrideData.GetType().GetField("childStagger")
+                                                    .SetValue(bpmOverrideData, bpmOffsetValue);
+                                            }
+                                     
+                                        }
+
                                         EditorGUI.EndDisabledGroup();
                                     }
                                 }

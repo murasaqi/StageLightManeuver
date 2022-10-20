@@ -32,19 +32,8 @@ namespace StageLightManeuver
                 var lightProperty = data.TryGet<LightProperty>() as LightProperty;
                 var weight = data.weight;
                 if(lightProperty == null || stageLightBaseProperty == null) continue;
-                
-                var bpm = stageLightBaseProperty.bpm.value;
-                var bpmOffset = lightProperty.bpmOverrideData.value.bpmOverride
-                    ? lightProperty.bpmOverrideData.value.bpmOffset
-                    : stageLightBaseProperty.bpmOffset.value;
-                var bpmScale = lightProperty.bpmOverrideData.value.bpmOverride
-                    ? lightProperty.bpmOverrideData.value.bpmScale
-                    : stageLightBaseProperty.bpmScale.value;
-                var loopType = lightProperty.bpmOverrideData.value.bpmOverride
-                    ? lightProperty.bpmOverrideData.value.loopType
-                    : stageLightBaseProperty.loopType.value;
-                var clipProperty = stageLightBaseProperty.clipProperty;
-                var t = GetNormalizedTime(currentTime,bpm,bpmOffset,bpmScale, clipProperty,loopType);
+             
+                var t = GetNormalizedTime(currentTime, data, typeof(LightProperty));
                 lightColor += lightProperty.lightToggleColor.value.Evaluate(t) * weight;
                 if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.AnimationCurve)
                 {
