@@ -81,7 +81,14 @@ namespace StageLightManeuver
         [ContextMenu("Find Fixtures")]
         public void FindFixtures()
         {
-            StageLightFixtures.Clear();
+            if (stageLightFixtures != null)
+            {
+                StageLightFixtures.Clear();
+            }
+            else
+            {
+                stageLightFixtures = new List<StageLightFixtureBase>();
+            }
             StageLightFixtures = GetComponentsInChildren<StageLightFixtureBase>().ToList();
         }
     }
