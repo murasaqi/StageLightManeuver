@@ -42,6 +42,13 @@ namespace StageLightManeuver
         }
 
         
+        [ContextMenu("Find Stage Lights in Children")]
+        public void FindStageLightsInChildren()
+        {
+            stageLights.Clear();
+            stageLights.AddRange(GetComponentsInChildren<StageLight>());
+        }
+        
         private void OnValidate()
         {
             Init();

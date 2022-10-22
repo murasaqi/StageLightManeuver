@@ -17,7 +17,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             static EditorInitialize()
             {
                 backgroundTexture = new Texture2D(1, 1);
-                syncIconTexture = Resources.Load<Texture2D>("VLVLBMaterials/icon_sync");
+                syncIconTexture = Resources.Load<Texture2D>("SLSAssets/Texture/icon_sync");
                 backgroundTexture.SetPixel(0, 0, Color.white);
                 backgroundTexture.Apply();
            
@@ -67,7 +67,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             base.DrawBackground(clip, region);
 
 
-            if(syncIconTexture == null)syncIconTexture = Resources.Load<Texture2D>("VLVLBMaterials/icon_sync");
+            if(syncIconTexture == null)syncIconTexture = Resources.Load<Texture2D>("SLSAssets/Texture/icon_sync");
             var stageLightTimelineClip = (StageLightTimelineClip) clip.asset;
             var update = stageLightTimelineClip.forceTimelineClipUpdate;
             if (stageLightTimelineClip.referenceStageLightProfile != null)
@@ -114,7 +114,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
             var iconSize = 12;
             var margin = 4;
-            if (stageLightTimelineClip.syncReferenceProfile)
+            if(syncIconTexture)if (stageLightTimelineClip.syncReferenceProfile)
                 GUI.DrawTexture(new Rect(region.position.width - iconSize - margin, margin, iconSize, iconSize),
                     syncIconTexture, ScaleMode.ScaleAndCrop,
                     true,

@@ -84,8 +84,8 @@ namespace StageLightManeuver
 
                 if (goboProperty.goroRotationSpeed.value.mode == AnimationMode.Ease)
                 {
-                    speed +=EaseUtil.GetEaseValue(goboProperty.goroRotationSpeed.value.easeType, time, 1f, goboProperty.goroRotationSpeed.value.rollRange.x,
-                        goboProperty.goroRotationSpeed.value.rollRange.y) * queueData.weight;
+                    speed +=EaseUtil.GetEaseValue(goboProperty.goroRotationSpeed.value.easeType, time, 1f, goboProperty.goroRotationSpeed.value.valueRange.x,
+                        goboProperty.goroRotationSpeed.value.valueRange.y) * queueData.weight;
                     
                 }
                 else if(goboProperty.goroRotationSpeed.value.mode == AnimationMode.AnimationCurve)

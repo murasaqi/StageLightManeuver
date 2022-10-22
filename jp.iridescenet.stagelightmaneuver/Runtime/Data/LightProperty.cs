@@ -17,7 +17,11 @@ namespace StageLightManeuver
             propertyOverride = false;
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
             lightToggleColor = new SlmToggleValue<Gradient>(){value = new Gradient()};
-            lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()};
+            lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
+            {
+                valueMinMax = new Vector2(0,10),
+                valueRange = new Vector2(0,1)
+            }};
             spotAngle = new SlmToggleValue<float>(){value = 15f};
             innerSpotAngle = new SlmToggleValue<float>(){value = 10f};
             range = new SlmToggleValue<float>(){value = 10f};
@@ -52,7 +56,7 @@ namespace StageLightManeuver
             var intensity = other.lightToggleIntensity.value;
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>()
             {
-                value = new MinMaxEasingValue(intensity.mode,intensity.rollMinMax,intensity.rollMinMax,intensity.easeType,intensity.constant,intensity.animationCurve )
+                value = new MinMaxEasingValue(intensity.mode,intensity.valueMinMax,intensity.valueMinMax,intensity.easeType,intensity.constant,intensity.animationCurve )
             };
             spotAngle = new SlmToggleValue<float>(other.spotAngle);
             innerSpotAngle = new SlmToggleValue<float>(other.innerSpotAngle);

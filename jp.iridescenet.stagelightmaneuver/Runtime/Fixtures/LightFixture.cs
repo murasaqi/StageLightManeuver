@@ -41,8 +41,8 @@ namespace StageLightManeuver
                 }
                 else if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.Ease)
                 {
-                    lightIntensity += EaseUtil.GetEaseValue(lightProperty.lightToggleIntensity.value.easeType, t, 1f, lightProperty.lightToggleIntensity.value.rollRange.x,
-                        lightProperty.lightToggleIntensity.value.rollRange.y) * weight;
+                    lightIntensity += EaseUtil.GetEaseValue(lightProperty.lightToggleIntensity.value.easeType, t, 1f, lightProperty.lightToggleIntensity.value.valueRange.x,
+                        lightProperty.lightToggleIntensity.value.valueRange.y) * weight;
                 }else if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.Constant)
                 {
                     lightIntensity += lightProperty.lightToggleIntensity.value.constant * weight;

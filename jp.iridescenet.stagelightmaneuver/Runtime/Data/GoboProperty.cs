@@ -40,8 +40,8 @@ namespace StageLightManeuver
             {
                     value = new MinMaxEasingValue()
                     {
-                        rollRange = other.goroRotationSpeed.value.rollRange,
-                        rollMinMax = other.goroRotationSpeed.value.rollMinMax,
+                        valueRange = other.goroRotationSpeed.value.valueRange,
+                        valueMinMax = other.goroRotationSpeed.value.valueMinMax,
                         easeType = other.goroRotationSpeed.value.easeType,
                         mode = other.goroRotationSpeed.value.mode,
                         animationCurve =  new AnimationCurve(other.goroRotationSpeed.value.animationCurve.keys)
