@@ -22,15 +22,26 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         get { return ClipCaps.Blending; }
     }
 
+    public void OnEnable()
+    {
+
+    }
+
     public override Playable CreatePlayable (PlayableGraph graph, GameObject owner)
     {
         var playable = ScriptPlayable<StageLightTimelineBehaviour>.Create (graph, stageLightTimelineBehaviour);
         stageLightTimelineBehaviour = playable.GetBehaviour ();
 
         var queData = stageLightTimelineBehaviour.stageLightQueData;
-        if(queData.TryGet<TimeProperty>() == null)
+
+        var timeProperty = queData.TryGet<TimeProperty>();
+        if(timeProperty == null)
         {
-            queData.TryAdd(typeof(TimeProperty));
+            timeProperty = new TimeProperty();
+            timeProperty.bpm.value = track.bpm;
+            timeProperty.bpmScale.value = track.bpmScale;
+            
+            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(timeProperty);
         }
 
         if (referenceStageLightProfile == null && syncReferenceProfile)
@@ -73,12 +84,20 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     {
 #if UNITY_EDITOR
         Undo.RegisterCompleteObjectUndo(referenceStageLightProfile, referenceStageLightProfile.name);
-        referenceStageLightProfile.stageLightProperties.Clear();
+        // referenceStageLightProfile.stageLightProperties.Clear();
         foreach (var stageLightProperty in stageLightTimelineBehaviour.stageLightQueData.stageLightProperties)
         {
-            var type = stageLightProperty.GetType();
-            referenceStageLightProfile.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
-                as SlmProperty);
+            
+            referenceStageLightProfile.TryAdd(stageLightProperty);
+            // var prp = referenceStageLightProfile.TryGet(stageLightProperty.GetType());
+            // if (prp != null)
+            // {
+            //     prp = Activator.CreateInstance(stageLightProperty.GetType(), BindingFlags.CreateInstance, null,
+            //         new object[] { stageLightProperty }, null) as SlmProperty;
+            // }
+            // var type = stageLightProperty.GetType();
+            // referenceStageLightProfile.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
+            //     as SlmProperty);
         }
         referenceStageLightProfile.isUpdateGuiFlag = true;
         EditorUtility.SetDirty(referenceStageLightProfile);

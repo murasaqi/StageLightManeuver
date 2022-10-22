@@ -74,6 +74,8 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
             {
                 stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.weight = inputWeight;
                 trackBinding.AddQue(stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData);
+                
+                // Debug.Log($"{clip.displayName},{inputWeight}");
             }
         }
         

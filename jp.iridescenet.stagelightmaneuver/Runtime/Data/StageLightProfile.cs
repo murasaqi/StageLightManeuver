@@ -124,6 +124,12 @@ namespace StageLightManeuver
             var result = stageLightProperties.Find(x => x.GetType() == typeof(T));
             return result as T;
         }
+        
+        public SlmProperty TryGet(Type type)
+        {
+            var result = stageLightProperties.Find(x => x.GetType() == type);
+            return result;
+        }
         public StageLightProfile()
         {
             Init();
@@ -142,6 +148,24 @@ namespace StageLightManeuver
            
            
             return result;
+        }
+
+
+        public void TryAdd(SlmProperty slmProperty)
+        {
+
+            for (int i = 0; i < stageLightProperties.Count; i++)
+            {
+                if(stageLightProperties[i].GetType() == slmProperty.GetType())
+                {
+                    stageLightProperties[i] = Activator.CreateInstance(slmProperty.GetType(),
+                        BindingFlags.CreateInstance, null, new object[] { slmProperty }, null) as SlmProperty;
+                    
+                    return;
+                }
+            }
+            
+            stageLightProperties.Add(slmProperty);
         }
         //
         // [ContextMenu("Serialize")]

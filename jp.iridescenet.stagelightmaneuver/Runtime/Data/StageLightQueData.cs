@@ -8,7 +8,7 @@ namespace StageLightManeuver
     public class StageLightQueData
     {
 
-        [SerializeReference]public List<SlmProperty> stageLightProperties;
+        [SerializeReference]public List<SlmProperty> stageLightProperties = new List<SlmProperty>();
         public float weight = 1;
         
         
@@ -21,13 +21,18 @@ namespace StageLightManeuver
         public StageLightQueData()
         {
             stageLightProperties = new List<SlmProperty>();
-            stageLightProperties.Add(new TimeProperty());
+            stageLightProperties.Clear();
+            // stageLightProperties.Add(new TimeProperty());
             weight = 1f;
         }
         public T TryGet<T>() where T : SlmProperty
         {
             foreach (var property in stageLightProperties)
             {
+                if (property == null)
+                {
+                    continue;
+                }
                 if (property.GetType() == typeof(T))
                 {
                     return property as T;
@@ -40,6 +45,10 @@ namespace StageLightManeuver
         {
             foreach (var property in stageLightProperties)
             {
+                if(property == null)
+                {
+                    continue;
+                }
                 if (property.GetType() ==T)
                 {
                     return property as SlmAdditionalProperty;
@@ -50,63 +59,84 @@ namespace StageLightManeuver
         
         
 
-        public void TryAdd(Type T) 
+        public SlmAdditionalProperty TryAdd(Type T) 
         {
-            if (T == typeof(LightFixture))
-            {
-                var find = stageLightProperties.Find(x => x.GetType() == typeof(LightProperty));
-                if (find != null)
-                {
-                    // stageLightProperties.Add(lightProperty);
-                    stageLightProperties.Add(new LightProperty());
-                }
-                
-            }
             
-            if (T == typeof(LightPanFixture))
+            foreach (var property in stageLightProperties)
             {
-                var find = stageLightProperties.Find(x => x.GetType() == typeof(PanProperty));
-                if (find != null)
+                if (property == null)
                 {
-                    // stageLightProperties.Add(panProperty);
-                    stageLightProperties.Add(new PanProperty());
+                    continue;
                 }
-                
-            }
-            
-            if (T == typeof(LightTiltFixture))
-            {
-                var find = stageLightProperties.Find(x => x.GetType() == typeof(TiltProperty));
-                if (find != null)
+                if (property.GetType() == T)
                 {
-                    // stageLightProperties.Add(tiltProperty);
-                    stageLightProperties.Add(new TiltProperty());
-                }
-                
-            }
-            
-            if (T == typeof(GoboFixture))
-            {
-                var find = stageLightProperties.Find(x => x.GetType() == typeof(GoboProperty));
-                if (find != null)
-                {
-                    // stageLightProperties.Add(goboProperty);
-                    stageLightProperties.Add(new GoboProperty());
+                    return property as SlmAdditionalProperty;
                 }
             }
             
-            if (T == typeof(DecalProperty))
-            {
-                var find = stageLightProperties.Find(x => x.GetType() == typeof(DecalProperty));
-                if (find != null)
-                {
-                    // stageLightProperties.Add(decalProperty);
-                    stageLightProperties.Add(new DecalProperty());
-                }
-            }
             
-           
-           
+            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmAdditionalProperty;
+            stageLightProperties.Add(instance);
+
+            return instance;
+            // if (T == typeof(LightFixture))
+            // {
+            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(LightProperty));
+            //     if (find != null)
+            //     {
+            //         // stageLightProperties.Add(lightProperty);
+            //         var lightProperty = find as LightProperty;
+            //         stageLightProperties.Add(lightProperty);
+            //         return lightProperty;
+            //     }
+            //     
+            // }
+            //
+            // if (T == typeof(LightPanFixture))
+            // {
+            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(PanProperty));
+            //     if (find != null)
+            //     {
+            //         // stageLightProperties.Add(panProperty);
+            //         var panProperty = find as PanProperty;
+            //         stageLightProperties.Add(new PanProperty());
+            //     }
+            //     
+            // }
+            //
+            // if (T == typeof(LightTiltFixture))
+            // {
+            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(TiltProperty));
+            //     if (find != null)
+            //     {
+            //         // stageLightProperties.Add(tiltProperty);
+            //         stageLightProperties.Add(new TiltProperty());
+            //     }
+            //     
+            // }
+            //
+            // if (T == typeof(GoboFixture))
+            // {
+            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(GoboProperty));
+            //     if (find != null)
+            //     {
+            //         // stageLightProperties.Add(goboProperty);
+            //         stageLightProperties.Add(new GoboProperty());
+            //     }
+            // }
+            //
+            // if (T == typeof(DecalProperty))
+            // {
+            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(DecalProperty));
+            //     if (find != null)
+            //     {
+            //         // stageLightProperties.Add(decalProperty);
+            //         stageLightProperties.Add(new DecalProperty());
+            //     }
+            // }
+
+
+
         }
     }
 }

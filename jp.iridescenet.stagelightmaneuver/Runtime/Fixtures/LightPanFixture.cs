@@ -60,8 +60,8 @@ namespace StageLightManeuver
                 {
                     if (qPanProperty.rollTransform.value.mode == AnimationMode.Ease)
                     {
-                        _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.rollRange.x,
-                            qPanProperty.rollTransform.value.rollRange.y) * weight;
+                        _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.valueRange.x,
+                            qPanProperty.rollTransform.value.valueRange.y) * weight;
                     }
                     if (qPanProperty.rollTransform.value.mode == AnimationMode.AnimationCurve)
                     {
