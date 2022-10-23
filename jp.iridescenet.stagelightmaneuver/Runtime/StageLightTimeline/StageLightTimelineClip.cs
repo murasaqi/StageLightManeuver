@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -74,12 +75,15 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Clear();
 
         var hasTimeProperty = false;
-        foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
+        var props = new SlmProperty[referenceStageLightProfile.stageLightProperties.Count];
+        referenceStageLightProfile.stageLightProperties.CopyTo(props);      
+        foreach (var prop in props)
         {
-            var type = stageLightProperty.GetType();
-            if(type == typeof(TimeProperty)) hasTimeProperty = true;
-            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
-                as SlmProperty);
+            if (prop is TimeProperty)
+            {
+                hasTimeProperty = true;
+            }
+            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(prop);
         }
         
         if(hasTimeProperty == false)
@@ -92,28 +96,13 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     {
 #if UNITY_EDITOR
         Undo.RegisterCompleteObjectUndo(referenceStageLightProfile, referenceStageLightProfile.name);
-        // referenceStageLightProfile.stageLightProperties.Clear();
-        var clone = CreateInstance<StageLightProfile>() as StageLightProfile;
-        foreach (var stageLightProperty in stageLightTimelineBehaviour.stageLightQueData.stageLightProperties)
-        {
-            
-            clone.TryAdd(stageLightProperty);
-            // var prp = referenceStageLightProfile.TryGet(stageLightProperty.GetType());
-            // if (prp != null)
-            // {
-            //     prp = Activator.CreateInstance(stageLightProperty.GetType(), BindingFlags.CreateInstance, null,
-            //         new object[] { stageLightProperty }, null) as SlmProperty;
-            // }
-            // var type = stageLightProperty.GetType();
-            // referenceStageLightProfile.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
-            //     as SlmProperty);
-        }
-
-        clone.stageLightProperties.CopyTo(referenceStageLightProfile.stageLightProperties.ToArray());
+        
+        var props = new SlmProperty[stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Count];
+        stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.CopyTo(props);
+        referenceStageLightProfile.stageLightProperties = props.ToList();
         referenceStageLightProfile.isUpdateGuiFlag = true;
         EditorUtility.SetDirty(referenceStageLightProfile);
         AssetDatabase.SaveAssets();
-        // DestroyImmediate(clone);
 #endif
     }
 
@@ -135,15 +124,9 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         }
         else
         {
-            var cloneProperties = new List<SlmProperty>();
-            foreach (var stageLightProperty in stageLightTimelineBehaviour.stageLightQueData.stageLightProperties)
-            {
-                var type = stageLightProperty.GetType();
-                cloneProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
-                    as SlmProperty);
-            }
-
-            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = cloneProperties;
+            var props = new SlmProperty[referenceStageLightProfile.stageLightProperties.Count];
+            referenceStageLightProfile.stageLightProperties.CopyTo(props);  
+            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = props.ToList();
         }
     }
 }
