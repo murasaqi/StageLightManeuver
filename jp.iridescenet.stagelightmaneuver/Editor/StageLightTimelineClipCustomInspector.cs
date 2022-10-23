@@ -60,13 +60,19 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 serializedObject.ApplyModifiedProperties();
             }
            
+            
             var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
+
+            
+            EditorGUI.BeginDisabledGroup(stageLightTimelineClip.referenceStageLightProfile == null);
+
 
             if(stageLightTimelineClip == null)
                 return;
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
+                
                 
                 GUI.backgroundColor= Color.green;
                 GUI.contentColor = Color.white;
@@ -84,17 +90,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     
                 }
                 
-                GUI.backgroundColor= Color.red;
-                GUI.contentColor = Color.white;
-                if (GUILayout.Button("Save as",GUILayout.MaxWidth(100)))
-                {
-                    ExportProfile(stageLightTimelineClip);
-                }
-                GUI.backgroundColor = Color.white;
-                
             }
-            
-            EditorGUILayout.Space(1);
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("syncReferenceProfile"));
@@ -103,6 +99,47 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 serializedObject.ApplyModifiedProperties();
                 stageLightTimelineClip.InitSyncData();
             }
+            
+            EditorGUI.EndDisabledGroup();
+            
+            
+            EditorGUI.BeginChangeCheck();
+            var path = EditorGUILayout.PropertyField(serializedObject.FindProperty("exportPath"));
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
+            using (new EditorGUILayout.HorizontalScope())
+            {
+
+                GUILayout.FlexibleSpace();
+               
+                
+                
+                GUI.backgroundColor = Color.white;
+                if (GUILayout.Button("Explorer",GUILayout.MaxWidth(60)))
+                {
+                    SetFilePath(stageLightTimelineClip);
+                }
+
+                
+                
+                GUI.backgroundColor= Color.red;
+                GUI.contentColor = Color.white;
+                
+                if (GUILayout.Button("Save as",GUILayout.MaxWidth(100)))
+                {
+                    ExportProfile(stageLightTimelineClip);
+                }
+                
+                GUI.backgroundColor = Color.white;
+            }
+            
+            
+            
+            EditorGUILayout.Space(1);
+
+           
 
 
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("forceTimelineClipUpdate"));
@@ -705,13 +742,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             mExcluded.Add(propertyName);
         }
 
-
-        private void ExportProfile(StageLightTimelineClip stageLightTimelineClip)
+        private void SetFilePath(StageLightTimelineClip stageLightTimelineClip)
         {
-           
-            Undo.RegisterCompleteObjectUndo(stageLightTimelineClip, stageLightTimelineClip.name);
-            EditorUtility.SetDirty(stageLightTimelineClip);
-            
             var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
             var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
             var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
@@ -719,13 +751,32 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if(path == "") return;
             path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
             string dir = Path.GetDirectoryName(path);
+            stageLightTimelineClip.exportPath = path;
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+
+        private void ExportProfile(StageLightTimelineClip stageLightTimelineClip)
+        {
+           
+            Undo.RegisterCompleteObjectUndo(stageLightTimelineClip, stageLightTimelineClip.name);
+            EditorUtility.SetDirty(stageLightTimelineClip);
+            
+            // var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
+            // var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
+            // var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
+            // string fileName = Path.GetFileName(path);
+            // if(path == "") return;
+            // path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
+            // string dir = Path.GetDirectoryName(path);
             // Debug.Log($"dir: {dir}, file: {fileName}");
             var newProfile = CreateInstance<StageLightProfile>();
             newProfile.stageLightProperties = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties;
-            AssetDatabase.CreateAsset(newProfile, path);
+            AssetDatabase.CreateAsset(newProfile, stageLightTimelineClip.exportPath);
             // useProfile = true;
             // ptlPropObject = new ExposedReference<VLVLBClipProfile>();
-            stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(path);
+            stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(stageLightTimelineClip.exportPath);
             // Debug.Log($"Load {path}");
         }
         private void OnDisable()
