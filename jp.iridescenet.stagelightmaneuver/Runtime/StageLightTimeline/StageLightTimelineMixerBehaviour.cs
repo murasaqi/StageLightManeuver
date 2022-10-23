@@ -10,6 +10,7 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
 
     public List<TimelineClip> clips;
 
+    public StageLightTimelineTrack stageLightTimelineTrack;
     private bool firstFrameHappend = false;
     // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
@@ -25,7 +26,8 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
             firstFrameHappend = true;
         }
 
-        int inputCount = playable.GetInputCount ();
+        
+        var hasAnyClipPlaying = false;
         var time = playable.GetTime();
         for (int i = 0; i < clips.Count; i++)
         {
@@ -74,11 +76,21 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
             {
                 stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.weight = inputWeight;
                 trackBinding.AddQue(stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData);
-                
+                hasAnyClipPlaying = true;
                 // Debug.Log($"{clip.displayName},{inputWeight}");
             }
         }
-        
-        trackBinding.EvaluateQue((float)time);
+
+        if (stageLightTimelineTrack)
+        {
+            if(!hasAnyClipPlaying)
+            {
+                if(stageLightTimelineTrack.updateOnOutOfClip)trackBinding.EvaluateQue((float)time);
+            }
+            else
+            {
+                trackBinding.EvaluateQue((float)time);
+            }
+        } 
     }
 }
