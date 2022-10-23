@@ -18,10 +18,12 @@ public class StageLightTimelineTrack : TrackAsset
     [SerializeField][Range(0,1f)]public float colorLineHeight = 0.1f;
     [SerializeField]public bool drawBeat =false;
     [SerializeField] public Color beatLineColor = new Color(0, 1, 0.7126422f, 0.3f);
+    [SerializeField] public bool updateOnOutOfClip = false;
     public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
     {
         var mixer = ScriptPlayable<StageLightTimelineMixerBehaviour>.Create (graph, inputCount);
         var stageLightTimelineMixer = mixer.GetBehaviour();
+        stageLightTimelineMixer.stageLightTimelineTrack = this;
         var clips = GetClips().ToList();
         stageLightTimelineMixer.clips = clips;
         var director = go.GetComponent<PlayableDirector>();
