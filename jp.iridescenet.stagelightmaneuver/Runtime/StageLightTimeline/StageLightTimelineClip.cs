@@ -93,10 +93,11 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
 #if UNITY_EDITOR
         Undo.RegisterCompleteObjectUndo(referenceStageLightProfile, referenceStageLightProfile.name);
         // referenceStageLightProfile.stageLightProperties.Clear();
+        var clone = CreateInstance<StageLightProfile>() as StageLightProfile;
         foreach (var stageLightProperty in stageLightTimelineBehaviour.stageLightQueData.stageLightProperties)
         {
             
-            referenceStageLightProfile.TryAdd(stageLightProperty);
+            clone.TryAdd(stageLightProperty);
             // var prp = referenceStageLightProfile.TryGet(stageLightProperty.GetType());
             // if (prp != null)
             // {
@@ -107,9 +108,12 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
             // referenceStageLightProfile.stageLightProperties.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
             //     as SlmProperty);
         }
+
+        clone.stageLightProperties.CopyTo(referenceStageLightProfile.stageLightProperties.ToArray());
         referenceStageLightProfile.isUpdateGuiFlag = true;
         EditorUtility.SetDirty(referenceStageLightProfile);
         AssetDatabase.SaveAssets();
+        // DestroyImmediate(clone);
 #endif
     }
 
@@ -122,7 +126,7 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
                 
                 foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
                 {
-                    stageLightProperty.ToggleOverride(false);
+                    stageLightProperty.ToggleOverride(true);
                     stageLightProperty.propertyOverride = true;
                 }
                 stageLightTimelineBehaviour.stageLightQueData.stageLightProperties =
