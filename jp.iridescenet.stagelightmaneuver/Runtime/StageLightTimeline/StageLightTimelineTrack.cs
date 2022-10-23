@@ -13,6 +13,7 @@ public class StageLightTimelineTrack : TrackAsset
     [Header("Base Settings")]
     [SerializeField] public float bpm = 120;
     [SerializeField] public float bpmScale = 1;
+    [SerializeField] public string exportPath = "Assets/";
     [Header("Clip UI Options", order = 0)] 
     [SerializeField][Range(0,1f)]public float colorLineHeight = 0.1f;
     [SerializeField]public bool drawBeat =false;

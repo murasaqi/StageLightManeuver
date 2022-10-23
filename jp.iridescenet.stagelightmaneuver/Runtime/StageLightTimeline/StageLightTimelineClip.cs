@@ -17,11 +17,14 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     public bool forceTimelineClipUpdate;
     public bool syncReferenceProfile = true;
     public StageLightTimelineTrack track;
+    public string exportPath = "Assets/";
+    
     public ClipCaps clipCaps
     {
         get { return ClipCaps.Blending; }
     }
-
+    
+    
     public void OnEnable()
     {
 
@@ -29,6 +32,8 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
 
     public override Playable CreatePlayable (PlayableGraph graph, GameObject owner)
     {
+        
+        
         var playable = ScriptPlayable<StageLightTimelineBehaviour>.Create (graph, stageLightTimelineBehaviour);
         stageLightTimelineBehaviour = playable.GetBehaviour ();
 
@@ -52,9 +57,12 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         {
             InitSyncData();
         }
-        
 
-        
+
+        if (exportPath == "")
+        {
+            exportPath = $"{track.exportPath}{this.name}.asset";
+        }
         return playable;
     }
     
