@@ -50,16 +50,6 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
             stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(timeProperty);
         }
 
-        if (referenceStageLightProfile == null && syncReferenceProfile)
-        {
-            syncReferenceProfile = false;
-        }
-        if (syncReferenceProfile)
-        {
-            InitSyncData();
-        }
-
-
         if (exportPath == "")
         {
             exportPath = $"{track.exportPath}{this.name}.asset";
@@ -124,9 +114,12 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         }
         else
         {
-            var props = new SlmProperty[referenceStageLightProfile.stageLightProperties.Count];
-            referenceStageLightProfile.stageLightProperties.CopyTo(props);  
-            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = props.ToList();
+            if(referenceStageLightProfile != null)
+            {
+                var props = new SlmProperty[referenceStageLightProfile.stageLightProperties.Count];
+                referenceStageLightProfile.stageLightProperties.CopyTo(props);  
+                stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = props.ToList();
+            }
         }
     }
 }
