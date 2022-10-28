@@ -54,6 +54,11 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         {
             exportPath = $"{track.exportPath}{this.name}.asset";
         }
+        
+        if(syncReferenceProfile && referenceStageLightProfile != null)
+        {
+            InitSyncData();
+        }
         return playable;
     }
     
