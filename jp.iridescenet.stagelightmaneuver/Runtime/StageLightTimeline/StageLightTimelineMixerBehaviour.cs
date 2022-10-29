@@ -68,7 +68,16 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
 
                 for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
                 {
-                    manualPanTiltArray[j].name = trackBinding.AllStageLights[j].name;
+                    // if not index is out of range
+                    if (j < manualPanTiltArray.Count && j < trackBinding.AllStageLights.Count)
+                    {
+                        if (manualPanTiltArray[j] != null && trackBinding.AllStageLights[j] != null)
+                        {
+                            manualPanTiltArray[j].name = trackBinding.AllStageLights[j].name;    
+                        }
+                        
+                    }
+                        
                 }
 
             }
