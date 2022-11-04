@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace StageLightManeuver
 {
-    [CustomEditor(typeof(MovingStageLight))]
+    [CustomEditor(typeof(StageLight))]
     [CanEditMultipleObjects]
     public class MovingStageLightEditor:Editor
     {
@@ -18,17 +18,12 @@ namespace StageLightManeuver
             var root = new VisualElement();
             // return base.CreateInspectorGUI();
             
-            var movingStageLight = target as MovingStageLight;
+            var movingStageLight = target as StageLight;
             var indexField = new PropertyField(serializedObject.FindProperty("index"));
             indexField.SetEnabled(false); 
             root.Add(indexField);
             root.Add(new PropertyField(serializedObject.FindProperty("stageLightFixtures")));
-           
-            
-
             var fixtureList = new List<string>();
-            
-            
             fixtureList.Add("Add New Fixture");
             var executingAssembly = Assembly.GetExecutingAssembly();
             var referencedAssemblies = executingAssembly.GetReferencedAssemblies();
@@ -48,12 +43,9 @@ namespace StageLightManeuver
                 .ToList()
                 .ForEach(t =>
                 {
-                    
-                    // Debug.Log(assembly.FullName);
-                    // Debug.Log(t.FullName);
                     if (movingStageLight.StageLightFixtures.Find(x => x.GetType().Name == t.Name) == null)
-                    {   
-                        fixtureList.Add(t.Name);   
+                    {
+                        fixtureList.Add(t.Name);
                     }
                 });
             }

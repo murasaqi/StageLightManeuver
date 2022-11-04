@@ -7,16 +7,16 @@ namespace StageLightManeuver
     [ExecuteAlways]
     public class StageLightSupervisor: MonoBehaviour
     {
-        public List<StageLight> stageLights = new List<StageLight>();
+        public List<StageLightBase> stageLights = new List<StageLightBase>();
         public List<StageLightSupervisor> stageLightSupervisors = new List<StageLightSupervisor>();
         // [Range(0f,1f)]public float fader = 0f;
 
         // public int a;
         // public int b;
 
-        [SerializeReference]private List<StageLight> allStageLights = new List<StageLight>();
+        [SerializeReference]private List<StageLightBase> allStageLights = new List<StageLightBase>();
 
-        public List<StageLight> AllStageLights => allStageLights;
+        public List<StageLightBase> AllStageLights => allStageLights;
 
 
         [ContextMenu("Initialize")]
@@ -46,7 +46,7 @@ namespace StageLightManeuver
         public void FindStageLightsInChildren()
         {
             stageLights.Clear();
-            stageLights.AddRange(GetComponentsInChildren<StageLight>());
+            stageLights.AddRange(GetComponentsInChildren<StageLightBase>());
         }
         
         private void OnValidate()

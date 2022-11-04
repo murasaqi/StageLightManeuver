@@ -37,14 +37,14 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
             float inputWeight = playable.GetInputWeight(i);
             ScriptPlayable<StageLightTimelineBehaviour> inputPlayable = (ScriptPlayable<StageLightTimelineBehaviour>)playable.GetInput(i);
             // StageLightTimelineBehaviour input = inputPlayable.GetBehaviour ();
-            var timeProperty = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<TimeProperty>();
+            var timeProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<TimeProperty>();
             if (timeProperty != null)
             {
                 timeProperty.clipProperty.clipStartTime = (float)clip.start;
                 timeProperty.clipProperty.clipEndTime = (float)clip.end;    
             }
             //
-            var manualPanTiltProperty = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<ManualPanTiltProperty>();
+            var manualPanTiltProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualPanTiltProperty>();
             //
             if (manualPanTiltProperty != null)
             {
@@ -83,8 +83,8 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
             }
             if (inputWeight > 0)
             {
-                stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.weight = inputWeight;
-                trackBinding.AddQue(stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData);
+                stageLightTimelineClip.behaviour.stageLightQueData.weight = inputWeight;
+                trackBinding.AddQue(stageLightTimelineClip.behaviour.stageLightQueData);
                 hasAnyClipPlaying = true;
                 // Debug.Log($"{clip.displayName},{inputWeight}");
             }

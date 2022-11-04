@@ -13,7 +13,7 @@ namespace StageLightManeuver
         public Queue<StageLightQueData> stageLightDataQueue = new Queue<StageLightQueData>();
         public int updateOrder = 0;
         public int Index { get; set; }
-        public List<StageLight> StageLightChild { get; set; }
+        public List<StageLightBase> StageLightChild { get; set; }
         public float offsetDuration = 0f;
 
         public virtual void EvaluateQue(float currentTime)
