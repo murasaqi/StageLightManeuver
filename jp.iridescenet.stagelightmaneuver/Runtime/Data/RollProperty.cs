@@ -34,6 +34,16 @@ namespace StageLightManeuver
             });
         }
         
+        public MinMaxEasingValue(MinMaxEasingValue other)
+        {
+            mode = other.mode;
+            valueRange = new Vector2( other.valueRange.x, other.valueRange.y);
+            valueMinMax = new Vector2( other.valueMinMax.x, other.valueMinMax.y);
+            easeType = other.easeType;
+            constant = other.constant;
+            animationCurve = SlmUtility.CopyAnimationCurve(other.animationCurve);
+        }
+        
         public MinMaxEasingValue(AnimationMode mode, Vector2 rollRange, Vector2 rollMinMax, EaseType easeType, float constant, AnimationCurve animationCurve)
         {
             this.mode = mode;
@@ -82,23 +92,15 @@ namespace StageLightManeuver
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
                 propertyOverride = rollProperty.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase()
-                {
-                    bpmOverride = rollProperty.bpmOverrideData.value.bpmOverride,
-                    bpmScale = rollProperty.bpmOverrideData.value.bpmScale,
-                    childStagger = rollProperty.bpmOverrideData.value.childStagger,
-                    loopType = rollProperty.bpmOverrideData.value.loopType,
-                    offsetTime = rollProperty.bpmOverrideData.value.offsetTime,
-                    propertyOverride = rollProperty.bpmOverrideData.value.propertyOverride,
-                }
+                value = new BpmOverrideToggleValueBase(rollProperty.bpmOverrideData.value)
             };
             this.rollTransform = new SlmToggleValue<MinMaxEasingValue>()
             {
-                value =     new MinMaxEasingValue(rollProperty.rollTransform.value.mode, rollProperty.rollTransform.value.valueRange, rollProperty.rollTransform.value.valueMinMax, rollProperty.rollTransform.value.easeType, rollProperty.rollTransform.value.constant, rollProperty.rollTransform.value.animationCurve),
+                propertyOverride =  rollProperty.rollTransform.propertyOverride,
+                value =     new MinMaxEasingValue(rollProperty.rollTransform.value),
             };
             propertyOverride = rollProperty.propertyOverride;
 
-            // this.animationCurve = rollProperty.animationCurve;
         }
 
         public RollProperty()

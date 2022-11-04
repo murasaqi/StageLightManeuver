@@ -56,7 +56,18 @@ namespace StageLightManeuver
         {
             return new Color(color.r, color.g, color.b, color.a) *Mathf.Pow(2.0f,intensity);
         }
-        public static Gradient CloneGradient(Gradient gradient)
+        
+        public static AnimationCurve CopyAnimationCurve(AnimationCurve curve)
+        {
+            var newCurve = new AnimationCurve();
+            var copyKeys = new Keyframe[curve.keys.Length];
+            curve.keys.CopyTo(copyKeys, 0);
+            newCurve.keys = copyKeys;
+            newCurve.preWrapMode = curve.preWrapMode;
+            newCurve.postWrapMode = curve.postWrapMode;
+            return newCurve;
+        }
+        public static Gradient CopyGradient(Gradient gradient)
         {
             Gradient newGradient = new Gradient();
             var colorKeys = new GradientColorKey[gradient.colorKeys.Length];
@@ -72,6 +83,8 @@ namespace StageLightManeuver
                 alphaKeys[i] = gradient.alphaKeys[i];
             }
             newGradient.SetKeys(colorKeys, alphaKeys);
+            newGradient.mode = gradient.mode;
+            
             return newGradient;
         }
     }
