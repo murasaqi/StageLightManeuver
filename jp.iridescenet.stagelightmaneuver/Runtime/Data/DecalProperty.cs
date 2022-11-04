@@ -45,7 +45,7 @@ namespace StageLightManeuver
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
                 propertyOverride = other.bpmOverrideData.propertyOverride,
-                value = other.bpmOverrideData.value
+                value = new BpmOverrideToggleValueBase(other.bpmOverrideData.value)
             };
             decalTexture = new SlmToggleValue<Texture2D>()
             {

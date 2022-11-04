@@ -22,15 +22,10 @@ namespace StageLightManeuver
         {
             propertyName = materialTextureProperty.propertyName;
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
-                { value = new BpmOverrideToggleValueBase()
-                {
-                    bpmOverride =   materialTextureProperty.bpmOverrideData.value.bpmOverride,
-                    bpmScale =    materialTextureProperty.bpmOverrideData.value.bpmScale,
-                    childStagger =  materialTextureProperty.bpmOverrideData.value.childStagger,
-                    loopType =  materialTextureProperty.bpmOverrideData.value.loopType,
-                    offsetTime =    materialTextureProperty.bpmOverrideData.value.offsetTime,
-                    propertyOverride =  materialTextureProperty.bpmOverrideData.value.propertyOverride,
-                } };
+            {
+                propertyOverride =  materialTextureProperty.bpmOverrideData.propertyOverride,
+                value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverrideData.value)
+            };
             texturePropertyName = new SlmToggleValue<string>(materialTextureProperty.texturePropertyName);
             materialindex = new SlmToggleValue<int>(materialTextureProperty.materialindex);
             texture = new SlmToggleValue<Texture2D>()

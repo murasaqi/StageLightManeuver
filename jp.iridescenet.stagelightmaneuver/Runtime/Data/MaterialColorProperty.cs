@@ -19,7 +19,12 @@ namespace StageLightManeuver
             colorPropertyName = new SlmToggleValue<string>(){value = "_ShaderPropertyName"};
             materialindex = new SlmToggleValue<int>(){value = 0};
             color = new SlmToggleValue<Gradient>(){value =new Gradient()};
-            intensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()};
+            intensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
+            {
+                valueRange = new Vector2(0,2),
+                mode = AnimationMode.Constant,
+                constant = 1
+            }};
         }
         
         public MaterialColorProperty(MaterialColorProperty materialColorProperty)
@@ -27,42 +32,21 @@ namespace StageLightManeuver
             propertyName = materialColorProperty.propertyName;
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
-                value = new BpmOverrideToggleValueBase()
-                {
-                    bpmOverride = materialColorProperty.bpmOverrideData.value.bpmOverride,
-                    bpmScale = materialColorProperty.bpmOverrideData.value.bpmScale,
-                    childStagger = materialColorProperty.bpmOverrideData.value.childStagger,
-                    loopType = materialColorProperty.bpmOverrideData.value.loopType,
-                    offsetTime = materialColorProperty.bpmOverrideData.value.offsetTime,
-                    propertyOverride = materialColorProperty.bpmOverrideData.value.propertyOverride,
-                }
+                propertyOverride =  materialColorProperty.bpmOverrideData.propertyOverride,
+                value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverrideData.value)
             };
             colorPropertyName = new SlmToggleValue<string>(){value = materialColorProperty.colorPropertyName.value};
             materialindex = new SlmToggleValue<int>(){value = materialColorProperty.materialindex.value};
             
-            var alphaKeys = new GradientAlphaKey[materialColorProperty.color.value.alphaKeys.Length];
-            var colorKeys = new GradientColorKey[materialColorProperty.color.value.colorKeys.Length];
-            color = new SlmToggleValue<Gradient>()
+           color = new SlmToggleValue<Gradient>()
             {
-                
-                value = new Gradient()
-                {
-                    alphaKeys = alphaKeys,
-                    colorKeys = colorKeys,
-                    mode = materialColorProperty.color.value.mode
-                }
+                propertyOverride =  materialColorProperty.color.propertyOverride,
+                value = SlmUtility.CopyGradient( materialColorProperty.color.value)
             };
             intensity = new SlmToggleValue<MinMaxEasingValue>()
             {
-                value = new MinMaxEasingValue()
-                {
-                        animationCurve = new AnimationCurve(materialColorProperty.intensity.value.animationCurve.keys),
-                        mode =  materialColorProperty.intensity.value.mode,
-                        constant =  materialColorProperty.intensity.value.constant,
-                        easeType =  materialColorProperty.intensity.value.easeType,
-                        valueMinMax = new Vector2(materialColorProperty.intensity.value.valueMinMax.x,materialColorProperty.intensity.value.valueMinMax.y),
-                        valueRange =     new Vector2(materialColorProperty.intensity.value.valueRange.x,materialColorProperty.intensity.value.valueRange.y),
-                }
+                propertyOverride = materialColorProperty.intensity.propertyOverride,
+                value = new MinMaxEasingValue(materialColorProperty.intensity.value)
             };
         }
     }

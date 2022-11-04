@@ -124,31 +124,31 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             stageLightTimelineClip.forceTimelineClipUpdate = false;
         }
 
-        private float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType)
-        {
-            
-            var scaledBpm = bpm * bpmScale;
-            var duration = 60 / scaledBpm;
-            var offset = duration* bpmOffset *0;
-            var offsetTime = time + offset;
-            var result = 0f;
-            var t = (float)offsetTime % duration;
-            var normalisedTime = t / duration;
-            
-            if (loopType == LoopType.Loop)
-            {
-                result = normalisedTime;     
-            }else if (loopType == LoopType.PingPong)
-            {
-                result = Mathf.PingPong(offsetTime / duration, 1f);
-            }
-            else if(loopType == LoopType.Fixed)
-            {
-                result = Mathf.InverseLerp(clipProperty.clipStartTime, clipProperty.clipEndTime, time);
-            }
-           
-            return result;
-        }
+        // private float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType)
+        // {
+        //     
+        //     var scaledBpm = bpm * bpmScale;
+        //     var duration = 60 / scaledBpm;
+        //     var offset = duration* bpmOffset *0;
+        //     var offsetTime = time + offset;
+        //     var result = 0f;
+        //     var t = (float)offsetTime % duration;
+        //     var normalisedTime = t / duration;
+        //     
+        //     if (loopType == LoopType.Loop)
+        //     {
+        //         result = normalisedTime;     
+        //     }else if (loopType == LoopType.PingPong)
+        //     {
+        //         result = Mathf.PingPong(offsetTime / duration, 1f);
+        //     }
+        //     else if(loopType == LoopType.Fixed)
+        //     {
+        //         result = Mathf.InverseLerp(clipProperty.clipStartTime, clipProperty.clipEndTime, time);
+        //     }
+        //    
+        //     return result;
+        // }
 
 
 
@@ -170,8 +170,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     var bpmOffset =timeProperty.childStagger.value;
                     var bpmScale = timeProperty.bpmScale.value;
                     var loopType = timeProperty.loopType.value;
-                    float offsetTime = (60 / bpmScale) * bpmOffset;
-                    var t =GetNormalizedTime(i,bpm,bpmOffset,bpmScale,timeProperty.clipProperty,loopType);
+                    var t =SlmUtility.GetNormalizedTime(i,bpm,bpmOffset,bpmScale,timeProperty.clipProperty,loopType);
                     
                     
                     if (preBeat> t)
@@ -203,12 +202,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if (!customClip) return tex;
 
             if(customClip.stageLightTimelineBehaviour.stageLightQueData == null) return tex;
-            
             var lightProperty = customClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<LightProperty>();
-            if(lightProperty == null) return tex;
-            if(lightProperty.lightToggleColor == null) return tex;
-            var gradient = lightProperty.lightToggleColor.value;
-            var intensity = lightProperty.lightToggleIntensity.value;
+            var lightColorProperty = customClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<LightColorProperty>();
+            if(lightColorProperty == null || lightProperty == null) return tex;
+            if(lightColorProperty.lightToggleColor == null) return tex;
+            var gradient = lightColorProperty.lightToggleColor.value;
+            
+            var lightIntensityProperty = customClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<LightIntensityProperty>();
             if (update) 
             {
                 _gradientTextures.Remove(customClip);
@@ -230,25 +230,24 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 var timeProperty = customClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<TimeProperty>();
                 if (timeProperty != null)
                 {
-                    var bpm = timeProperty.bpm.value;
-                    var bpmOffset = lightProperty.bpmOverrideData.value.bpmOverride
-                        ? lightProperty.bpmOverrideData.value.childStagger
-                        : timeProperty.childStagger.value;
-                    var bpmScale = lightProperty.bpmOverrideData.value.bpmOverride
-                        ? lightProperty.bpmOverrideData.value.bpmScale
-                        : timeProperty.bpmScale.value;
-                    var loopType = lightProperty.bpmOverrideData.value.bpmOverride
-                        ? lightProperty.bpmOverrideData.value.loopType
-                        : timeProperty.loopType.value;
-                   
-                    var t = GetNormalizedTime(currentTime,bpm, bpmScale, bpmScale,timeProperty.clipProperty, loopType);
                     
-                    var color = gradient.Evaluate(t);
-                    if (b > 0f) color.a = Mathf.Min(t / b, 1f);
+                    var color = Color.black;
 
 
-                    var intensityValue = lightProperty.lightToggleIntensity.value.Evaluate(t);
+                    if (lightColorProperty != null && lightColorProperty.lightToggleColor != null)
+                    {
+                        var lightT = GetNormalizedTime(currentTime, timeProperty, lightColorProperty);
+                        color = gradient.Evaluate(lightT);     
+                       
+                    }
 
+                    var intensityValue = 1f;
+                    if (lightIntensityProperty != null && lightIntensityProperty.lightToggleIntensity != null)
+                    {
+                        var t = GetNormalizedTime(currentTime, timeProperty, lightIntensityProperty);
+                        intensityValue = lightIntensityProperty.lightToggleIntensity.value.Evaluate(t);
+                        // intensityValue = intensityValue
+                    }
                     color = new Color(color.r,
                         color.g,
                         color.b,
@@ -272,6 +271,18 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
            
             return tex;
+        }
+
+        public float GetNormalizedTime(float currentTime, TimeProperty timeProperty, SlmAdditionalProperty slmAdditionalProperty)
+        {
+            
+            var bpmOverrideData = slmAdditionalProperty.bpmOverrideData.value;
+            var offsetTime = timeProperty.offsetTime.value;
+            var bpm =  timeProperty.bpm.value;
+            var bpmOffset =bpmOverrideData.bpmOverride ? bpmOverrideData.childStagger : timeProperty.childStagger.value;
+            var bpmScale = bpmOverrideData.bpmOverride ? bpmOverrideData.bpmScale : timeProperty.bpmScale.value;
+            var loopType = bpmOverrideData.bpmOverride ? bpmOverrideData.loopType : timeProperty.loopType.value;
+            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,timeProperty.clipProperty, loopType);
         }
 
         public override void GetSubTimelines(TimelineClip clip, PlayableDirector director, List<PlayableDirector> subTimelines)

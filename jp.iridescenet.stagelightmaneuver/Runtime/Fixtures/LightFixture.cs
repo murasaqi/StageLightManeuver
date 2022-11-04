@@ -30,22 +30,24 @@ namespace StageLightManeuver
                 var data = stageLightDataQueue.Dequeue();
                 var stageLightBaseProperty= data.TryGet<TimeProperty>() as TimeProperty;
                 var lightProperty = data.TryGet<LightProperty>() as LightProperty;
+                var lightColorProperty = data.TryGet<LightColorProperty>() as LightColorProperty;
+                var lightIntensityProperty = data.TryGet<LightIntensityProperty>() as LightIntensityProperty;
                 var weight = data.weight;
                 if(lightProperty == null || stageLightBaseProperty == null) continue;
              
-                var t = GetNormalizedTime(currentTime, data, typeof(LightProperty));
-                lightColor += lightProperty.lightToggleColor.value.Evaluate(t) * weight;
-                if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.AnimationCurve)
+                var baseTime = GetNormalizedTime(currentTime, data, typeof(LightProperty));
+               
+                if (lightColorProperty != null)
                 {
-                    lightIntensity += lightProperty.lightToggleIntensity.value.animationCurve.Evaluate(t) * weight;
+                    var t =lightColorProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : baseTime;
+                    lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
+                    
                 }
-                else if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.Ease)
+
+                if (lightIntensityProperty != null)
                 {
-                    lightIntensity += EaseUtil.GetEaseValue(lightProperty.lightToggleIntensity.value.easeType, t, 1f, lightProperty.lightToggleIntensity.value.valueRange.x,
-                        lightProperty.lightToggleIntensity.value.valueRange.y) * weight;
-                }else if (lightProperty.lightToggleIntensity.value.mode == AnimationMode.Constant)
-                {
-                    lightIntensity += lightProperty.lightToggleIntensity.value.constant * weight;
+                    var t =lightIntensityProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : baseTime;
+                    lightIntensity += lightIntensityProperty.lightToggleIntensity.value.Evaluate(t) * weight;
                 }
 
                 spotAngle += lightProperty.spotAngle.value * weight;
