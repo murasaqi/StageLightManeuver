@@ -51,7 +51,7 @@ namespace StageLightManeuver
             lightToggleColor = new SlmToggleValue<Gradient>()
             {
                 propertyOverride = other.lightToggleColor.propertyOverride,
-                value = SlmUtility.CloneGradient(other.lightToggleColor.value)
+                value = SlmUtility.CopyGradient(other.lightToggleColor.value)
             };
             var intensity = other.lightToggleIntensity.value;
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>()
