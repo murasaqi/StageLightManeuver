@@ -232,19 +232,18 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     
                     var color = Color.black;
-                    
 
-                    
-                    var light_t = GetNormalizedTime(currentTime, timeProperty, lightColorProperty);
-                
-                    color = gradient.Evaluate(light_t);
-                    if (b > 0f) color.a = Mathf.Min(light_t / b, 1f);    
-                    
+
+                    if (lightColorProperty != null && lightColorProperty.lightToggleColor != null)
+                    {
+                        var lightT = GetNormalizedTime(currentTime, timeProperty, lightColorProperty);
+                        color = gradient.Evaluate(lightT);     
+                       
+                    }
 
                     var intensityValue = 1f;
-                    if (lightIntensityProperty != null)
+                    if (lightIntensityProperty != null && lightIntensityProperty.lightToggleIntensity != null)
                     {
-                     
                         var t = GetNormalizedTime(currentTime, timeProperty, lightIntensityProperty);
                         intensityValue = lightIntensityProperty.lightToggleIntensity.value.Evaluate(t);
                         // intensityValue = intensityValue
