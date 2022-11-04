@@ -129,7 +129,6 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
             if(referenceStageLightProfile != null)
             {
                 
-                
                 var copy = new List<SlmProperty>();
                 foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
                 {

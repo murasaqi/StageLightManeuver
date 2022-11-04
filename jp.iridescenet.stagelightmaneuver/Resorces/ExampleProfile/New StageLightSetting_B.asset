@@ -14,23 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUpdateGuiFlag: 1
   stageLightProperties:
-  - rid: 4824220618677289323
-  - rid: 4824220618677289324
-  - rid: 4824220618677289325
-  - rid: 4824220618677289326
-  - rid: 4824220618677289327
-  - rid: 4824220618677289328
+  - rid: 4824220619834655109
+  - rid: 4824220619834655110
+  - rid: 4824220619834655111
+  - rid: 4824220619834655112
+  - rid: 4824220619834655113
+  - rid: 4824220619834655114
+  - rid: 4824220619834655115
   references:
     version: 2
     RefIds:
-    - rid: 4824220618677289323
+    - rid: 4824220619834655109
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
         propertyName: Time
         clipProperty:
-          clipStartTime: 0
-          clipEndTime: 0
+          clipStartTime: 4.983333
+          clipEndTime: 9.983334
         loopType:
           propertyOverride: 0
           value: 0
@@ -46,10 +47,10 @@ MonoBehaviour:
         childStagger:
           propertyOverride: 0
           value: 0
-    - rid: 4824220618677289324
+    - rid: 4824220619834655110
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Light
         bpmOverrideData:
           propertyOverride: 0
@@ -60,69 +61,6 @@ MonoBehaviour:
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
-        lightToggleColor:
-          propertyOverride: 0
-          value:
-            serializedVersion: 2
-            key0: {r: 1, g: 1, b: 1, a: 1}
-            key1: {r: 1, g: 1, b: 1, a: 1}
-            key2: {r: 0, g: 0, b: 0, a: 0}
-            key3: {r: 0, g: 0, b: 0, a: 0}
-            key4: {r: 0, g: 0, b: 0, a: 0}
-            key5: {r: 0, g: 0, b: 0, a: 0}
-            key6: {r: 0, g: 0, b: 0, a: 0}
-            key7: {r: 0, g: 0, b: 0, a: 0}
-            ctime0: 0
-            ctime1: 65535
-            ctime2: 0
-            ctime3: 0
-            ctime4: 0
-            ctime5: 0
-            ctime6: 0
-            ctime7: 0
-            atime0: 0
-            atime1: 65535
-            atime2: 0
-            atime3: 0
-            atime4: 0
-            atime5: 0
-            atime6: 0
-            atime7: 0
-            m_Mode: 0
-            m_NumColorKeys: 2
-            m_NumAlphaKeys: 2
-        lightToggleIntensity:
-          propertyOverride: 0
-          value:
-            mode: 0
-            valueRange: {x: 0, y: 1}
-            valueMinMax: {x: 0, y: 10}
-            easeType: 0
-            constant: 0
-            animationCurve:
-              serializedVersion: 2
-              m_Curve:
-              - serializedVersion: 3
-                time: 0
-                value: 0
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
-              - serializedVersion: 3
-                time: 1
-                value: 1
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
         spotAngle:
           propertyOverride: 0
           value: 15
@@ -132,7 +70,7 @@ MonoBehaviour:
         range:
           propertyOverride: 0
           value: 10
-    - rid: 4824220618677289325
+    - rid: 4824220619834655111
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -178,7 +116,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220618677289326
+    - rid: 4824220619834655112
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -224,39 +162,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220618677289327
-      type: {class: DecalProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
-      data:
-        propertyOverride: 0
-        propertyName: Decal
-        bpmOverrideData:
-          propertyOverride: 0
-          value:
-            propertyOverride: 0
-            loopType: 0
-            bpmOverride: 0
-            offsetTime: 0
-            bpmScale: 1
-            childStagger: 0
-        decalTexture:
-          propertyOverride: 0
-          value: {fileID: 0}
-        decalSizeScaler:
-          propertyOverride: 0
-          value: 0.8
-        floorHeight:
-          propertyOverride: 0
-          value: 0
-        decalDepthScaler:
-          propertyOverride: 0
-          value: 1
-        fadeFactor:
-          propertyOverride: 0
-          value: 1
-        opacity:
-          propertyOverride: 0
-          value: 1
-    - rid: 4824220618677289328
+    - rid: 4824220619834655113
       type: {class: GoboProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -308,3 +214,94 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
+    - rid: 4824220619834655114
+      type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 0
+        propertyName: Intensity
+        bpmOverrideData:
+          propertyOverride: 1
+          value:
+            propertyOverride: 0
+            loopType: 0
+            bpmOverride: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+        lightToggleIntensity:
+          propertyOverride: 1
+          value:
+            mode: 2
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 10}
+            easeType: 0
+            constant: 2.14
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+    - rid: 4824220619834655115
+      type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 0
+        propertyName: Light Color
+        bpmOverrideData:
+          propertyOverride: 1
+          value:
+            propertyOverride: 0
+            loopType: 0
+            bpmOverride: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+        lightToggleColor:
+          propertyOverride: 1
+          value:
+            serializedVersion: 2
+            key0: {r: 0, g: 0, b: 0, a: 1}
+            key1: {r: 0.5782198, g: 1.908113, b: 2.2538774, a: 1}
+            key2: {r: 0, g: 0, b: 0, a: 0}
+            key3: {r: 1.4980392, g: 1.0509804, b: 0.47058824, a: 0}
+            key4: {r: 0, g: 0, b: 0, a: 0}
+            key5: {r: 0.15251563, g: 0.9150943, b: 0.44201127, a: 0}
+            key6: {r: 0, g: 0, b: 0, a: 0}
+            key7: {r: 1.3280522, g: 0.59376335, b: 2.0523562, a: 0}
+            ctime0: 6720
+            ctime1: 14016
+            ctime2: 22080
+            ctime3: 30528
+            ctime4: 40895
+            ctime5: 48575
+            ctime6: 58559
+            ctime7: 65535
+            atime0: 0
+            atime1: 65535
+            atime2: 0
+            atime3: 0
+            atime4: 0
+            atime5: 0
+            atime6: 0
+            atime7: 0
+            m_Mode: 1
+            m_NumColorKeys: 8
+            m_NumAlphaKeys: 2
