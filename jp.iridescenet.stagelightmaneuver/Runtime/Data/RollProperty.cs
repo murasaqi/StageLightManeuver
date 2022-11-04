@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace StageLightManeuver
@@ -8,8 +9,8 @@ namespace StageLightManeuver
     public class MinMaxEasingValue
     {
         [DisplayName("Mode")] public AnimationMode mode = AnimationMode.Ease;
-        [DisplayName("Range")]public Vector2 rollRange = new Vector2(0, 0);
-        public Vector2 rollMinMax = new Vector2(-180, 180);
+        [DisplayName("Range")]public Vector2 valueRange = new Vector2(0, 0);
+        public Vector2 valueMinMax = new Vector2(-180, 180);
         [DisplayName("Easing")]public EaseType easeType = EaseType.Linear;
         [DisplayName("Constant")]public float constant = 0;
         [DisplayName("Curve")]public AnimationCurve animationCurve = new AnimationCurve(new Keyframe[]
@@ -22,8 +23,8 @@ namespace StageLightManeuver
         public MinMaxEasingValue()
         {
             mode = AnimationMode.Ease;
-            rollRange = new Vector2(0, 0);
-            rollMinMax = new Vector2(-180, 180);
+            valueRange = new Vector2(0, 0);
+            valueMinMax = new Vector2(-180, 180);
             easeType = EaseType.Linear;
             constant = 0;
             animationCurve = new AnimationCurve(new Keyframe[]
@@ -36,11 +37,37 @@ namespace StageLightManeuver
         public MinMaxEasingValue(AnimationMode mode, Vector2 rollRange, Vector2 rollMinMax, EaseType easeType, float constant, AnimationCurve animationCurve)
         {
             this.mode = mode;
-            this.rollRange = rollRange;
-            this.rollMinMax = rollMinMax;
+            this.valueRange = new Vector2( rollRange.x, rollRange.y);
+            this.valueMinMax = new Vector2( rollMinMax.x, rollMinMax.y);
             this.easeType = easeType;
             this.constant = constant;
-            this.animationCurve = animationCurve;
+            var keys = new List<Keyframe>();
+            
+            foreach (var keyframe in animationCurve.keys)
+            {
+                keys.Add(new Keyframe(keyframe.time, keyframe.value));
+            }
+            this.animationCurve = new AnimationCurve(keys.ToArray());
+        }
+
+        public float Evaluate(float t)
+        {
+            var value = 0f;
+            if (mode == AnimationMode.AnimationCurve)
+            {
+                value = animationCurve.Evaluate(t);
+            }
+            else if (mode == AnimationMode.Ease)
+            {
+                value = EaseUtil.GetEaseValue(easeType, t, 1f, valueRange.x,
+                    valueRange.y);
+            }
+            else if (mode == AnimationMode.Constant)
+            {
+                value = constant;
+            }
+
+            return value;
         }
     }
     [Serializable]
@@ -50,8 +77,25 @@ namespace StageLightManeuver
        
         public RollProperty(RollProperty rollProperty)
         {
-            bpmOverrideData = rollProperty.bpmOverrideData;
-            this.rollTransform = rollProperty.rollTransform;
+            propertyName = rollProperty.propertyName;
+
+            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            {
+                propertyOverride = rollProperty.bpmOverrideData.propertyOverride,
+                value = new BpmOverrideToggleValueBase()
+                {
+                    bpmOverride = rollProperty.bpmOverrideData.value.bpmOverride,
+                    bpmScale = rollProperty.bpmOverrideData.value.bpmScale,
+                    childStagger = rollProperty.bpmOverrideData.value.childStagger,
+                    loopType = rollProperty.bpmOverrideData.value.loopType,
+                    offsetTime = rollProperty.bpmOverrideData.value.offsetTime,
+                    propertyOverride = rollProperty.bpmOverrideData.value.propertyOverride,
+                }
+            };
+            this.rollTransform = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                value =     new MinMaxEasingValue(rollProperty.rollTransform.value.mode, rollProperty.rollTransform.value.valueRange, rollProperty.rollTransform.value.valueMinMax, rollProperty.rollTransform.value.easeType, rollProperty.rollTransform.value.constant, rollProperty.rollTransform.value.animationCurve),
+            };
             propertyOverride = rollProperty.propertyOverride;
 
             // this.animationCurve = rollProperty.animationCurve;

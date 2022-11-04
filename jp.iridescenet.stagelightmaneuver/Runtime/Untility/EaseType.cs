@@ -33,5 +33,6 @@ namespace StageLightManeuver
 		InBounce,
 		OutBounce,
 		InOutBounce,
+		
 	}
 }

@@ -17,7 +17,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             static EditorInitialize()
             {
                 backgroundTexture = new Texture2D(1, 1);
-                syncIconTexture = Resources.Load<Texture2D>("VLVLBMaterials/icon_sync");
+                syncIconTexture = Resources.Load<Texture2D>("SLSAssets/Texture/icon_sync");
                 backgroundTexture.SetPixel(0, 0, Color.white);
                 backgroundTexture.Apply();
            
@@ -67,7 +67,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             base.DrawBackground(clip, region);
 
 
-            if(syncIconTexture == null)syncIconTexture = Resources.Load<Texture2D>("VLVLBMaterials/icon_sync");
+            if(syncIconTexture == null)syncIconTexture = Resources.Load<Texture2D>("SLSAssets/Texture/icon_sync");
             var stageLightTimelineClip = (StageLightTimelineClip) clip.asset;
             var update = stageLightTimelineClip.forceTimelineClipUpdate;
             if (stageLightTimelineClip.referenceStageLightProfile != null)
@@ -114,7 +114,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
             var iconSize = 12;
             var margin = 4;
-            if (stageLightTimelineClip.syncReferenceProfile)
+            if(syncIconTexture)if (stageLightTimelineClip.syncReferenceProfile)
                 GUI.DrawTexture(new Rect(region.position.width - iconSize - margin, margin, iconSize, iconSize),
                     syncIconTexture, ScaleMode.ScaleAndCrop,
                     true,
@@ -167,7 +167,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 for (float i =(float) clip.start; i < (float)clip.end; i+=step)
                 {
                     var bpm = timeProperty.bpm.value;
-                    var bpmOffset =timeProperty.bpmOffset.value;
+                    var bpmOffset =timeProperty.childStagger.value;
                     var bpmScale = timeProperty.bpmScale.value;
                     var loopType = timeProperty.loopType.value;
                     float offsetTime = (60 / bpmScale) * bpmOffset;
@@ -232,8 +232,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     var bpm = timeProperty.bpm.value;
                     var bpmOffset = lightProperty.bpmOverrideData.value.bpmOverride
-                        ? lightProperty.bpmOverrideData.value.bpmOffset
-                        : timeProperty.bpmOffset.value;
+                        ? lightProperty.bpmOverrideData.value.childStagger
+                        : timeProperty.childStagger.value;
                     var bpmScale = lightProperty.bpmOverrideData.value.bpmOverride
                         ? lightProperty.bpmOverrideData.value.bpmScale
                         : timeProperty.bpmScale.value;
@@ -245,7 +245,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     
                     var color = gradient.Evaluate(t);
                     if (b > 0f) color.a = Mathf.Min(t / b, 1f);
-                    var intensityValue = Mathf.Clamp(intensity.Evaluate(t),0,1);
+
+
+                    var intensityValue = lightProperty.lightToggleIntensity.value.Evaluate(t);
+
                     color = new Color(color.r,
                         color.g,
                         color.b,

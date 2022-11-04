@@ -64,9 +64,10 @@ namespace StageLightManeuver
 
         public void UpdateFixture()
         {
+            if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureBase>();
             foreach (var stageLightFixture in stageLightFixtures)
             {
-                stageLightFixture.UpdateFixture();
+                if(stageLightFixture)stageLightFixture.UpdateFixture();
             }
         }
 
@@ -80,7 +81,14 @@ namespace StageLightManeuver
         [ContextMenu("Find Fixtures")]
         public void FindFixtures()
         {
-            StageLightFixtures.Clear();
+            if (stageLightFixtures != null)
+            {
+                StageLightFixtures.Clear();
+            }
+            else
+            {
+                stageLightFixtures = new List<StageLightFixtureBase>();
+            }
             StageLightFixtures = GetComponentsInChildren<StageLightFixtureBase>().ToList();
         }
     }
