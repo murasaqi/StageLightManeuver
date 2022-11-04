@@ -1,3 +1,4 @@
+#if USE_VLB_ALTER
 using System;
 using UnityEngine;
 
@@ -10,10 +11,10 @@ namespace StageLightManeuver
     public class GoboFixture:StageLightFixtureBase
     
     {
-#if USE_VLB_ALTER
+
         public VolumetricLightBeam volumetricLightBeam;
         
-#endif
+
         public MeshRenderer meshRenderer;
         public Texture2D goboTexture;
         public string goboPropertyName = "_GoboTexture";
@@ -40,8 +41,7 @@ namespace StageLightManeuver
         {
             goboTransform.localEulerAngles = goboRotateVector * (rotateStartOffsetRandom ? Random.Range(0f, 360f) : 0f);
             _materialPropertyBlock = new MaterialPropertyBlock();
-            
-#if USE_VLB_ALTER
+
             if (volumetricLightBeam)
             {
                 volumetricLightBeam.RegisterOnBeamGeometryInitializedCallback(() =>
@@ -51,12 +51,6 @@ namespace StageLightManeuver
                     if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
                 });     
             }
-           
-#else
-             if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
-#endif
-            
-           
 
         }
 
@@ -132,3 +126,4 @@ namespace StageLightManeuver
     
     }
 }
+#endif

@@ -19,7 +19,12 @@ namespace StageLightManeuver
             colorPropertyName = new SlmToggleValue<string>(){value = "_ShaderPropertyName"};
             materialindex = new SlmToggleValue<int>(){value = 0};
             color = new SlmToggleValue<Gradient>(){value =new Gradient()};
-            intensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()};
+            intensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
+            {
+                valueRange = new Vector2(0,2),
+                mode = AnimationMode.Constant,
+                constant = 1
+            }};
         }
         
         public MaterialColorProperty(MaterialColorProperty materialColorProperty)

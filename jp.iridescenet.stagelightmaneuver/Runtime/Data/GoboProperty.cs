@@ -1,3 +1,4 @@
+#if USE_VLB_ALTER
 using System;
 using UnityEngine;
 
@@ -48,3 +49,4 @@ namespace StageLightManeuver
         }
     }
 }
+#endif
