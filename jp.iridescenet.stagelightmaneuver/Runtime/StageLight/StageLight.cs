@@ -25,24 +25,26 @@ namespace StageLightManeuver
             Init();
         }
 
-        [ContextMenu("Apply Fixture Set")]
-        public void ApplyBaseFixtureSet()
-        {
-            for (int i = StageLightFixtures.Count-1; i >= 0; i--)  
-            {
-                DestroyImmediate(StageLightFixtures[i]);
-            }
-            StageLightFixtures.Clear();
-
-            var pan = gameObject.AddComponent<LightPanFixture>();
-            StageLightFixtures.Add(pan);
-            var tilt = gameObject.AddComponent<LightTiltFixture>();
-            StageLightFixtures.Add(tilt);
-            StageLightFixtures.Add(gameObject.AddComponent<LightFixture>());
-            StageLightFixtures.Add(gameObject.AddComponent<SyncLightMaterialFixture>());
-            StageLightFixtures.Add(gameObject.AddComponent<DecalFixture>());
-            StageLightFixtures.Add(gameObject.AddComponent<GoboFixture>());
-        }
+//         [ContextMenu("Apply Fixture Set")]
+//         public void ApplyBaseFixtureSet()
+//         {
+//             for (int i = StageLightFixtures.Count-1; i >= 0; i--)  
+//             {
+//                 DestroyImmediate(StageLightFixtures[i]);
+//             }
+//             StageLightFixtures.Clear();
+//
+//             var pan = gameObject.AddComponent<LightPanFixture>();
+//             StageLightFixtures.Add(pan);
+//             var tilt = gameObject.AddComponent<LightTiltFixture>();
+//             StageLightFixtures.Add(tilt);
+//             StageLightFixtures.Add(gameObject.AddComponent<LightFixture>());
+//             StageLightFixtures.Add(gameObject.AddComponent<SyncLightMaterialFixture>());
+//             StageLightFixtures.Add(gameObject.AddComponent<DecalFixture>());
+// #if USE_VLB_ALTER
+//             StageLightFixtures.Add(gameObject.AddComponent<GoboFixture>());
+// #endif
+//         }
         public override void AddQue(StageLightQueData stageLightQueData)
         {
             base.AddQue(stageLightQueData);
