@@ -67,34 +67,41 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     public void LoadProfile()
     {
         if (referenceStageLightProfile == null || syncReferenceProfile) return;
-        stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Clear();
-
+      
         var hasTimeProperty = false;
-        var props = new SlmProperty[referenceStageLightProfile.stageLightProperties.Count];
-        referenceStageLightProfile.stageLightProperties.CopyTo(props);      
+        var props =referenceStageLightProfile.Clone().stageLightProperties;
+
+        stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = props;
+        
         foreach (var prop in props)
         {
             if (prop is TimeProperty)
             {
                 hasTimeProperty = true;
             }
-            stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(prop);
         }
         
         if(hasTimeProperty == false)
         {
             stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Insert(0,new TimeProperty());
         }
+        
+        
     }
 
     public void SaveProfile()
     {
 #if UNITY_EDITOR
         Undo.RegisterCompleteObjectUndo(referenceStageLightProfile, referenceStageLightProfile.name);
-        
-        var props = new SlmProperty[stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Count];
-        stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.CopyTo(props);
-        referenceStageLightProfile.stageLightProperties = props.ToList();
+        var copy = new List<SlmProperty>();
+        foreach (var stageLightProperty in stageLightTimelineBehaviour.stageLightQueData.stageLightProperties)
+        {
+            var type = stageLightProperty.GetType();
+            copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
+                as SlmProperty);
+        }
+        referenceStageLightProfile.stageLightProperties.Clear();
+        referenceStageLightProfile.stageLightProperties = copy;
         referenceStageLightProfile.isUpdateGuiFlag = true;
         EditorUtility.SetDirty(referenceStageLightProfile);
         AssetDatabase.SaveAssets();
@@ -121,10 +128,19 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
         {
             if(referenceStageLightProfile != null)
             {
-                var props = new SlmProperty[referenceStageLightProfile.stageLightProperties.Count];
-                referenceStageLightProfile.stageLightProperties.CopyTo(props);  
-                stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = props.ToList();
+                
+                var copy = new List<SlmProperty>();
+                foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
+                {
+                    var type = stageLightProperty.GetType();
+                    copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null, new object[]{stageLightProperty}, null)
+                        as SlmProperty);
+                }
+                
+                stageLightTimelineBehaviour.stageLightQueData.stageLightProperties = copy;
             }
         }
     }
+    
+ 
 }
