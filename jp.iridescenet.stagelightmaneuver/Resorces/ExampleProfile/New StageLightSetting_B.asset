@@ -14,25 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUpdateGuiFlag: 1
   stageLightProperties:
-  - rid: 4824220623761047643
-  - rid: 4824220623761047644
-  - rid: 4824220623761047645
-  - rid: 4824220623761047646
-  - rid: 4824220623761047647
-  - rid: 4824220623761047648
-  - rid: 4824220623761047649
-  - rid: 4824220623761047650
+  - rid: 4824220624727572488
+  - rid: 4824220624727572489
+  - rid: 4824220624727572490
+  - rid: 4824220624727572491
+  - rid: 4824220624727572492
+  - rid: 4824220624727572493
+  - rid: 4824220624727572494
+  - rid: 4824220624727572495
   references:
     version: 2
     RefIds:
-    - rid: 4824220623761047643
+    - rid: 4824220624727572488
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
         propertyName: Time
         clipProperty:
-          clipStartTime: 1
-          clipEndTime: 6
+          clipStartTime: 1.8666667
+          clipEndTime: 2.7666667
         loopType:
           propertyOverride: 1
           value: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
         childStagger:
           propertyOverride: 1
           value: 0
-    - rid: 4824220623761047644
+    - rid: 4824220624727572489
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -71,7 +71,7 @@ MonoBehaviour:
         range:
           propertyOverride: 1
           value: 10
-    - rid: 4824220623761047645
+    - rid: 4824220624727572490
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -117,7 +117,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047646
+    - rid: 4824220624727572491
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -163,13 +163,13 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047647
+    - rid: 4824220624727572492
       type: {class: GoboProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
         propertyName: Gobo
         bpmOverrideData:
-          propertyOverride: 0
+          propertyOverride: 1
           value:
             propertyOverride: 0
             loopType: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
             childStagger: 0
         goboTexture:
           propertyOverride: 0
-          value: {fileID: 0}
+          value: {fileID: 2800000, guid: 4d1eec95034c81f458740c186fe4c2d0, type: 3}
         goboPropertyName:
           propertyOverride: 0
           value: _GoboTexture
@@ -215,7 +215,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047648
+    - rid: 4824220624727572493
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047649
+    - rid: 4824220624727572494
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
             m_Mode: 1
             m_NumColorKeys: 8
             m_NumAlphaKeys: 2
-    - rid: 4824220623761047650
+    - rid: 4824220624727572495
       type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
