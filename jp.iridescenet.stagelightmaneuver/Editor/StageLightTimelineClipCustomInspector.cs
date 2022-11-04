@@ -60,13 +60,19 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 serializedObject.ApplyModifiedProperties();
             }
            
+            
             var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
+
+            
+            EditorGUI.BeginDisabledGroup(stageLightTimelineClip.referenceStageLightProfile == null);
+
 
             if(stageLightTimelineClip == null)
                 return;
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
+                
                 
                 GUI.backgroundColor= Color.green;
                 GUI.contentColor = Color.white;
@@ -84,17 +90,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     
                 }
                 
-                GUI.backgroundColor= Color.red;
-                GUI.contentColor = Color.white;
-                if (GUILayout.Button("Save as",GUILayout.MaxWidth(100)))
-                {
-                    ExportProfile(stageLightTimelineClip);
-                }
-                GUI.backgroundColor = Color.white;
-                
             }
-            
-            EditorGUILayout.Space(1);
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("syncReferenceProfile"));
@@ -103,15 +99,52 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 serializedObject.ApplyModifiedProperties();
                 stageLightTimelineClip.InitSyncData();
             }
+            
+            EditorGUI.EndDisabledGroup();
+            
+            
+            EditorGUI.BeginChangeCheck();
+            var path = EditorGUILayout.PropertyField(serializedObject.FindProperty("exportPath"));
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+            }
+            using (new EditorGUILayout.HorizontalScope())
+            {
+
+                GUILayout.FlexibleSpace();
+               
+                
+                
+                GUI.backgroundColor = Color.white;
+                if (GUILayout.Button("Explorer",GUILayout.MaxWidth(60)))
+                {
+                    SetFilePath(stageLightTimelineClip);
+                }
+
+                
+                
+                GUI.backgroundColor= Color.red;
+                GUI.contentColor = Color.white;
+                
+                if (GUILayout.Button("Save as",GUILayout.MaxWidth(100)))
+                {
+                    ExportProfile(stageLightTimelineClip);
+                }
+                
+                GUI.backgroundColor = Color.white;
+            }
+            
+            
+            
+            EditorGUILayout.Space(1);
+
+           
 
 
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("forceTimelineClipUpdate"));
             EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
-            if (stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData != null &&
-                stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.TryGet<LightProperty>() != null)
-            {
-                
-            }
+           
             var stageLightProperties = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties;
             // var stageLightProfile = new SerializedObject( stageLightTimelineClip.stageLightQueData);
             
@@ -159,7 +192,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             foreach (var property in stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData
                          .stageLightProperties)
             {
-               
+               if(property == null) continue;
                 if (selectList.Find(x => x== property.GetType().Name) != null)
                 {
                     selectList.Remove(property.GetType().Name);
@@ -354,33 +387,46 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                             }
                                             // }
                                         }
+                                        
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            EditorGUI.BeginChangeCheck();
+                                            var bpmScaleValue = EditorGUILayout.FloatField("Offset Time",
+                                                bpmOverrideData.offsetTime);
+                                            if (EditorGUI.EndChangeCheck())
+                                            {
+                                                bpmOverrideData.GetType().GetField("offsetTime")
+                                                    .SetValue(bpmOverrideData, bpmScaleValue);
+                                            }
+                                            
+                                        }
+
 
                                         using (new EditorGUILayout.HorizontalScope())
                                         {
-                                            using (new LabelWidth(120))
+                                            EditorGUI.BeginChangeCheck();
+                                            var bpmScaleValue = EditorGUILayout.FloatField("BPM Scale",
+                                                bpmOverrideData.bpmScale);
+                                            if (EditorGUI.EndChangeCheck())
                                             {
-                                                EditorGUI.BeginChangeCheck();
-                                                var bpmScaleValue = EditorGUILayout.FloatField("BPM Scale",
-                                                    bpmOverrideData.bpmScale,
-                                                    GUILayout.Width(180));
-                                                if (EditorGUI.EndChangeCheck())
-                                                {
-                                                    bpmOverrideData.GetType().GetField("bpmScale")
-                                                        .SetValue(bpmOverrideData, bpmScaleValue);
-                                                }
-
-                                                EditorGUI.BeginChangeCheck();
-                                                var bpmOffsetValue = EditorGUILayout.FloatField("BPM Offset",
-                                                    bpmOverrideData.bpmOffset,
-                                                    GUILayout.Width(180));
-                                                if (EditorGUI.EndChangeCheck())
-                                                {
-                                                    bpmOverrideData.GetType().GetField("bpmOffset")
-                                                        .SetValue(bpmOverrideData, bpmOffsetValue);
-                                                }
+                                                bpmOverrideData.GetType().GetField("bpmScale")
+                                                    .SetValue(bpmOverrideData, bpmScaleValue);
                                             }
                                         }
-                                        
+
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            EditorGUI.BeginChangeCheck();
+                                            var bpmOffsetValue = EditorGUILayout.FloatField("Child Stagger",
+                                                bpmOverrideData.childStagger);
+                                            if (EditorGUI.EndChangeCheck())
+                                            {
+                                                bpmOverrideData.GetType().GetField("childStagger")
+                                                    .SetValue(bpmOverrideData, bpmOffsetValue);
+                                            }
+                                     
+                                        }
+
                                         EditorGUI.EndDisabledGroup();
                                     }
                                 }
@@ -593,13 +639,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             {
                                 EditorGUI.BeginChangeCheck();
                                 var min = EditorGUILayout.FloatField("Min",
-                                    minMaxEasingValue.rollMinMax.x);
+                                    minMaxEasingValue.valueMinMax.x);
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     if(undoTarget != null)Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                                    minMaxEasingValue.GetType().GetField("rollMinMax")
+                                    minMaxEasingValue.GetType().GetField("valueMinMax")
                                         .SetValue(minMaxEasingValue,
-                                            new Vector2(min, minMaxEasingValue.rollMinMax.y) as object);
+                                            new Vector2(min, minMaxEasingValue.valueMinMax.y) as object);
                                 }
                             }
                         }
@@ -611,13 +657,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             {
                                 EditorGUI.BeginChangeCheck();
                                 var max = EditorGUILayout.FloatField("Max",
-                                    minMaxEasingValue.rollMinMax.y);
+                                    minMaxEasingValue.valueMinMax.y);
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                                    minMaxEasingValue.GetType().GetField("rollMinMax")
+                                    minMaxEasingValue.GetType().GetField("valueMinMax")
                                         .SetValue(minMaxEasingValue,
-                                            new Vector2(minMaxEasingValue.rollMinMax.x, max) as object);
+                                            new Vector2(minMaxEasingValue.valueMinMax.x, max) as object);
                                 }
                             }
                         }
@@ -628,11 +674,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     using (new EditorGUILayout.HorizontalScope())
                     {
 
-                        EditorGUILayout.FloatField(minMaxEasingValue.rollRange.x, GUILayout.Width(80));
-                        EditorGUILayout.MinMaxSlider(ref minMaxEasingValue.rollRange.x,
-                            ref minMaxEasingValue.rollRange.y,
-                            minMaxEasingValue.rollMinMax.x, minMaxEasingValue.rollMinMax.y);
-                        EditorGUILayout.FloatField(minMaxEasingValue.rollRange.y, GUILayout.Width(80));
+                        EditorGUILayout.FloatField(minMaxEasingValue.valueRange.x, GUILayout.Width(80));
+                        EditorGUILayout.MinMaxSlider(ref minMaxEasingValue.valueRange.x,
+                            ref minMaxEasingValue.valueRange.y,
+                            minMaxEasingValue.valueMinMax.x, minMaxEasingValue.valueMinMax.y);
+                        EditorGUILayout.FloatField(minMaxEasingValue.valueRange.y, GUILayout.Width(80));
 
                     }
                 }
@@ -696,13 +742,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             mExcluded.Add(propertyName);
         }
 
-
-        private void ExportProfile(StageLightTimelineClip stageLightTimelineClip)
+        private void SetFilePath(StageLightTimelineClip stageLightTimelineClip)
         {
-           
-            Undo.RegisterCompleteObjectUndo(stageLightTimelineClip, stageLightTimelineClip.name);
-            EditorUtility.SetDirty(stageLightTimelineClip);
-            
             var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
             var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
             var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
@@ -710,13 +751,32 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if(path == "") return;
             path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
             string dir = Path.GetDirectoryName(path);
+            stageLightTimelineClip.exportPath = path;
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+
+        private void ExportProfile(StageLightTimelineClip stageLightTimelineClip)
+        {
+           
+            Undo.RegisterCompleteObjectUndo(stageLightTimelineClip, stageLightTimelineClip.name);
+            EditorUtility.SetDirty(stageLightTimelineClip);
+            
+            // var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
+            // var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
+            // var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
+            // string fileName = Path.GetFileName(path);
+            // if(path == "") return;
+            // path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
+            // string dir = Path.GetDirectoryName(path);
             // Debug.Log($"dir: {dir}, file: {fileName}");
             var newProfile = CreateInstance<StageLightProfile>();
             newProfile.stageLightProperties = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties;
-            AssetDatabase.CreateAsset(newProfile, path);
+            AssetDatabase.CreateAsset(newProfile, stageLightTimelineClip.exportPath);
             // useProfile = true;
             // ptlPropObject = new ExposedReference<VLVLBClipProfile>();
-            stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(path);
+            stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(stageLightTimelineClip.exportPath);
             // Debug.Log($"Load {path}");
         }
         private void OnDisable()

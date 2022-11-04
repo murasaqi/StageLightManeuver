@@ -288,6 +288,7 @@ namespace StageLightManeuver
 
 			return a * Mathf.Pow(2f, -10f * t) * Mathf.Sin((t * total - s) * Mathf.PI * 2f / p) + (end - begin) + begin;
 		}
+		
 
 		public static float EaseInOutElastic(float t, float total, float begin, float end, float a = 0, float p = 0)
 		{
@@ -436,5 +437,7 @@ namespace StageLightManeuver
 
 				return result;
 		}
+		
+		
 	}
 }

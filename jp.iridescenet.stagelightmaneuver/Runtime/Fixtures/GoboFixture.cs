@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 
 using VLB;
+using Random = UnityEngine.Random;
+
 namespace StageLightManeuver
 {
     [ExecuteAlways]
@@ -21,6 +23,8 @@ namespace StageLightManeuver
         public float speed = 0f;
         public Vector3 goboRotateVector = new Vector3(0, 0, 1);
         
+        public bool rotateStartOffsetRandom = false;
+        // private float _rotateStartOffset = 0f;
         private void Start()
         {
             Init();
@@ -34,7 +38,7 @@ namespace StageLightManeuver
         [ContextMenu("Init")]
         public override void Init()
         {
-            
+            goboTransform.localEulerAngles = goboRotateVector * (rotateStartOffsetRandom ? Random.Range(0f, 360f) : 0f);
             _materialPropertyBlock = new MaterialPropertyBlock();
             
 #if USE_VLB_ALTER
@@ -67,25 +71,10 @@ namespace StageLightManeuver
                 var goboProperty = queueData.TryGet<GoboProperty>() as GoboProperty;
                 
                 if(goboProperty == null || stageLightBaseProperties == null)continue;
-                var bpm = stageLightBaseProperties.bpm.value;
-                var bpmOffset = goboProperty.bpmOverrideData.value.bpmOverride
-                    ? goboProperty.bpmOverrideData.value.bpmOffset
-                    : stageLightBaseProperties.bpmOffset.value;
-                var bpmScale = goboProperty.bpmOverrideData.value.bpmOverride
-                    ? goboProperty.bpmOverrideData.value.bpmScale
-                    : stageLightBaseProperties.bpmScale.value;
-                var loopType = goboProperty.bpmOverrideData.value.bpmOverride
-                    ? goboProperty.bpmOverrideData.value.loopType
-                    : stageLightBaseProperties.loopType.value;
-                var clipProperty = stageLightBaseProperties.clipProperty;
-                var t =GetNormalizedTime(time,
-                    bpm,
-                    bpmOffset,
-                    bpmScale, 
-                    clipProperty,
-                    loopType);
-                
-                
+
+                var t = GetNormalizedTime(time, queueData, typeof(GoboProperty));
+
+
                 if(goboProperty ==null || stageLightBaseProperties == null) continue;
                 if (queueData.weight > 0.5f)
                 {
@@ -95,8 +84,8 @@ namespace StageLightManeuver
 
                 if (goboProperty.goroRotationSpeed.value.mode == AnimationMode.Ease)
                 {
-                    speed +=EaseUtil.GetEaseValue(goboProperty.goroRotationSpeed.value.easeType, time, 1f, goboProperty.goroRotationSpeed.value.rollRange.x,
-                        goboProperty.goroRotationSpeed.value.rollRange.y) * queueData.weight;
+                    speed +=EaseUtil.GetEaseValue(goboProperty.goroRotationSpeed.value.easeType, time, 1f, goboProperty.goroRotationSpeed.value.valueRange.x,
+                        goboProperty.goroRotationSpeed.value.valueRange.y) * queueData.weight;
                     
                 }
                 else if(goboProperty.goroRotationSpeed.value.mode == AnimationMode.AnimationCurve)

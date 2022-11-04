@@ -38,11 +38,14 @@ namespace StageLightManeuver
             var weight = queData.weight;
             if (additionalProperty == null || timeProperty == null) return 0f;
             var bpm = timeProperty.bpm.value;
-            var bpmOffset = additionalProperty.bpmOverrideData.value.bpmOverride ? additionalProperty.bpmOverrideData.value.bpmOffset : timeProperty.bpmOffset.value;
+            var bpmOffset = additionalProperty.bpmOverrideData.value.bpmOverride ? additionalProperty.bpmOverrideData.value.childStagger : timeProperty.childStagger.value;
             var bpmScale = additionalProperty.bpmOverrideData.value.bpmOverride ? additionalProperty.bpmOverrideData.value.bpmScale : timeProperty.bpmScale.value;
             var loopType = additionalProperty.bpmOverrideData.value.bpmOverride ? additionalProperty.bpmOverrideData.value.loopType : timeProperty.loopType.value;
+            var offsetTime = additionalProperty.bpmOverrideData.value.bpmOverride
+                ? additionalProperty.bpmOverrideData.value.offsetTime
+                : timeProperty.offsetTime.value;
             var clipProperty = timeProperty.clipProperty;
-            var t = GetNormalizedTime(time,bpm,bpmOffset,bpmScale,clipProperty,loopType);
+            var t = GetNormalizedTime(time+offsetTime,bpm,bpmOffset,bpmScale,clipProperty,loopType);
             return t;
         }
         

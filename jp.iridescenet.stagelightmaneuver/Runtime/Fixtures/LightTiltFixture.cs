@@ -35,7 +35,7 @@ namespace StageLightManeuver
                 {
                     if (qTiltProperty.rollTransform.value.mode == AnimationMode.Ease)
                     {
-                        _angle += EaseUtil.GetEaseValue(qTiltProperty.rollTransform.value.easeType, time, 1f, qTiltProperty.rollTransform.value.rollRange.x, qTiltProperty.rollTransform.value.rollRange.y) * weight;
+                        _angle += EaseUtil.GetEaseValue(qTiltProperty.rollTransform.value.easeType, time, 1f, qTiltProperty.rollTransform.value.valueRange.x, qTiltProperty.rollTransform.value.valueRange.y) * weight;
                         // if(weight >= 1f)Debug.Log($"{queueData.stageLightSetting.name}: {_angle},{time},{weight}");
 
                     }

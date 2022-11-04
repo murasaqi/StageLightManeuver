@@ -41,18 +41,8 @@ namespace StageLightManeuver
                 var qPanProperty = queueData.TryGet<PanProperty>() as PanProperty;
                 var weight = queueData.weight;
                 if (qPanProperty == null || qLightBaseProperty == null) continue;
-                var bpm = qLightBaseProperty.bpm.value;
-                var bpmOffset = qPanProperty.bpmOverrideData.value.bpmOverride
-                    ? qPanProperty.bpmOverrideData.value.bpmOffset
-                    : qLightBaseProperty.bpmOffset.value;
-                var bpmScale = qPanProperty.bpmOverrideData.value.bpmOverride
-                    ? qPanProperty.bpmOverrideData.value.bpmScale
-                    : qLightBaseProperty.bpmScale.value;
-                var loopType = qPanProperty.bpmOverrideData.value.bpmOverride
-                    ? qPanProperty.bpmOverrideData.value.loopType
-                    : qLightBaseProperty.loopType.value;
-                var clipProperty = qLightBaseProperty.clipProperty;
-                var time = GetNormalizedTime(currentTime,bpm,bpmOffset,bpmScale,clipProperty,loopType);
+              
+                var time = GetNormalizedTime(currentTime,queueData,typeof(PanProperty));
                 // Debug.Log($"{queueData.stageLightSetting.name},{time}");
                 
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
@@ -70,8 +60,8 @@ namespace StageLightManeuver
                 {
                     if (qPanProperty.rollTransform.value.mode == AnimationMode.Ease)
                     {
-                        _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.rollRange.x,
-                            qPanProperty.rollTransform.value.rollRange.y) * weight;
+                        _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.valueRange.x,
+                            qPanProperty.rollTransform.value.valueRange.y) * weight;
                     }
                     if (qPanProperty.rollTransform.value.mode == AnimationMode.AnimationCurve)
                     {
