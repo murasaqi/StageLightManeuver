@@ -145,7 +145,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("forceTimelineClipUpdate"));
             EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
            
-            var stageLightProperties = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties;
+            var stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
             // var stageLightProfile = new SerializedObject( stageLightTimelineClip.stageLightQueData);
             
             _stageLightPropertyEditors.Clear();
@@ -189,7 +189,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             // var typeDict = new Dictionary<string, Type>();
             
             selectList.Insert(0,"Add Property");
-            foreach (var property in stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData
+            foreach (var property in stageLightTimelineClip.behaviour.stageLightQueData
                          .stageLightProperties)
             {
                if(property == null) continue;
@@ -207,7 +207,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             {
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
                 var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
-                stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties.Add(property);
+                stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties.Add(property);
             }
             
             
@@ -772,7 +772,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             // string dir = Path.GetDirectoryName(path);
             // Debug.Log($"dir: {dir}, file: {fileName}");
             var newProfile = CreateInstance<StageLightProfile>();
-            newProfile.stageLightProperties = stageLightTimelineClip.stageLightTimelineBehaviour.stageLightQueData.stageLightProperties;
+            newProfile.stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
             AssetDatabase.CreateAsset(newProfile, stageLightTimelineClip.exportPath);
             // useProfile = true;
             // ptlPropObject = new ExposedReference<VLVLBClipProfile>();

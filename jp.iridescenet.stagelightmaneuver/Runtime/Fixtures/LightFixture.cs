@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -7,17 +8,17 @@ namespace StageLightManeuver
     [ExecuteAlways]
     public class LightFixture : StageLightFixtureBase
     {
-        public Light light;
+        public List<Light> lights = new List<Light>();
         public Color lightColor;
         public float lightIntensity;
         public float spotAngle;
         public float innerSpotAngle;
         public float spotRange;
-        public UniversalAdditionalLightData universalAdditionalLightData;
+        // public UniversalAdditionalLightData universalAdditionalLightData;
         
         public override void EvaluateQue(float currentTime)
         {
-            if(light == null) return;
+            if(lights == null) return;
             base.EvaluateQue(currentTime);
 
             lightColor = new Color(0,0,0,1);
@@ -58,12 +59,17 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
-            if (light==null) return; 
-            light.color = lightColor;
-            light.intensity = lightIntensity;
-            light.spotAngle = spotAngle;
-            light.innerSpotAngle = innerSpotAngle;
-            light.range = spotRange;
+            if (lights==null) return;
+
+            foreach (var light in lights)
+            {
+                light.color = lightColor;
+                light.intensity = lightIntensity;
+                light.spotAngle = spotAngle;
+                light.innerSpotAngle = innerSpotAngle;
+                light.range = spotRange;
+            }
+          
         }
     }
 }

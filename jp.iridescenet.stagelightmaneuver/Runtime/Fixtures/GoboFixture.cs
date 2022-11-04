@@ -9,23 +9,17 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     public class GoboFixture:StageLightFixtureBase
-    
     {
-
         public VolumetricLightBeam volumetricLightBeam;
-        
-
         public MeshRenderer meshRenderer;
         public Texture2D goboTexture;
         public string goboPropertyName = "_GoboTexture";
         private MaterialPropertyBlock _materialPropertyBlock;
-        
         public Transform goboTransform;
         public float speed = 0f;
         public Vector3 goboRotateVector = new Vector3(0, 0, 1);
         
         public bool rotateStartOffsetRandom = false;
-        // private float _rotateStartOffset = 0f;
         private void Start()
         {
             Init();
