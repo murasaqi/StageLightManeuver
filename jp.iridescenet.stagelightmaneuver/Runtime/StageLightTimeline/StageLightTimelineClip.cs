@@ -16,7 +16,7 @@ public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     public StageLightProfile referenceStageLightProfile;
     [HideInInspector]public StageLightTimelineBehaviour behaviour = new StageLightTimelineBehaviour ();
     public bool forceTimelineClipUpdate;
-    public bool syncReferenceProfile = true;
+    public bool syncReferenceProfile = false;
     public StageLightTimelineTrack track;
     public string exportPath = "Assets/";
     
