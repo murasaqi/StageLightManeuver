@@ -110,11 +110,14 @@ namespace StageLightManeuver
                 {
                     stageLightProperties.Add(new DecalProperty());
                 }
+#if USE_VLB_ALTER
                 
                 if (extension.GetType() == typeof(GoboFixture))
                 {
                     stageLightProperties.Add(new GoboProperty());
                 }
+
+#endif
             }
          
         }
