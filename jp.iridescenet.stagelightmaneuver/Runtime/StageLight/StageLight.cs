@@ -6,67 +6,92 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
-    public abstract class StageLight: MonoBehaviour,IStageLight
+    public class StageLight:StageLightBase, IStageLightFixture
     {
         
-        [SerializeField]private int index = 0;
-        public int Index { get => index; set => index = value; }
-        [SerializeField]private List<StageLight> stageLightChild = new List<StageLight>();
+        [SerializeReference] private List<StageLightFixtureBase> stageLightFixtures;
+        public List<StageLightFixtureBase> StageLightFixtures { get => stageLightFixtures; set => stageLightFixtures = value; }
 
-        public List<StageLight> StageLightChild
+        [ContextMenu("Init")]
+        public void Init()
         {
-            get => stageLightChild;
-            set=> stageLightChild = value;
+            FindFixtures();
+            stageLightFixtures.Sort( (a,b) => a.updateOrder.CompareTo(b.updateOrder));
         }
-        
+
+
+        private void Start()
+        {
+            Init();
+        }
+
+//         [ContextMenu("Apply Fixture Set")]
+//         public void ApplyBaseFixtureSet()
+//         {
+//             for (int i = StageLightFixtures.Count-1; i >= 0; i--)  
+//             {
+//                 DestroyImmediate(StageLightFixtures[i]);
+//             }
+//             StageLightFixtures.Clear();
+//
+//             var pan = gameObject.AddComponent<LightPanFixture>();
+//             StageLightFixtures.Add(pan);
+//             var tilt = gameObject.AddComponent<LightTiltFixture>();
+//             StageLightFixtures.Add(tilt);
+//             StageLightFixtures.Add(gameObject.AddComponent<LightFixture>());
+//             StageLightFixtures.Add(gameObject.AddComponent<SyncLightMaterialFixture>());
+//             StageLightFixtures.Add(gameObject.AddComponent<DecalFixture>());
+// #if USE_VLB_ALTER
+//             StageLightFixtures.Add(gameObject.AddComponent<GoboFixture>());
+// #endif
+//         }
+        public override void AddQue(StageLightQueData stageLightQueData)
+        {
+            base.AddQue(stageLightQueData);
+            foreach (var stageLightFixture in StageLightFixtures)
+            {
+                stageLightFixture.stageLightDataQueue.Enqueue(stageLightQueData);
+            }
+        }
+
+        public override void EvaluateQue(float time)
+        {
+            base.EvaluateQue(time);
+            foreach (var stageLightFixture in StageLightFixtures)
+            {
+                stageLightFixture.EvaluateQue(time);
+                stageLightFixture.Index = Index;
+            }
+        }
+
+        public void UpdateFixture()
+        {
+            if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureBase>();
+            foreach (var stageLightFixture in stageLightFixtures)
+            {
+                if(stageLightFixture)stageLightFixture.UpdateFixture();
+            }
+        }
+
 
         private void Update()
         {
-            
+            UpdateFixture();
         }
 
-        public virtual void AddQue(StageLightQueData stageLightQueData)
+
+        [ContextMenu("Find Fixtures")]
+        public void FindFixtures()
         {
-            
-            foreach (var stageLight in StageLightChild)
+            if (stageLightFixtures != null)
             {
-                if(stageLight!=null)stageLight.AddQue(stageLightQueData);
+                StageLightFixtures.Clear();
             }
-        }
-
-        public virtual void EvaluateQue(float time)
-        {
-            var i = 0;
-            foreach (var stageLight in StageLightChild)
+            else
             {
-                // Debug.Log(stageLight.name);
-                stageLight.Index = i;
-                stageLight.EvaluateQue(time);
-                i++;
+                stageLightFixtures = new List<StageLightFixtureBase>();
             }
-           
+            StageLightFixtures = GetComponentsInChildren<StageLightFixtureBase>().ToList();
         }
-        
-        
-        [ContextMenu("Get StageLights in Children")]
-        public void AddStageLightInChild()
-        {
-            stageLightChild.Clear();
-            stageLightChild = GetComponentsInChildren<StageLight>().ToList();
-
-            if (stageLightChild == null || stageLightChild.Count == 0)
-                return;
-            for (int i = stageLightChild.Count ; i > 0; i--)
-            {
-                if (stageLightChild[i-1] == this)
-                {
-                    stageLightChild.RemoveAt(i-1);
-                }
-            }
-            
-        }
-        
-       
-
     }
 }
