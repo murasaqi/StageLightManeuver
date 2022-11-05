@@ -61,8 +61,7 @@ namespace StageLightManeuver
                 if(goboProperty == null || stageLightBaseProperties == null)continue;
 
                 var t = GetNormalizedTime(time, queueData, typeof(GoboProperty));
-
-
+                
                 if(goboProperty ==null || stageLightBaseProperties == null) continue;
                 if (queueData.weight > 0.5f)
                 {

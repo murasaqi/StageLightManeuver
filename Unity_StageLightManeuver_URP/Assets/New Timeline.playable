@@ -22,7 +22,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 6.3
+    m_Start: 5.366666666666666
     m_ClipIn: 0
     m_Asset: {fileID: -3081571132314861926}
     m_Duration: 1.6166666666666667
@@ -30,11 +30,29 @@ MonoBehaviour:
     m_ParentTrack: {fileID: -5344037227520383593}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: -1
+    m_BlendInDuration: 0.13333333333333375
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -82,16 +100,52 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: 0.06666666666666643
-    m_BlendOutDuration: -1
+    m_BlendOutDuration: 0.13333333333333375
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -305,8 +359,8 @@ MonoBehaviour:
         propertyOverride: 1
         propertyName: Time
         clipProperty:
-          clipStartTime: 6.3
-          clipEndTime: 7.9166665
+          clipStartTime: 5.366667
+          clipEndTime: 6.983333
         loopType:
           propertyOverride: 0
           value: 0
@@ -452,8 +506,8 @@ MonoBehaviour:
             bpmScale: 1
             childStagger: 0
         goboTexture:
-          propertyOverride: 0
-          value: {fileID: 0}
+          propertyOverride: 1
+          value: {fileID: 2800000, guid: 4d1eec95034c81f458740c186fe4c2d0, type: 3}
         goboPropertyName:
           propertyOverride: 0
           value: _GoboTexture
@@ -597,14 +651,14 @@ MonoBehaviour:
   behaviour:
     stageLightQueData:
       stageLightProperties:
-      - rid: 4824220623761047802
-      - rid: 4824220623761047803
-      - rid: 4824220623761047804
-      - rid: 4824220623761047805
-      - rid: 4824220623761047806
-      - rid: 4824220623761047807
-      - rid: 4824220623761047808
-      - rid: 4824220623761047809
+      - rid: 4824220624727572480
+      - rid: 4824220624727572481
+      - rid: 4824220624727572482
+      - rid: 4824220624727572483
+      - rid: 4824220624727572484
+      - rid: 4824220624727572485
+      - rid: 4824220624727572486
+      - rid: 4824220624727572487
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -613,10 +667,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4824220623761047802
+    - rid: 4824220624727572480
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Time
         clipProperty:
           clipStartTime: 1.8666667
@@ -636,10 +690,10 @@ MonoBehaviour:
         childStagger:
           propertyOverride: 1
           value: 0
-    - rid: 4824220623761047803
+    - rid: 4824220624727572481
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light
         bpmOverrideData:
           propertyOverride: 1
@@ -659,10 +713,10 @@ MonoBehaviour:
         range:
           propertyOverride: 1
           value: 10
-    - rid: 4824220623761047804
+    - rid: 4824220624727572482
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Pan
         bpmOverrideData:
           propertyOverride: 0
@@ -705,10 +759,10 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047805
+    - rid: 4824220624727572483
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Tilt
         bpmOverrideData:
           propertyOverride: 0
@@ -751,13 +805,13 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047806
+    - rid: 4824220624727572484
       type: {class: GoboProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
         propertyName: Gobo
         bpmOverrideData:
-          propertyOverride: 0
+          propertyOverride: 1
           value:
             propertyOverride: 0
             loopType: 0
@@ -766,44 +820,35 @@ MonoBehaviour:
             bpmScale: 1
             childStagger: 0
         goboTexture:
-          propertyOverride: 0
-          value: {fileID: 0}
+          propertyOverride: 1
+          value: {fileID: 2800000, guid: 4d1eec95034c81f458740c186fe4c2d0, type: 3}
         goboPropertyName:
           propertyOverride: 0
           value: _GoboTexture
         goroRotationSpeed:
           propertyOverride: 1
           value:
-            mode: 0
-            valueRange: {x: 0, y: 0}
+            mode: 2
+            valueRange: {x: -36.923077, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
-            constant: 0
+            constant: 90.67
             animationCurve:
               serializedVersion: 2
               m_Curve:
               - serializedVersion: 3
                 time: 0
                 value: 0
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
+                inSlope: -511.3312
+                outSlope: -511.3312
+                tangentMode: 34
                 weightedMode: 0
                 inWeight: 0
-                outWeight: 0
-              - serializedVersion: 3
-                time: 1
-                value: 1
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
+                outWeight: 0.33333334
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047807
+    - rid: 4824220624727572485
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -849,10 +894,10 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047808
+    - rid: 4824220624727572486
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light Color
         bpmOverrideData:
           propertyOverride: 1
@@ -861,7 +906,7 @@ MonoBehaviour:
             loopType: 1
             bpmOverride: 1
             offsetTime: 0
-            bpmScale: 2
+            bpmScale: 4
             childStagger: 0
         lightToggleColor:
           propertyOverride: 1
@@ -894,7 +939,7 @@ MonoBehaviour:
             m_Mode: 1
             m_NumColorKeys: 8
             m_NumAlphaKeys: 2
-    - rid: 4824220623761047809
+    - rid: 4824220624727572487
       type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -1001,7 +1046,7 @@ MonoBehaviour:
       - rid: 4824220623761047814
       - rid: 4824220623761047815
       - rid: 4824220623761047816
-      weight: 1
+      weight: 0.31640625
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -1163,7 +1208,7 @@ MonoBehaviour:
             childStagger: 0
         goboTexture:
           propertyOverride: 1
-          value: {fileID: 2800000, guid: 4d1eec95034c81f458740c186fe4c2d0, type: 3}
+          value: {fileID: 0}
         goboPropertyName:
           propertyOverride: 0
           value: _GoboTexture
@@ -1732,7 +1777,7 @@ MonoBehaviour:
       - rid: 4824220623761047814
       - rid: 4824220623761047815
       - rid: 4824220623761047816
-      weight: 1
+      weight: 0.84375
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -1894,7 +1939,7 @@ MonoBehaviour:
             childStagger: 0
         goboTexture:
           propertyOverride: 1
-          value: {fileID: 2800000, guid: 4d1eec95034c81f458740c186fe4c2d0, type: 3}
+          value: {fileID: 0}
         goboPropertyName:
           propertyOverride: 0
           value: _GoboTexture
