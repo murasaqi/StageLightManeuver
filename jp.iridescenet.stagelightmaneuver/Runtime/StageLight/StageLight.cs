@@ -9,7 +9,7 @@ namespace StageLightManeuver
     public class StageLight:StageLightBase, IStageLightFixture
     {
         
-        [SerializeReference] private List<StageLightFixtureBase> stageLightFixtures;
+        [SerializeReference] private List<StageLightFixtureBase> stageLightFixtures = new List<StageLightFixtureBase>();
         public List<StageLightFixtureBase> StageLightFixtures { get => stageLightFixtures; set => stageLightFixtures = value; }
 
         [ContextMenu("Init")]
@@ -25,32 +25,12 @@ namespace StageLightManeuver
             Init();
         }
 
-//         [ContextMenu("Apply Fixture Set")]
-//         public void ApplyBaseFixtureSet()
-//         {
-//             for (int i = StageLightFixtures.Count-1; i >= 0; i--)  
-//             {
-//                 DestroyImmediate(StageLightFixtures[i]);
-//             }
-//             StageLightFixtures.Clear();
-//
-//             var pan = gameObject.AddComponent<LightPanFixture>();
-//             StageLightFixtures.Add(pan);
-//             var tilt = gameObject.AddComponent<LightTiltFixture>();
-//             StageLightFixtures.Add(tilt);
-//             StageLightFixtures.Add(gameObject.AddComponent<LightFixture>());
-//             StageLightFixtures.Add(gameObject.AddComponent<SyncLightMaterialFixture>());
-//             StageLightFixtures.Add(gameObject.AddComponent<DecalFixture>());
-// #if USE_VLB_ALTER
-//             StageLightFixtures.Add(gameObject.AddComponent<GoboFixture>());
-// #endif
-//         }
         public override void AddQue(StageLightQueData stageLightQueData)
         {
             base.AddQue(stageLightQueData);
             foreach (var stageLightFixture in StageLightFixtures)
             {
-                stageLightFixture.stageLightDataQueue.Enqueue(stageLightQueData);
+                if(stageLightFixture != null)stageLightFixture.stageLightDataQueue.Enqueue(stageLightQueData);
             }
         }
 
@@ -59,8 +39,11 @@ namespace StageLightManeuver
             base.EvaluateQue(time);
             foreach (var stageLightFixture in StageLightFixtures)
             {
-                stageLightFixture.EvaluateQue(time);
-                stageLightFixture.Index = Index;
+                if (stageLightFixture != null)
+                {
+                    stageLightFixture.EvaluateQue(time);
+                    stageLightFixture.Index = Index;
+                }
             }
         }
 

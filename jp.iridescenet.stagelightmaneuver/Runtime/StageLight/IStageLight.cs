@@ -8,7 +8,7 @@ namespace StageLightManeuver
     public interface IStageLight
     {
         public int Index { get; set; }
-        public List<StageLightBase> StageLightChild { get; set; }
+        public List<StageLightBase> SyncStageLight { get; set; }
         public void EvaluateQue(float time);
         public void AddStageLightInChild(){}
         public void AddQue(SlmToggleValueBase slmToggleValueBase, float weight){}

@@ -13,42 +13,24 @@ namespace StageLightManeuver
     [CanEditMultipleObjects]
     public class MovingStageLightEditor:Editor
     {
+        private StageLight targetStageLight;
+        private List<string> fixtureList = new List<string>();
         public override VisualElement CreateInspectorGUI()
         {
             var root = new VisualElement();
             // return base.CreateInspectorGUI();
             
-            var movingStageLight = target as StageLight;
+            targetStageLight = target as StageLight;
             var indexField = new PropertyField(serializedObject.FindProperty("index"));
             indexField.SetEnabled(false); 
             root.Add(indexField);
             root.Add(new PropertyField(serializedObject.FindProperty("stageLightFixtures")));
-            var fixtureList = new List<string>();
+            fixtureList = new List<string>();
             fixtureList.Add("Add New Fixture");
-            var executingAssembly = Assembly.GetExecutingAssembly();
-            var referencedAssemblies = executingAssembly.GetReferencedAssemblies();
+          
+           
 
-            foreach ( var assemblyName in referencedAssemblies )
-            {
-                var assembly = Assembly.Load( assemblyName );
-
-                if ( assembly == null )
-                {
-                    continue;
-                }
-
-                var types = assembly.GetTypes();
-
-                types.Where(t => t.IsSubclassOf(typeof(StageLightFixtureBase)))
-                .ToList()
-                .ForEach(t =>
-                {
-                    if (movingStageLight.StageLightFixtures.Find(x => x.GetType().Name == t.Name) == null)
-                    {
-                        fixtureList.Add(t.Name);
-                    }
-                });
-            }
+            Init();
 
             var center = new VisualElement();
             center.style.alignItems = Align.Center;
@@ -59,7 +41,6 @@ namespace StageLightManeuver
                 if (popupField.index != 0)
                 {
                     var type = GetTypeByClassName(popupField.value);
-                    Debug.Log(type);
                     MethodInfo mi = typeof(GameObject).GetMethod(
                         "AddComponent",
                         BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
@@ -68,20 +49,45 @@ namespace StageLightManeuver
                         null
                     );
                     MethodInfo bound = mi.MakeGenericMethod(type);
-                    
-                    var fixture =bound.Invoke(movingStageLight.gameObject, null);
-
-                    // var fixture = Convert.ChangeType(fixture, type);
-                    movingStageLight.FindFixtures();
+                    var fixture =bound.Invoke(targetStageLight.gameObject, null);
+                    targetStageLight.FindFixtures();
                 }
             }));
             center.Add(popupField);
             root.Add(center);
-            root.Add(new PropertyField(serializedObject.FindProperty("stageLightChild")));
+            root.Add(new PropertyField(serializedObject.FindProperty("syncStageLight")));
 
             return root;
         }
-        
+
+        private void Init()
+        {
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var referencedAssemblies = executingAssembly.GetReferencedAssemblies();
+            if(targetStageLight == null) return;
+            foreach ( var assemblyName in referencedAssemblies )
+            {
+                var assembly = Assembly.Load( assemblyName );
+
+                if ( assembly == null )
+                {
+                    continue;
+                }
+                var types = assembly.GetTypes();
+                types.Where(t => t.IsSubclassOf(typeof(StageLightFixtureBase)))
+                    .ToList()
+                    .ForEach(t =>
+                    {
+                        if (targetStageLight.StageLightFixtures != null && targetStageLight.StageLightFixtures.Count>0)
+                        {
+                            if (targetStageLight.StageLightFixtures.Find(x =>x!= null && x.GetType().Name == t.Name) == null)
+                            {
+                                fixtureList.Add(t.Name);
+                            }      
+                        }
+                    });
+            }
+        }
         public static Type GetTypeByClassName( string className )
         {
             foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() ) {
