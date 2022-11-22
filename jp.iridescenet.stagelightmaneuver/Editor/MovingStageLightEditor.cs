@@ -78,10 +78,11 @@ namespace StageLightManeuver
                     .ToList()
                     .ForEach(t =>
                     {
-                        if (targetStageLight.StageLightFixtures != null && targetStageLight.StageLightFixtures.Count>0)
+                        if (targetStageLight.StageLightFixtures != null && targetStageLight.StageLightFixtures.Count>=0)
                         {
                             if (targetStageLight.StageLightFixtures.Find(x =>x!= null && x.GetType().Name == t.Name) == null)
                             {
+                                Debug.Log(t.Name);
                                 fixtureList.Add(t.Name);
                             }      
                         }
