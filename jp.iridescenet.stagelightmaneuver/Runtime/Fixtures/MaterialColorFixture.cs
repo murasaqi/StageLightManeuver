@@ -27,6 +27,13 @@ namespace StageLightManeuver
             Init();
         }
 
+        [ContextMenu("Get Mesh Renderer")]
+        public void GetMeshRenderer()
+        {
+            meshRenderer = GetComponent<MeshRenderer>();
+         
+        }
+
         public override void Init()
         {
             
