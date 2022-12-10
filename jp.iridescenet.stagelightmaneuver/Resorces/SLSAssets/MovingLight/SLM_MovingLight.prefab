@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2553806a258d2a845b50fbca9af41aed, type: 2}
+  - {fileID: 2100000, guid: 3d95d138d12c94644b11c0d77d58bab6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -178,7 +178,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2553806a258d2a845b50fbca9af41aed, type: 2}
+  - {fileID: 2100000, guid: 3d95d138d12c94644b11c0d77d58bab6, type: 2}
   - {fileID: 2100000, guid: 1baf5c3b2d5f88e4a886920170e0bdf0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -270,7 +270,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2553806a258d2a845b50fbca9af41aed, type: 2}
+  - {fileID: 2100000, guid: 3d95d138d12c94644b11c0d77d58bab6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 0
-  stageLightChild: []
+  syncStageLight: []
   stageLightFixtures:
   - {fileID: 1447943957496068183}
   - {fileID: 1447943957496068182}
