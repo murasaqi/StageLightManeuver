@@ -12,6 +12,7 @@ namespace StageLightManeuver
         public MeshRenderer meshRenderer;
         public string materialPropertyName =  "_EmissionColor";
         public float intensityMultiplier = 1f;
+        public bool brightnessDecreasesToBlack = true;
         private MaterialPropertyBlock _materialPropertyBlock;
         public LightFixture lightFixture;
         private void Start()
@@ -45,6 +46,10 @@ namespace StageLightManeuver
                 if(syncLightMaterialProperty != null)
                 {
                     intensityMultiplier += syncLightMaterialProperty.intensitymultiplier.value * data.weight;
+                    if(data.weight > 0.5f)
+                    {
+                        brightnessDecreasesToBlack = syncLightMaterialProperty.brightnessDecreasesToBlack.value;
+                    }
                 }
 
             }
@@ -62,8 +67,12 @@ namespace StageLightManeuver
             }
             
             if(_materialPropertyBlock ==null) return;
-            
-           _materialPropertyBlock.SetColor(materialPropertyName,SlmUtility.GetHDRColor(lightFixture.lightColor,lightFixture.lightIntensity*intensityMultiplier));
+
+            var intensity = lightFixture.lightIntensity * intensityMultiplier;
+            var hdrColor = SlmUtility.GetHDRColor(lightFixture.lightColor,
+                intensity);
+            var result = brightnessDecreasesToBlack ? Color.Lerp(Color.black,hdrColor, Mathf.Clamp(intensity, 0, 1f)) : hdrColor;
+           _materialPropertyBlock.SetColor(materialPropertyName,result);
             meshRenderer.SetPropertyBlock(_materialPropertyBlock);
         }
     }
