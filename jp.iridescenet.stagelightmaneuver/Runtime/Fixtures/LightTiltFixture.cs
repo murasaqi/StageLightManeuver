@@ -3,6 +3,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
+    [AddComponentMenu("")]
     public class LightTiltFixture: StageLightFixtureBase
     {
         private LightTransformType _lightTransformType = LightTransformType.Tilt;

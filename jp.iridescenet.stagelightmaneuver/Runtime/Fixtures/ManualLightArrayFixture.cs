@@ -5,6 +5,7 @@ namespace StageLightManeuver
 {
 
     [Serializable]
+    [AddComponentMenu("")]
     public class LightPrimitiveProperty
     {
         public float intensity;

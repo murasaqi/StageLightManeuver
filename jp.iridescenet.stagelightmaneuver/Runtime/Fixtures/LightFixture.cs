@@ -1,21 +1,51 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if USE_HDRP
+
+using UnityEngine.Rendering.HighDefinition;
+#elif USE_URP
+
 using UnityEngine.Rendering.Universal;
+
+#else
+#endif
 
 namespace StageLightManeuver
 {
     [ExecuteAlways]
+    [AddComponentMenu("")]
     public class LightFixture : StageLightFixtureBase
     {
         public List<Light> lights = new List<Light>();
+#if USE_HDRP
+        public Dictionary<Light,HDAdditionalLightData> lightData = new Dictionary<Light, HDAdditionalLightData>();
+#endif
         public Color lightColor;
         public float lightIntensity;
         public float spotAngle;
         public float innerSpotAngle;
         public float spotRange;
         // public UniversalAdditionalLightData universalAdditionalLightData;
-        
+
+        public override void Init()
+        {
+            base.Init();
+            lightData.Clear();
+            foreach (var light in lights)
+            {
+                lightColor = light.color;
+                lightIntensity = light.intensity;
+                spotAngle = light.spotAngle;
+                innerSpotAngle = light.innerSpotAngle;
+                spotRange = light.range;
+#if USE_HDRP
+                lightData.Add(light, light.GetComponent<HDAdditionalLightData>());
+#endif
+            }
+        }
+
         public override void EvaluateQue(float currentTime)
         {
             if(lights == null) return;
@@ -68,6 +98,19 @@ namespace StageLightManeuver
                 light.spotAngle = spotAngle;
                 light.innerSpotAngle = innerSpotAngle;
                 light.range = spotRange;
+#if USE_HDRP
+                if (lightData.ContainsKey(light))
+                {
+                    var hdAdditionalLightData = lightData[light];
+                    // Debug.Log(hdAdditionalLightData.intensity);
+                    // hdAdditionalLightData.SetIntensity(lightIntensity);
+                    // hdAdditionalLightData.SetLightDimmer(lightIntensity);
+                    hdAdditionalLightData.intensity = lightIntensity;
+                    // hdAdditionalLightData.UpdateAllLightValues();
+                    // hdAdditionalLightData.setli
+                    // lightData[light].intensity=lightIntensity;
+                }
+#endif
             }
           
         }

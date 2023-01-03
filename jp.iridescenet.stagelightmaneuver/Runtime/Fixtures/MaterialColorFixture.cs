@@ -6,6 +6,8 @@ using Object = UnityEngine.Object;
 namespace StageLightManeuver
 {
     
+    [ExecuteAlways]
+    [AddComponentMenu("")]
     public class MaterialColorFixture:StageLightFixtureBase
     {
         public MeshRenderer meshRenderer;

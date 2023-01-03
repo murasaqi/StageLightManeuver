@@ -35,6 +35,7 @@ namespace StageLightManeuver
                 if (stageLight)
                 {
                     stageLight.Index = index;
+                    stageLight.Init();
                     index++;
                 }
                 
@@ -47,6 +48,7 @@ namespace StageLightManeuver
         {
             stageLights.Clear();
             stageLights.AddRange(GetComponentsInChildren<StageLightBase>());
+            Init();
         }
         
         private void OnValidate()

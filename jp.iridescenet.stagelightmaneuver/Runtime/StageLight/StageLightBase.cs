@@ -18,7 +18,11 @@ namespace StageLightManeuver
             get => syncStageLight;
             set=> syncStageLight = value;
         }
-        
+
+        public virtual void Init()
+        {
+            
+        }
 
         private void Update()
         {

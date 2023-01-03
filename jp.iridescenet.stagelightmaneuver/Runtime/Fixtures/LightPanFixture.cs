@@ -18,6 +18,7 @@ namespace StageLightManeuver
     }
     
     [ExecuteAlways]
+    [AddComponentMenu("")]
     public class LightPanFixture: StageLightFixtureBase
     {
         private LightTransformType _lightTransformType = LightTransformType.Pan;
