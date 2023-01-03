@@ -49,7 +49,8 @@ namespace StageLightManeuver
                         null
                     );
                     MethodInfo bound = mi.MakeGenericMethod(type);
-                    var fixture =bound.Invoke(targetStageLight.gameObject, null);
+                    var fixture =bound.Invoke(targetStageLight.gameObject, null) as StageLightFixtureBase;
+                    fixture.Init();
                     targetStageLight.FindFixtures();
                 }
             }));
@@ -82,7 +83,7 @@ namespace StageLightManeuver
                         {
                             if (targetStageLight.StageLightFixtures.Find(x =>x!= null && x.GetType().Name == t.Name) == null)
                             {
-                                Debug.Log(t.Name);
+                                // Debug.Log(t.Name);
                                 fixtureList.Add(t.Name);
                             }      
                         }
