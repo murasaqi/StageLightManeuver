@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -6,14 +7,15 @@ using UnityEngine.Rendering.Universal;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
+    [AddComponentMenu("")]
     public class SyncLightMaterialFixture : StageLightFixtureBase
     {
         // public StageLightProperty<bool> fromLightFixture = new StageLightProperty<bool>();
-        public MeshRenderer meshRenderer;
+        public List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
         public string materialPropertyName =  "_EmissionColor";
         public float intensityMultiplier = 1f;
         public bool brightnessDecreasesToBlack = true;
-        private MaterialPropertyBlock _materialPropertyBlock;
+        private Dictionary<MeshRenderer,MaterialPropertyBlock> _materialPropertyBlocks;
         public LightFixture lightFixture;
         private void Start()
         {
@@ -28,12 +30,20 @@ namespace StageLightManeuver
 
         public override void Init()
         {
-            _materialPropertyBlock = new MaterialPropertyBlock();
-            if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
+            if(_materialPropertyBlocks != null) _materialPropertyBlocks.Clear();
+            _materialPropertyBlocks = new Dictionary<MeshRenderer, MaterialPropertyBlock>();
+            // if(meshRenderers)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
+
+            foreach (var meshRenderer in meshRenderers)
+            {
+                var materialPropertyBlock = new MaterialPropertyBlock();
+                meshRenderer.GetPropertyBlock(materialPropertyBlock);
+                _materialPropertyBlocks.Add(meshRenderer,materialPropertyBlock);
+            }
         }
         public override void EvaluateQue(float currentTime)
         {
-            if(meshRenderer == null || _materialPropertyBlock == null) return;
+            if(meshRenderers == null || _materialPropertyBlocks == null) return;
 
             intensityMultiplier = 0f;
             while (stageLightDataQueue.Count>0)
@@ -61,19 +71,21 @@ namespace StageLightManeuver
         public override void UpdateFixture()
         {
             if(lightFixture == null) return;
-            if (_materialPropertyBlock == null)
+            if (_materialPropertyBlocks == null|| _materialPropertyBlocks.Count != meshRenderers.Count)
             {
                 Init();
             }
             
-            if(_materialPropertyBlock ==null) return;
-
             var intensity = lightFixture.lightIntensity * intensityMultiplier;
             var hdrColor = SlmUtility.GetHDRColor(lightFixture.lightColor,
                 intensity);
             var result = brightnessDecreasesToBlack ? Color.Lerp(Color.black,hdrColor, Mathf.Clamp(intensity, 0, 1f)) : hdrColor;
-           _materialPropertyBlock.SetColor(materialPropertyName,result);
-            meshRenderer.SetPropertyBlock(_materialPropertyBlock);
+
+            foreach (var materialPropertyBlock in _materialPropertyBlocks)
+            {
+                materialPropertyBlock.Value.SetColor(materialPropertyName,result);
+                materialPropertyBlock.Key.SetPropertyBlock(materialPropertyBlock.Value);
+            }
         }
     }
 

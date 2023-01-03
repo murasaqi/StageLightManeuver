@@ -4,6 +4,7 @@ using Vector2 = System.Numerics.Vector2;
 
 namespace StageLightManeuver
 {
+    [AddComponentMenu("")]
     public class ManualPanTiltFixture : StageLightFixtureBase
     {
         public List<Vector2> panTiltPositions = new List<Vector2>();

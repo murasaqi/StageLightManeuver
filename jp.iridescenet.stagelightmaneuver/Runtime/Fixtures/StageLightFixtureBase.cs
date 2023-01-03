@@ -7,6 +7,7 @@ namespace StageLightManeuver
     
   
     [Serializable]
+    [AddComponentMenu("")]
     public abstract class StageLightFixtureBase: MonoBehaviour,IStageLight
     {
         public Type PropertyType = null;

@@ -13,10 +13,14 @@ namespace StageLightManeuver
         public List<StageLightFixtureBase> StageLightFixtures { get => stageLightFixtures; set => stageLightFixtures = value; }
 
         [ContextMenu("Init")]
-        public void Init()
+        public override void Init()
         {
             FindFixtures();
             stageLightFixtures.Sort( (a,b) => a.updateOrder.CompareTo(b.updateOrder));
+            foreach (var stageLightFixture in StageLightFixtures)
+            {
+                stageLightFixture.Init();
+            }
         }
 
 

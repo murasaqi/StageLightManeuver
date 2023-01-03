@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
+    [AddComponentMenu("")]
     public class GoboFixture:StageLightFixtureBase
     {
         public VolumetricLightBeam volumetricLightBeam;
