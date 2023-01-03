@@ -60,9 +60,9 @@ namespace StageLightManeuver
         public override void UpdateFixture()
         {
             if (lights==null) return;
-
             foreach (var light in lights)
             {
+                
                 light.color = lightColor;
                 light.intensity = lightIntensity;
                 light.spotAngle = spotAngle;

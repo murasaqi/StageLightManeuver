@@ -22,10 +22,18 @@ namespace StageLightManeuver
     {
         private LightTransformType _lightTransformType = LightTransformType.Pan;
         private float _angle;
+        public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
 
 
         public LightTransformType LightTransformType => _lightTransformType;
+
+
+        public override void Init()
+        {
+            rotationVector = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
+        }
+
         public override void EvaluateQue(float currentTime)
         {   
             base.EvaluateQue(currentTime);
@@ -83,7 +91,7 @@ namespace StageLightManeuver
         public override void UpdateFixture()
         {
             var vec = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
-            rotateTransform.localEulerAngles =  vec * _angle;
+            rotateTransform.localEulerAngles =  rotationVector * _angle;
         }
     }
 }

@@ -7,6 +7,7 @@ namespace StageLightManeuver
     {
         private LightTransformType _lightTransformType = LightTransformType.Tilt;
         private float _angle =0f;
+        public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
         public override void EvaluateQue(float currentTime)
         {
@@ -58,8 +59,8 @@ namespace StageLightManeuver
         
         public override void UpdateFixture()
         {
-            var vec = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
-            rotateTransform.localEulerAngles =  vec * _angle;
+            // var vec = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
+            rotateTransform.localEulerAngles =  rotationVector * _angle;
         }
     }
 }
