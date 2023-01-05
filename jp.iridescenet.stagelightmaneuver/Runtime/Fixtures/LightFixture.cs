@@ -32,7 +32,9 @@ namespace StageLightManeuver
         public override void Init()
         {
             base.Init();
+#if USE_HDRP
             lightData.Clear();
+#endif
             foreach (var light in lights)
             {
                 lightColor = light.color;
