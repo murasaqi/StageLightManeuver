@@ -12,7 +12,7 @@ namespace StageLightManeuver
     {
         // public StageLightProperty<bool> fromLightFixture = new StageLightProperty<bool>();
         public List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
-        public string materialPropertyName =  "_EmissionColor";
+        public string materialPropertyName =  "_EmissiveColor";
         public float intensityMultiplier = 1f;
         public bool brightnessDecreasesToBlack = true;
         private Dictionary<MeshRenderer,MaterialPropertyBlock> _materialPropertyBlocks;

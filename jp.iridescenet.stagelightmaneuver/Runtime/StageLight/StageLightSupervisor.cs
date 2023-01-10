@@ -71,6 +71,14 @@ namespace StageLightManeuver
                  if(stageLight != null)stageLight.EvaluateQue(time);
             }
         }
+
+        public void UpdateFixture()
+        {
+            foreach (var stageLightBase in stageLights)
+            {
+                stageLightBase.UpdateFixture();
+            }
+        }
         void Update()
         {
             // if (a < stageLightSettings.Count)
