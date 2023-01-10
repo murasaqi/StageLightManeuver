@@ -93,11 +93,7 @@ namespace StageLightManeuver
             foreach (var light in lights)
             {
                 
-                light.color = lightColor;
-                light.intensity = lightIntensity;
-                light.spotAngle = spotAngle;
-                light.innerSpotAngle = innerSpotAngle;
-                light.range = spotRange;
+              
 #if USE_HDRP
                 if (lightData.ContainsKey(light))
                 {
@@ -106,10 +102,20 @@ namespace StageLightManeuver
                     // hdAdditionalLightData.SetIntensity(lightIntensity);
                     // hdAdditionalLightData.SetLightDimmer(lightIntensity);
                     hdAdditionalLightData.intensity = lightIntensity;
+                    hdAdditionalLightData.color = lightColor;
+                    hdAdditionalLightData.SetSpotAngle(spotAngle);
+                    hdAdditionalLightData.innerSpotPercent = innerSpotAngle;
+                    hdAdditionalLightData.range = spotRange;
                     // hdAdditionalLightData.UpdateAllLightValues();
                     // hdAdditionalLightData.setli
                     // lightData[light].intensity=lightIntensity;
                 }
+#else
+                light.color = lightColor;
+                 light.intensity = lightIntensity;
+                light.spotAngle = spotAngle;
+                light.innerSpotAngle = innerSpotAngle;
+                light.range = spotRange;
 #endif
             }
           

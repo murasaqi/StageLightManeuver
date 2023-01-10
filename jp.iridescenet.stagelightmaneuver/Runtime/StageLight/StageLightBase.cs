@@ -24,7 +24,7 @@ namespace StageLightManeuver
             
         }
 
-        private void Update()
+        public virtual void UpdateFixture()
         {
             
         }

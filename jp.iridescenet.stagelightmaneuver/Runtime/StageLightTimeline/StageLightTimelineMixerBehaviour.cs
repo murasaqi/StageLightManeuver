@@ -95,10 +95,12 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
             if(!hasAnyClipPlaying)
             {
                 if(stageLightTimelineTrack.updateOnOutOfClip)trackBinding.EvaluateQue((float)time);
+                trackBinding.UpdateFixture();
             }
             else
             {
                 trackBinding.EvaluateQue((float)time);
+                trackBinding.UpdateFixture();
             }
         } 
     }

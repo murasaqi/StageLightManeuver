@@ -51,7 +51,7 @@ namespace StageLightManeuver
             }
         }
 
-        public void UpdateFixture()
+        public override void UpdateFixture()
         {
             if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureBase>();
             foreach (var stageLightFixture in stageLightFixtures)
@@ -63,7 +63,7 @@ namespace StageLightManeuver
 
         private void Update()
         {
-            UpdateFixture();
+            // UpdateFixture();
         }
 
 
