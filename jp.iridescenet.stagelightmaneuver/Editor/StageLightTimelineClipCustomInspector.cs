@@ -492,6 +492,12 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                 resultValue = EditorGUILayout.ObjectField(labelValue,
                                     (Texture2D)stageLightValueFieldInfo.GetValue(fieldValue), typeof(Texture2D), false);
                             }
+                            
+                            if (stageLightValueFieldInfo.FieldType == typeof(Texture))
+                            {
+                                resultValue = EditorGUILayout.ObjectField(labelValue,
+                                    (Texture)stageLightValueFieldInfo.GetValue(fieldValue), typeof(Texture), false);
+                            }
 
                             if (stageLightValueFieldInfo.FieldType.BaseType != null &&
                                 stageLightValueFieldInfo.FieldType.BaseType == typeof(System.Enum))

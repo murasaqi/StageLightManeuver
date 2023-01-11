@@ -27,6 +27,7 @@ namespace StageLightManeuver
         public float spotAngle;
         public float innerSpotAngle;
         public float spotRange;
+        public Texture lightCookie;
         // public UniversalAdditionalLightData universalAdditionalLightData;
 
         public override void Init()
@@ -42,6 +43,7 @@ namespace StageLightManeuver
                 spotAngle = light.spotAngle;
                 innerSpotAngle = light.innerSpotAngle;
                 spotRange = light.range;
+                lightCookie = light.cookie;
 #if USE_HDRP
                 lightData.Add(light, light.GetComponent<HDAdditionalLightData>());
 #endif
@@ -86,6 +88,8 @@ namespace StageLightManeuver
                 spotAngle += lightProperty.spotAngle.value * weight;
                 innerSpotAngle += lightProperty.innerSpotAngle.value * weight;
                 spotRange += lightProperty.range.value * weight;
+                
+                if(weight>0.5f) lightCookie = lightProperty.cookie.value;
             }
         }
 
@@ -108,6 +112,8 @@ namespace StageLightManeuver
                     hdAdditionalLightData.SetSpotAngle(spotAngle);
                     hdAdditionalLightData.innerSpotPercent = innerSpotAngle;
                     hdAdditionalLightData.range = spotRange;
+                    hdAdditionalLightData.SetCookie(lightCookie);
+                    
                     // hdAdditionalLightData.UpdateAllLightValues();
                     // hdAdditionalLightData.setli
                     // lightData[light].intensity=lightIntensity;
@@ -118,6 +124,7 @@ namespace StageLightManeuver
                 light.spotAngle = spotAngle;
                 light.innerSpotAngle = innerSpotAngle;
                 light.range = spotRange;
+                light.cookie = lightCookie;
 #endif
             }
           
