@@ -60,6 +60,7 @@ namespace StageLightManeuver
             spotAngle = 0f;
             innerSpotAngle = 0f;
             spotRange = 0f;
+            lightCookie = null;
             while (stageLightDataQueue.Count>0)
             {
                 var data = stageLightDataQueue.Dequeue();
@@ -112,7 +113,7 @@ namespace StageLightManeuver
                     hdAdditionalLightData.SetSpotAngle(spotAngle);
                     hdAdditionalLightData.innerSpotPercent = innerSpotAngle;
                     hdAdditionalLightData.range = spotRange;
-                    hdAdditionalLightData.SetCookie(lightCookie);
+                    if(lightCookie)hdAdditionalLightData.SetCookie(lightCookie);
                     
                     // hdAdditionalLightData.UpdateAllLightValues();
                     // hdAdditionalLightData.setli
