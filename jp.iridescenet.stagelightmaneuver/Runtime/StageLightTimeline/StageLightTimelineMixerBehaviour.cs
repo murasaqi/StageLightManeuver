@@ -11,7 +11,7 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
     public List<TimelineClip> clips;
 
     public StageLightTimelineTrack stageLightTimelineTrack;
-    private bool firstFrameHappend = false;
+    private bool firstFrameHapend = false;
     // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
@@ -20,10 +20,10 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
         if (!trackBinding)
             return;
 
-        if (firstFrameHappend)
+        if (firstFrameHapend)
         {
             trackBinding.Init();
-            firstFrameHappend = true;
+            firstFrameHapend = true;
         }
 
         
