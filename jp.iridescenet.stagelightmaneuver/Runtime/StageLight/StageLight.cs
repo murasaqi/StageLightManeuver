@@ -66,6 +66,22 @@ namespace StageLightManeuver
             // UpdateFixture();
         }
 
+        private void OnDestroy()
+        {
+            for (int i = stageLightFixtures.Count-1; i >=0; i--)
+            {
+                try
+                {
+                    DestroyImmediate(stageLightFixtures[i]);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
+
 
         [ContextMenu("Find Fixtures")]
         public void FindFixtures()
