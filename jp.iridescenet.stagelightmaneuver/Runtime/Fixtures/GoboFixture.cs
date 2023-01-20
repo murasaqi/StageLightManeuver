@@ -19,8 +19,9 @@ namespace StageLightManeuver
         public Transform goboTransform;
         public float speed = 0f;
         public Vector3 goboRotateVector = new Vector3(0, 0, 1);
-        
+        public Vector3 goboRotationOffset = new Vector3(0, 0, 0);
         public bool rotateStartOffsetRandom = false;
+        private float timelineTime = 0f;
         private void Start()
         {
             Init();
@@ -51,6 +52,7 @@ namespace StageLightManeuver
 
         public override void EvaluateQue(float time)
         {
+            timelineTime = time;
             goboTexture = null;
             speed = 0f;
             while (stageLightDataQueue.Count > 0)
@@ -94,7 +96,7 @@ namespace StageLightManeuver
             
             if (goboTransform != null)
             {
-                goboTransform.localEulerAngles += goboRotateVector *(speed*(float)Time.deltaTime);
+                goboTransform.localEulerAngles = goboRotationOffset + (goboRotateVector *(speed*timelineTime));
             }
             if (meshRenderer != null)
             {
