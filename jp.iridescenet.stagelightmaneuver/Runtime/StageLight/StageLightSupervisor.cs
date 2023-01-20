@@ -76,7 +76,7 @@ namespace StageLightManeuver
         {
             foreach (var stageLightBase in stageLights)
             {
-                stageLightBase.UpdateFixture();
+                if(stageLightBase != null)stageLightBase.UpdateFixture();
             }
         }
         void Update()
