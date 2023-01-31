@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
+#if USE_HDRP
+using UnityEngine.Rendering.HighDefinition;
+#elif USE_URP
+using UnityEngine.Rendering.Universal;
+#endif
 namespace StageLightManeuver
 {
     [ExecuteAlways]

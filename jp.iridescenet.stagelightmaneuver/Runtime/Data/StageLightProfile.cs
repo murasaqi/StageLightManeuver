@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using UnityEngine;
+
+#if USE_HDRP
+using UnityEngine.Rendering.HighDefinition;
+#elif USE_HDRP
 using UnityEngine.Rendering.Universal;
+#endif
+
 
 namespace StageLightManeuver
 {
