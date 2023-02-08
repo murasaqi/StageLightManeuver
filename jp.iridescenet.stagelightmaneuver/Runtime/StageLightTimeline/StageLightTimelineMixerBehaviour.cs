@@ -12,10 +12,12 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
 
     public StageLightTimelineTrack stageLightTimelineTrack;
     private bool firstFrameHapend = false;
+
+    private StageLightSupervisor trackBinding;
     // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
-        StageLightSupervisor trackBinding = playerData as StageLightSupervisor;
+        trackBinding = playerData as StageLightSupervisor;
 
         if (!trackBinding)
             return;
@@ -43,44 +45,13 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
                 timeProperty.clipProperty.clipStartTime = (float)clip.start;
                 timeProperty.clipProperty.clipEndTime = (float)clip.end;    
             }
-            //
+            
             var manualPanTiltProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualPanTiltProperty>();
-            //
-            if (manualPanTiltProperty != null)
-            {
-                var manualPanTiltArray = manualPanTiltProperty.positions.value;
-                if (manualPanTiltArray.Count < trackBinding.AllStageLights.Count)
-                {
-                    while (manualPanTiltArray.Count < trackBinding.AllStageLights.Count)
-                    {
-                        manualPanTiltArray.Add(new PanTiltPrimitive());
-                    }
-                    
-                }
-                
-                if(manualPanTiltArray.Count > trackBinding.AllStageLights.Count)
-                {
-                    while (manualPanTiltArray.Count > trackBinding.AllStageLights.Count)
-                    {
-                        manualPanTiltArray.RemoveAt(manualPanTiltArray.Count - 1);
-                    }
-                }
+            FetchManualPanTiltArraySize(manualPanTiltProperty);
 
-                for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
-                {
-                    // if not index is out of range
-                    if (j < manualPanTiltArray.Count && j < trackBinding.AllStageLights.Count)
-                    {
-                        if (manualPanTiltArray[j] != null && trackBinding.AllStageLights[j] != null)
-                        {
-                            manualPanTiltArray[j].name = trackBinding.AllStageLights[j].name;    
-                        }
-                        
-                    }
-                        
-                }
-
-            }
+            var manualLightArray = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualLightArrayProperty>();
+            FetchManualLightArraySize(manualLightArray);
+            
             if (inputWeight > 0)
             {
                 stageLightTimelineClip.behaviour.stageLightQueData.weight = inputWeight;
@@ -103,5 +74,86 @@ public class StageLightTimelineMixerBehaviour : PlayableBehaviour
                 trackBinding.UpdateFixture();
             }
         } 
+        
+    }
+
+    internal void FetchManualPanTiltArraySize(ManualPanTiltProperty manualPanTiltProperty)
+    {
+        
+        if (manualPanTiltProperty != null)
+        {
+            var manualPanTiltArray = manualPanTiltProperty.positions.value;
+            if (manualPanTiltArray.Count < trackBinding.AllStageLights.Count)
+            {
+                while (manualPanTiltArray.Count < trackBinding.AllStageLights.Count)
+                {
+                    manualPanTiltArray.Add(new PanTiltPrimitive());
+                }
+                    
+            }
+                
+            if(manualPanTiltArray.Count > trackBinding.AllStageLights.Count)
+            {
+                while (manualPanTiltArray.Count > trackBinding.AllStageLights.Count)
+                {
+                    manualPanTiltArray.RemoveAt(manualPanTiltArray.Count - 1);
+                }
+            }
+
+            for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
+            {
+                // if not index is out of range
+                if (j < manualPanTiltArray.Count && j < trackBinding.AllStageLights.Count)
+                {
+                    if (manualPanTiltArray[j] != null && trackBinding.AllStageLights[j] != null)
+                    {
+                        manualPanTiltArray[j].name = trackBinding.AllStageLights[j].name;    
+                    }
+                        
+                }
+                        
+            }
+
+        }
+    }
+    
+    internal void FetchManualLightArraySize(ManualLightArrayProperty manualLightArray)
+    {
+        
+        if (manualLightArray != null)
+        {
+            var lightPrimitiveValues = manualLightArray.lightValues.value;
+            if (lightPrimitiveValues.Count < trackBinding.AllStageLights.Count)
+            {
+                while (lightPrimitiveValues.Count < trackBinding.AllStageLights.Count)
+                {
+                    lightPrimitiveValues.Add(new LightPrimitiveValue());
+                }
+                    
+            }
+                
+            if(lightPrimitiveValues.Count > trackBinding.AllStageLights.Count)
+            {
+                while (lightPrimitiveValues.Count > trackBinding.AllStageLights.Count)
+                {
+                    lightPrimitiveValues.RemoveAt(lightPrimitiveValues.Count - 1);
+                }
+            }
+
+            for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
+            {
+                // if not index is out of range
+                if (j < lightPrimitiveValues.Count && j < trackBinding.AllStageLights.Count)
+                {
+                    if (lightPrimitiveValues[j] != null && trackBinding.AllStageLights[j] != null)
+                    {
+                        lightPrimitiveValues[j].name = trackBinding.AllStageLights[j].name;    
+                    }
+                        
+                }
+                        
+            }
+
+        }
     }
 }

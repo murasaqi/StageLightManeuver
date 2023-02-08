@@ -23,7 +23,7 @@ namespace StageLightManeuver
     {
         private LightTransformType _lightTransformType = LightTransformType.Pan;
         private float _angle;
-        public Vector3 rotationVector = Vector3.up;
+        public Vector3 rotationVector = Vector3.left;
         public Transform rotateTransform;
 
 
@@ -32,7 +32,7 @@ namespace StageLightManeuver
 
         public override void Init()
         {
-            rotationVector = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
+            // rotationVector = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
         }
 
         public override void EvaluateQue(float currentTime)
@@ -51,7 +51,7 @@ namespace StageLightManeuver
                 var weight = queueData.weight;
                 if (qPanProperty == null || qLightBaseProperty == null) continue;
               
-                var time = GetNormalizedTime(currentTime,queueData,typeof(PanProperty));
+                var normalizedTime = GetNormalizedTime(currentTime,queueData,typeof(PanProperty));
                 // Debug.Log($"{queueData.stageLightSetting.name},{time}");
                 
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
@@ -67,19 +67,10 @@ namespace StageLightManeuver
                 }
                 else
                 {
-                    if (qPanProperty.rollTransform.value.mode == AnimationMode.Ease)
-                    {
-                        _angle += EaseUtil.GetEaseValue(qPanProperty.rollTransform.value.easeType, time, 1f, qPanProperty.rollTransform.value.valueRange.x,
-                            qPanProperty.rollTransform.value.valueRange.y) * weight;
-                    }
-                    if (qPanProperty.rollTransform.value.mode == AnimationMode.AnimationCurve)
-                    {
-                        _angle += qPanProperty.rollTransform.value.animationCurve.Evaluate(time) * weight;
-                    }
-                    if (qPanProperty.rollTransform.value.mode == AnimationMode.Constant)
-                    {
-                        _angle += qPanProperty.rollTransform.value.constant * weight;
-                    }    
+                    
+                
+                    _angle += qPanProperty.rollTransform.value.Evaluate(normalizedTime) * weight;
+                     
                 }
                 
                 

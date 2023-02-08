@@ -175,25 +175,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -338,13 +320,106 @@ MonoBehaviour:
             childStagger: 0
         spotAngle:
           propertyOverride: 0
-          value: 15
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         innerSpotAngle:
           propertyOverride: 0
-          value: 10
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         range:
           propertyOverride: 0
-          value: 10
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          value: {fileID: 0}
     - rid: 4824220623761047797
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -363,6 +438,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -409,6 +485,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -461,6 +538,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -507,6 +585,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 2
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: 0, y: 10}
             easeType: 0
@@ -605,6 +684,7 @@ MonoBehaviour:
       - rid: 4824220623761047807
       - rid: 4824220623761047808
       - rid: 4824220623761047809
+      - rid: 5456941269971894273
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -652,13 +732,106 @@ MonoBehaviour:
             childStagger: 0
         spotAngle:
           propertyOverride: 1
-          value: 15
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 8.77
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         innerSpotAngle:
           propertyOverride: 1
-          value: 10
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         range:
           propertyOverride: 1
-          value: 10
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          value: {fileID: 0}
     - rid: 4824220623761047804
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -677,6 +850,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -723,6 +897,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -754,7 +929,7 @@ MonoBehaviour:
     - rid: 4824220623761047806
       type: {class: GoboProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Gobo
         bpmOverrideData:
           propertyOverride: 0
@@ -775,6 +950,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -806,7 +982,7 @@ MonoBehaviour:
     - rid: 4824220623761047807
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Intensity
         bpmOverrideData:
           propertyOverride: 1
@@ -821,6 +997,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 2
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: 0, y: 10}
             easeType: 0
@@ -852,7 +1029,7 @@ MonoBehaviour:
     - rid: 4824220623761047808
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light Color
         bpmOverrideData:
           propertyOverride: 1
@@ -949,6 +1126,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 2
+            inverse: 0
             valueRange: {x: 0, y: 2}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -977,6 +1155,43 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
+    - rid: 5456941269971894273
+      type: {class: ManualLightArrayProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 1
+        propertyName: Manual Light Array
+        bpmOverrideData:
+          propertyOverride: 0
+          value:
+            propertyOverride: 0
+            loopType: 0
+            bpmOverride: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+        lightValues:
+          propertyOverride: 1
+          value:
+          - name: SLM_MovingLight
+            intensity: 10
+            angle: 10
+            innerAngle: 0
+            range: 10
+          - name: SLM_MovingLight (1)
+            intensity: 10
+            angle: 0
+            innerAngle: 0
+            range: 10
+          - name: SLM_MovingLight (2)
+            intensity: 10
+            angle: 10
+            innerAngle: 0
+            range: 10
+          - name: SLM_MovingLight (3)
+            intensity: 10
+            angle: 0
+            innerAngle: 10
+            range: 10
 --- !u!114 &-885274096304361106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1001,7 +1216,7 @@ MonoBehaviour:
       - rid: 4824220623761047814
       - rid: 4824220623761047815
       - rid: 4824220623761047816
-      weight: 1
+      weight: 0.15625
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -1048,13 +1263,106 @@ MonoBehaviour:
             childStagger: 0
         spotAngle:
           propertyOverride: 1
-          value: 50.94
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         innerSpotAngle:
           propertyOverride: 1
-          value: 10.6
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         range:
           propertyOverride: 1
-          value: 9.3
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          value: {fileID: 0}
     - rid: 4824220623761047812
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -1073,6 +1381,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1119,6 +1428,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1171,6 +1481,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1217,6 +1528,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 4.9222794}
             valueMinMax: {x: 0, y: 10}
             easeType: 0
@@ -1383,13 +1695,106 @@ MonoBehaviour:
             childStagger: 0
         spotAngle:
           propertyOverride: 1
-          value: 15
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 13.9
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         innerSpotAngle:
           propertyOverride: 1
-          value: 10
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         range:
           propertyOverride: 1
-          value: 10
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          value: {fileID: 0}
     - rid: 4824220623761047804
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -1408,6 +1813,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1454,6 +1860,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1506,6 +1913,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1552,6 +1960,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 2
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: 0, y: 10}
             easeType: 0
@@ -1680,6 +2089,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 2
+            inverse: 0
             valueRange: {x: 0, y: 2}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1779,32 +2189,126 @@ MonoBehaviour:
             childStagger: 0
         spotAngle:
           propertyOverride: 1
-          value: 50.94
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 42.1
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         innerSpotAngle:
           propertyOverride: 1
-          value: 10.6
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 180}
+            easeType: 0
+            constant: 40.8
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
         range:
           propertyOverride: 1
-          value: 9.3
+          value:
+            mode: 2
+            inverse: 0
+            valueRange: {x: 0, y: 0}
+            valueMinMax: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          value: {fileID: 0}
     - rid: 4824220623761047812
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Pan
         bpmOverrideData:
-          propertyOverride: 0
+          propertyOverride: 1
           value:
             propertyOverride: 0
-            loopType: 0
-            bpmOverride: 0
+            loopType: 2
+            bpmOverride: 1
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
         rollTransform:
-          propertyOverride: 0
+          propertyOverride: 1
           value:
             mode: 0
-            valueRange: {x: 0, y: 0}
+            inverse: 1
+            valueRange: {x: -99.37986, y: 103.41085}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
             constant: 0
@@ -1847,13 +2351,14 @@ MonoBehaviour:
             bpmScale: 1
             childStagger: 0
         rollTransform:
-          propertyOverride: 0
+          propertyOverride: 1
           value:
             mode: 0
-            valueRange: {x: 0, y: 0}
+            inverse: 0
+            valueRange: {x: -24.031023, y: 86.66664}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
-            constant: 0
+            constant: 42.1
             animationCurve:
               serializedVersion: 2
               m_Curve:
@@ -1894,7 +2399,7 @@ MonoBehaviour:
             childStagger: 0
         goboTexture:
           propertyOverride: 1
-          value: {fileID: 2800000, guid: 4d1eec95034c81f458740c186fe4c2d0, type: 3}
+          value: {fileID: 2800000, guid: ae7cfcbbff60962479146dd2edbeb931, type: 3}
         goboPropertyName:
           propertyOverride: 0
           value: _GoboTexture
@@ -1902,6 +2407,7 @@ MonoBehaviour:
           propertyOverride: 0
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 0}
             valueMinMax: {x: -180, y: 180}
             easeType: 0
@@ -1948,6 +2454,7 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             mode: 0
+            inverse: 0
             valueRange: {x: 0, y: 4.9222794}
             valueMinMax: {x: 0, y: 10}
             easeType: 0

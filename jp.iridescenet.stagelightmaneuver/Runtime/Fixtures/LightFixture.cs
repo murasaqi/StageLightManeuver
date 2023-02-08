@@ -71,25 +71,47 @@ namespace StageLightManeuver
                 var weight = data.weight;
                 if(lightProperty == null || stageLightBaseProperty == null) continue;
              
-                var baseTime = GetNormalizedTime(currentTime, data, typeof(LightProperty));
-               
+                var normalizedTime = GetNormalizedTime(currentTime, data, typeof(LightProperty));
+                var manualLightArrayProperty = data.TryGet<ManualLightArrayProperty>();
+
+                if (manualLightArrayProperty != null)
+                {
+                    var values = manualLightArrayProperty.lightValues.value;
+                    if (Index < values.Count)
+                    {
+                        var lightValue = values[Index];
+                        lightIntensity += lightValue.intensity * weight;
+                        spotAngle += lightValue.angle * weight;
+                        innerSpotAngle += lightValue.innerAngle * weight;
+                        spotRange += lightValue.range * weight;
+                    }
+                    
+                    
+                }
+                else
+                {
+                   
+
+                    if (lightIntensityProperty != null)
+                    {
+                        var t =lightIntensityProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : normalizedTime;
+                        lightIntensity += lightIntensityProperty.lightToggleIntensity.value.Evaluate(t) * weight;
+                    }
+
+                    spotAngle += lightProperty.spotAngle.value.Evaluate(normalizedTime) * weight;
+                    innerSpotAngle += lightProperty.innerSpotAngle.value.Evaluate(normalizedTime) * weight;
+                    spotRange += lightProperty.range.value.Evaluate(normalizedTime) * weight;
+    
+                }
+                
+                
                 if (lightColorProperty != null)
                 {
-                    var t =lightColorProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : baseTime;
+                    var t =lightColorProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : normalizedTime;
                     lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
                     
                 }
-
-                if (lightIntensityProperty != null)
-                {
-                    var t =lightIntensityProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : baseTime;
-                    lightIntensity += lightIntensityProperty.lightToggleIntensity.value.Evaluate(t) * weight;
-                }
-
-                spotAngle += lightProperty.spotAngle.value * weight;
-                innerSpotAngle += lightProperty.innerSpotAngle.value * weight;
-                spotRange += lightProperty.range.value * weight;
-                
+                                
                 if(weight>0.5f) lightCookie = lightProperty.cookie.value;
             }
         }

@@ -22,7 +22,7 @@ namespace StageLightManeuver
                 var timeProperty = queueData.TryGet<TimeProperty>() as TimeProperty;
                 var weight = queueData.weight;
                 if (qTiltProperty == null || timeProperty == null) continue;
-                var time = GetNormalizedTime(currentTime, queueData, typeof(TiltProperty));
+                var normalizedTime = GetNormalizedTime(currentTime, queueData, typeof(TiltProperty));
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
                 if(manualPanTiltProperty != null)
                 {
@@ -31,27 +31,11 @@ namespace StageLightManeuver
                     {
                         _angle += positions[Index].pan * weight;
                     }
-                    
                 }
                 else
                 {
-                    if (qTiltProperty.rollTransform.value.mode == AnimationMode.Ease)
-                    {
-                        _angle += EaseUtil.GetEaseValue(qTiltProperty.rollTransform.value.easeType, time, 1f, qTiltProperty.rollTransform.value.valueRange.x, qTiltProperty.rollTransform.value.valueRange.y) * weight;
-                        // if(weight >= 1f)Debug.Log($"{queueData.stageLightSetting.name}: {_angle},{time},{weight}");
-
-                    }
-                    if (qTiltProperty.rollTransform.value.mode == AnimationMode.AnimationCurve)
-                    {
-                        _angle += qTiltProperty.rollTransform.value.animationCurve.Evaluate(time) * weight;
-                    }
-                    if (qTiltProperty.rollTransform.value.mode == AnimationMode.Constant)
-                    {
-                        _angle += qTiltProperty.rollTransform.value.constant * weight;
-                    }       
+                    _angle += qTiltProperty.rollTransform.value.Evaluate(normalizedTime) * weight;
                 }
-             
-               
 
             }
         }

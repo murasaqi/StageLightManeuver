@@ -5,7 +5,7 @@ using Vector2 = System.Numerics.Vector2;
 namespace StageLightManeuver
 {
     [AddComponentMenu("")]
-    public class ManualPanTiltFixture : StageLightFixtureBase
+    public class ManualPanTiltArrayFixture : StageLightFixtureBase
     {
         public List<Vector2> panTiltPositions = new List<Vector2>();
         [SerializeReference]public List<IStageLightFixture> stageLights = new List<IStageLightFixture>();
@@ -26,9 +26,12 @@ namespace StageLightManeuver
                     var iStageLightFixture = stageLights[i];
                     var panFixture = iStageLightFixture.TryGetFixture<LightPanFixture>();
                     var rotationVector = panFixture.LightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
-
                     panFixture.rotateTransform.transform.localEulerAngles = rotationVector * panTiltPositions[i].X;
                     var tiltFixture = iStageLightFixture.TryGetFixture<LightTiltFixture>();
+                    
+                    rotationVector = panFixture.LightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
+                    tiltFixture.rotateTransform.transform.localEulerAngles = rotationVector * panTiltPositions[i].Y;
+
                 }
             }
         }

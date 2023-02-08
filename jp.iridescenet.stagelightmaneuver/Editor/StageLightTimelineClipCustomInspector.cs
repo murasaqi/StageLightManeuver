@@ -566,6 +566,61 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                 }
 
                             }
+                            
+                            if (stageLightValueFieldInfo.FieldType == typeof(List<LightPrimitiveValue>))
+                            {
+                                using (new EditorGUILayout.VerticalScope())
+                                {
+                                    
+                                    using (new EditorGUILayout.HorizontalScope())
+                                    {
+                                        
+                                        EditorGUILayout.LabelField("Light List");
+                                    }
+                                    
+                                    // var rect = EditorGUI.RectField()
+                                    var lightPrimitiveValues = stageLightValueFieldInfo.GetValue(fieldValue) as List<LightPrimitiveValue>;
+                                   
+                                    for (int k = 0; k< lightPrimitiveValues.Count; k++)
+                                    {
+                                        var lightPrimitive = lightPrimitiveValues[k];
+
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            GUI.color = Color.gray;
+                                            EditorGUILayout.LabelField(lightPrimitive.name);
+                                            GUI.color = Color.white;
+                                        }
+                                        // using (new EditorGUILayout.HorizontalScope())
+                                        // {
+                                            
+                                            var intensity = EditorGUILayout.FloatField("Intensity", lightPrimitive.intensity);
+                                            lightPrimitiveValues[k].intensity = intensity;
+
+                                            var angle = EditorGUILayout.FloatField("Angle", lightPrimitive.angle);
+                                            lightPrimitiveValues[k].angle = angle;
+                                            
+                                            var innerAngle = EditorGUILayout.FloatField("Inner Angle", lightPrimitive.innerAngle);
+                                            lightPrimitiveValues[k].innerAngle = innerAngle;
+                                            
+                                            var range = EditorGUILayout.FloatField("Range", lightPrimitive.range);
+                                            lightPrimitiveValues[k].range = range;
+                                            
+                                        // }
+                                    }
+                                    
+                                    resultValue = lightPrimitiveValues;
+                                }
+                            }
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                Undo.RecordObject(undoTarget, "Changed Area Of Effect");
+                                if (resultValue != null)
+                                {
+                                    stageLightValueFieldInfo.SetValue(fieldValue, resultValue);
+                                }
+
+                            }
 
                             EditorGUILayout.EndHorizontal();
                             EditorGUI.EndDisabledGroup();
@@ -605,6 +660,17 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     EditorGUILayout.LabelField(labelName);
+                }
+
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    var inverse = minMaxEasingValue.inverse;
+                    EditorGUI.BeginChangeCheck();
+                    var resultBoole = EditorGUILayout.Toggle("Inverse", inverse);
+                    if(EditorGUI.EndChangeCheck())
+                    {
+                        minMaxEasingValue.GetType().GetField("inverse").SetValue(minMaxEasingValue,resultBoole);
+                    }
                 }
 
                 using (new EditorGUILayout.HorizontalScope())

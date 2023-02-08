@@ -327,6 +327,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateOrder: 0
   offsetDuration: 0
+  rotationVector: {x: 1, y: 0, z: 0}
   rotateTransform: {fileID: 6160859095902018764}
 --- !u!114 &1447943957496068182
 MonoBehaviour:
@@ -342,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateOrder: 0
   offsetDuration: 0
+  rotationVector: {x: 0, y: 1, z: 0}
   rotateTransform: {fileID: 7880181354528564285}
 --- !u!114 &1447943957496068181
 MonoBehaviour:
@@ -364,6 +366,7 @@ MonoBehaviour:
   spotAngle: 15
   innerSpotAngle: 10
   spotRange: 10
+  lightCookie: {fileID: 0}
 --- !u!114 &1447943957496068180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,9 +381,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateOrder: 0
   offsetDuration: 0
-  meshRenderer: {fileID: 785978607925555083}
+  meshRenderers: []
   materialPropertyName: _EmissionColor
   intensityMultiplier: 1
+  brightnessDecreasesToBlack: 1
   lightFixture: {fileID: 1447943957496068181}
 --- !u!114 &1447943957496068179
 MonoBehaviour:
@@ -427,6 +431,7 @@ MonoBehaviour:
   goboTransform: {fileID: 8164958475431338433}
   speed: 12.421722
   goboRotateVector: {x: 0, y: 0, z: 1}
+  goboRotationOffset: {x: 0, y: 0, z: 0}
   rotateStartOffsetRandom: 0
 --- !u!1 &5661488111007008805
 GameObject:
