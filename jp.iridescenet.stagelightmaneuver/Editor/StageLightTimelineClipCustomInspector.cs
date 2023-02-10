@@ -557,15 +557,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                 
                                 }
                             }
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                                if (resultValue != null)
-                                {
-                                    stageLightValueFieldInfo.SetValue(fieldValue, resultValue);
-                                }
-
-                            }
                             
                             if (stageLightValueFieldInfo.FieldType == typeof(List<LightPrimitiveValue>))
                             {
@@ -612,6 +603,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                     resultValue = lightPrimitiveValues;
                                 }
                             }
+                           
                             if (EditorGUI.EndChangeCheck())
                             {
                                 Undo.RecordObject(undoTarget, "Changed Area Of Effect");
@@ -621,6 +613,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                 }
 
                             }
+                            
 
                             EditorGUILayout.EndHorizontal();
                             EditorGUI.EndDisabledGroup();
@@ -679,11 +672,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     // using (new EditorCommon.LabelWidth(80))
                     // {
                         var animationMode = EditorGUILayout.EnumPopup("Mode", minMaxEasingValue.mode);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            minMaxEasingValue.GetType().GetField("mode")
-                                .SetValue(minMaxEasingValue, animationMode);
-                        }
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        minMaxEasingValue.GetType().GetField("mode")
+                            .SetValue(minMaxEasingValue, animationMode);
+                    }
                     // }   
                 }
 
