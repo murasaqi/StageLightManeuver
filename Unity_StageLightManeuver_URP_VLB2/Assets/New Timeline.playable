@@ -85,7 +85,25 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -871,8 +889,8 @@ MonoBehaviour:
               m_PostInfinity: 2
               m_RotationOrder: 4
         cookie:
-          propertyOverride: 0
-          value: {fileID: 0}
+          propertyOverride: 1
+          value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
     - rid: 4824220623761047804
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -1213,40 +1231,30 @@ MonoBehaviour:
         lightValues:
           propertyOverride: 1
           value:
-          - name: SLM_MovingLight
+          - name: SLM_MovingLight_VLB_HD
             intensity: 10
             angle: 24.78
             innerAngle: 11.97
             range: 10
-          - name: SLM_MovingLight (1)
+          - name: SLM_MovingLight_VLB_HD (1)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
-          - name: SLM_MovingLight (2)
+          - name: SLM_MovingLight_VLB_HD (2)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
-          - name: SLM_MovingLight (3)
+          - name: SLM_MovingLight_VLB_HD (3)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
-          - name: SLM_MovingLight (4)
+          - name: SLM_MovingLight_VLB_HD (4)
             intensity: 10
             angle: 10
             innerAngle: 10
-            range: 10
-          - name: SLM_MovingLight (5)
-            intensity: 10
-            angle: 35.76
-            innerAngle: 11.85
-            range: 10
-          - name: SLM_MovingLight (6)
-            intensity: 8.9
-            angle: 20.8
-            innerAngle: 16.92
             range: 10
     - rid: 5456941290685202432
       type: {class: ManualPanTiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
@@ -1265,25 +1273,19 @@ MonoBehaviour:
         positions:
           propertyOverride: 1
           value:
-          - name: SLM_MovingLight
+          - name: SLM_MovingLight_VLB_HD
             pan: 50.8
             tilt: -32.4
-          - name: SLM_MovingLight (1)
+          - name: SLM_MovingLight_VLB_HD (1)
             pan: 8.61
             tilt: -52.7
-          - name: SLM_MovingLight (2)
+          - name: SLM_MovingLight_VLB_HD (2)
             pan: 0
             tilt: 0
-          - name: SLM_MovingLight (3)
+          - name: SLM_MovingLight_VLB_HD (3)
             pan: 0
             tilt: 0
-          - name: SLM_MovingLight (4)
-            pan: 0
-            tilt: 0
-          - name: SLM_MovingLight (5)
-            pan: 0
-            tilt: 0
-          - name: 
+          - name: SLM_MovingLight_VLB_HD (4)
             pan: 0
             tilt: 0
 --- !u!114 &-885274096304361106
@@ -1310,7 +1312,7 @@ MonoBehaviour:
       - rid: 4824220623761047814
       - rid: 4824220623761047815
       - rid: 4824220623761047816
-      weight: 1
+      weight: 0.84375
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -1891,8 +1893,8 @@ MonoBehaviour:
               m_PostInfinity: 2
               m_RotationOrder: 4
         cookie:
-          propertyOverride: 0
-          value: {fileID: 0}
+          propertyOverride: 1
+          value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
     - rid: 4824220623761047804
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -2387,8 +2389,8 @@ MonoBehaviour:
               m_PostInfinity: 2
               m_RotationOrder: 4
         cookie:
-          propertyOverride: 0
-          value: {fileID: 0}
+          propertyOverride: 1
+          value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
     - rid: 4824220623761047812
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
