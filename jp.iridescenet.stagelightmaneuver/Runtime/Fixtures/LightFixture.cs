@@ -9,9 +9,12 @@ using UnityEngine.Rendering.HighDefinition;
 
 using UnityEngine.Rendering.Universal;
 
-#else
 #endif
 
+
+#if USE_VLB
+using VLB;
+#endif
 namespace StageLightManeuver
 {
     [ExecuteAlways]
@@ -28,6 +31,10 @@ namespace StageLightManeuver
         public float innerSpotAngle;
         public float spotRange;
         public Texture lightCookie;
+#if USE_VLB
+        public VolumetricLightBeamHD volumetricLightBeamHd;
+        public VolumetricCookieHD volumetricCookieHd;
+#endif
         // public UniversalAdditionalLightData universalAdditionalLightData;
 
         public override void Init()
@@ -46,6 +53,11 @@ namespace StageLightManeuver
                 lightCookie = light.cookie;
 #if USE_HDRP
                 lightData.Add(light, light.GetComponent<HDAdditionalLightData>());
+#endif
+
+#if USE_VLB
+                volumetricLightBeamHd = light.GetComponent<VolumetricLightBeamHD>();
+                volumetricCookieHd = light.GetComponent<VolumetricCookieHD>();
 #endif
             }
         }
@@ -111,8 +123,15 @@ namespace StageLightManeuver
                     lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
                     
                 }
-                                
-                if(weight>0.5f) lightCookie = lightProperty.cookie.value;
+
+                if (weight > 0.5f)
+                {
+                    lightCookie = lightProperty.cookie.value;
+
+#if USE_VLB
+                    volumetricCookieHd.cookieTexture = lightProperty.cookie.value;
+#endif
+                }
             }
         }
 
@@ -148,6 +167,10 @@ namespace StageLightManeuver
                 light.innerSpotAngle = innerSpotAngle;
                 light.range = spotRange;
                 light.cookie = lightCookie;
+#endif
+
+#if USE_VLB
+                if(volumetricCookieHd) volumetricCookieHd.cookieTexture = lightCookie;
 #endif
             }
           

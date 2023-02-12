@@ -29,6 +29,11 @@
             "name": "com.unity.render-pipelines.high-definition",
             "expression": "",
             "define": "USE_HDRP"
+        },
+        {
+            "name": "com.saladgamer.volumetriclightbeam",
+            "expression": "",
+            "define": "USE_VLB"
         }
     ],
     "noEngineReferences": false
