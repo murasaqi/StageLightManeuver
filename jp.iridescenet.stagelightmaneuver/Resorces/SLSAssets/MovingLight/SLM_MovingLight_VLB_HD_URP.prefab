@@ -1,37 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &810466726441592374
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2126000534463686294}
-  m_Layer: 0
-  m_Name: DecalPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2126000534463686294
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 810466726441592374}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.378, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6284838197454445064}
-  m_Father: {fileID: 5416702540989767668}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2228678804396327401
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,10 +30,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2126000534463686294}
+  - {fileID: 6284838197454445064}
   m_Father: {fileID: 8288943040048604933}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 117.3, z: 0}
 --- !u!33 &5859237113750887472
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -229,7 +197,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6284838196489272504}
-  m_LocalRotation: {x: 0, y: 0, z: 0.2818955, w: -0.9594451}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -248,11 +216,11 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1.3280522, g: 0.59376335, b: 2.0523562, a: 2}
-  m_Intensity: 104.81
-  m_Range: 17.9
-  m_SpotAngle: 13.9
-  m_InnerSpotAngle: 1
+  m_Color: {r: 0.5782198, g: 1.908113, b: 2.2538774, a: 2}
+  m_Intensity: 2000
+  m_Range: 10
+  m_SpotAngle: 24.78
+  m_InnerSpotAngle: 11.97
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -280,7 +248,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 2800000, guid: 472e06da28058524f886ac84832fca68, type: 3}
+  m_Cookie: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -314,7 +282,7 @@ MonoBehaviour:
   pluginVersion: 20001
   m_ColorFromLight: 1
   m_ColorMode: 0
-  m_ColorFlat: {r: 1.3280522, g: 0.5805238, b: 2.0507843, a: 2}
+  m_ColorFlat: {r: 0.5782198, g: 1.8656733, b: 2.252151, a: 2}
   m_ColorGradient:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -345,15 +313,15 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   m_BlendingMode: 0
-  m_Intensity: 10.481
+  m_Intensity: 200
   m_IntensityMultiplier: 0.1
   m_HDRPExposureWeight: 0
-  m_SpotAngle: 13.9
+  m_SpotAngle: 24.78
   m_SpotAngleMultiplier: 1
   m_ConeRadiusStart: 0.1
   m_Scalable: 1
   m_FallOffStart: 0
-  m_FallOffEnd: 8.592
+  m_FallOffEnd: 4.7999997
   m_FallOffEndMultiplier: 0.48
   m_AttenuationEquation: 1
   m_SideSoftness: 2.19
@@ -382,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Contribution: 1
-  m_CookieTexture: {fileID: 2800000, guid: 472e06da28058524f886ac84832fca68, type: 3}
+  m_CookieTexture: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
   m_Channel: 4
   m_Negative: 0
   m_Translation: {x: 0, y: 0}
@@ -430,7 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6284838197454445064}
   m_Layer: 0
-  m_Name: GoboRotate
+  m_Name: GoboRotatePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,15 +411,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6284838197454445065}
-  m_LocalRotation: {x: 0, y: 0, z: 0.64511764, w: -0.76408327}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.361, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6284838196489272508}
-  m_Father: {fileID: 2126000534463686294}
+  m_Father: {fileID: 5416702540989767668}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &7508698674820956305
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +451,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7508698674820956305}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -610,12 +578,12 @@ MonoBehaviour:
   offsetDuration: 0
   lights:
   - {fileID: 6284838196489272507}
-  lightColor: {r: 1.3280522, g: 0.59376335, b: 2.0523562, a: 2}
-  lightIntensity: 104.81
-  spotAngle: 13.9
-  innerSpotAngle: 1
-  spotRange: 17.9
-  lightCookie: {fileID: 2800000, guid: 472e06da28058524f886ac84832fca68, type: 3}
+  lightColor: {r: 0.5782198, g: 1.908113, b: 2.2538774, a: 2}
+  lightIntensity: 2000
+  spotAngle: 24.78
+  innerSpotAngle: 11.97
+  spotRange: 10
+  lightCookie: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
   volumetricLightBeamHd: {fileID: 6160449624395618213}
   volumetricCookieHd: {fileID: 8960096605894532307}
 --- !u!114 &3634361092279075741
@@ -653,4 +621,4 @@ MonoBehaviour:
   offsetDuration: 0
   target: {fileID: 6284838196489272508}
   rotationAxis: {x: 0, y: 0, z: 1}
-  rotationSpeed: 327.25327
+  rotationSpeed: 96.01979

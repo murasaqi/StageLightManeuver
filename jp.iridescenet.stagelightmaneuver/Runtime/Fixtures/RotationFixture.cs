@@ -27,7 +27,7 @@ namespace StageLightManeuver
         public override void EvaluateQue(float time)
         {
 
-            rotationAxis = Vector3.zero;
+            // rotationAxis = Vector3.zero;
             // rotationSpeed = 0f;
             while (stageLightDataQueue.Count > 0)
             {
@@ -40,7 +40,7 @@ namespace StageLightManeuver
 
                 var normalizedTime = GetNormalizedTime(time, queueData, typeof(RotationProperty));
 
-                rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
+                // rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
                 rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime)*Time.deltaTime;
 
             }
