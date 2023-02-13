@@ -28,7 +28,7 @@ namespace StageLightManeuver
         {
 
             rotationAxis = Vector3.zero;
-            rotationSpeed = 0f;
+            // rotationSpeed = 0f;
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
@@ -41,16 +41,18 @@ namespace StageLightManeuver
                 var normalizedTime = GetNormalizedTime(time, queueData, typeof(RotationProperty));
 
                 rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
-                rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime);
+                rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime)*Time.deltaTime;
 
             }
+            
+            rotationSpeed = rotationSpeed % 360;
 
         }
 
         public override void UpdateFixture()
         {
             
-            if(target) target.eulerAngles += rotationAxis * rotationSpeed;
+            if(target) target.localEulerAngles = rotationAxis * rotationSpeed;
         }
     }
     
