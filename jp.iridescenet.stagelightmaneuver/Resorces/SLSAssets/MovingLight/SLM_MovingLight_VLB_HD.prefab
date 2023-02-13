@@ -468,6 +468,7 @@ GameObject:
   - component: {fileID: 2963031832036028831}
   - component: {fileID: 2963031832036028828}
   - component: {fileID: 2963031832036028829}
+  - component: {fileID: 245998726249738507}
   m_Layer: 0
   m_Name: SLM_MovingLight_VLB_HD
   m_TagString: Untagged
@@ -560,6 +561,7 @@ MonoBehaviour:
   - {fileID: 2963031832036028831}
   - {fileID: 2963031832036028828}
   - {fileID: 2963031832036028829}
+  - {fileID: 245998726249738507}
 --- !u!114 &2963031832036028830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,3 +637,20 @@ MonoBehaviour:
   intensityMultiplier: 1
   brightnessDecreasesToBlack: 1
   lightFixture: {fileID: 2963031832036028828}
+--- !u!114 &245998726249738507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8306137728224031377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0bf8bb9e7f4a9a8477c0af0e57c22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateOrder: 0
+  offsetDuration: 0
+  target: {fileID: 5496976370274242236}
+  rotationAxis: {x: 0, y: 1, z: 0}
+  rotationSpeed: 0

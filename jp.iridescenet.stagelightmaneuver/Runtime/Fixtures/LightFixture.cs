@@ -127,7 +127,6 @@ namespace StageLightManeuver
                 if (weight > 0.5f)
                 {
                     lightCookie = lightProperty.cookie.value;
-
 #if USE_VLB
                     volumetricCookieHd.cookieTexture = lightProperty.cookie.value;
 #endif

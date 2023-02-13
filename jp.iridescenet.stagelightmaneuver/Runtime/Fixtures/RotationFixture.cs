@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
@@ -8,8 +9,8 @@ namespace StageLightManeuver
     public class RotationFixture:StageLightFixtureBase
     {
         public Transform target;
-        public Vector3 rotationAxis = Vector3.up;
-        public float rotationScalar = 0f;
+        public Vector3 rotationAxis = new Vector3(0,0,1);
+        [FormerlySerializedAs("rotationScalar")] public float rotationSpeed = 0f;
 
 
         private void Start()
@@ -27,7 +28,7 @@ namespace StageLightManeuver
         {
 
             rotationAxis = Vector3.zero;
-            rotationScalar = 0f;
+            rotationSpeed = 0f;
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
@@ -37,11 +38,11 @@ namespace StageLightManeuver
                 if (rotationProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var t = GetNormalizedTime(time, queueData, typeof(RotationProperty));
+                var normalizedTime = GetNormalizedTime(time, queueData, typeof(RotationProperty));
 
                 rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
-                rotationScalar += rotationProperty.rotationScalar.value * queueData.weight;
-                
+                rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime);
+
             }
 
         }
@@ -49,7 +50,7 @@ namespace StageLightManeuver
         public override void UpdateFixture()
         {
             
-            if(target) target.eulerAngles = rotationAxis * rotationScalar;
+            if(target) target.eulerAngles += rotationAxis * rotationSpeed;
         }
     }
     

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
@@ -8,21 +9,26 @@ namespace StageLightManeuver
     public class RotationProperty : SlmAdditionalProperty
     {
         public SlmToggleValue<Vector3> rotationAxis;
-        public SlmToggleValue<float> rotationScalar;
+        [DisplayName("Rotation Speed")] public SlmToggleValue<MinMaxEasingValue> rotationSpeed;
         public RotationProperty()
         {
+            propertyName = "Rotation";
+
             propertyOverride = false;
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
                 { value = new BpmOverrideToggleValueBase() };
-            rotationAxis = new SlmToggleValue<Vector3>(){value = Vector3.zero};
-            rotationScalar = new SlmToggleValue<float>(){value = 0};
+            rotationAxis = new SlmToggleValue<Vector3>(){value = new Vector3(0,0,1)};
+            rotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                value = new MinMaxEasingValue(AnimationMode.Constant, new Vector2(-30,30), new Vector2(-40,40), EaseType.Linear,30, new AnimationCurve(new []{new Keyframe(0,0),new Keyframe(1,40)}))
+            };
         }
         
         public override void ToggleOverride(bool toggle)
         {
             propertyOverride = toggle;
             rotationAxis.propertyOverride=(toggle);
-            rotationScalar.propertyOverride=(toggle);
+            rotationSpeed.propertyOverride=(toggle);
             bpmOverrideData.propertyOverride=(toggle);
         }
         
@@ -35,7 +41,11 @@ namespace StageLightManeuver
                 value = new BpmOverrideToggleValueBase(other.bpmOverrideData.value)
             };
             rotationAxis = new SlmToggleValue<Vector3>(other.rotationAxis){};
-            rotationScalar = new SlmToggleValue<float>(other.rotationScalar){};
+            rotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                propertyOverride = other.rotationSpeed.propertyOverride,
+                value = new MinMaxEasingValue(other.rotationSpeed.value)
+            };
         }
 
     }
