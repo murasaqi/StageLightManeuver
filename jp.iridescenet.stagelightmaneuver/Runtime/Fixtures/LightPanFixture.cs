@@ -23,7 +23,7 @@ namespace StageLightManeuver
     {
         private LightTransformType _lightTransformType = LightTransformType.Pan;
         private float _angle;
-        public Vector3 rotationVector = Vector3.left;
+        public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
 
 
@@ -60,7 +60,7 @@ namespace StageLightManeuver
                     var positions = manualPanTiltProperty.positions.value;
                     if (Index < positions.Count)
                     {
-                        _angle += positions[Index].tilt * weight;
+                        _angle += positions[Index].pan * weight;
                     }
                     
                 }
@@ -81,7 +81,6 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
-            var vec = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
             rotateTransform.localEulerAngles =  rotationVector * _angle;
         }
     }
