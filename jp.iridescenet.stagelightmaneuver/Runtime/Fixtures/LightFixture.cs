@@ -120,7 +120,7 @@ namespace StageLightManeuver
                 {
                     lightCookie = lightProperty.cookie.value;
 #if USE_VLB
-                    volumetricCookieHd.cookieTexture = lightProperty.cookie.value;
+                    if(volumetricCookieHd)volumetricCookieHd.cookieTexture = lightProperty.cookie.value;
 #endif
                 }
             }
