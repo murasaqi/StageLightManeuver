@@ -97,37 +97,28 @@ namespace StageLightManeuver
                         innerSpotAngle += lightValue.innerAngle * weight;
                         spotRange += lightValue.range * weight;
                     }
-                    
-                    
                 }
                 else
                 {
-                   
-
                     if (lightIntensityProperty != null)
                     {
                         var t =lightIntensityProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : normalizedTime;
                         lightIntensity += lightIntensityProperty.lightToggleIntensity.value.Evaluate(t) * weight;
                     }
-
                     spotAngle += lightProperty.spotAngle.value.Evaluate(normalizedTime) * weight;
                     innerSpotAngle += lightProperty.innerSpotAngle.value.Evaluate(normalizedTime) * weight;
                     spotRange += lightProperty.range.value.Evaluate(normalizedTime) * weight;
-    
                 }
-                
                 
                 if (lightColorProperty != null)
                 {
                     var t =lightColorProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : normalizedTime;
                     lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
-                    
                 }
 
                 if (weight > 0.5f)
                 {
                     lightCookie = lightProperty.cookie.value;
-
 #if USE_VLB
                     volumetricCookieHd.cookieTexture = lightProperty.cookie.value;
 #endif
@@ -140,8 +131,6 @@ namespace StageLightManeuver
             if (lights==null) return;
             foreach (var light in lights)
             {
-                
-              
 #if USE_HDRP
                 if (lightData.ContainsKey(light))
                 {
@@ -155,7 +144,6 @@ namespace StageLightManeuver
                     hdAdditionalLightData.innerSpotPercent = innerSpotAngle;
                     hdAdditionalLightData.range = spotRange;
                     if(lightCookie)hdAdditionalLightData.SetCookie(lightCookie);
-                    
                     // hdAdditionalLightData.UpdateAllLightValues();
                     // hdAdditionalLightData.setli
                     // lightData[light].intensity=lightIntensity;
