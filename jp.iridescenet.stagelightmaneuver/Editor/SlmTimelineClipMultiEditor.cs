@@ -45,7 +45,7 @@ namespace StageLightManeuver
             objectField.objectType = typeof(StageLightProfile);
             objectField.RegisterValueChangedCallback(evt =>
             {
-                stageLightProfile = evt.newValue as StageLightProfile;
+                stageLightProfile = evt.newValue == null ? null : evt.newValue as StageLightProfile;
             });
             
             
@@ -57,13 +57,14 @@ namespace StageLightManeuver
             {
                 foreach (var selectedClip in selectedClips)
                 {
-                    if (stageLightProfile)
+                    if (objectField.value != null)
                     {
                         selectedClip.referenceStageLightProfile = stageLightProfile;
                     }
                     else
                     {
                         selectedClip.referenceStageLightProfile = null;
+                        selectedClip.syncReferenceProfile = false;
                     }
                     selectedClip.forceTimelineClipUpdate = true;
                     selectedClip.InitSyncData();
