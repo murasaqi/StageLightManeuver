@@ -21,7 +21,7 @@ namespace StageLightManeuver
         public bool syncReferenceProfile = false;
         public StageLightTimelineTrack track;
         public string exportPath = "Assets/";
-
+        public StageLightTimelineMixerBehaviour mixer;
         public ClipCaps clipCaps
         {
             get { return ClipCaps.Blending; }

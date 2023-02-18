@@ -91,6 +91,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 }
                 
             }
+            
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("syncReferenceProfile"));
@@ -109,6 +110,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             {
                 serializedObject.ApplyModifiedProperties();
             }
+            
+       
             using (new EditorGUILayout.HorizontalScope())
             {
 
@@ -140,7 +143,19 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorGUILayout.Space(1);
 
            
-
+            if (GUILayout.Button("Select StageLight",GUILayout.MaxWidth(120)))
+            {
+                if (stageLightTimelineClip.mixer != null && stageLightTimelineClip.mixer.trackBinding != null)
+                {
+                    var gameObjects = new List<GameObject>();
+                    foreach (var stageLight in stageLightTimelineClip.mixer.trackBinding.AllStageLights)
+                    {
+                        gameObjects.Add(stageLight.gameObject);
+                    }
+                    Selection.objects = gameObjects.ToArray();
+                }
+                    
+            }
 
             // EditorGUILayout.PropertyField(serializedObject.FindProperty("forceTimelineClipUpdate"));
             EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
@@ -407,8 +422,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                             EditorGUI.BeginChangeCheck();
                                             var bpmScaleValue = EditorGUILayout.FloatField("BPM Scale",
                                                 bpmOverrideData.bpmScale);
+                                            
                                             if (EditorGUI.EndChangeCheck())
                                             {
+                                                if (bpmScaleValue == 0)
+                                                {
+                                                    bpmScaleValue = 0.0001f;
+                                                }
                                                 bpmOverrideData.GetType().GetField("bpmScale")
                                                     .SetValue(bpmOverrideData, bpmScaleValue);
                                             }
@@ -607,6 +627,17 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             if (EditorGUI.EndChangeCheck())
                             {
                                 Undo.RecordObject(undoTarget, "Changed Area Of Effect");
+
+                                if (property.GetType().BaseType == typeof(SlmAdditionalProperty) &&
+                                    labelValue == "BPM Scale" ||
+                                    labelValue == "BPM")
+                                {
+                                    var bpmScale = (float) resultValue;
+                                    if (bpmScale == 0f)
+                                    {
+                                        resultValue = 0.0001f;
+                                    }
+                                }
                                 if (resultValue != null)
                                 {
                                     stageLightValueFieldInfo.SetValue(fieldValue, resultValue);

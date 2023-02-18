@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using NUnit.Framework;
@@ -77,11 +78,11 @@ namespace StageLightManeuver
 
         public void SelectClips()
         {
-            var select = Selection.objects;
-
+            var select = Selection.objects.ToList();
             selectedClips.Clear();
             debugLabel.text = "";
             stringBuilder.Clear();
+            
             foreach (var s in select)
             {
                 if (s.GetType().ToString() == "UnityEditor.Timeline.EditorClip")
@@ -97,11 +98,16 @@ namespace StageLightManeuver
                         var asset = timelineClip.asset as StageLightTimelineClip;
                         
                         selectedClips.Add(asset);
+
                     }
+                    
+                    
                 }
                 
-                debugLabel.text = stringBuilder.ToString();
             }
+            
+            debugLabel.text = stringBuilder.ToString();
+         
         }
     }
      

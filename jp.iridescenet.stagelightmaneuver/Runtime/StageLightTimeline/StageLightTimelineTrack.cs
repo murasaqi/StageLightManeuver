@@ -37,6 +37,7 @@ namespace StageLightManeuver
             {
                 var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
                 stageLightTimelineClip.track = this;
+                stageLightTimelineClip.mixer = stageLightTimelineMixer;
             }
 
             return mixer;

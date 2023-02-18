@@ -14,7 +14,7 @@ namespace StageLightManeuver
         public StageLightTimelineTrack stageLightTimelineTrack;
         private bool firstFrameHapend = false;
 
-        private StageLightSupervisor trackBinding;
+        public StageLightSupervisor trackBinding;
 
         // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
