@@ -54,13 +54,23 @@ namespace StageLightManeuver
                 // Debug.Log($"{queueData.stageLightSetting.name},{time}");
                 
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
-                
+               
                 if(manualPanTiltProperty != null)
                 {
                     var positions = manualPanTiltProperty.positions.value;
+                    var mode = manualPanTiltProperty.mode.value;
                     if (Index < positions.Count)
                     {
-                        _angle += positions[Index].pan * weight;
+                       switch (mode)
+                        {
+                            case ManualPanTiltMode.Overwrite:
+                                _angle += positions[Index].pan * weight;
+                                break;
+                            case ManualPanTiltMode.Add:
+                                _angle += (positions[Index].pan+qPanProperty.rollTransform.value.Evaluate(normalizedTime)) * weight;
+                                break;
+                        }
+                            // Debug.Log($"pan({Index}): {positions[Index].pan}, weight: {weight}");
                     }
                     
                 }

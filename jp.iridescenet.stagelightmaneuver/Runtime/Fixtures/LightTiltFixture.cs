@@ -27,10 +27,19 @@ namespace StageLightManeuver
                 if(manualPanTiltProperty != null)
                 {
                     var positions = manualPanTiltProperty.positions.value;
+                    var mode = manualPanTiltProperty.mode.value;
                     if (Index < positions.Count)
                     {
+                        switch (mode)
+                        {
+                            case ManualPanTiltMode.Overwrite:
+                                _angle += positions[Index].tilt * weight;
+                                break;
+                            case ManualPanTiltMode.Add:
+                                _angle += (positions[Index].tilt+qTiltProperty.rollTransform.value.Evaluate(normalizedTime)) * weight;
+                                break;
+                        }
                         // Debug.Log($"tilt({Index}): {positions[Index].tilt}, weight: {weight}");
-                        _angle += positions[Index].tilt * weight;
                     }
                 }
                 else
