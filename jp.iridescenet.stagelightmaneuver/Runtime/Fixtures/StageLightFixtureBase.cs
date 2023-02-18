@@ -49,6 +49,20 @@ namespace StageLightManeuver
             var t = GetNormalizedTime(time+offsetTime,bpm,bpmOffset,bpmScale,clipProperty,loopType);
             return t;
         }
+
+
+        public float GetOffsetTime(StageLightQueData queData, Type propertyType)
+        {
+            var additionalProperty = queData.TryGetAdditionalProperty(propertyType) as SlmAdditionalProperty;
+            var timeProperty = queData.TryGet<TimeProperty>();
+            var bpm = timeProperty.bpm.value;
+            var bpmOffset = additionalProperty.bpmOverrideData.value.bpmOverride ? additionalProperty.bpmOverrideData.value.childStagger : timeProperty.childStagger.value;
+            var bpmScale = additionalProperty.bpmOverrideData.value.bpmOverride ? additionalProperty.bpmOverrideData.value.bpmScale : timeProperty.bpmScale.value;
+            var scaledBpm = bpm * bpmScale;
+            var duration = 60 / scaledBpm;
+            var offset = duration* bpmOffset * (Index+1);
+            return offset;
+        }
         
         public float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType)
         {

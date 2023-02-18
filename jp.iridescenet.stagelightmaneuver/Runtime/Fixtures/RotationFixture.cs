@@ -11,6 +11,7 @@ namespace StageLightManeuver
         public Transform target;
         public Vector3 rotationAxis = new Vector3(0,0,1);
         [FormerlySerializedAs("rotationScalar")] public float rotationSpeed = 0f;
+        private float rotation = 0f;
 
 
         private void Start()
@@ -28,7 +29,10 @@ namespace StageLightManeuver
         {
 
             // rotationAxis = Vector3.zero;
+            // rotationSpeed = 0f;
             rotationSpeed = 0f;
+            rotation = 0f;
+            var offsetTime = 0f;
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
@@ -39,19 +43,23 @@ namespace StageLightManeuver
                     return;
 
                 var normalizedTime = GetNormalizedTime(time, queueData, typeof(RotationProperty));
+                offsetTime += GetOffsetTime(queueData, typeof(RotationProperty)) * queueData.weight;
 
                 // rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
-                rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime)*time * queueData.weight;
+                rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime) * queueData.weight;
+                Debug.Log($"{Index}: {(time * offsetTime)}, {rotationSpeed}");
+                // rotation += rotationSpeed * (time * offsetTime) * queueData.weight;
 
             }
-            
-            rotationSpeed = rotationSpeed % 360;
+
+            rotation = (rotationSpeed * (time + offsetTime)) % 360;
+            // rotationSpeed = rotationSpeed % 360;
         }
 
         public override void UpdateFixture()
         {
             
-            if(target) target.localEulerAngles = rotationAxis * rotationSpeed;
+            if(target) target.localEulerAngles = rotationAxis * rotation;
         }
     }
     
