@@ -957,7 +957,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         
         private void InitProfileList(StageLightTimelineClip stageLightTimelineClip)
         {
-            allProfilesInProject = GetProfileInProject();
+            allProfilesInProject = SlmUtility.GetProfileInProject();
             profileNames.Clear();
 
             // group by folder
@@ -1006,24 +1006,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         }
 
         
-        private List<StageLightProfile> GetProfileInProject()
-        {
-            // Debug.Log(Application.dataPath);
-            // Get file in Unity project folderselectedProfileIndex
-            
-
-            // var guids = AssetDatabase.FindAssets("t:StageLightProfile a:all");
-            var guids = AssetDatabase.FindAssets("t:StageLightProfile");
-            var profiles = new List<StageLightProfile>();
-            foreach (var guid in guids)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                var profile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(path);
-                profiles.Add(profile);
-            }
-
-            return profiles;
-        }
+        
 
 
     }
