@@ -32,9 +32,18 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
         
         private List<StageLightPropertyEditor> _stageLightPropertyEditors = new List<StageLightPropertyEditor>();
+        
+        private List<StageLightProfile> allProfilesInProject = new List<StageLightProfile>();
+        private List<string> profileNames = new List<string>();
+        private int selectedProfileIndex = 0;
+
+        // group by folder
+        private Dictionary<string, List<StageLightProfile>> folderNamesProfileDict = new Dictionary<string, List<StageLightProfile>>();
 
         public override VisualElement CreateInspectorGUI()
         {
+            var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
+            InitProfileList(stageLightTimelineClip);
             var root = new VisualElement();
             var template = EditorGUIUtility.Load("StageLightTimelineClipEditor.uxml") as VisualTreeAsset;
             template.CloneTree(root);
@@ -65,7 +74,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     serializedObject.ApplyModifiedProperties();
                 }
-                DrawProfilesPopup(serializedObject.targetObject as StageLightTimelineClip);
+                // DrawProfilesPopup(serializedObject.targetObject as StageLightTimelineClip);
             }
 
             var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
@@ -894,25 +903,70 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             var lastFileNumber = 0;
             if (fileNames.Count > 0)
             {
-                var lastFile = fileNames.Last();    
-                // get last file number from file name
-                var lastFileNumberString = lastFile.Replace(fileName, "").Replace("(", "").Replace(")", "");
-               // Debug.Log(lastFileNumberString);
-                if (lastFileNumberString != "")
+                var lastFile = fileNames.Last();
+                var match = Regex.Match(lastFile, @"\((\d+)\)$");
+                if (match.Success)
                 {
-                    int.TryParse(lastFileNumberString, out lastFileNumber);
+                    lastFileNumber = int.TryParse (match.Groups[1].Value, out lastFileNumber) ? lastFileNumber : 0;
                 }
-                
+                lastFileNumber++;
             }
-            exportPath = filePath + "/" + fileName+ $"({lastFileNumber+1})" + fileExtension;
+
+            if (lastFileNumber == 0)
+            {
+                exportPath = filePath + "/" + fileName + fileExtension;
+            }
+            else
+            {
+                exportPath = filePath + "/" + fileName+ $"({lastFileNumber})" + fileExtension;
+            }
+            
                 
 
 
 
 
             AssetDatabase.CreateAsset(newProfile, exportPath);
-            stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(stageLightTimelineClip.exportPath);
-            
+            AssetDatabase.Refresh();
+            InitProfileList(stageLightTimelineClip);
+            stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(exportPath);
+            // EditorUtility.SetDirty(stageLightTimelineClip);
+            AssetDatabase.SaveAssets();
+            // serializedObject.Applyy(stageLightTimelineClip);
+            // AssetDatabase.SaveAssets();
+            // serializedObject.ApplyModifiedProperties();
+            //
+        }
+        
+        public void CreateDirectoryInSequence(string path)
+        {
+            int i = 2;
+            while (Directory.Exists(path))
+            {
+                if (i == 2)
+                {
+                    path += $" ({i})";
+                }
+                else
+                {
+                    var start = path.LastIndexOf('(') + 1;
+                    var count = path.LastIndexOf(')') - start;
+                    int index;
+                    var res = int.TryParse(path.Substring(start, count), out index);
+                    if (res)
+                    {
+                        index++;
+                        path = path.Remove(start, count);
+                        path = path.Insert(start, index.ToString());
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                i++;
+            }
+            Directory.CreateDirectory(path);
         }
         private void OnDisable()
         {
@@ -927,14 +981,14 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             this.Repaint();
         }
         
-        private void DrawProfilesPopup(StageLightTimelineClip stageLightTimelineClip)
+        private void InitProfileList(StageLightTimelineClip stageLightTimelineClip)
         {
-            var profiles = GetProfileInProject();
-            var profileNames = new List<string>();
+            allProfilesInProject = GetProfileInProject();
+            profileNames.Clear();
 
             // group by folder
-            var folderNamesProfileDict = new Dictionary<string, List<StageLightProfile>>();
-            foreach (var profile in profiles)
+            folderNamesProfileDict = new Dictionary<string, List<StageLightProfile>>();
+            foreach (var profile in allProfilesInProject)
             {
                 var path = AssetDatabase.GetAssetPath(profile);
                 var parentDirectory = Path.GetDirectoryName(path).Replace("Assets/", "").Replace("Assets\\", "");
@@ -957,16 +1011,22 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     profileNames.Add($"{keyPair.Key}/{v.name}");
                 }
             }
-
             
-
-            var pipUpIndex = profiles.IndexOf(stageLightTimelineClip.referenceStageLightProfile);
+            selectedProfileIndex = allProfilesInProject.IndexOf(stageLightTimelineClip.referenceStageLightProfile);
+        }
+        
+        private void DrawProfilesPopup(StageLightTimelineClip stageLightTimelineClip)
+        {
+            
+            if(allProfilesInProject == null || allProfilesInProject.Count == 0)
+                InitProfileList(stageLightTimelineClip);
+            
             EditorGUI.BeginChangeCheck();
-            pipUpIndex = EditorGUILayout.Popup("", pipUpIndex, profileNames.ToArray(), GUILayout.Width(120));
+            selectedProfileIndex = EditorGUILayout.Popup("", selectedProfileIndex, profileNames.ToArray(), GUILayout.Width(120));
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(stageLightTimelineClip, "Changed StageLightProfile");
-                stageLightTimelineClip.referenceStageLightProfile = profiles[pipUpIndex];
+                stageLightTimelineClip.referenceStageLightProfile = allProfilesInProject[selectedProfileIndex];
                 serializedObject.ApplyModifiedProperties();
             }
         }
@@ -975,7 +1035,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         private List<StageLightProfile> GetProfileInProject()
         {
             // Debug.Log(Application.dataPath);
-            // Get file in Unity project folder
+            // Get file in Unity project folderselectedProfileIndex
             
 
             // var guids = AssetDatabase.FindAssets("t:StageLightProfile a:all");
