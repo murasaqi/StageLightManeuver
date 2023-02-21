@@ -32,8 +32,12 @@ namespace StageLightManeuver
         public Dictionary<Toggle,SlmProperty> toggleProperties = new Dictionary<Toggle, SlmProperty>();
 
         private VisualElement propertyList;
+        
+        [SerializeReference]private StageLightProfile stageLightProfileCopy;
+        
         public void CreateGUI()
         {
+            stageLightProfileCopy = CreateInstance<StageLightProfile>();
             
             var root = rootVisualElement;
            
@@ -43,6 +47,7 @@ namespace StageLightManeuver
             Selection.selectionChanged += () =>
             {
                 SelectClips();
+                InitAndProperties();
             };
             profileInputWrapper = new VisualElement();
             profileInputWrapper.style.flexDirection = FlexDirection.Row;
@@ -110,19 +115,85 @@ namespace StageLightManeuver
                         if(property.Key.value == false) continue;
                         var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
                         
-                        // if same type in stageLightProperties, overwrite
-                        var sameTypeProperty = stageLightProperties.FirstOrDefault(p => p.GetType() == property.Value.GetType());
-                        if (sameTypeProperty != null)
-                        {
-                            stageLightProperties.Remove(sameTypeProperty);
-                        } 
-                        stageLightProperties.Add(property.Value);
+                        AddOrOverwriteProperty(stageLightProperties, property.Value);
+                        
+                        // stageLightProperties.Sort( (a,b) => a.propertyName.CompareTo(b.propertyName));
                     }
-                    selectedClip.forceTimelineClipUpdate = true;
+                    
                 }
             };
             wrapper.Add(propertyList);
             wrapper.Add(applyPropertyButton);
+            var stageLightProfileCopyField = new PropertyField();
+            stageLightProfileCopyField.BindProperty(new SerializedObject(stageLightProfileCopy).FindProperty("stageLightProperties"));
+            
+            // stageLightProfileCopyField.RegisterValueChangeCallback((v) =>
+            // {
+            //     Debug.Log(v.changedProperty);
+            // });
+            var foldout = new Foldout();
+            foldout.text = "Multi Property Edit";
+            foldout.Add(stageLightProfileCopyField);
+            foldout.style.paddingLeft = 10;
+            foldout.value = false;
+            
+            var applyMultiPropertyButton = new Button();
+            applyPropertyButton.clicked += () =>
+            {
+                foreach (var selectedClip in selectedClips)
+                {
+                    selectedClip.syncReferenceProfile = false;
+                    selectedClip.referenceStageLightProfile = null;
+                    
+                    foreach (var property in stageLightProfileCopy.stageLightProperties)
+                    {
+                        var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
+                        
+                        AddOrOverwriteProperty(stageLightProperties, property);
+                    }
+                }
+
+            };
+            applyMultiPropertyButton.text = "Apply Multi Property";
+            foldout.Add(applyMultiPropertyButton);
+            
+            // wrapper.Add(foldout);
+
+        }
+        public void AddOrOverwriteProperty(List<SlmProperty> slmProperties, SlmProperty property)
+        {
+            var sameTypeProperty = slmProperties.FirstOrDefault(p => p.GetType() == property.GetType());
+            if (sameTypeProperty != null)
+            {
+                slmProperties[slmProperties.IndexOf(sameTypeProperty)] = property;
+            }
+            else
+            {
+                slmProperties.Add(property);
+            }
+        }
+        
+        public void InitAndProperties()
+        {
+            stageLightProfileCopy.stageLightProperties.Clear();
+            var propertyTypes = new List<System.Type>();
+            
+            foreach (var selectedClip in selectedClips)
+            {
+                foreach (var property in selectedClip.behaviour.stageLightQueData.stageLightProperties)
+                {
+                    if (propertyTypes.Contains(property.GetType())) continue;
+                    propertyTypes.Add(property.GetType());
+                }
+            }
+            
+            foreach (var propertyType in propertyTypes)
+            {
+                var property = System.Activator.CreateInstance(propertyType) as SlmProperty;
+                stageLightProfileCopy.stageLightProperties.Add(property);
+            }
+
+           
         }
 
 
