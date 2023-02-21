@@ -34,6 +34,7 @@ namespace StageLightManeuver
         
         public RotationProperty(RotationProperty other)
         {
+            propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {

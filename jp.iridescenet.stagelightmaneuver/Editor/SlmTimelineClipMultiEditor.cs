@@ -62,14 +62,7 @@ namespace StageLightManeuver
             stageLightProfileField.RegisterValueChangedCallback(evt =>
             {
                 stageLightProfile = evt.newValue == null ? null : evt.newValue as StageLightProfile;
-                toggleProperties.Clear();
-                propertyList.Clear();
-                foreach (var property in stageLightProfile.stageLightProperties)
-                {
-                    var toggle = new Toggle(property.propertyName) { value = true };
-                    propertyList.Add(toggle);
-                    toggleProperties.Add(toggle,property);
-                }
+                InitStageLightPropertyList();
             });
 
             profileInputWrapper.Add(stageLightProfileField);
@@ -124,45 +117,45 @@ namespace StageLightManeuver
             };
             wrapper.Add(propertyList);
             wrapper.Add(applyPropertyButton);
-            var stageLightProfileCopyField = new PropertyField();
-            stageLightProfileCopyField.BindProperty(new SerializedObject(stageLightProfileCopy).FindProperty("stageLightProperties"));
+            // var stageLightProfileCopyField = new PropertyField();
+            // stageLightProfileCopyField.BindProperty(new SerializedObject(stageLightProfileCopy).FindProperty("stageLightProperties"));
             
             // stageLightProfileCopyField.RegisterValueChangeCallback((v) =>
             // {
             //     Debug.Log(v.changedProperty);
             // });
-            var foldout = new Foldout();
-            foldout.text = "Multi Property Edit";
-            foldout.Add(stageLightProfileCopyField);
-            foldout.style.paddingLeft = 10;
-            foldout.value = false;
-            
-            var applyMultiPropertyButton = new Button();
-            applyPropertyButton.clicked += () =>
-            {
-                foreach (var selectedClip in selectedClips)
-                {
-                    selectedClip.syncReferenceProfile = false;
-                    selectedClip.referenceStageLightProfile = null;
-                    
-                    foreach (var property in stageLightProfileCopy.stageLightProperties)
-                    {
-                        var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
-                        
-                        AddOrOverwriteProperty(stageLightProperties, property);
-                    }
-                }
-
-            };
-            applyMultiPropertyButton.text = "Apply Multi Property";
-            foldout.Add(applyMultiPropertyButton);
+            // var foldout = new Foldout();
+            // foldout.text = "Multi Property Edit";
+            // foldout.Add(stageLightProfileCopyField);
+            // foldout.style.paddingLeft = 10;
+            // foldout.value = false;
+            //
+            // var applyMultiPropertyButton = new Button();
+            // applyPropertyButton.clicked += () =>
+            // {
+            //     foreach (var selectedClip in selectedClips)
+            //     {
+            //         selectedClip.syncReferenceProfile = false;
+            //         selectedClip.referenceStageLightProfile = null;
+            //         
+            //         foreach (var property in stageLightProfileCopy.stageLightProperties)
+            //         {
+            //             var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
+            //             
+            //             AddOrOverwriteProperty(stageLightProperties, property);
+            //         }
+            //     }
+            //
+            // };
+            // applyMultiPropertyButton.text = "Apply Multi Property";
+            // foldout.Add(applyMultiPropertyButton);
             
             // wrapper.Add(foldout);
 
         }
         public void AddOrOverwriteProperty(List<SlmProperty> slmProperties, SlmProperty property)
         {
-            var sameTypeProperty = slmProperties.FirstOrDefault(p => p.GetType() == property.GetType());
+            var sameTypeProperty = slmProperties.Find(p => p.GetType() == property.GetType());
             if (sameTypeProperty != null)
             {
                 slmProperties[slmProperties.IndexOf(sameTypeProperty)] = property;
@@ -172,7 +165,20 @@ namespace StageLightManeuver
                 slmProperties.Add(property);
             }
         }
-        
+
+
+        public void InitStageLightPropertyList()
+        {
+            toggleProperties.Clear();
+            propertyList.Clear();
+            if(stageLightProfile == null) return;
+            foreach (var property in stageLightProfile.stageLightProperties)
+            {
+                var toggle = new Toggle(property.propertyName) { value = true };
+                propertyList.Add(toggle);
+                toggleProperties.Add(toggle,property);
+            }
+        }
         public void InitAndProperties()
         {
             stageLightProfileCopy.stageLightProperties.Clear();
