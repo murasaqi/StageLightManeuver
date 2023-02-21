@@ -180,7 +180,7 @@ namespace StageLightManeuver
             if(stageLightProfile == null) return;
             foreach (var property in stageLightProfile.stageLightProperties)
             {
-                var toggle = new Toggle(property.propertyName) { value = true };
+                var toggle = new Toggle(property.propertyName) { value = false };
                 propertyList.Add(toggle);
                 toggleProperties.Add(toggle,property);
             }
@@ -244,7 +244,6 @@ namespace StageLightManeuver
             }
             
             var popup = new PopupField<string>(profileNames, 0);
-            
             popup.RegisterValueChangedCallback(evt =>
             {
                 var index = profileNames.IndexOf(evt.newValue);
