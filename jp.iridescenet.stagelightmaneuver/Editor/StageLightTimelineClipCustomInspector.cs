@@ -52,15 +52,20 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         private void BeginInspector()
         {
             serializedObject.Update();
-            
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("referenceStageLightProfile"));
-            if (EditorGUI.EndChangeCheck())
+
+            using (new EditorGUILayout.HorizontalScope())
             {
-                serializedObject.ApplyModifiedProperties();
+                EditorGUILayout.LabelField("Profile", GUILayout.MaxWidth(60));
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("referenceStageLightProfile"),
+                    new GUIContent(""));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedObject.ApplyModifiedProperties();
+                }
+                DrawProfilesPopup(serializedObject.targetObject as StageLightTimelineClip);
             }
-           
-            
+
             var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
 
             
@@ -102,31 +107,32 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             }
             
             EditorGUI.EndDisabledGroup();
-            
-            
-            EditorGUI.BeginChangeCheck();
-            var path = EditorGUILayout.PropertyField(serializedObject.FindProperty("exportPath"));
-            if (EditorGUI.EndChangeCheck())
-            {
-                serializedObject.ApplyModifiedProperties();
-            }
-            
-       
+
+
             using (new EditorGUILayout.HorizontalScope())
             {
 
-                GUILayout.FlexibleSpace();
-               
-                
-                
+                EditorGUI.BeginChangeCheck();
+                var path = EditorGUILayout.PropertyField(serializedObject.FindProperty("exportPath"));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedObject.ApplyModifiedProperties();
+                }
                 GUI.backgroundColor = Color.white;
-                if (GUILayout.Button("Explorer",GUILayout.MaxWidth(60)))
+                if (GUILayout.Button("...",GUILayout.MaxWidth(30)))
                 {
                     SetFilePath(stageLightTimelineClip);
                 }
 
-                
-                
+            }
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+
+                GUILayout.FlexibleSpace();
+
+
+
                 GUI.backgroundColor= Color.red;
                 GUI.contentColor = Color.white;
                 
@@ -887,8 +893,37 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         {
             this.Repaint();
         }
+        
+        private void DrawProfilesPopup(StageLightTimelineClip stageLightTimelineClip)
+        {
+            var profiles = GetProfileInProject();
+            var profileNames = profiles.Select(p => p.name).ToArray();
+            var index = profiles.IndexOf(stageLightTimelineClip.referenceStageLightProfile);
+            EditorGUI.BeginChangeCheck();
+            index = EditorGUILayout.Popup("", index, profileNames, GUILayout.Width(120));
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(stageLightTimelineClip, "Changed StageLightProfile");
+                stageLightTimelineClip.referenceStageLightProfile = profiles[index];
+                serializedObject.ApplyModifiedProperties();
+            }
+        }
 
-      
+        
+        private List<StageLightProfile> GetProfileInProject()
+        {
+            var guids = AssetDatabase.FindAssets("t:StageLightProfile");
+            var profiles = new List<StageLightProfile>();
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var profile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(path);
+                profiles.Add(profile);
+            }
+
+            return profiles;
+        }
+
 
     }
 }

@@ -47,7 +47,7 @@ namespace StageLightManeuver
 
                 // rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
                 rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime) * queueData.weight;
-                Debug.Log($"{Index}: {(time * offsetTime)}, {rotationSpeed}");
+                // Debug.Log($"{Index}: {(time * offsetTime)}, {rotationSpeed}");
                 // rotation += rotationSpeed * (time * offsetTime) * queueData.weight;
 
             }
