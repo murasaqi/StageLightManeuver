@@ -901,6 +901,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             
             // fileNames.ForEach(f => Debug.Log(f));
             var lastFileNumber = 0;
+            var exportFileName = fileName;
             if (fileNames.Count > 0)
             {
                 var lastFile = fileNames.Last();
@@ -909,6 +910,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     lastFileNumber = int.TryParse (match.Groups[1].Value, out lastFileNumber) ? lastFileNumber : 0;
                 }
+
+                fileName = fileName.Replace($"({lastFileNumber})", "");
                 lastFileNumber++;
             }
 
@@ -938,36 +941,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             //
         }
         
-        public void CreateDirectoryInSequence(string path)
-        {
-            int i = 2;
-            while (Directory.Exists(path))
-            {
-                if (i == 2)
-                {
-                    path += $" ({i})";
-                }
-                else
-                {
-                    var start = path.LastIndexOf('(') + 1;
-                    var count = path.LastIndexOf(')') - start;
-                    int index;
-                    var res = int.TryParse(path.Substring(start, count), out index);
-                    if (res)
-                    {
-                        index++;
-                        path = path.Remove(start, count);
-                        path = path.Insert(start, index.ToString());
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                i++;
-            }
-            Directory.CreateDirectory(path);
-        }
+        
         private void OnDisable()
         {
            
