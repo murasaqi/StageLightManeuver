@@ -43,6 +43,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             };
         }
         
+        
         public override void OnClipChanged(TimelineClip clip)
         {
         
@@ -58,6 +59,22 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
             base.OnCreate(clip, track, clonedFrom);
+            var stageLightTimelineClip = (StageLightTimelineClip)clip.asset;
+            if (stageLightTimelineClip == null)
+                return;
+            var guids = AssetDatabase.FindAssets( "t:StageLightManeuverSettings" );
+            Debug.Log(guids);
+            if (guids.Length > 0)
+            {
+                var stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+                var stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
+                stageLightTimelineClip.exportPath = stageLightManeuverSettingsAsset.exportProfilePath;
+            }
+            else
+            {
+                stageLightTimelineClip.exportPath = SlmUtility.BaseExportPath;
+            }
+
        
         }
 

@@ -15,9 +15,11 @@ namespace StageLightManeuver
     {
 
 
+        public static string BaseExportPath = "Assets/StageLightManeuver/Profiles/<Scene>/<ClipName>";
+
         public static string GetExportPath(string path, string clipName)
         {
-            return path.Replace("<Scene>", SceneManager.GetActiveScene().name).Replace("<Clip>", clipName);
+            return path.Replace("<Scene>", SceneManager.GetActiveScene().name).Replace("<ClipName>", clipName);
         }
 
         public static List<Type> SlmAdditionalTypes = GetTypes(typeof(SlmAdditionalProperty));

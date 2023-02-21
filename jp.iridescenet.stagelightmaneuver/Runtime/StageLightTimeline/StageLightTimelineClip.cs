@@ -22,7 +22,7 @@ namespace StageLightManeuver
         public bool forceTimelineClipUpdate;
         public bool syncReferenceProfile = false;
         public StageLightTimelineTrack track;
-        public string exportPath = "Assets/StageLightProfiles/<Scene>/<Clip>";
+        public string exportPath = "";
         public StageLightTimelineMixerBehaviour mixer;
         public ClipCaps clipCaps
         {
@@ -55,11 +55,7 @@ namespace StageLightManeuver
 
                 behaviour.stageLightQueData.stageLightProperties.Add(timeProperty);
             }
-
-            if (exportPath == "")
-            {
-                exportPath = $"{track.exportPath}{this.name}.asset";
-            }
+            
 
             if (syncReferenceProfile && referenceStageLightProfile != null)
             {
