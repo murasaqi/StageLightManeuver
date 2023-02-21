@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -865,21 +867,52 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             Undo.RegisterCompleteObjectUndo(stageLightTimelineClip, stageLightTimelineClip.name);
             EditorUtility.SetDirty(stageLightTimelineClip);
             
-            // var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
-            // var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
-            // var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
-            // string fileName = Path.GetFileName(path);
-            // if(path == "") return;
-            // path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
-            // string dir = Path.GetDirectoryName(path);
-            // Debug.Log($"dir: {dir}, file: {fileName}");
             var newProfile = CreateInstance<StageLightProfile>();
             newProfile.stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
-            AssetDatabase.CreateAsset(newProfile, stageLightTimelineClip.exportPath);
-            // useProfile = true;
-            // ptlPropObject = new ExposedReference<VLVLBClipProfile>();
+            var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName) + ".asset";
+
+            // if directory not exist, create it
+            var directory = Path.GetDirectoryName(exportPath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+            
+            
+            // if same name file exist in directory, add (number) to file name
+            var fileName = Path.GetFileNameWithoutExtension(exportPath);
+            var fileExtension = Path.GetExtension(exportPath);
+            var filePath = Path.GetDirectoryName(exportPath);
+            
+            // try .asset file 
+            var files = Directory.GetFiles(filePath, "*" + fileExtension).ToList().Where( f => f.Contains(fileName)).ToList();
+            var fileNames = files.Select(f => Path.GetFileNameWithoutExtension(f)).ToList();
+            // sort file names
+            fileNames.Sort();
+            
+            // fileNames.ForEach(f => Debug.Log(f));
+            var lastFileNumber = 0;
+            if (fileNames.Count > 0)
+            {
+                var lastFile = fileNames.Last();    
+                // get last file number from file name
+                var lastFileNumberString = lastFile.Replace(fileName, "").Replace("(", "").Replace(")", "");
+               // Debug.Log(lastFileNumberString);
+                if (lastFileNumberString != "")
+                {
+                    int.TryParse(lastFileNumberString, out lastFileNumber);
+                }
+                
+            }
+            exportPath = filePath + "/" + fileName+ $"({lastFileNumber+1})" + fileExtension;
+                
+
+
+
+
+            AssetDatabase.CreateAsset(newProfile, exportPath);
             stageLightTimelineClip.referenceStageLightProfile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(stageLightTimelineClip.exportPath);
-            // Debug.Log($"Load {path}");
+            
         }
         private void OnDisable()
         {
@@ -897,14 +930,43 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         private void DrawProfilesPopup(StageLightTimelineClip stageLightTimelineClip)
         {
             var profiles = GetProfileInProject();
-            var profileNames = profiles.Select(p => p.name).ToArray();
-            var index = profiles.IndexOf(stageLightTimelineClip.referenceStageLightProfile);
+            var profileNames = new List<string>();
+
+            // group by folder
+            var folderNamesProfileDict = new Dictionary<string, List<StageLightProfile>>();
+            foreach (var profile in profiles)
+            {
+                var path = AssetDatabase.GetAssetPath(profile);
+                var parentDirectory = Path.GetDirectoryName(path).Replace("Assets/", "").Replace("Assets\\", "");
+                parentDirectory = parentDirectory.Replace("\\", ">").Replace("/", ">");
+                if (folderNamesProfileDict.ContainsKey(parentDirectory))
+                {
+                    folderNamesProfileDict[parentDirectory].Add(profile);
+                }
+                else
+                {
+                    folderNamesProfileDict.Add(parentDirectory, new List<StageLightProfile> {profile});
+                }
+
+            }
+
+            foreach (var keyPair in folderNamesProfileDict)
+            {
+                foreach (var v in keyPair.Value)
+                {
+                    profileNames.Add($"{keyPair.Key}/{v.name}");
+                }
+            }
+
+            
+
+            var pipUpIndex = profiles.IndexOf(stageLightTimelineClip.referenceStageLightProfile);
             EditorGUI.BeginChangeCheck();
-            index = EditorGUILayout.Popup("", index, profileNames, GUILayout.Width(120));
+            pipUpIndex = EditorGUILayout.Popup("", pipUpIndex, profileNames.ToArray(), GUILayout.Width(120));
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(stageLightTimelineClip, "Changed StageLightProfile");
-                stageLightTimelineClip.referenceStageLightProfile = profiles[index];
+                stageLightTimelineClip.referenceStageLightProfile = profiles[pipUpIndex];
                 serializedObject.ApplyModifiedProperties();
             }
         }
@@ -912,6 +974,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         
         private List<StageLightProfile> GetProfileInProject()
         {
+            // Debug.Log(Application.dataPath);
+            // Get file in Unity project folder
+            
+
+            // var guids = AssetDatabase.FindAssets("t:StageLightProfile a:all");
             var guids = AssetDatabase.FindAssets("t:StageLightProfile");
             var profiles = new List<StageLightProfile>();
             foreach (var guid in guids)

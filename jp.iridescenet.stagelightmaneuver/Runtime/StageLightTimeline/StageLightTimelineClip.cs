@@ -10,6 +10,8 @@ using UnityEditor;
 namespace StageLightManeuver
 {
 
+    
+    
 
     [Serializable]
     public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
@@ -20,12 +22,14 @@ namespace StageLightManeuver
         public bool forceTimelineClipUpdate;
         public bool syncReferenceProfile = false;
         public StageLightTimelineTrack track;
-        public string exportPath = "Assets/";
+        public string exportPath = "Assets/StageLightProfiles/<Scene>/<Clip>";
         public StageLightTimelineMixerBehaviour mixer;
         public ClipCaps clipCaps
         {
             get { return ClipCaps.Blending; }
         }
+
+        public string clipDisplayName;
 
 
         public void OnEnable()

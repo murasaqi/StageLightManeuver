@@ -53,7 +53,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if (stageLightTimelineClip.referenceStageLightProfile != null)
                 clip.displayName = stageLightTimelineClip.referenceStageLightProfile.name;
             
-
+            stageLightTimelineClip.clipDisplayName = clip.displayName;
         }
         public override void OnCreate(TimelineClip clip, TrackAsset track, TimelineClip clonedFrom)
         {
@@ -69,6 +69,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
             if(syncIconTexture == null)syncIconTexture = Resources.Load<Texture2D>("SLSAssets/Texture/icon_sync");
             var stageLightTimelineClip = (StageLightTimelineClip) clip.asset;
+            stageLightTimelineClip.clipDisplayName = clip.displayName;
             var update = stageLightTimelineClip.forceTimelineClipUpdate;
             if (stageLightTimelineClip.referenceStageLightProfile != null)
             {

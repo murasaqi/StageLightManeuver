@@ -4,14 +4,21 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.SceneManagement;
 
 // using System.Reflection;
 
 namespace StageLightManeuver
 {
+    
     public static class SlmUtility
     {
 
+
+        public static string GetExportPath(string path, string clipName)
+        {
+            return path.Replace("<Scene>", SceneManager.GetActiveScene().name).Replace("<Clip>", clipName);
+        }
 
         public static List<Type> SlmAdditionalTypes = GetTypes(typeof(SlmAdditionalProperty));
         
