@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -156,9 +157,14 @@ namespace StageLightManeuver
         public void AddOrOverwriteProperty(List<SlmProperty> slmProperties, SlmProperty property)
         {
             var sameTypeProperty = slmProperties.Find(p => p.GetType() == property.GetType());
+            var type = property.GetType();
+            var copyProperty = Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
+                    new object[] { property }, null)
+                as SlmProperty;
             if (sameTypeProperty != null)
             {
-                slmProperties[slmProperties.IndexOf(sameTypeProperty)] = property;
+                
+                slmProperties[slmProperties.IndexOf(sameTypeProperty)] = copyProperty;
             }
             else
             {
