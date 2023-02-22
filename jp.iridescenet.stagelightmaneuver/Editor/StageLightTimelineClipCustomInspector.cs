@@ -548,6 +548,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                 resultValue = EditorGUILayout.GradientField(labelValue,
                                     (Gradient)stageLightValueFieldInfo.GetValue(fieldValue));
                             }
+                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Color))
+                            {
+                                resultValue = EditorGUILayout.ColorField(labelValue,
+                                    (Color)stageLightValueFieldInfo.GetValue(fieldValue));
+                            }
 
                             if (stageLightValueFieldInfo.FieldType == typeof(List<PanTiltPrimitive>))
                             {
@@ -638,6 +643,45 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                     }
                                     
                                     resultValue = lightPrimitiveValues;
+                                }
+                            }
+                            
+                            if (stageLightValueFieldInfo.FieldType == typeof(List<ColorPrimitiveValue>))
+                            {
+                                using (new EditorGUILayout.VerticalScope())
+                                {
+                                    
+                                    using (new EditorGUILayout.HorizontalScope())
+                                    {
+                                        
+                                        EditorGUILayout.LabelField("Color List");
+                                    }
+                                    
+                                    // var rect = EditorGUI.RectField()
+                                    var colorPrimitiveValues = stageLightValueFieldInfo.GetValue(fieldValue) as List<ColorPrimitiveValue>;
+                                   
+                                    for (int k = 0; k< colorPrimitiveValues.Count; k++)
+                                    {
+                                        var colorPrimitiveValue = colorPrimitiveValues[k];
+
+                                        using (new EditorGUILayout.HorizontalScope())
+                                        {
+                                            GUI.color = Color.gray;
+                                            EditorGUILayout.LabelField(colorPrimitiveValue.name);
+                                            GUI.color = Color.white;
+                                        }
+                                        // using (new EditorGUILayout.HorizontalScope())
+                                        // {
+                                            
+                                        
+                                            
+                                            var color = EditorGUILayout.ColorField("color", colorPrimitiveValue.color);
+                                            colorPrimitiveValues[k].color = color;
+                                            
+                                        // }
+                                    }
+                                    
+                                    resultValue = colorPrimitiveValues;
                                 }
                             }
                            

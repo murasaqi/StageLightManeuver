@@ -56,7 +56,11 @@ namespace StageLightManeuver
                 var manualLightArray =
                     stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualLightArrayProperty>();
                 FetchManualLightArraySize(manualLightArray);
-
+                
+                var manualColorArray =
+                    stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualColorArrayProperty>();
+                FetchManualColorArraySize(manualColorArray);
+                
                 if (inputWeight > 0)
                 {
                     stageLightTimelineClip.behaviour.stageLightQueData.weight = inputWeight;
@@ -121,6 +125,7 @@ namespace StageLightManeuver
 
             }
         }
+        
 
         internal void FetchManualLightArraySize(ManualLightArrayProperty manualLightArray)
         {
@@ -153,6 +158,47 @@ namespace StageLightManeuver
                         if (lightPrimitiveValues[j] != null && trackBinding.AllStageLights[j] != null)
                         {
                             lightPrimitiveValues[j].name = trackBinding.AllStageLights[j].name;
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        
+        
+        internal void FetchManualColorArraySize (ManualColorArrayProperty manualColorArray)
+        {
+
+            if (manualColorArray != null)
+            {
+                var colorPrimitiveValues = manualColorArray.colorValues.value;
+                if (colorPrimitiveValues.Count < trackBinding.AllStageLights.Count)
+                {
+                    while (colorPrimitiveValues.Count < trackBinding.AllStageLights.Count)
+                    {
+                        colorPrimitiveValues.Add(new ColorPrimitiveValue());
+                    }
+
+                }
+
+                if (colorPrimitiveValues.Count > trackBinding.AllStageLights.Count)
+                {
+                    while (colorPrimitiveValues.Count > trackBinding.AllStageLights.Count)
+                    {
+                        colorPrimitiveValues.RemoveAt(colorPrimitiveValues.Count - 1);
+                    }
+                }
+
+                for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
+                {
+                    // if not index is out of range
+                    if (j < colorPrimitiveValues.Count && j < trackBinding.AllStageLights.Count)
+                    {
+                        if (colorPrimitiveValues[j] != null && trackBinding.AllStageLights[j] != null)
+                        {
+                            colorPrimitiveValues[j].name = trackBinding.AllStageLights[j].name;
                         }
 
                     }

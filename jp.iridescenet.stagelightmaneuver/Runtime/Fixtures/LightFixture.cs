@@ -85,6 +85,9 @@ namespace StageLightManeuver
              
                 var normalizedTime = GetNormalizedTime(currentTime, data, typeof(LightProperty));
                 var manualLightArrayProperty = data.TryGet<ManualLightArrayProperty>();
+                var manualColorArrayProperty = data.TryGet<ManualColorArrayProperty>();
+                
+                
 
                 if (manualLightArrayProperty != null)
                 {
@@ -109,8 +112,17 @@ namespace StageLightManeuver
                     innerSpotAngle += lightProperty.innerSpotAngle.value.Evaluate(normalizedTime) * weight;
                     spotRange += lightProperty.range.value.Evaluate(normalizedTime) * weight;
                 }
-                
-                if (lightColorProperty != null)
+
+                if (manualColorArrayProperty != null)
+                {
+                    var values = manualColorArrayProperty.colorValues.value;
+                    if (Index < values.Count)
+                    {
+                        var colorValue = values[Index];
+                        lightColor += colorValue.color * weight;
+                    }
+                    
+                }else if (lightColorProperty != null)
                 {
                     var t =lightColorProperty.bpmOverrideData.value.bpmOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : normalizedTime;
                     lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
