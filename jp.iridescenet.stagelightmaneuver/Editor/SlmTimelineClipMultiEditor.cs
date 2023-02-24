@@ -28,7 +28,7 @@ namespace StageLightManeuver
         public StageLightProfile stageLightProfile;
         
         public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
-        public Label selectedClipsField;
+        public TextField selectedClipsField;
         private StringBuilder stringBuilder = new StringBuilder();
         public ObjectField stageLightProfileField;
         public Dictionary<Toggle,SlmProperty> toggleProperties = new Dictionary<Toggle, SlmProperty>();
@@ -57,12 +57,11 @@ namespace StageLightManeuver
             
             
             propertyList = new VisualElement();
-            var foldout = new Foldout();
-            foldout.text = "Select clips";
-            selectedClipsField = new Label();
-            foldout.Add(selectedClipsField);
-            
-
+            selectedClipsField = new TextField("Select clips");
+            selectedClipsField.isReadOnly = true;
+            selectedClipsField.multiline = true;
+            selectedClipsField.style.maxHeight = 100;
+            // selectedClipsField.style.textOverflow = TextOverflow.
             stageLightProfileField = new ObjectField("StageLightProfile");
             stageLightProfileField.objectType = typeof(StageLightProfile);
             stageLightProfileField.RegisterValueChangedCallback(evt =>
@@ -260,7 +259,7 @@ namespace StageLightManeuver
         {
             var select = Selection.objects.ToList();
             selectedClips.Clear();
-            selectedClipsField.text = "";
+            selectedClipsField.value = "";
             stringBuilder.Clear();
             
             foreach (var s in select)
@@ -284,8 +283,7 @@ namespace StageLightManeuver
                 
             }
             
-            selectedClipsField.text = stringBuilder.ToString();
-            
+            selectedClipsField.value = stringBuilder.ToString();
          
         }
     }
