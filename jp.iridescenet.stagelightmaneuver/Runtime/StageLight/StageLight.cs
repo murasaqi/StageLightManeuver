@@ -68,19 +68,19 @@ namespace StageLightManeuver
 
         private void OnDestroy()
         {
-            // Debug.Log("On Destroy");
-            // for (int i = stageLightFixtures.Count-1; i >=0; i--)
-            // {
-            //     try
-            //     {
-            //         if(stageLightFixtures[i]!= null)DestroyImmediate(stageLightFixtures[i]);
-            //     }
-            //     catch (Exception e)
-            //     {
-            //         Console.WriteLine(e);
-            //         throw;
-            //     }
-            // }
+            Debug.Log("On Destroy");
+            for (int i = stageLightFixtures.Count-1; i >=0; i--)
+            {
+                try
+                {
+                    if(stageLightFixtures[i]!= null)DestroyImmediate(stageLightFixtures[i]);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
 
 
