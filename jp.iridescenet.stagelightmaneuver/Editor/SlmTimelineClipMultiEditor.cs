@@ -94,7 +94,6 @@ namespace StageLightManeuver
                 }
             };
             
-            wrapper.Add(foldout);
             
             wrapper.Add(button);
             

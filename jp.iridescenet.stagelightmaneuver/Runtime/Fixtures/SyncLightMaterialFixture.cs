@@ -25,6 +25,7 @@ namespace StageLightManeuver
 #endif
         
         public float intensityMultiplier = 1f;
+        public float maxIntensityLimit = 3;
         public bool brightnessDecreasesToBlack = true;
         private Dictionary<MeshRenderer,MaterialPropertyBlock> _materialPropertyBlocks;
         public LightFixture lightFixture;
@@ -59,6 +60,7 @@ namespace StageLightManeuver
             if(meshRenderers == null || _materialPropertyBlocks == null) return;
 
             intensityMultiplier = 0f;
+            maxIntensityLimit = 0f;
             while (stageLightDataQueue.Count>0)
             {
                 
@@ -73,6 +75,8 @@ namespace StageLightManeuver
                     {
                         brightnessDecreasesToBlack = syncLightMaterialProperty.brightnessDecreasesToBlack.value;
                     }
+
+                    maxIntensityLimit += syncLightMaterialProperty.maxIntensityLimit.value * data.weight;
                 }
 
             }
@@ -89,7 +93,7 @@ namespace StageLightManeuver
                 Init();
             }
             
-            var intensity = lightFixture.lightIntensity * intensityMultiplier;
+            var intensity = Mathf.Min(lightFixture.lightIntensity * intensityMultiplier,maxIntensityLimit);
             var hdrColor = SlmUtility.GetHDRColor(lightFixture.lightColor,
                 intensity);
             var result = brightnessDecreasesToBlack ? Color.Lerp(Color.black,hdrColor, Mathf.Clamp(intensity, 0, 1f)) : hdrColor;
