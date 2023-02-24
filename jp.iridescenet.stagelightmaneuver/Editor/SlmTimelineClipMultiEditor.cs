@@ -26,6 +26,7 @@ namespace StageLightManeuver
         public VisualElement profileInputWrapper;
         
         public StageLightProfile stageLightProfile;
+        
         public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
         public Label selectedClipsField;
         private StringBuilder stringBuilder = new StringBuilder();
@@ -56,8 +57,12 @@ namespace StageLightManeuver
             
             
             propertyList = new VisualElement();
-            selectedClipsField = new Label("Select clips");
-            selectedClipsField.SetEnabled(false);
+            var foldout = new Foldout();
+            foldout.text = "Select clips";
+            selectedClipsField = new Label();
+            foldout.Add(selectedClipsField);
+            
+
             stageLightProfileField = new ObjectField("StageLightProfile");
             stageLightProfileField.objectType = typeof(StageLightProfile);
             stageLightProfileField.RegisterValueChangedCallback(evt =>
@@ -90,7 +95,7 @@ namespace StageLightManeuver
                 }
             };
             
-            wrapper.Add(selectedClipsField);
+            wrapper.Add(foldout);
             
             wrapper.Add(button);
             
@@ -280,6 +285,7 @@ namespace StageLightManeuver
             }
             
             selectedClipsField.text = stringBuilder.ToString();
+            
          
         }
     }
