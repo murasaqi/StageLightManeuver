@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace StageLightManeuver
 {
@@ -10,15 +11,9 @@ namespace StageLightManeuver
     {
         public List<StageLightBase> stageLights = new List<StageLightBase>();
         public List<StageLightSupervisor> stageLightSupervisors = new List<StageLightSupervisor>();
-        // [Range(0f,1f)]public float fader = 0f;
-
-        // public int a;
-        // public int b;
-
         [SerializeReference]private List<StageLightBase> allStageLights = new List<StageLightBase>();
 
         public List<StageLightBase> AllStageLights => allStageLights;
-
 
         [ContextMenu("Initialize")]
         public void Init()
@@ -29,6 +24,8 @@ namespace StageLightManeuver
             {
                 allStageLights.AddRange(stageLightSupervisor.stageLights);
             }
+            
+            
             
             var index = 0;
             foreach (var stageLight in allStageLights)
