@@ -63,7 +63,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if (stageLightTimelineClip == null)
                 return;
             var guids = AssetDatabase.FindAssets( "t:StageLightManeuverSettings" );
-            Debug.Log(guids);
+            // Debug.Log(guids);
             if (guids.Length > 0)
             {
                 var stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);

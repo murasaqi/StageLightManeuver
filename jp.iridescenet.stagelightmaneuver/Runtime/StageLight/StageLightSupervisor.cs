@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace StageLightManeuver
@@ -70,6 +71,26 @@ namespace StageLightManeuver
             {
                  if(stageLight != null)stageLight.EvaluateQue(time);
             }
+        }
+        
+        
+        
+        public List<Type> GetAllPropertyType()
+        {
+            var types = new List<Type>();
+            foreach (var stageLight in AllStageLights)
+            {
+
+                if (stageLight.GetType() == typeof(StageLight))
+                {
+                    StageLight sl = (StageLight) stageLight;
+                    types.AddRange(sl.StageLightFixtures.Select(fixture => fixture.PropertyType));
+                }
+            }
+
+            // remove same type from list
+            types = types.Distinct().ToList();
+            return types;
         }
 
         public void UpdateFixture()

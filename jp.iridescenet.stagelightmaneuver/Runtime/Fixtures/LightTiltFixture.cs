@@ -50,9 +50,24 @@ namespace StageLightManeuver
             }
         }
         
+        void Start()
+        {
+            Init();
+        }
+
+        private void OnEnable()
+        {
+            Init();
+        }
+        
         public override void UpdateFixture()
         {
             rotateTransform.localEulerAngles =  rotationVector * _angle;
+        }
+        
+        public override void Init()
+        {
+            PropertyType = typeof(TiltProperty);
         }
     }
 }

@@ -59,6 +59,8 @@ namespace StageLightManeuver
                 volumetricLightBeamHd = light.GetComponent<VolumetricLightBeamHD>();
                 volumetricCookieHd = light.GetComponent<VolumetricCookieHD>();
 #endif
+                
+                PropertyType = typeof(LightProperty);
             }
         }
 
@@ -173,7 +175,18 @@ namespace StageLightManeuver
                 if(volumetricCookieHd) volumetricCookieHd.cookieTexture = lightCookie;
 #endif
             }
+            
+            
           
+        }
+        void Start()
+        {
+            Init();
+        }
+
+        private void OnEnable()
+        {
+            Init();
         }
     }
 }

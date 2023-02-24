@@ -29,9 +29,18 @@ namespace StageLightManeuver
 
         public LightTransformType LightTransformType => _lightTransformType;
 
+        void Start()
+        {
+            Init();
+        }
 
+        private void OnEnable()
+        {
+            Init();
+        }
         public override void Init()
         {
+            PropertyType = typeof(PanProperty);
             // rotationVector = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
         }
 

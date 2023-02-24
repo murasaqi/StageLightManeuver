@@ -22,8 +22,9 @@ namespace StageLightManeuver
         public override void Init()
         {
             base.Init();
-               
+            PropertyType = typeof(RotationProperty);       
         }
+        
 
         public override void EvaluateQue(float time)
         {

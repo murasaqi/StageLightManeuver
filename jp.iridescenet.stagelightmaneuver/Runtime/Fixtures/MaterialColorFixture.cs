@@ -49,6 +49,8 @@ namespace StageLightManeuver
                 meshRenderer.GetPropertyBlock(materialPropertyBlock);
                 _materialPropertyBlocks.Add(meshRenderer,materialPropertyBlock);
             }
+            
+            PropertyType = typeof(MaterialColorProperty);
         }
 
         private void OnValidate()
