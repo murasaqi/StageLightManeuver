@@ -239,6 +239,25 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             {
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
                 var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
+
+                if (property.GetType() == typeof(ManualLightArrayProperty))
+                {
+                    var manualLightArrayProperty = property as ManualLightArrayProperty;
+                    var lightProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<LightProperty>();
+                    var lightIntensityProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<LightIntensityProperty>();
+                    if(lightProperty != null)
+                    {
+                        manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
+                        manualLightArrayProperty.initialValue.innerAngle= lightProperty.innerSpotAngle.value.constant;
+                        manualLightArrayProperty.initialValue.range = lightProperty.range.value.constant;
+
+                    }
+                    
+                    if(lightIntensityProperty != null)
+                    {
+                        manualLightArrayProperty.initialValue.intensity = lightIntensityProperty.lightToggleIntensity.value.constant;
+                    }
+                }
                 stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties.Add(property);
             }
             

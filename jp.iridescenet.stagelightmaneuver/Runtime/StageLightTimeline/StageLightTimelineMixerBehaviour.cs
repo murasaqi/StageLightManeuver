@@ -137,7 +137,7 @@ namespace StageLightManeuver
                 {
                     while (lightPrimitiveValues.Count < trackBinding.AllStageLights.Count)
                     {
-                        lightPrimitiveValues.Add(new LightPrimitiveValue());
+                        manualLightArray.AddLightPrimitive();
                     }
 
                 }

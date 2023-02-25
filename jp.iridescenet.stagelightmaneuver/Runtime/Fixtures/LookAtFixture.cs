@@ -40,6 +40,10 @@ namespace StageLightManeuver
                 go.transform.SetParent(transform);
                 lookAtDummy = go.AddComponent<LookAtConstraint>();
                 
+                lookAtDummy.transform.localPosition = Vector3.zero;
+                lookAtDummy.constraintActive = true;
+                lookAtDummy.locked = true;
+                lookAtDummy.weight = 1f;
             }
         }
         public override void EvaluateQue(float time)
