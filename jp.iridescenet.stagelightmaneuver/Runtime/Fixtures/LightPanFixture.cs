@@ -26,6 +26,7 @@ namespace StageLightManeuver
         public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
 
+        private bool ignore = false;
 
         public LightTransformType LightTransformType => _lightTransformType;
 
@@ -63,8 +64,9 @@ namespace StageLightManeuver
                 // Debug.Log($"{queueData.stageLightSetting.name},{time}");
                 
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
-               
-                if(manualPanTiltProperty != null)
+               var lookAtProperty = queueData.TryGet<LookAtProperty>();
+               ignore = lookAtProperty != null;
+                   if(manualPanTiltProperty != null)
                 {
                     var positions = manualPanTiltProperty.positions.value;
                     var mode = manualPanTiltProperty.mode.value;
@@ -100,6 +102,7 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
+            if(ignore) return;
             rotateTransform.localEulerAngles =  rotationVector * _angle;
         }
     }

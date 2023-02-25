@@ -10,6 +10,7 @@ namespace StageLightManeuver
         private float _angle =0f;
         public Vector3 rotationVector = Vector3.left;
         public Transform rotateTransform;
+        public bool ignore = false;
         public override void EvaluateQue(float currentTime)
         {
             base.EvaluateQue(currentTime);
@@ -24,6 +25,10 @@ namespace StageLightManeuver
                 if (qTiltProperty == null || timeProperty == null) continue;
                 var normalizedTime = GetNormalizedTime(currentTime, queueData, typeof(TiltProperty));
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
+                
+                var lookAtProperty = queueData.TryGet<LookAtProperty>();
+                ignore = lookAtProperty != null;
+                
                 if(manualPanTiltProperty != null)
                 {
                     var positions = manualPanTiltProperty.positions.value;
@@ -62,6 +67,7 @@ namespace StageLightManeuver
         
         public override void UpdateFixture()
         {
+            if(ignore) return;
             rotateTransform.localEulerAngles =  rotationVector * _angle;
         }
         
