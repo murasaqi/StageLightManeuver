@@ -237,6 +237,9 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorGUI.EndDisabledGroup();
             if (EditorGUI.EndChangeCheck())
             {
+                // SetDirty 
+                Undo.RecordObject(stageLightTimelineClip, "Add Property");
+                EditorUtility.SetDirty(stageLightTimelineClip);   
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
                 var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
 
@@ -259,6 +262,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     }
                 }
                 stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties.Add(property);
+                
+                // apply serialized object
+                serializedObject.ApplyModifiedProperties();
+                //Save asset
+                AssetDatabase.SaveAssets();
             }
             
             

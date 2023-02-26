@@ -7,7 +7,7 @@ namespace StageLightManeuver
     {
         public SlmToggleValue<int> lookAtIndex;
         public SlmToggleValue<float> weight;
-        
+        public SlmToggleValue<float> speed;
         public LookAtProperty()
         {
             propertyName = "Look At";
@@ -18,6 +18,7 @@ namespace StageLightManeuver
             };
             weight = new SlmToggleValue<float>(){value = 1f};
             lookAtIndex = new SlmToggleValue<int>(){value = 0};
+            speed = new SlmToggleValue<float>(){value = 1f};
         }
         
         public override void ToggleOverride(bool toggle)
@@ -31,6 +32,7 @@ namespace StageLightManeuver
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverrideData);
             weight = new SlmToggleValue<float>(other.weight);
             lookAtIndex = new SlmToggleValue<int>(other.lookAtIndex);
+            speed = new SlmToggleValue<float>(other.speed);
         }
 
     }

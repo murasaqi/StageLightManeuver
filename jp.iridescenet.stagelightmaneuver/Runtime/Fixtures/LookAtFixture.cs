@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -19,6 +20,9 @@ namespace StageLightManeuver
 
 
         public LookAtConstraint lookAtDummy;
+        private Vector3 panVelocity = Vector3.zero;
+        private Vector3 tiltVelocity = Vector3.zero;
+        public float speed = 1f;
         private void Start()
         {
             Init();
@@ -51,6 +55,7 @@ namespace StageLightManeuver
             
             resultAngle = Vector3.zero;
             lookAtTransformIndex = 0;
+            speed = 0f;
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
@@ -84,6 +89,8 @@ namespace StageLightManeuver
                     var rotation = Quaternion.AngleAxis(angle, axis);
                     var rotationVector = rotation.eulerAngles; 
                     resultAngle += rotationVector * queueData.weight;
+                    
+                    speed += lookAtProperty.speed.value * queueData.weight;
                 }
                    
                 
@@ -96,22 +103,36 @@ namespace StageLightManeuver
             if(lookAtDummy == null)
                 InitLookAt();
 
+            var lookAtTransformLocalEulerAngles = lookAtDummy.transform.localEulerAngles;
             if (panFixture)
             {
-                panFixture.rotateTransform.localEulerAngles =
-                    panoffset + new Vector3(lookAtDummy.transform.localEulerAngles.x * panFixture.rotationVector.x,
-                        lookAtDummy.transform.localEulerAngles.y * panFixture.rotationVector.y,
-                        lookAtDummy.transform.localEulerAngles.z * panFixture.rotationVector.z);
+                var panAngle =
+                    panoffset + new Vector3(lookAtTransformLocalEulerAngles.x * panFixture.rotationVector.x,
+                        lookAtTransformLocalEulerAngles.y * panFixture.rotationVector.y,
+                        lookAtTransformLocalEulerAngles.z * panFixture.rotationVector.z);
+
+                panFixture.rotateTransform.localEulerAngles = panAngle;
+                // panFixture.rotateTransform.localEulerAngles += ( panAngle - panFixture.rotateTransform.localEulerAngles) * speed;
             }
 
             if (tiltFixture)
             {
                 // Debug.Log(tiltFixture);
-                tiltFixture.rotateTransform.localEulerAngles =
-                    tiltOffset + new Vector3(lookAtDummy.transform.localEulerAngles.x * tiltFixture.rotationVector.x,
-                        lookAtDummy.transform.localEulerAngles.y * tiltFixture.rotationVector.y,
-                        lookAtDummy.transform.localEulerAngles.z * tiltFixture.rotationVector.z);
+               var tiltAngle =
+                    tiltOffset + new Vector3(lookAtTransformLocalEulerAngles.x * tiltFixture.rotationVector.x,
+                        lookAtTransformLocalEulerAngles.y * tiltFixture.rotationVector.y,
+                        lookAtTransformLocalEulerAngles.z * tiltFixture.rotationVector.z);
+               
+                
+                tiltFixture.rotateTransform.localEulerAngles = tiltAngle;
+                // tiltFixture.rotateTransform.localEulerAngles += (tiltAngle - tiltFixture.rotateTransform.localEulerAngles)  * speed;
+                
             }
+        }
+
+        public void LateUpdate()
+        {
+            throw new NotImplementedException();
         }
     }
 }
