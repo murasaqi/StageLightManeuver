@@ -56,6 +56,10 @@ namespace StageLightManeuver
             resultAngle = Vector3.zero;
             lookAtTransformIndex = 0;
             speed = 0f;
+            
+            if(lookAtDummy == null)
+                InitLookAt();
+            
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
