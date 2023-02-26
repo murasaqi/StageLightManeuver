@@ -136,7 +136,7 @@ namespace StageLightManeuver
 
         public void LateUpdate()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }
