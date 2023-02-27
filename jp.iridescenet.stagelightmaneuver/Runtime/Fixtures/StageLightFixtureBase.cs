@@ -11,7 +11,7 @@ namespace StageLightManeuver
     [AddComponentMenu("")]
     public abstract class StageLightFixtureBase: MonoBehaviour,IStageLight
     {
-        [ItemCanBeNull] public List<Type> PropertyTypes = null;
+        public List<Type> PropertyTypes = new List<Type>();
         public Queue<StageLightQueData> stageLightDataQueue = new Queue<StageLightQueData>();
         public int updateOrder = 0;
         public int Index { get; set; }
