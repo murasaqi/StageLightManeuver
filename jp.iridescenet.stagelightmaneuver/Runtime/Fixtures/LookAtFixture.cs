@@ -31,7 +31,7 @@ namespace StageLightManeuver
         public override void Init()
         {
             base.Init();
-            PropertyType = typeof(RotationProperty);
+            PropertyTypes.Add(typeof(RotationProperty));
             InitLookAt();
         }
 

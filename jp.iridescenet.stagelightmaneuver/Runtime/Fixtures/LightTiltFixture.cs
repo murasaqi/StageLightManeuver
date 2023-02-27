@@ -73,7 +73,7 @@ namespace StageLightManeuver
         
         public override void Init()
         {
-            PropertyType = typeof(TiltProperty);
+            PropertyTypes.Add(typeof(TiltProperty));
         }
     }
 }

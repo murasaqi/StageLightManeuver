@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #if USE_HDRP
@@ -37,6 +38,20 @@ namespace StageLightManeuver
 #endif
         // public UniversalAdditionalLightData universalAdditionalLightData;
 
+
+        public void GetLightInChildrenAndFetchData()
+        {
+            var lightList = GetComponentsInChildren<Light>().ToList();
+            
+            if(lightList.Count <= 0) return;
+            lightColor = lightList[0].color;
+            lightIntensity = lightList[0].intensity;
+            spotAngle = lightList[0].spotAngle;
+            innerSpotAngle = lightList[0].innerSpotAngle;
+            spotRange = lightList[0].range;
+            lightCookie = lightList[0].cookie;
+            
+        }
         public override void Init()
         {
             base.Init();
@@ -60,7 +75,10 @@ namespace StageLightManeuver
                 volumetricCookieHd = light.GetComponent<VolumetricCookieHD>();
 #endif
                 
-                PropertyType = typeof(LightProperty);
+                PropertyTypes.Add(typeof(LightProperty));
+                PropertyTypes.Add(typeof(LightColorProperty));
+                PropertyTypes.Add(typeof(LightIntensityProperty));
+                // PropertyType.Add(typeof(property));
             }
         }
 

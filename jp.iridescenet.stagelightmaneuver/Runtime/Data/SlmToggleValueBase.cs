@@ -52,7 +52,7 @@ namespace StageLightManeuver
         {
             propertyOverride = toggle;
         }
-        
+
     }
     
     

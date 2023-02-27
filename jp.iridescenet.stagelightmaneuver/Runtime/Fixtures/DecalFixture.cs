@@ -102,7 +102,7 @@ namespace StageLightManeuver
             }
             
             lightFixture = GetComponent<LightFixture>();
-            PropertyType = typeof(DecalProperty);
+            PropertyTypes.Add( typeof(DecalProperty));
         }
         
         

@@ -111,6 +111,14 @@ namespace StageLightManeuver
             return playable;
         }
 
+        // private void SetInitValues()
+        // {
+        //     foreach (var VARIABLE in behaviour.stageLightQueData.stageLightProperties)
+        //     {
+        //         
+        //     }
+        // }
+
 
         [ContextMenu("Apply")]
         public void LoadProfile()

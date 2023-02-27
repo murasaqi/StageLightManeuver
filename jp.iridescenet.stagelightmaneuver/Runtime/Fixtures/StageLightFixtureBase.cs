@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace StageLightManeuver
@@ -10,7 +11,7 @@ namespace StageLightManeuver
     [AddComponentMenu("")]
     public abstract class StageLightFixtureBase: MonoBehaviour,IStageLight
     {
-        public Type PropertyType = null;
+        [ItemCanBeNull] public List<Type> PropertyTypes = null;
         public Queue<StageLightQueData> stageLightDataQueue = new Queue<StageLightQueData>();
         public int updateOrder = 0;
         public int Index { get; set; }

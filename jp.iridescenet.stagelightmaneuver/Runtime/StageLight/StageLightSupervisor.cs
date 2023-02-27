@@ -81,7 +81,7 @@ namespace StageLightManeuver
                 if (stageLight.GetType() == typeof(StageLight))
                 {
                     StageLight sl = (StageLight) stageLight;
-                    types.AddRange(sl.StageLightFixtures.Select(fixture => fixture.PropertyType));
+                    types.AddRange(sl.StageLightFixtures.SelectMany(fixture => fixture.PropertyTypes));
                 }
             }
 

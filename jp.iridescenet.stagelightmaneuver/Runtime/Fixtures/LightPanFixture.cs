@@ -41,7 +41,7 @@ namespace StageLightManeuver
         }
         public override void Init()
         {
-            PropertyType = typeof(PanProperty);
+            PropertyTypes.Add(typeof(PanProperty));
             // rotationVector = _lightTransformType == LightTransformType.Pan ? Vector3.up : Vector3.left;
         }
 

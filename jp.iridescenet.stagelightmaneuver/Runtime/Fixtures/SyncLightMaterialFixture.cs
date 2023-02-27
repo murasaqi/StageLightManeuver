@@ -53,7 +53,7 @@ namespace StageLightManeuver
                 _materialPropertyBlocks.Add(meshRenderer,materialPropertyBlock);
             }
             
-            PropertyType = typeof(SyncLightMaterialProperty);
+            PropertyTypes.Add(typeof(SyncLightMaterialProperty));
         }
         public override void EvaluateQue(float currentTime)
         {
