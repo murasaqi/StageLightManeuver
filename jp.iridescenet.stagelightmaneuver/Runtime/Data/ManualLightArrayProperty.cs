@@ -59,8 +59,34 @@ namespace StageLightManeuver
         
         public void AddLightPrimitive(LightPrimitiveValue lightPrimitiveValue = null)
         {
-            var lightPrimitive = lightPrimitiveValue ?? initialValue;
-            lightValues.value.Add(lightPrimitive);
+            if (lightPrimitiveValue != null)
+            {
+                var newLightPrimitiveValue = new LightPrimitiveValue()
+                {
+                    name = lightPrimitiveValue.name,
+                    intensity = lightPrimitiveValue.intensity,
+                    angle = lightPrimitiveValue.angle,
+                    innerAngle = lightPrimitiveValue.innerAngle,
+                    range = lightPrimitiveValue.range
+                };
+                
+                lightValues.value.Add(newLightPrimitiveValue);
+
+            }
+            else
+            {
+                var newLightPrimitiveValue = new LightPrimitiveValue()
+                {
+                    name = initialValue.name,
+                    intensity = initialValue.intensity,
+                    angle = initialValue.angle,
+                    innerAngle = initialValue.innerAngle,
+                    range = initialValue.range
+                };
+                
+                lightValues.value.Add(newLightPrimitiveValue);
+            }
+            
         }
         
         
