@@ -22,12 +22,7 @@ namespace StageLightManeuver
     [CreateAssetMenu(fileName = "New StageLightSetting", menuName = "ScriptableObject/StageLightSetting")]
     public class StageLightProfile: ScriptableObject
     {
-        // public TimeProperty timeProperty;
-        // public LightProperty lightProperty;
-        // public PanProperty panProperty;
-        // public TiltProperty tiltProperty;
-        // public DecalProperty decalProperty;
-        // public GoboProperty goboProperty;
+       
         public bool isUpdateGuiFlag = false;
         [SerializeReference]public List<SlmProperty> stageLightProperties = new List<SlmProperty>();
   

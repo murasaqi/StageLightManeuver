@@ -126,22 +126,27 @@ namespace StageLightManeuver
             if (referenceStageLightProfile == null || syncReferenceProfile) return;
 
             var hasTimeProperty = false;
-            var props = referenceStageLightProfile.Clone().stageLightProperties;
-
-            behaviour.stageLightQueData.stageLightProperties = props;
-
-            foreach (var prop in props)
+           
+            
+            var copy = new List<SlmProperty>();
+            foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
             {
-                if (prop is TimeProperty)
-                {
-                    hasTimeProperty = true;
-                }
+                if(stageLightProperty == null) continue;
+                var type = stageLightProperty.GetType();
+                copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
+                        new object[] { stageLightProperty }, null)
+                    as SlmProperty);
             }
 
-            if (hasTimeProperty == false)
+            var timeProperty = copy.Find(x => x.GetType() == typeof(TimeProperty));
+
+            if (timeProperty == null)
             {
-                behaviour.stageLightQueData.stageLightProperties.Insert(0, new TimeProperty());
+                copy.Insert(0, new TimeProperty());
             }
+            
+            behaviour.stageLightQueData.stageLightProperties = copy;
+                
 
 
         }
@@ -176,7 +181,7 @@ namespace StageLightManeuver
 
                     foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
                     {
-                        stageLightProperty.ToggleOverride(true);
+                        if(stageLightProperty == null) continue;
                         stageLightProperty.propertyOverride = true;
                     }
 
@@ -192,6 +197,7 @@ namespace StageLightManeuver
                     var copy = new List<SlmProperty>();
                     foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
                     {
+                        if(stageLightProperty == null) continue;
                         var type = stageLightProperty.GetType();
                         copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
                                 new object[] { stageLightProperty }, null)
