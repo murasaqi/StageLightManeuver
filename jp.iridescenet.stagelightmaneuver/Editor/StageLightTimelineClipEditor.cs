@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
-namespace StageLightManeuver.StageLightTimeline.Editor
+namespace StageLightManeuver
 {
     [CustomTimelineEditor(typeof(StageLightTimelineClip))]
     public class StageLightTimelineClipEditor:ClipEditor
@@ -297,9 +297,9 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             var bpmOverrideData = slmAdditionalProperty.bpmOverrideData.value;
             var offsetTime = timeProperty.offsetTime.value;
             var bpm =  timeProperty.bpm.value;
-            var bpmOffset =bpmOverrideData.bpmOverride ? bpmOverrideData.childStagger : timeProperty.childStagger.value;
-            var bpmScale = bpmOverrideData.bpmOverride ? bpmOverrideData.bpmScale : timeProperty.bpmScale.value;
-            var loopType = bpmOverrideData.bpmOverride ? bpmOverrideData.loopType : timeProperty.loopType.value;
+            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.childStagger : timeProperty.childStagger.value;
+            var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.bpmScale : timeProperty.bpmScale.value;
+            var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.loopType : timeProperty.loopType.value;
             return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,timeProperty.clipProperty, loopType);
         }
 

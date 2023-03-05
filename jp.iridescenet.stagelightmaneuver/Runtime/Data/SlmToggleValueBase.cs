@@ -60,7 +60,7 @@ namespace StageLightManeuver
     public class BpmOverrideToggleValueBase:SlmToggleValueBase
     {
         [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
-        [DisplayName("Override Time")] public bool bpmOverride = false;
+        // [DisplayName("Override Time")] public bool bpmOverride = false;
         [DisplayName("Offset Time")] public float offsetTime = 0;
         [DisplayName("BPM Scale")] public float bpmScale = 1;
         [DisplayName("Child Stagger")] public float childStagger = 0;
@@ -71,7 +71,7 @@ namespace StageLightManeuver
             bpmScale = 1;
             childStagger = 0;
             loopType = LoopType.Loop;
-            bpmOverride = false;
+            // bpmOverride = false;
             offsetTime = 0;
         }
         
@@ -81,7 +81,7 @@ namespace StageLightManeuver
             bpmScale = bpmOverrideToggleValueBase.bpmScale;
             childStagger = bpmOverrideToggleValueBase.childStagger;
             loopType = bpmOverrideToggleValueBase.loopType;
-            bpmOverride = bpmOverrideToggleValueBase.bpmOverride;
+            // bpmOverride = bpmOverrideToggleValueBase.bpmOverride;
             offsetTime = bpmOverrideToggleValueBase.offsetTime;
         }
     }

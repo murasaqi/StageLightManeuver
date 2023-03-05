@@ -379,7 +379,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                 {
                                     var stageLightAdditionalProperty = property as SlmAdditionalProperty;
                                     EditorGUI.BeginDisabledGroup(!stageLightAdditionalProperty.bpmOverrideData.value
-                                        .bpmOverride);
+                                        .propertyOverride);
                                     using (new EditorGUI.IndentLevelScope())
                                     {
                                         resultValue = EditorGUILayout.FloatField(labelValue,
@@ -422,7 +422,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                                             // {
                                                 EditorGUI.BeginChangeCheck();
                                                 var bpmOverride = EditorGUILayout.Toggle("Override Time",
-                                                    bpmOverrideData.bpmOverride);
+                                                    bpmOverrideData.propertyOverride);
                                                 if (EditorGUI.EndChangeCheck())
                                                 {
                                                     bpmOverrideData.GetType().GetField("bpmOverride")
@@ -431,7 +431,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
                                         }
 
-                                        EditorGUI.BeginDisabledGroup(!bpmOverrideData.bpmOverride);
+                                        EditorGUI.BeginDisabledGroup(!bpmOverrideData.propertyOverride);
                                         using (new EditorGUILayout.HorizontalScope())
                                         {
                                             // using (new EditorCommon.LabelWidth(100))

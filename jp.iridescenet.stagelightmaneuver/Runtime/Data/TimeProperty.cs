@@ -6,7 +6,7 @@ namespace StageLightManeuver
     [Serializable]
     public class TimeProperty: SlmProperty
     {
-        [DisplayName("Clip Duration")] public ClipProperty clipProperty;
+        [HideInInspector,DisplayName("Clip Duration")] public ClipProperty clipProperty;
         [DisplayName("Loop Type")] public SlmToggleValue<LoopType> loopType;
         [DisplayName("BPM")]public SlmToggleValue<float> bpm;
         [DisplayName("BPM Scale")]public SlmToggleValue<float> bpmScale;

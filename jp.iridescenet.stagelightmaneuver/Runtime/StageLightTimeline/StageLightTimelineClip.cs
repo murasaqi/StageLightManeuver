@@ -158,6 +158,7 @@ namespace StageLightManeuver
             var copy = new List<SlmProperty>();
             foreach (var stageLightProperty in behaviour.stageLightQueData.stageLightProperties)
             {
+                if(stageLightProperty ==null) continue;
                 var type = stageLightProperty.GetType();
                 copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
                         new object[] { stageLightProperty }, null)
