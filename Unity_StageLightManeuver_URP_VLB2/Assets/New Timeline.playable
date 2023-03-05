@@ -85,25 +85,7 @@ MonoBehaviour:
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -173,7 +155,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: New StageLightSetting_B
+    m_DisplayName: (1)
   - m_Version: 1
     m_Start: 3.6
     m_ClipIn: 0
@@ -332,6 +314,7 @@ MonoBehaviour:
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
   exportPath: Assets/
+  clipDisplayName: New StageLightSetting_A(Clone)
   references:
     version: 2
     RefIds:
@@ -747,6 +730,7 @@ MonoBehaviour:
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
   exportPath: Assets/
+  clipDisplayName: New StageLightSetting_B
   references:
     version: 2
     RefIds:
@@ -1231,31 +1215,42 @@ MonoBehaviour:
         lightValues:
           propertyOverride: 1
           value:
-          - name: SLM_MovingLight_VLB_HD
+          - name: SLM_MovingLight_VLB_HD_URP
             intensity: 10
             angle: 24.78
             innerAngle: 11.97
             range: 10
-          - name: SLM_MovingLight_VLB_HD (1)
+          - name: SLM_MovingLight_VLB_HD_URP (1)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
-          - name: SLM_MovingLight_VLB_HD (2)
+          - name: SLM_MovingLight_VLB_HD_URP (2)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
-          - name: SLM_MovingLight_VLB_HD (3)
+          - name: SLM_MovingLight_VLB_HD_URP (3)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
-          - name: SLM_MovingLight_VLB_HD (4)
+          - name: SLM_MovingLight_VLB_HD_URP (4)
             intensity: 10
             angle: 10
             innerAngle: 10
             range: 10
+          - name: SLM_MovingLight_VLB_SD_URP
+            intensity: 1
+            angle: 30
+            innerAngle: 0
+            range: 10
+        initialValue:
+          name: Light
+          intensity: 1
+          angle: 30
+          innerAngle: 0
+          range: 10
     - rid: 5456941290685202432
       type: {class: ManualPanTiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -1270,22 +1265,28 @@ MonoBehaviour:
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
+        mode:
+          propertyOverride: 0
+          value: 0
         positions:
           propertyOverride: 1
           value:
-          - name: SLM_MovingLight_VLB_HD
+          - name: SLM_MovingLight_VLB_HD_URP
             pan: 50.8
             tilt: -32.4
-          - name: SLM_MovingLight_VLB_HD (1)
+          - name: SLM_MovingLight_VLB_HD_URP (1)
             pan: 8.61
             tilt: -52.7
-          - name: SLM_MovingLight_VLB_HD (2)
+          - name: SLM_MovingLight_VLB_HD_URP (2)
             pan: 0
             tilt: 0
-          - name: SLM_MovingLight_VLB_HD (3)
+          - name: SLM_MovingLight_VLB_HD_URP (3)
             pan: 0
             tilt: 0
-          - name: SLM_MovingLight_VLB_HD (4)
+          - name: SLM_MovingLight_VLB_HD_URP (4)
+            pan: 0
+            tilt: 0
+          - name: SLM_MovingLight_VLB_SD_URP
             pan: 0
             tilt: 0
 --- !u!114 &-885274096304361106
@@ -1317,6 +1318,7 @@ MonoBehaviour:
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
   exportPath: Assets/
+  clipDisplayName: New StageLightSetting_A(Clone)
   references:
     version: 2
     RefIds:
@@ -1733,30 +1735,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ff0a1be3fd1e54990ef200772f9250, type: 3}
   m_Name: StageLightTimelineClip(Clone)(Clone)
   m_EditorClassIdentifier: 
-  referenceStageLightProfile: {fileID: 11400000, guid: 810bc261d8c3a354393031867fc7116c,
+  referenceStageLightProfile: {fileID: 11400000, guid: 86331f160ffeaf240ac081f9d691b6bc,
     type: 2}
   behaviour:
     stageLightQueData:
       stageLightProperties:
-      - rid: 4824220623761047802
-      - rid: 4824220623761047803
-      - rid: 4824220623761047804
-      - rid: 4824220623761047805
-      - rid: 4824220623761047806
-      - rid: 4824220623761047807
-      - rid: 4824220623761047808
-      - rid: 4824220623761047809
+      - rid: 2468971047057096818
+      - rid: 2468971047057096819
+      - rid: 2468971047057096820
+      - rid: 2468971047057096821
+      - rid: -2
+      - rid: 2468971047057096822
+      - rid: 2468971047057096823
+      - rid: 2468971047057096824
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
   exportPath: Assets/
+  clipDisplayName: (1)
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 4824220623761047802
+    - rid: 2468971047057096818
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -1779,7 +1782,7 @@ MonoBehaviour:
         childStagger:
           propertyOverride: 1
           value: 0
-    - rid: 4824220623761047803
+    - rid: 2468971047057096819
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -1895,7 +1898,7 @@ MonoBehaviour:
         cookie:
           propertyOverride: 1
           value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
-    - rid: 4824220623761047804
+    - rid: 2468971047057096820
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -1942,7 +1945,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047805
+    - rid: 2468971047057096821
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -1989,63 +1992,10 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047806
-      type: {class: GoboProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
-      data:
-        propertyOverride: 1
-        propertyName: Gobo
-        bpmOverrideData:
-          propertyOverride: 0
-          value:
-            propertyOverride: 0
-            loopType: 0
-            bpmOverride: 0
-            offsetTime: 0
-            bpmScale: 1
-            childStagger: 0
-        goboTexture:
-          propertyOverride: 0
-          value: {fileID: 0}
-        goboPropertyName:
-          propertyOverride: 0
-          value: _GoboTexture
-        goroRotationSpeed:
-          propertyOverride: 1
-          value:
-            mode: 0
-            inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: -180, y: 180}
-            easeType: 0
-            constant: 0
-            animationCurve:
-              serializedVersion: 2
-              m_Curve:
-              - serializedVersion: 3
-                time: 0
-                value: 0
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
-              - serializedVersion: 3
-                time: 1
-                value: 1
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
-    - rid: 4824220623761047807
+    - rid: 2468971047057096822
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Intensity
         bpmOverrideData:
           propertyOverride: 1
@@ -2089,7 +2039,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 4824220623761047808
+    - rid: 2468971047057096823
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -2134,10 +2084,10 @@ MonoBehaviour:
             m_Mode: 1
             m_NumColorKeys: 8
             m_NumAlphaKeys: 2
-    - rid: 4824220623761047809
+    - rid: 2468971047057096824
       type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Material Color
         bpmOverrideData:
           propertyOverride: 0
@@ -2247,6 +2197,7 @@ MonoBehaviour:
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
   exportPath: Assets/
+  clipDisplayName: New StageLightSetting_A(Clone)
   references:
     version: 2
     RefIds:
@@ -2278,7 +2229,7 @@ MonoBehaviour:
     - rid: 4824220623761047811
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light
         bpmOverrideData:
           propertyOverride: 0
