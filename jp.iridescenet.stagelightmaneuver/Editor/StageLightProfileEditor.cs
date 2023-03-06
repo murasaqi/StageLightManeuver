@@ -18,7 +18,14 @@ namespace StageLightManeuver
         {
             stageLightProfile = (StageLightProfile) target;
             var stageLightPropertiesProperty = serializedObject.FindProperty("stageLightProperties");
-            
+            var position = EditorGUILayout.GetControlRect();
+            Rect rect = EditorGUILayout.GetControlRect( );
+            EditorStyles.inspectorDefaultMargins.padding = new RectOffset(
+                0,
+                EditorStyles.inspectorDefaultMargins.padding.right,
+                EditorStyles.inspectorDefaultMargins.padding.top,
+                EditorStyles.inspectorDefaultMargins.padding.bottom
+            );
             using (new EditorGUI.IndentLevelScope())
             {
                 for (int i = 0; i < stageLightProfile.stageLightProperties.Count; i++)
@@ -28,11 +35,28 @@ namespace StageLightManeuver
                     {
                         continue;
                     }
+                    
+                    
+                    // if (i != 0)
+                    // {
+                    //     rect = EditorGUILayout.GetControlRect( );
+                    //     EditorGUI.DrawRect(new Rect(rect.x,rect.y,rect.width,1), Color.black );
+                    // }
                     DrawStageLightProperty( stageLightPropertiesProperty.GetArrayElementAtIndex(i),i);
+                    
+                   
                 }
             }
 
+            
+
+            GUILayout.Space(2);
+            rect = EditorGUILayout.GetControlRect( );
+            EditorGUI.DrawRect(new Rect(rect.x,rect.y,rect.width,1), Color.black );
             DrawAddPropertyButton(stageLightProfile);
+            
+                  
+            
 
         }
         void OnInspectorUpdate()
@@ -71,8 +95,8 @@ namespace StageLightManeuver
 
             DrawRemoveButton(stageLightProfile.stageLightProperties, action);
             EditorGUI.EndDisabledGroup();
-
-
+            
+          
         }
 
 
@@ -91,6 +115,7 @@ namespace StageLightManeuver
                 GUILayout.FlexibleSpace();
             }
             GUILayout.Space(2);
+      
 
         }
 
@@ -374,7 +399,7 @@ namespace StageLightManeuver
                 
             }
             EditorGUI.BeginDisabledGroup(selectList.Count  <= 1);
-            var select = EditorGUILayout.Popup(0, selectList.ToArray());
+            var select = EditorGUILayout.Popup(0, selectList.ToArray(), GUILayout.MinWidth(200));
             EditorGUI.EndDisabledGroup();
             if (EditorGUI.EndChangeCheck())
             {
