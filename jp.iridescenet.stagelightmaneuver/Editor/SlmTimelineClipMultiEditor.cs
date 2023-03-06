@@ -21,12 +21,17 @@ namespace StageLightManeuver
         {
             var window = GetWindow<SlmTimelineClipMultiEditor>();
             window.titleContent = new GUIContent("SlmTimelineClipMultiEditor");
+            
+           
+            // selectedClips = new List<StageLightTimelineClip>();
         }
+        
+        [SerializeReference]private StageLightProfile stageLightProfileCopy;
 
         public VisualElement profileInputWrapper;
         
         public StageLightProfile stageLightProfile;
-        
+        // public StageLightProfile multi
         public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
         public TextField selectedClipsField;
         private StringBuilder stringBuilder = new StringBuilder();
@@ -35,128 +40,131 @@ namespace StageLightManeuver
 
         private VisualElement propertyList;
         
-        [SerializeReference]private StageLightProfile stageLightProfileCopy;
         
-        public void CreateGUI()
+        public void OnGUI()
         {
             stageLightProfileCopy = CreateInstance<StageLightProfile>();
-            
-            var root = rootVisualElement;
-           
-            var wrapper =  new VisualElement();
-            root.Add(wrapper);
-            
+            stageLightProfileCopy.stageLightProperties = new List<SlmProperty>();
             Selection.selectionChanged += () =>
             {
                 SelectClips();
-                InitAndProperties();
+                // InitAndProperties();
             };
-            profileInputWrapper = new VisualElement();
-            profileInputWrapper.style.flexDirection = FlexDirection.Row;
-            wrapper.Add(profileInputWrapper);
-            
-            
-            propertyList = new VisualElement();
-            selectedClipsField = new TextField("Select clips");
-            selectedClipsField.isReadOnly = true;
-            selectedClipsField.multiline = true;
-            selectedClipsField.style.maxHeight = 100;
-            // selectedClipsField.style.textOverflow = TextOverflow.
-            stageLightProfileField = new ObjectField("StageLightProfile");
-            stageLightProfileField.objectType = typeof(StageLightProfile);
-            stageLightProfileField.RegisterValueChangedCallback(evt =>
-            {
-                stageLightProfile = evt.newValue == null ? null : evt.newValue as StageLightProfile;
-                InitStageLightPropertyList();
-            });
 
-            profileInputWrapper.Add(stageLightProfileField);
+            var position = EditorGUILayout.GetControlRect();
 
-            profileInputWrapper.Add(CreateProfilePopup());
-            
-            var button = new Button();
-            button.text = "Apply Profile";
-            button.clickable.clicked += () =>
+            foreach (var selectedClip in selectedClips)
             {
-                foreach (var selectedClip in selectedClips)
-                {
-                    if (stageLightProfileField.value != null)
-                    {
-                        selectedClip.referenceStageLightProfile = stageLightProfile;
-                    }
-                    else
-                    {
-                        selectedClip.referenceStageLightProfile = null;
-                        selectedClip.syncReferenceProfile = false;
-                    }
-                    selectedClip.forceTimelineClipUpdate = true;
-                    selectedClip.InitSyncData();
-                }
-            };
-            
-            
-            wrapper.Add(button);
-            
-            var applyPropertyButton = new Button();
-            applyPropertyButton.text = "Apply Property";
-            
-            applyPropertyButton.clickable.clicked += () =>
+                
+                EditorGUILayout.LabelField(selectedClip.clipDisplayName);
+            }
+            var serializedObject = new SerializedObject(stageLightProfileCopy);
+            var stageLightPropertiesProperty = serializedObject.FindProperty("stageLightProperties");
+            for (int i = 0; i < stageLightProfileCopy.stageLightProperties.Count; i++)
             {
-                foreach (var selectedClip in selectedClips)
+                var property = stageLightProfileCopy.stageLightProperties[i];
+                if (property == null)
                 {
-                    selectedClip.syncReferenceProfile = false;
-                    selectedClip.referenceStageLightProfile = null;
-                    
-                    foreach (var property in toggleProperties)
-                    {
-                        if(property.Key.value == false) continue;
-                        var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
-                        
-                        AddOrOverwriteProperty(stageLightProperties, property.Value);
-                        
-                        // stageLightProperties.Sort( (a,b) => a.propertyName.CompareTo(b.propertyName));
-                    }
-                    
+                    continue;
                 }
-            };
-            wrapper.Add(propertyList);
-            wrapper.Add(applyPropertyButton);
-            // var stageLightProfileCopyField = new PropertyField();
-            // stageLightProfileCopyField.BindProperty(new SerializedObject(stageLightProfileCopy).FindProperty("stageLightProperties"));
-            
-            // stageLightProfileCopyField.RegisterValueChangeCallback((v) =>
-            // {
-            //     Debug.Log(v.changedProperty);
-            // });
-            // var foldout = new Foldout();
-            // foldout.text = "Multi Property Edit";
-            // foldout.Add(stageLightProfileCopyField);
-            // foldout.style.paddingLeft = 10;
-            // foldout.value = false;
-            //
-            // var applyMultiPropertyButton = new Button();
-            // applyPropertyButton.clicked += () =>
-            // {
-            //     foreach (var selectedClip in selectedClips)
-            //     {
-            //         selectedClip.syncReferenceProfile = false;
-            //         selectedClip.referenceStageLightProfile = null;
-            //         
-            //         foreach (var property in stageLightProfileCopy.stageLightProperties)
-            //         {
-            //             var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
-            //             
-            //             AddOrOverwriteProperty(stageLightProperties, property);
-            //         }
-            //     }
-            //
-            // };
-            // applyMultiPropertyButton.text = "Apply Multi Property";
-            // foldout.Add(applyMultiPropertyButton);
-            
-            // wrapper.Add(foldout);
+                Debug.Log(property.propertyName);
+                StageLightProfileEditorUtil.DrawStageLightProperty(serializedObject, stageLightPropertiesProperty.GetArrayElementAtIndex(i),i);
+                   
+            }
+
 
         }
+
+        // public void CreateGUI()
+        // {
+        //     stageLightProfileCopy = CreateInstance<StageLightProfile>();
+        //     stageLightProfileCopy.stageLightProperties = new List<SlmProperty>();
+        //     var root = rootVisualElement;
+        //    
+        //     var wrapper =  new VisualElement();
+        //     root.Add(wrapper);
+        //     
+        //     Selection.selectionChanged += () =>
+        //     {
+        //         SelectClips();
+        //         InitAndProperties();
+        //     };
+        //     profileInputWrapper = new VisualElement();
+        //     profileInputWrapper.style.flexDirection = FlexDirection.Row;
+        //     wrapper.Add(profileInputWrapper);
+        //     
+        //     
+        //     propertyList = new VisualElement();
+        //     selectedClipsField = new TextField("Select clips");
+        //     selectedClipsField.isReadOnly = true;
+        //     selectedClipsField.multiline = true;
+        //     selectedClipsField.style.maxHeight = 100;
+        //     // selectedClipsField.style.textOverflow = TextOverflow.
+        //     stageLightProfileField = new ObjectField("StageLightProfile");
+        //     stageLightProfileField.objectType = typeof(StageLightProfile);
+        //     stageLightProfileField.RegisterValueChangedCallback(evt =>
+        //     {
+        //         stageLightProfile = evt.newValue == null ? null : evt.newValue as StageLightProfile;
+        //         InitStageLightPropertyList();
+        //     });
+        //
+        //     profileInputWrapper.Add(stageLightProfileField);
+        //
+        //     profileInputWrapper.Add(CreateProfilePopup());
+        //     wrapper.Add(selectedClipsField);
+        //     var button = new Button();
+        //     button.text = "Apply Profile";
+        //     button.clickable.clicked += () =>
+        //     {
+        //         foreach (var selectedClip in selectedClips)
+        //         {
+        //             if (stageLightProfileField.value != null)
+        //             {
+        //                 selectedClip.referenceStageLightProfile = stageLightProfile;
+        //             }
+        //             else
+        //             {
+        //                 selectedClip.referenceStageLightProfile = null;
+        //                 selectedClip.syncReferenceProfile = false;
+        //             }
+        //             selectedClip.forceTimelineClipUpdate = true;
+        //             selectedClip.InitSyncData();
+        //         }
+        //     };
+        //     
+        //     
+        //     wrapper.Add(button);
+        //     
+        //     var applyPropertyButton = new Button();
+        //     applyPropertyButton.text = "Apply Property";
+        //     
+        //     applyPropertyButton.clickable.clicked += () =>
+        //     {
+        //         foreach (var selectedClip in selectedClips)
+        //         {
+        //             selectedClip.syncReferenceProfile = false;
+        //             selectedClip.referenceStageLightProfile = null;
+        //             
+        //             foreach (var property in toggleProperties)
+        //             {
+        //                 if(property.Key.value == false) continue;
+        //                 var stageLightProperties = selectedClip.behaviour.stageLightQueData.stageLightProperties;
+        //                 
+        //                 AddOrOverwriteProperty(stageLightProperties, property.Value);
+        //                 
+        //                 // stageLightProperties.Sort( (a,b) => a.propertyName.CompareTo(b.propertyName));
+        //             }
+        //             
+        //         }
+        //     };
+        //     wrapper.Add(propertyList);
+        //     wrapper.Add(applyPropertyButton);
+        //     
+        //     
+        //     
+        //   
+        //
+        // }
         public void AddOrOverwriteProperty(List<SlmProperty> slmProperties, SlmProperty property)
         {
             var sameTypeProperty = slmProperties.Find(p => p.GetType() == property.GetType());
@@ -183,6 +191,7 @@ namespace StageLightManeuver
             if(stageLightProfile == null) return;
             foreach (var property in stageLightProfile.stageLightProperties)
             {
+                if(property ==null) continue;
                 var toggle = new Toggle(property.propertyName) { value = false };
                 propertyList.Add(toggle);
                 toggleProperties.Add(toggle,property);
@@ -197,6 +206,7 @@ namespace StageLightManeuver
             {
                 foreach (var property in selectedClip.behaviour.stageLightQueData.stageLightProperties)
                 {
+                    if(property == null) continue;
                     if (propertyTypes.Contains(property.GetType())) continue;
                     propertyTypes.Add(property.GetType());
                 }
@@ -211,11 +221,6 @@ namespace StageLightManeuver
            
         }
 
-
-        public void OverwriteProperty()
-        {
-            
-        }
 
         public PopupField<string> CreateProfilePopup()
         {
@@ -258,9 +263,6 @@ namespace StageLightManeuver
         {
             var select = Selection.objects.ToList();
             selectedClips.Clear();
-            selectedClipsField.value = "";
-            stringBuilder.Clear();
-            
             foreach (var s in select)
             {
                 if (s.GetType().ToString() == "UnityEditor.Timeline.EditorClip")
@@ -272,7 +274,7 @@ namespace StageLightManeuver
                     if(timelineClip == null) continue;
                     if (timelineClip.asset.GetType() == typeof(StageLightTimelineClip))
                     {
-                        stringBuilder.AppendLine(timelineClip.displayName);
+                        // stringBuilder.AppendLine(timelineClip.displayName);
                         var asset = timelineClip.asset as StageLightTimelineClip;
                         
                         selectedClips.Add(asset);
@@ -282,7 +284,7 @@ namespace StageLightManeuver
                 
             }
             
-            selectedClipsField.value = stringBuilder.ToString();
+            // selectedClipsField.value = stringBuilder.ToString();
          
         }
     }

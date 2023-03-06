@@ -46,8 +46,8 @@ namespace StageLightManeuver
         public MinMaxEasingValue()
         {
             mode = AnimationMode.Ease;
-            minMaxLimit = new Vector2(0, 0);
-            minMaxValue = new Vector2(-180, 180);
+            minMaxLimit = new Vector2(-180, 180);
+            minMaxValue = new Vector2(-90, 90);
             easeType = EaseType.Linear;
             constant = 0;
             animationCurve = new AnimationCurve(new Keyframe[]
