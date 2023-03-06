@@ -21,7 +21,7 @@ namespace StageLightManeuver
             color = new SlmToggleValue<Gradient>(){value =new Gradient()};
             intensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
-                valueRange = new Vector2(0,2),
+                minMaxLimit = new Vector2(0,2),
                 mode = AnimationMode.Constant,
                 constant = 1
             }};

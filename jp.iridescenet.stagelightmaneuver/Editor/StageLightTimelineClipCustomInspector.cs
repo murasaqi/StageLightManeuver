@@ -420,14 +420,14 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
                                             // using (new LabelWidth(120))
                                             // {
-                                                EditorGUI.BeginChangeCheck();
-                                                var bpmOverride = EditorGUILayout.Toggle("Override Time",
-                                                    bpmOverrideData.propertyOverride);
-                                                if (EditorGUI.EndChangeCheck())
-                                                {
-                                                    bpmOverrideData.GetType().GetField("bpmOverride")
-                                                        .SetValue(bpmOverrideData, bpmOverride);
-                                                }
+                                                // EditorGUI.BeginChangeCheck();
+                                                // var bpmOverride = EditorGUILayout.Toggle("Override Time",
+                                                //     bpmOverrideData.propertyOverride);
+                                                // if (EditorGUI.EndChangeCheck())
+                                                // {
+                                                //     bpmOverrideData.GetType().GetField("bpmOverride")
+                                                //         .SetValue(bpmOverrideData, bpmOverride);
+                                                // }
 
                                         }
 
@@ -823,13 +823,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             {
                                 EditorGUI.BeginChangeCheck();
                                 var min = EditorGUILayout.FloatField("Min",
-                                    minMaxEasingValue.valueMinMax.x);
+                                    minMaxEasingValue.minMaxValue.x);
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     if(undoTarget != null)Undo.RecordObject(undoTarget, "Changed Area Of Effect");
                                     minMaxEasingValue.GetType().GetField("valueMinMax")
                                         .SetValue(minMaxEasingValue,
-                                            new Vector2(min, minMaxEasingValue.valueMinMax.y) as object);
+                                            new Vector2(min, minMaxEasingValue.minMaxValue.y) as object);
                                 }
                             }
                         }
@@ -841,13 +841,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             {
                                 EditorGUI.BeginChangeCheck();
                                 var max = EditorGUILayout.FloatField("Max",
-                                    minMaxEasingValue.valueMinMax.y);
+                                    minMaxEasingValue.minMaxValue.y);
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     Undo.RecordObject(undoTarget, "Changed Area Of Effect");
                                     minMaxEasingValue.GetType().GetField("valueMinMax")
                                         .SetValue(minMaxEasingValue,
-                                            new Vector2(minMaxEasingValue.valueMinMax.x, max) as object);
+                                            new Vector2(minMaxEasingValue.minMaxValue.x, max) as object);
                                 }
                             }
                         }
@@ -858,11 +858,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     using (new EditorGUILayout.HorizontalScope())
                     {
 
-                        EditorGUILayout.FloatField(minMaxEasingValue.valueRange.x, GUILayout.Width(80));
-                        EditorGUILayout.MinMaxSlider(ref minMaxEasingValue.valueRange.x,
-                            ref minMaxEasingValue.valueRange.y,
-                            minMaxEasingValue.valueMinMax.x, minMaxEasingValue.valueMinMax.y);
-                        EditorGUILayout.FloatField(minMaxEasingValue.valueRange.y, GUILayout.Width(80));
+                        EditorGUILayout.FloatField(minMaxEasingValue.minMaxLimit.x, GUILayout.Width(80));
+                        EditorGUILayout.MinMaxSlider(ref minMaxEasingValue.minMaxLimit.x,
+                            ref minMaxEasingValue.minMaxLimit.y,
+                            minMaxEasingValue.minMaxValue.x, minMaxEasingValue.minMaxValue.y);
+                        EditorGUILayout.FloatField(minMaxEasingValue.minMaxLimit.y, GUILayout.Width(80));
 
                     }
                 }

@@ -17,19 +17,19 @@ namespace StageLightManeuver
             bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
             spotAngle = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
-                valueMinMax =  new Vector2(0,180),
+                minMaxValue =  new Vector2(0,180),
                 constant = 30f,
                 mode = AnimationMode.Constant
             }};
             innerSpotAngle = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
-                valueMinMax =  new Vector2(0,180),
+                minMaxValue =  new Vector2(0,180),
                 constant = 10f,
                 mode = AnimationMode.Constant
             }};
             range =  new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
-                valueMinMax =  new Vector2(0,100),
+                minMaxValue =  new Vector2(0,100),
                 constant = 5f,
                 mode = AnimationMode.Constant
             }};

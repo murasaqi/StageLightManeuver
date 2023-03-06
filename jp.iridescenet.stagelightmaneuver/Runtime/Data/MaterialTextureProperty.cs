@@ -15,7 +15,7 @@ namespace StageLightManeuver
                 { value = new BpmOverrideToggleValueBase() };
             texturePropertyName = new SlmToggleValue<string>(){value = "_Texture"};
             materialindex = new SlmToggleValue<int>() {value = 0};
-            texture = new SlmToggleValue<Texture2D>(){value = Texture2D.whiteTexture};
+            texture = new SlmToggleValue<Texture2D>(){value = null};
         }
 
         public MaterialTextureProperty(MaterialTextureProperty materialTextureProperty)

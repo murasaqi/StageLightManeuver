@@ -18,7 +18,7 @@ namespace StageLightManeuver
             };
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
-                valueMinMax = new Vector2(0, 10),
+                minMaxValue = new Vector2(0, 10),
                 constant = 1f,
                 mode = AnimationMode.Constant
             }};
