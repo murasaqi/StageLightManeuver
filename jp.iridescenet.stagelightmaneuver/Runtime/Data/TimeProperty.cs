@@ -49,5 +49,21 @@ namespace StageLightManeuver
             offsetTime = new SlmToggleValue<float>(other.offsetTime);
             
         }
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            if (other is TimeProperty timeProperty)
+            {
+                if (timeProperty.propertyOverride)
+                {
+                    propertyOverride = timeProperty.propertyOverride;
+                    if(timeProperty.bpm.propertyOverride) bpm.value = timeProperty.bpm.value;
+                    if(timeProperty.bpmScale.propertyOverride) bpmScale.value = timeProperty.bpmScale.value;
+                    if(timeProperty.childStagger.propertyOverride) childStagger.value = timeProperty.childStagger.value;
+                    if(timeProperty.loopType.propertyOverride) loopType.value = timeProperty.loopType.value;
+                    if(timeProperty.offsetTime.propertyOverride) offsetTime.value = timeProperty.offsetTime.value;
+                }
+            }
+        }
     }
 }

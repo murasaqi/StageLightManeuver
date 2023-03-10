@@ -33,5 +33,24 @@ namespace StageLightManeuver
                 value = materialTextureProperty.texture.value
             };
         }
+        
+        public override void ToggleOverride(bool toggle)
+        {
+            base.ToggleOverride(toggle);
+            texturePropertyName.propertyOverride = toggle;
+            materialindex.propertyOverride = toggle;
+            texture.propertyOverride = toggle;
+        }
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            base.OverwriteProperty(other);
+            MaterialTextureProperty materialTextureProperty = other as MaterialTextureProperty;
+            if (materialTextureProperty == null) return;
+            if(materialTextureProperty.texturePropertyName.propertyOverride) texturePropertyName.value = materialTextureProperty.texturePropertyName.value;
+            if(materialTextureProperty.materialindex.propertyOverride) materialindex.value = materialTextureProperty.materialindex.value;
+            if(materialTextureProperty.texture.propertyOverride) texture.value = materialTextureProperty.texture.value;
+            if(materialTextureProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverrideData.value);
+        }
     }
 }

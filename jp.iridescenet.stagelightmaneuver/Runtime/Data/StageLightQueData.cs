@@ -58,6 +58,7 @@ namespace StageLightManeuver
         }
         
         
+        
 
         public SlmAdditionalProperty TryAdd(Type T) 
         {

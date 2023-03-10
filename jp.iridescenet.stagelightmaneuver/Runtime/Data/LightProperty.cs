@@ -73,5 +73,33 @@ namespace StageLightManeuver
             };
             cookie = new SlmToggleValue<Texture>(other.cookie);
         }
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            base.OverwriteProperty(other);
+            LightProperty lightProperty = other as LightProperty;
+            if (lightProperty == null) return;
+            if(lightProperty.innerSpotAngle.propertyOverride) innerSpotAngle = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                propertyOverride = lightProperty.innerSpotAngle.propertyOverride,
+                value = new MinMaxEasingValue(lightProperty.innerSpotAngle.value)
+            };
+            if(lightProperty.spotAngle.propertyOverride) spotAngle = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                propertyOverride = lightProperty.spotAngle.propertyOverride,
+                value = new MinMaxEasingValue(lightProperty.spotAngle.value)
+            };
+            if(lightProperty.range.propertyOverride) range = new SlmToggleValue<MinMaxEasingValue>()
+            {
+                propertyOverride = lightProperty.range.propertyOverride,
+                value = new MinMaxEasingValue(lightProperty.range.value)
+            };
+            if(lightProperty.cookie.propertyOverride) cookie = new SlmToggleValue<Texture>()
+            {
+                propertyOverride = lightProperty.cookie.propertyOverride,
+                value = lightProperty.cookie.value
+            };
+            
+        }
     }
 }

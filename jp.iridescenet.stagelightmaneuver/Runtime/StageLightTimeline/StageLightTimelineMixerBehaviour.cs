@@ -49,17 +49,15 @@ namespace StageLightManeuver
                     timeProperty.clipProperty.clipEndTime = (float)clip.end;
                 }
 
-                var manualPanTiltProperty =
-                    stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualPanTiltProperty>();
-                FetchManualPanTiltArraySize(manualPanTiltProperty);
-
-                var manualLightArray =
-                    stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualLightArrayProperty>();
-                FetchManualLightArraySize(manualLightArray);
-                
-                var manualColorArray =
-                    stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ManualColorArrayProperty>();
-                FetchManualColorArraySize(manualColorArray);
+                foreach (var stageLightProperty in stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties)
+                {
+                    if(stageLightProperty == null) continue;
+                    if (stageLightProperty.GetType().IsSubclassOf (typeof(SlmAdditionalArrayProperty)))
+                    {
+                        var additionalArrayProperty = stageLightProperty as SlmAdditionalArrayProperty;
+                        additionalArrayProperty?.ResyncArraySize(trackBinding);
+                    }
+                }
                 
                 if (inputWeight > 0)
                 {
@@ -86,126 +84,10 @@ namespace StageLightManeuver
 
         }
 
-        internal void FetchManualPanTiltArraySize(ManualPanTiltProperty manualPanTiltProperty)
-        {
-
-            if (manualPanTiltProperty != null)
-            {
-                var manualPanTiltArray = manualPanTiltProperty.positions.value;
-                if (manualPanTiltArray.Count < trackBinding.AllStageLights.Count)
-                {
-                    while (manualPanTiltArray.Count < trackBinding.AllStageLights.Count)
-                    {
-                        manualPanTiltArray.Add(new PanTiltPrimitive());
-                    }
-
-                }
-
-                if (manualPanTiltArray.Count > trackBinding.AllStageLights.Count)
-                {
-                    while (manualPanTiltArray.Count > trackBinding.AllStageLights.Count)
-                    {
-                        manualPanTiltArray.RemoveAt(manualPanTiltArray.Count - 1);
-                    }
-                }
-
-                for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
-                {
-                    // if not index is out of range
-                    if (j < manualPanTiltArray.Count && j < trackBinding.AllStageLights.Count)
-                    {
-                        if (manualPanTiltArray[j] != null && trackBinding.AllStageLights[j] != null)
-                        {
-                            manualPanTiltArray[j].name = trackBinding.AllStageLights[j].name;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
+       
         
 
-        internal void FetchManualLightArraySize(ManualLightArrayProperty manualLightArray)
-        {
-
-            if (manualLightArray != null)
-            {
-                var lightPrimitiveValues = manualLightArray.lightValues.value;
-                if (lightPrimitiveValues.Count < trackBinding.AllStageLights.Count)
-                {
-                    while (lightPrimitiveValues.Count < trackBinding.AllStageLights.Count)
-                    {
-                        manualLightArray.AddLightPrimitive();
-                    }
-
-                }
-
-                if (lightPrimitiveValues.Count > trackBinding.AllStageLights.Count)
-                {
-                    while (lightPrimitiveValues.Count > trackBinding.AllStageLights.Count)
-                    {
-                        lightPrimitiveValues.RemoveAt(lightPrimitiveValues.Count - 1);
-                    }
-                }
-
-                for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
-                {
-                    // if not index is out of range
-                    if (j < lightPrimitiveValues.Count && j < trackBinding.AllStageLights.Count)
-                    {
-                        if (lightPrimitiveValues[j] != null && trackBinding.AllStageLights[j] != null)
-                        {
-                            lightPrimitiveValues[j].name = trackBinding.AllStageLights[j].name;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
         
         
-        internal void FetchManualColorArraySize (ManualColorArrayProperty manualColorArray)
-        {
-
-            if (manualColorArray != null)
-            {
-                var colorPrimitiveValues = manualColorArray.colorValues.value;
-                if (colorPrimitiveValues.Count < trackBinding.AllStageLights.Count)
-                {
-                    while (colorPrimitiveValues.Count < trackBinding.AllStageLights.Count)
-                    {
-                        colorPrimitiveValues.Add(new ColorPrimitiveValue());
-                    }
-
-                }
-
-                if (colorPrimitiveValues.Count > trackBinding.AllStageLights.Count)
-                {
-                    while (colorPrimitiveValues.Count > trackBinding.AllStageLights.Count)
-                    {
-                        colorPrimitiveValues.RemoveAt(colorPrimitiveValues.Count - 1);
-                    }
-                }
-
-                for (int j = 0; j < trackBinding.AllStageLights.Count; j++)
-                {
-                    // if not index is out of range
-                    if (j < colorPrimitiveValues.Count && j < trackBinding.AllStageLights.Count)
-                    {
-                        if (colorPrimitiveValues[j] != null && trackBinding.AllStageLights[j] != null)
-                        {
-                            colorPrimitiveValues[j].name = trackBinding.AllStageLights[j].name;
-                        }
-
-                    }
-
-                }
-
-            }
-        }
     }
 }

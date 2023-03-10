@@ -241,7 +241,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 Undo.RecordObject(stageLightTimelineClip, "Add Property");
                 EditorUtility.SetDirty(stageLightTimelineClip);   
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
-                var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
+                var property = Activator.CreateInstance(type) as SlmProperty;
 
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {

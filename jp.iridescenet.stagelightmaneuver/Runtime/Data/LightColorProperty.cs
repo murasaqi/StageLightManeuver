@@ -33,7 +33,16 @@ namespace StageLightManeuver
                 value = SlmUtility.CopyGradient(other.lightToggleColor.value)
             };
         }
-        
-        
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            var otherProperty = other as LightColorProperty;
+            if (otherProperty == null) return;
+            if (other.propertyOverride)
+            {
+                if(otherProperty.lightToggleColor.propertyOverride) lightToggleColor.value = SlmUtility.CopyGradient(otherProperty.lightToggleColor.value);
+                if(otherProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverrideData.value);
+            }
+        }
     }
 }

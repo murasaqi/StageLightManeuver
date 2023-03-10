@@ -60,5 +60,22 @@ namespace StageLightManeuver
             opacity = new SlmToggleValue<float>(other.opacity);
         }
 
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            base.OverwriteProperty(other);
+            var decalProperty = other as DecalProperty;
+            if (decalProperty == null) return;
+            if (decalProperty.propertyOverride)
+            {
+                if(decalProperty.decalTexture.propertyOverride) decalTexture.value = decalProperty.decalTexture.value;
+                if(decalProperty.decalSizeScaler.propertyOverride) decalSizeScaler.value = decalProperty.decalSizeScaler.value;
+                if(decalProperty.floorHeight.propertyOverride) floorHeight.value = decalProperty.floorHeight.value;
+                if(decalProperty.decalDepthScaler.propertyOverride) decalDepthScaler.value = decalProperty.decalDepthScaler.value;
+                if(decalProperty.fadeFactor.propertyOverride) fadeFactor.value = decalProperty.fadeFactor.value;
+                if(decalProperty.opacity.propertyOverride) opacity.value = decalProperty.opacity.value;
+                
+            }
+        }
     }
 }

@@ -31,7 +31,19 @@ namespace StageLightManeuver
             rotationSpeed.propertyOverride=(toggle);
             bpmOverrideData.propertyOverride=(toggle);
         }
-        
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            // if other propertyOverride is true, Override value if propertyOverride of property in other is true.
+            if (other.propertyOverride) return;
+            var rotationProperty = other as RotationProperty;
+            if (rotationProperty == null) return;
+            if (rotationProperty.propertyOverride) return;
+            if(rotationProperty.rotationSpeed.propertyOverride) rotationSpeed.value = rotationProperty.rotationSpeed.value; 
+            if(rotationProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(rotationProperty.bpmOverrideData.value);
+            
+        }
+
         public RotationProperty(RotationProperty other)
         {
             propertyName = other.propertyName;

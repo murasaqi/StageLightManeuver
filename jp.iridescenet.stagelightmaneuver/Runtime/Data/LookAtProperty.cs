@@ -35,5 +35,16 @@ namespace StageLightManeuver
             speed = new SlmToggleValue<float>(other.speed);
         }
 
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            base.OverwriteProperty(other);
+            LookAtProperty lookAtProperty = other as LookAtProperty;
+            if (lookAtProperty == null) return;
+            if(lookAtProperty.weight.propertyOverride) weight.value = lookAtProperty.weight.value;
+            if(lookAtProperty.lookAtIndex.propertyOverride) lookAtIndex.value = lookAtProperty.lookAtIndex.value;
+            if(lookAtProperty.speed.propertyOverride) speed.value = lookAtProperty.speed.value;
+            if(lookAtProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(lookAtProperty.bpmOverrideData.value);
+            
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace StageLightManeuver
 {
     public static class StageLightProfileEditorUtil
     {
-        public static void DrawStageLightProperty(SerializedObject serializedObject, SerializedProperty serializedProperty, int index)
+        public static void DrawStageLightProperty(SerializedObject serializedObject, SerializedProperty serializedProperty, bool drawRemoveButton = true)
         {
             var stageLightProfile = serializedObject.targetObject as StageLightProfile;
             var slmProperty = serializedProperty.managedReferenceValue as SlmProperty;
@@ -37,7 +37,7 @@ namespace StageLightManeuver
                 return;
             });
 
-            DrawRemoveButton(serializedObject, stageLightProfile.stageLightProperties, action);
+            if(drawRemoveButton)DrawRemoveButton(serializedObject, stageLightProfile.stageLightProperties, action);
             EditorGUI.EndDisabledGroup();
             
           
@@ -148,7 +148,7 @@ namespace StageLightManeuver
             {
                 serializedProperty.isExpanded = expanded; 
             } 
-            position.x += 5; 
+            position.x += 15; 
             EditorGUI.BeginChangeCheck(); 
             var isOverride = EditorGUI.ToggleLeft(position, propertyName, propertyOverride.boolValue);
             if (EditorGUI.EndChangeCheck()) 
@@ -171,7 +171,6 @@ namespace StageLightManeuver
             {
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    // EditorGUILayout.LabelField(serializedProperty.propertyPath);
                 }
 
                 var inverse = serializedProperty.FindPropertyRelative("inverse");
@@ -242,7 +241,6 @@ namespace StageLightManeuver
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         EditorGUILayout.BeginHorizontal();
-                        // GUILayout.FlexibleSpace();
                         using (new EditorGUILayout.HorizontalScope())
                         {
                             using (new LabelWidth(90))
@@ -336,27 +334,16 @@ namespace StageLightManeuver
                     }
                 }
             }
-            
         }
           
         private static void DrawAddPropertyButton(SerializedObject serializedObject, StageLightProfile stageLightProfile)
         {
             EditorGUI.BeginChangeCheck();
-
-
-            // var propertyTypes = SlmUtility.GetTypes(typeof(SlmAdditionalProperty));
-
-            // propertyTypes.Remove(typeof(RollProperty));
             var selectList = new List<string>();
-            
             SlmUtility.SlmAdditionalTypes.ForEach(t =>
             {
                 if(t != typeof(RollProperty))selectList.Add(t.Name);
             });
-            
-            
-            
-            // var typeDict = new Dictionary<string, Type>();
             
             selectList.Insert(0,"Add Property");
             foreach (var property in stageLightProfile.stageLightProperties)
@@ -366,18 +353,15 @@ namespace StageLightManeuver
                 {
                     selectList.Remove(property.GetType().Name);
                 }
-                    
-                
             }
             EditorGUI.BeginDisabledGroup(selectList.Count  <= 1);
             var select = EditorGUILayout.Popup(0, selectList.ToArray(), GUILayout.MinWidth(200));
             EditorGUI.EndDisabledGroup();
             if (EditorGUI.EndChangeCheck())
             {
-                // SetDirty 
                 EditorUtility.SetDirty(stageLightProfile);   
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
-                var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
+                var property = Activator.CreateInstance(type) as SlmProperty;
 
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {
@@ -389,7 +373,6 @@ namespace StageLightManeuver
                         manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
                         manualLightArrayProperty.initialValue.innerAngle= lightProperty.innerSpotAngle.value.constant;
                         manualLightArrayProperty.initialValue.range = lightProperty.range.value.constant;
-
                     }
                     
                     if(lightIntensityProperty != null)
@@ -398,8 +381,6 @@ namespace StageLightManeuver
                     }
                 }
                 stageLightProfile.stageLightProperties.Add(property);
-                
-                
                 //Save asset
                 AssetDatabase.SaveAssets();
                 // apply serialized object

@@ -23,5 +23,18 @@
             brightnessDecreasesToBlack = new SlmToggleValue<bool>() { value = other.brightnessDecreasesToBlack.value };
             maxIntensityLimit = new SlmToggleValue<float>() { value = other.maxIntensityLimit.value };
         }
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            SyncLightMaterialProperty syncLightMaterialProperty = other as SyncLightMaterialProperty;
+            if (syncLightMaterialProperty == null) return;
+            if (syncLightMaterialProperty.propertyOverride)
+            {
+                if(syncLightMaterialProperty.intensitymultiplier.propertyOverride) intensitymultiplier.value = syncLightMaterialProperty.intensitymultiplier.value;
+                if(syncLightMaterialProperty.brightnessDecreasesToBlack.propertyOverride) brightnessDecreasesToBlack.value = syncLightMaterialProperty.brightnessDecreasesToBlack.value;
+                if(syncLightMaterialProperty.maxIntensityLimit.propertyOverride) maxIntensityLimit.value = syncLightMaterialProperty.maxIntensityLimit.value;
+                
+            }
+        }
     }
 }

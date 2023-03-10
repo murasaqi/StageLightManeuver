@@ -35,7 +35,7 @@ namespace StageLightManeuver
                     {
                         continue;
                     } 
-                    StageLightProfileEditorUtil.DrawStageLightProperty(serializedObject, stageLightPropertiesProperty.GetArrayElementAtIndex(i),i);
+                    StageLightProfileEditorUtil.DrawStageLightProperty(serializedObject, stageLightPropertiesProperty.GetArrayElementAtIndex(i));
                 }
             }
             GUILayout.Space(2);
@@ -78,7 +78,7 @@ namespace StageLightManeuver
             {
                 EditorUtility.SetDirty(stageLightProfile);   
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
-                var property = Activator.CreateInstance(type) as SlmAdditionalProperty;
+                var property = Activator.CreateInstance(type) as SlmProperty;
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {
                     var manualLightArrayProperty = property as ManualLightArrayProperty;

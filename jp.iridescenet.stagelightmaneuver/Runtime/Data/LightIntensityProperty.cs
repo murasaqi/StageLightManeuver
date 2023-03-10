@@ -39,7 +39,19 @@ namespace StageLightManeuver
                 value = new MinMaxEasingValue(other.lightToggleIntensity.value)
             };
         }
-        
-        
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            if (other is LightIntensityProperty)
+            {
+                var otherProperty = other as LightIntensityProperty;
+                if (other.propertyOverride)
+                {
+                    if(otherProperty.lightToggleIntensity.propertyOverride) lightToggleIntensity.value = new MinMaxEasingValue(otherProperty.lightToggleIntensity.value);
+                    if(otherProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverrideData.value);
+                }
+                    
+            }
+        }
     }
 }

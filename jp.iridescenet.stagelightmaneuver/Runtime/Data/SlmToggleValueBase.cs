@@ -52,6 +52,10 @@ namespace StageLightManeuver
         {
             propertyOverride = toggle;
         }
+        
+        public virtual void OverwriteProperty(SlmProperty other)
+        {
+        }
 
     }
     
@@ -90,8 +94,16 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmAdditionalProperty:SlmProperty
     {
-        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(); 
-        
+        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>();
+    }
+    
+    public class SlmAdditionalArrayProperty:SlmProperty
+    {
+        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>();
+        public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        {
+            
+        }
     }
 
     

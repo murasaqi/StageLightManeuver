@@ -43,6 +43,15 @@ namespace StageLightManeuver
             rollTransform.propertyOverride = toggle;
             
         }
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            base.OverwriteProperty(other);
+            RollProperty rollProperty = other as RollProperty;
+            if (rollProperty == null) return;
+            if(rollProperty.rollTransform.propertyOverride) rollTransform.value = new MinMaxEasingValue(rollProperty.rollTransform.value);
+            if(rollProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(rollProperty.bpmOverrideData.value);
+        }
     }
     
     [Serializable]

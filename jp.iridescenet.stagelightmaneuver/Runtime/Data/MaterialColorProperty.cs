@@ -49,5 +49,16 @@ namespace StageLightManeuver
                 value = new MinMaxEasingValue(materialColorProperty.intensity.value)
             };
         }
+
+        public override void OverwriteProperty(SlmProperty other)
+        {
+            MaterialColorProperty materialColorProperty = other as MaterialColorProperty;
+            if (materialColorProperty == null) return;
+            if(materialColorProperty.colorPropertyName.propertyOverride) colorPropertyName.value = materialColorProperty.colorPropertyName.value;
+            if(materialColorProperty.materialindex.propertyOverride) materialindex.value = materialColorProperty.materialindex.value;
+            if(materialColorProperty.color.propertyOverride) color.value = SlmUtility.CopyGradient(materialColorProperty.color.value);
+            if(materialColorProperty.intensity.propertyOverride) intensity.value = new MinMaxEasingValue(materialColorProperty.intensity.value);
+            if(materialColorProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverrideData.value);
+        }
     }
 }
