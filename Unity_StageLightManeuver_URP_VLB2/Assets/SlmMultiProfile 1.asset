@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a57934446d44b0ca793db9de904ce39, type: 3}
-  m_Name: (1)
+  m_Name: SlmMultiProfile 1
   m_EditorClassIdentifier: 
-  isUpdateGuiFlag: 0
+  isUpdateGuiFlag: 1
   stageLightProperties:
   - rid: 2468971047057096739
   - rid: 2468971047057096740
@@ -59,18 +59,17 @@ MonoBehaviour:
           propertyOverride: 1
           value:
             propertyOverride: 0
-            loopType: 0
-            bpmOverride: 0
-            offsetTime: 0
+            loopType: 1
+            offsetTime: 1
             bpmScale: 1
             childStagger: 0
         spotAngle:
           propertyOverride: 1
           value:
-            mode: 2
+            mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: 0, y: 180}
+            minMaxLimit: {x: 0, y: 180}
+            minMaxValue: {x: 0, y: 180}
             easeType: 0
             constant: 13.9
             animationCurve:
@@ -100,10 +99,10 @@ MonoBehaviour:
         innerSpotAngle:
           propertyOverride: 1
           value:
-            mode: 2
+            mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: 0, y: 180}
+            minMaxLimit: {x: -26.2, y: 180}
+            minMaxValue: {x: 0, y: 180}
             easeType: 0
             constant: 1
             animationCurve:
@@ -133,10 +132,10 @@ MonoBehaviour:
         range:
           propertyOverride: 1
           value:
-            mode: 2
+            mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: 0, y: 100}
+            minMaxLimit: {x: 0, y: 100}
+            minMaxValue: {x: 0, y: 100}
             easeType: 0
             constant: 5
             animationCurve:
@@ -176,7 +175,6 @@ MonoBehaviour:
           value:
             propertyOverride: 0
             loopType: 0
-            bpmOverride: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
@@ -185,8 +183,8 @@ MonoBehaviour:
           value:
             mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: -180, y: 180}
+            minMaxLimit: {x: -200, y: 200}
+            minMaxValue: {x: 28.220821, y: 167.36194}
             easeType: 0
             constant: 0
             animationCurve:
@@ -223,7 +221,6 @@ MonoBehaviour:
           value:
             propertyOverride: 0
             loopType: 0
-            bpmOverride: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
@@ -232,8 +229,8 @@ MonoBehaviour:
           value:
             mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: -180, y: 180}
+            minMaxLimit: {x: 0, y: 348.34357}
+            minMaxValue: {x: 0, y: 348.34357}
             easeType: 0
             constant: 0
             animationCurve:
@@ -270,17 +267,16 @@ MonoBehaviour:
           value:
             propertyOverride: 0
             loopType: 1
-            bpmOverride: 1
             offsetTime: 0
             bpmScale: 4
             childStagger: 0
         lightToggleIntensity:
           propertyOverride: 1
           value:
-            mode: 2
+            mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 0}
-            valueMinMax: {x: 0, y: 10}
+            minMaxLimit: {x: 0, y: 10}
+            minMaxValue: {x: 0, y: 10}
             easeType: 0
             constant: 2.14
             animationCurve:
@@ -317,7 +313,6 @@ MonoBehaviour:
           value:
             propertyOverride: 0
             loopType: 1
-            bpmOverride: 1
             offsetTime: 0
             bpmScale: 2
             childStagger: 0
@@ -362,7 +357,6 @@ MonoBehaviour:
           value:
             propertyOverride: 0
             loopType: 0
-            bpmOverride: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
@@ -404,12 +398,12 @@ MonoBehaviour:
             m_NumColorKeys: 2
             m_NumAlphaKeys: 2
         intensity:
-          propertyOverride: 0
+          propertyOverride: 1
           value:
-            mode: 2
+            mode: 0
             inverse: 0
-            valueRange: {x: 0, y: 2}
-            valueMinMax: {x: -180, y: 180}
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: -180, y: 180}
             easeType: 0
             constant: 1
             animationCurve:

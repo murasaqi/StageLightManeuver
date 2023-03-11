@@ -41,7 +41,8 @@ namespace StageLightManeuver
         // public Dictionary<Toggle,SlmProperty> toggleProperties = new Dictionary<Toggle, SlmProperty>();
 
         // private VisualElement propertyList;
-        private Vector2 _scrollPosition = Vector2.zero;
+        private Vector2 slmPropertyScrollPosition = Vector2.zero;
+        private Vector2 selectedClipScrollPosition = Vector2.zero;
         // public 
         
         public void OnGUI()
@@ -54,25 +55,52 @@ namespace StageLightManeuver
                 Repaint();
             };
 
-            var position = EditorGUILayout.GetControlRect();
-
-            foreach (var selectedClip in selectedClips)
-            {
-                
-                EditorGUILayout.LabelField(selectedClip.clipDisplayName);
-            }
-
-           _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-
+           
             if (stageLightProfileCopy == null)
             {
+                
                 stageLightProfileCopy = CreateInstance<StageLightProfile>();
             }
+            
+            // EditorGUILayout.LabelField("Selected Clips");
+
+            
+            
+            // selectedClipScrollPosition = EditorGUILayout.BeginScrollView(selectedClipScrollPosition,GUILayout.Height(100));
+            // var currentPosition = EditorGUILayout.GetControlRect();
+            // EditorGUI.DrawRect(new Rect(currentPosition.x,currentPosition.y,currentPosition.width,120), new Color(0.1f,0.1f,0.1f));
+            // EditorGUI.DrawRect(new Rect(currentPosition.x+1,currentPosition.y+1,currentPosition.width-2,120-2f), new Color(0.2f,0.2f,0.2f));
+            // foreach (var selectedClip in selectedClips)
+            // {
+            //    
+            //     // EditorGUI.BeginDisabledGroup(true);
+            //     EditorGUILayout.ObjectField(selectedClip.clipDisplayName,selectedClip,typeof(StageLightTimelineClip),false);
+            //     // EditorGUI.EndDisabledGroup();
+            // }
+            var ownSerializedObject = new SerializedObject(this);
+            var selectedClipsProperty = ownSerializedObject.FindProperty("selectedClips");
+            EditorGUILayout.PropertyField(selectedClipsProperty,true);
+            // EditorGUILayout.EndScrollView();
+            
+          
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField("Found Properties",new GUIStyle()
+            {
+                richText = true,
+                fontStyle = FontStyle.Bold,
+                normal = new GUIStyleState()
+                {
+                    textColor = new Color(0.8f,0.8f,0.8f)
+                }
+            });
+           
+            slmPropertyScrollPosition = EditorGUILayout.BeginScrollView(slmPropertyScrollPosition);
+  
             
             var serializedObject = new SerializedObject(stageLightProfileCopy);
             var stageLightPropertiesProperty = serializedObject.FindProperty("stageLightProperties");
             for (int i = 0; i < stageLightProfileCopy.stageLightProperties.Count; i++)
-            {
+            {   
                 var property = stageLightProfileCopy.stageLightProperties[i];
                 if (property == null)
                 {

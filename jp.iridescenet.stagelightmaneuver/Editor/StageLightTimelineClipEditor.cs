@@ -103,10 +103,12 @@ namespace StageLightManeuver
             {
                 if (_beatPoint.ContainsKey(stageLightTimelineClip))
                 {
+                    var width = region.position.width;
+                    var start = region.position.x;
                     foreach (var p in _beatPoint[stageLightTimelineClip])
                     {
-                        var width = region.position.size.x;
-                        EditorGUI.DrawRect(new Rect(width* p, 0, 1, region.position.height),
+                       
+                        EditorGUI.DrawRect(new Rect(start+width* p, 0, 1, region.position.height),
                             stageLightTimelineClip.track.beatLineColor);
                     }     
 
@@ -170,7 +172,7 @@ namespace StageLightManeuver
 
 
 
-        public void UpdateBeatPoint(TimelineClip clip,float step = 0.1f)
+        public void UpdateBeatPoint(TimelineClip clip,float step = 0.01f)
         {
             var customClip = clip.asset as StageLightTimelineClip;
             var beatPointList = new List<float>();
@@ -187,13 +189,14 @@ namespace StageLightManeuver
                     var bpm = timeProperty.bpm.value;
                     var bpmOffset =timeProperty.childStagger.value;
                     var bpmScale = timeProperty.bpmScale.value;
-                    var loopType = timeProperty.loopType.value;
+                    var loopType = LoopType.Loop;
                     var t =SlmUtility.GetNormalizedTime(i,bpm,bpmOffset,bpmScale,timeProperty.clipProperty,loopType);
                     
                     
                     if (preBeat> t)
                     {
-                        beatPointList.Add(t);
+                        var point = (float)(i - clip.start);
+                        beatPointList.Add(point/(float)clip.duration );
                     }
                     
                     preBeat = t;
