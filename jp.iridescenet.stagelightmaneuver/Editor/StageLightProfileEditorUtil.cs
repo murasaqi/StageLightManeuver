@@ -8,14 +8,17 @@ namespace StageLightManeuver
 {
     public static class StageLightProfileEditorUtil
     {
+       
+
+        
         public static void DrawStageLightProperty(SerializedObject serializedObject, SerializedProperty serializedProperty, bool drawRemoveButton = true)
         {
             var stageLightProfile = serializedObject.targetObject as StageLightProfile;
-            var slmProperty = serializedProperty.managedReferenceValue as SlmProperty;
+            var slmProperty = serializedProperty.GetValue<SlmProperty>();
             if(slmProperty == null) return;
             var propertyName = slmProperty.propertyName;
             var expanded = false;
-            if(!serializedProperty.managedReferenceValue.GetType().IsSubclassOf(typeof(SlmToggleValueBase))) return;
+            if(!slmProperty.GetType().IsSubclassOf(typeof(SlmToggleValueBase))) return;
             expanded = DrawHeader(serializedObject,serializedProperty, propertyName);
             
             if(!expanded) return;
@@ -33,7 +36,7 @@ namespace StageLightManeuver
             }
             var action = new Action(() =>
             {
-                stageLightProfile.stageLightProperties.Remove(slmProperty);
+                if(stageLightProfile)stageLightProfile.stageLightProperties.Remove(slmProperty);
                 return;
             });
 
@@ -91,8 +94,8 @@ namespace StageLightManeuver
                 if (EditorGUI.EndChangeCheck())
                 {
                     propertyOverride.boolValue = isOverride;
-                    serializedObject.ApplyModifiedProperties();
-                    stageLightProfile.isUpdateGuiFlag = true;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                    if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                 }
 
                 if (!isSingleObject) EditorGUI.indentLevel++;
@@ -113,8 +116,8 @@ namespace StageLightManeuver
                         EditorGUILayout.PropertyField(childProperty);
                         if (EditorGUI.EndChangeCheck())
                         {
-                            serializedObject.ApplyModifiedProperties();
-                            stageLightProfile.isUpdateGuiFlag = true;
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                            if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                         }
                     }
                 }
@@ -124,8 +127,8 @@ namespace StageLightManeuver
                     EditorGUILayout.PropertyField(value, GUIContent.none);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        serializedObject.ApplyModifiedProperties();
-                        stageLightProfile.isUpdateGuiFlag = true;
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                        if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
                 EditorGUI.EndDisabledGroup();
@@ -137,9 +140,6 @@ namespace StageLightManeuver
         public static bool DrawHeader(SerializedObject serializedObject, SerializedProperty serializedProperty, string propertyName, bool headerBackground = true)
         {
             var stageLightProfile = serializedObject.targetObject as StageLightProfile;
-            // if (serializedProperty.FindPropertyRelative("propertyOverride") != null) return 
-            // var slmToggleValue = serializedProperty.managedReferenceValue as SlmToggleValueBase;
-
             var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
             var position = EditorGUILayout.GetControlRect();
             if(headerBackground)EditorGUI.DrawRect(position, new Color(0.3f, 0.3f, 0.3f));
@@ -154,10 +154,10 @@ namespace StageLightManeuver
             if (EditorGUI.EndChangeCheck()) 
             { 
                 propertyOverride.boolValue = isOverride; 
-                serializedObject.ApplyModifiedProperties(); 
-                stageLightProfile.isUpdateGuiFlag = true; 
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+                if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true; 
             } 
-            EditorGUI.BeginChangeCheck();
+            EditorGUI.BeginChangeCheck(); 
 
             return expanded;
 
@@ -180,8 +180,8 @@ namespace StageLightManeuver
                     EditorGUILayout.PropertyField(inverse);
                     if(EditorGUI.EndChangeCheck())
                     {
-                        serializedObject.ApplyModifiedProperties();
-                        stageLightProfile.isUpdateGuiFlag = true;
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                        if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
 
@@ -192,8 +192,8 @@ namespace StageLightManeuver
                     EditorGUILayout.PropertyField(mode);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        serializedObject.ApplyModifiedProperties();
-                        stageLightProfile.isUpdateGuiFlag = true;
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                        if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                     
                 }
@@ -207,22 +207,22 @@ namespace StageLightManeuver
                 {
                 
                     minMaxLimitProperty.vector2Value = new Vector2(minMaxValue.y - 1f, minMaxValue.y);
-                    serializedObject.ApplyModifiedProperties();
-                    stageLightProfile.isUpdateGuiFlag = true;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                    if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                 }
 
                 if (minMaxLimit.x > minMaxValue.x)
                 {
                     minMaxLimitProperty.vector2Value = new Vector2(minMaxValue.x, minMaxLimit.y);
-                    serializedObject.ApplyModifiedProperties();
-                    stageLightProfile.isUpdateGuiFlag = true;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                    if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                 }
                 
                 if (minMaxLimit.y < minMaxValue.y)
                 {
                     minMaxLimitProperty.vector2Value = new Vector2(minMaxLimit.x, minMaxValue.y);
-                    serializedObject.ApplyModifiedProperties();
-                    stageLightProfile.isUpdateGuiFlag = true;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                    if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                 }
                 
                 if (mode.enumValueIndex == 0)
@@ -234,8 +234,8 @@ namespace StageLightManeuver
                         EditorGUILayout.PropertyField(easeType);
                         if(EditorGUI.EndChangeCheck())
                         {
-                            serializedObject.ApplyModifiedProperties();
-                            stageLightProfile.isUpdateGuiFlag = true;
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                            if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                         }
                     }
                     using (new EditorGUILayout.HorizontalScope())
@@ -251,7 +251,7 @@ namespace StageLightManeuver
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     minMaxLimitProperty.vector2Value = new Vector2(min, minMaxLimitProperty.vector2Value.y);
-                                    serializedObject.ApplyModifiedProperties();
+                                    serializedProperty.serializedObject.ApplyModifiedProperties();
                                 }
                             }
                         }
@@ -267,7 +267,7 @@ namespace StageLightManeuver
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     minMaxLimitProperty.vector2Value = new Vector2(minMaxLimitProperty.vector2Value.x, max);
-                                    serializedObject.ApplyModifiedProperties();
+                                    serializedProperty.serializedObject.ApplyModifiedProperties();
                                 }
                             }
                         }
@@ -285,8 +285,8 @@ namespace StageLightManeuver
                         if (EditorGUI.EndChangeCheck())
                         {
                             minMaxValueProperty.vector2Value = new Vector2(x, minMaxValueProperty.vector2Value.y);
-                            serializedObject.ApplyModifiedProperties();
-                            stageLightProfile.isUpdateGuiFlag = true;
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                            if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                         }
                         EditorGUI.BeginChangeCheck();
                         EditorGUILayout.MinMaxSlider(ref minValue,
@@ -295,8 +295,8 @@ namespace StageLightManeuver
                         if (EditorGUI.EndChangeCheck())
                         {
                             minMaxValueProperty.vector2Value = new Vector2(minValue, maxValue);
-                            serializedObject.ApplyModifiedProperties();
-                            stageLightProfile.isUpdateGuiFlag = true;
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                            if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                         }
                         
                         EditorGUI.BeginChangeCheck();
@@ -304,8 +304,8 @@ namespace StageLightManeuver
                         if (EditorGUI.EndChangeCheck())
                         {
                             minMaxValueProperty.vector2Value = new Vector2(x, y);
-                            serializedObject.ApplyModifiedProperties();
-                            stageLightProfile.isUpdateGuiFlag = true;
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                            if(stageLightProfile) stageLightProfile.isUpdateGuiFlag = true;
                         }
                     }
                 }
@@ -317,7 +317,7 @@ namespace StageLightManeuver
                     EditorGUILayout.PropertyField(curve);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        serializedObject.ApplyModifiedProperties();
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
                         stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
@@ -329,8 +329,8 @@ namespace StageLightManeuver
                     EditorGUILayout.PropertyField(constant);
                     if (EditorGUI.EndChangeCheck())
                     {
-                        serializedObject.ApplyModifiedProperties();
-                        stageLightProfile.isUpdateGuiFlag = true;
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                        if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
             }

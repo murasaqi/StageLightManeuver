@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -25,8 +27,46 @@ namespace StageLightManeuver
         [SerializeField] public Color beatLineColor = new Color(0, 1, 0.7126422f, 0.2f);
         [SerializeField] public bool updateOnOutOfClip = false;
 
+        private StageLightProfile referenceStageLightProfile;
+         // public List<SlmProperty> slmProperties;
+
+#if UNITY_EDITOR
+        
+        private SerializedObject serializedProfile;
+        // public SerializedObject SerializedProfile
+        // {
+        //     get
+        //     {
+        //
+        //         if (serializedProfile == null || serializedProfile.targetObject == null)
+        //             serializedProfile = new SerializedObject(ReferenceStageLightProfile);
+        //         return serializedProfile;
+        //     }
+        //     
+        // }
+        #endif
+        
+        public StageLightProfile ReferenceStageLightProfile
+        {
+            get
+            {
+                if (referenceStageLightProfile == null || referenceStageLightProfile.stageLightProperties == null)
+                {
+                    referenceStageLightProfile =  ScriptableObject.CreateInstance<StageLightProfile>();
+                    referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
+                }
+
+                return referenceStageLightProfile;
+            }
+            set => referenceStageLightProfile = value;
+        }
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
         {
+            #if UNITY_EDITOR
+            // serializedProfile = new SerializedObject(ReferenceStageLightProfile);
+            referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
+            // slmProperties = referenceStageLightProfile.stageLightProperties;
+            #endif
             var mixer = ScriptPlayable<StageLightTimelineMixerBehaviour>.Create(graph, inputCount);
             var stageLightTimelineMixer = mixer.GetBehaviour();
             stageLightTimelineMixer.stageLightTimelineTrack = this;
@@ -42,6 +82,23 @@ namespace StageLightManeuver
             }
 
             return mixer;
+        }
+
+        public void OnEnable()
+        {
+            if (referenceStageLightProfile == null)
+            {
+                referenceStageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
+                referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
+            }
+            
+
+            if (referenceStageLightProfile.stageLightProperties == null)
+                referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
+            
+            if(serializedProfile == null)
+                serializedProfile = new SerializedObject(ReferenceStageLightProfile);
+            // slmProperties = referenceStageLightProfile.stageLightProperties;
         }
     }
 }

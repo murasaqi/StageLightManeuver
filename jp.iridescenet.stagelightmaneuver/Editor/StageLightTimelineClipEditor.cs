@@ -9,6 +9,7 @@ using UnityEngine.Timeline;
 namespace StageLightManeuver
 {
     [CustomTimelineEditor(typeof(StageLightTimelineClip))]
+
     public class StageLightTimelineClipEditor:ClipEditor
     {
          [InitializeOnLoad]
