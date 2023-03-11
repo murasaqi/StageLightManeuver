@@ -68,7 +68,6 @@ namespace StageLightManeuver
             if(p.propertyOverride == false) continue;
             foreach (var selectedClip in selectedClips)
             {
-                Debug.Log(p.GetType());
                 if(selectedClip.behaviour.stageLightQueData == null) continue;
 
                 foreach (var property in selectedClip.behaviour.stageLightQueData.stageLightProperties)

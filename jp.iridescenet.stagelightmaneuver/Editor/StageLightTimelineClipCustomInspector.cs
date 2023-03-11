@@ -172,10 +172,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
             if (isMultiSelect)
             {
-
-                if(selectedClips.Last() != stageLightTimelineClip)
-                    return;
-                
                 var referenceProfile = stageLightTimelineClip.track.ReferenceStageLightProfile;
                 var serializedProfile = new SerializedObject(referenceProfile);
                 var stageLightPropertiesProperty = serializedProfile.FindProperty("stageLightProperties");
