@@ -12,7 +12,7 @@ namespace StageLightManeuver
         public MaterialColorProperty()
         {
             propertyName = "Material Color";
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
                 value = new BpmOverrideToggleValueBase()
             };
@@ -30,10 +30,10 @@ namespace StageLightManeuver
         public MaterialColorProperty(MaterialColorProperty materialColorProperty)
         {
             propertyName = materialColorProperty.propertyName;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
-                propertyOverride =  materialColorProperty.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverrideData.value)
+                propertyOverride =  materialColorProperty.bpmOverride.propertyOverride,
+                value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverride.value)
             };
             colorPropertyName = new SlmToggleValue<string>(){value = materialColorProperty.colorPropertyName.value};
             materialindex = new SlmToggleValue<int>(){value = materialColorProperty.materialindex.value};
@@ -58,7 +58,7 @@ namespace StageLightManeuver
             if(materialColorProperty.materialindex.propertyOverride) materialindex.value = materialColorProperty.materialindex.value;
             if(materialColorProperty.color.propertyOverride) color.value = SlmUtility.CopyGradient(materialColorProperty.color.value);
             if(materialColorProperty.intensity.propertyOverride) intensity.value = new MinMaxEasingValue(materialColorProperty.intensity.value);
-            if(materialColorProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverrideData.value);
+            if(materialColorProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverride.value);
         }
     }
 }

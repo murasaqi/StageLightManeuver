@@ -22,25 +22,25 @@ namespace StageLightManeuver
             return path.Replace("<Scene>", SceneManager.GetActiveScene().name).Replace("<ClipName>", clipName);
         }
 
-        public static List<Type> SlmAdditionalTypes = GetTypes(typeof(SlmAdditionalProperty));
+        public static List<Type> SlmPropertyTypes = GetTypes(typeof(SlmProperty));
         
         
-          public static float GetNormalizedTime(float time ,StageLightQueData queData, Type propertyType,int index = 0)
+        public static float GetNormalizedTime(float time ,StageLightQueData queData, Type propertyType,int index = 0)
         {
-            var additionalProperty = queData.TryGetAdditionalProperty(propertyType) as SlmAdditionalProperty;
+            var additionalProperty = queData.TryGetAdditionalProperty(propertyType);
             var timeProperty = queData.TryGet<TimeProperty>();
             var weight = queData.weight;
             if (additionalProperty == null || timeProperty == null) return 0f;
             var bpm = timeProperty.bpm.value;
-            var bpmOffset = additionalProperty.bpmOverrideData.value.propertyOverride ? additionalProperty.bpmOverrideData.value.childStagger : timeProperty.childStagger.value;
-            var bpmScale = additionalProperty.bpmOverrideData.value.propertyOverride ? additionalProperty.bpmOverrideData.value.bpmScale : timeProperty.bpmScale.value;
-            var loopType = additionalProperty.bpmOverrideData.value.propertyOverride ? additionalProperty.bpmOverrideData.value.loopType : timeProperty.loopType.value;
-            var offsetTime = additionalProperty.bpmOverrideData.value.propertyOverride
-                ? additionalProperty.bpmOverrideData.value.offsetTime
-                : timeProperty.offsetTime.value;
+            var bpmOffset = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.childStagger : timeProperty.childStagger.value;
+            var bpmScale = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.bpmScale : timeProperty.bpmScale.value;
+            var loopType = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.loopType : timeProperty.loopType.value;
+            var offsetTime = additionalProperty.bpmOverride.value.propertyOverride
+              ? additionalProperty.bpmOverride.value.offsetTime
+              : timeProperty.offsetTime.value;
             var clipProperty = timeProperty.clipProperty;
             var t = GetNormalizedTime(time+offsetTime,bpm,bpmOffset,bpmScale,clipProperty,loopType,index);
-            return t;
+            return t; 
         }
           
         public static List<StageLightProfile> GetProfileInProject()

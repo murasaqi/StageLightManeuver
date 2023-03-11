@@ -15,7 +15,7 @@ namespace StageLightManeuver
         public DecalProperty()
         {
             propertyOverride = false;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
             propertyName = "Decal";
             decalTexture = new SlmToggleValue<Texture2D>();
             decalSizeScaler = new SlmToggleValue<float>(){value = 0.8f};
@@ -42,10 +42,10 @@ namespace StageLightManeuver
         public DecalProperty(DecalProperty other)
         {
             propertyOverride = other.propertyOverride;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
-                propertyOverride = other.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase(other.bpmOverrideData.value)
+                propertyOverride = other.bpmOverride.propertyOverride,
+                value = new BpmOverrideToggleValueBase(other.bpmOverride.value)
             };
             decalTexture = new SlmToggleValue<Texture2D>()
             {

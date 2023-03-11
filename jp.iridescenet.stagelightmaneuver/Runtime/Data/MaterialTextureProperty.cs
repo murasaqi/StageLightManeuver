@@ -11,7 +11,7 @@ namespace StageLightManeuver
         public  MaterialTextureProperty()
         {
             propertyName = "Material Texture";
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
                 { value = new BpmOverrideToggleValueBase() };
             texturePropertyName = new SlmToggleValue<string>(){value = "_Texture"};
             materialindex = new SlmToggleValue<int>() {value = 0};
@@ -21,10 +21,10 @@ namespace StageLightManeuver
         public MaterialTextureProperty(MaterialTextureProperty materialTextureProperty)
         {
             propertyName = materialTextureProperty.propertyName;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
-                propertyOverride =  materialTextureProperty.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverrideData.value)
+                propertyOverride =  materialTextureProperty.bpmOverride.propertyOverride,
+                value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverride.value)
             };
             texturePropertyName = new SlmToggleValue<string>(materialTextureProperty.texturePropertyName);
             materialindex = new SlmToggleValue<int>(materialTextureProperty.materialindex);
@@ -50,7 +50,7 @@ namespace StageLightManeuver
             if(materialTextureProperty.texturePropertyName.propertyOverride) texturePropertyName.value = materialTextureProperty.texturePropertyName.value;
             if(materialTextureProperty.materialindex.propertyOverride) materialindex.value = materialTextureProperty.materialindex.value;
             if(materialTextureProperty.texture.propertyOverride) texture.value = materialTextureProperty.texture.value;
-            if(materialTextureProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverrideData.value);
+            if(materialTextureProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverride.value);
         }
     }
 }

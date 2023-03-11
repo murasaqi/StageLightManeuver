@@ -31,9 +31,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
     public class StageLightTimelineClipCustomInspector : UnityEditor.Editor
     {
 
-        // private static StageLightProfile stageLightProfileCopy;
-        
-        private List<StageLightPropertyEditor> _stageLightPropertyEditors = new List<StageLightPropertyEditor>();
         
         private List<StageLightProfile> allProfilesInProject = new List<StageLightProfile>();
         private List<string> profileNames = new List<string>();
@@ -49,8 +46,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         {
             BeginInspector();
             mExcluded.Clear();
-            // mExcluded.Add("stageLightSetting");
-            // DrawRemainingPropertiesInInspector();
+            
         }
         
         private void BeginInspector()
@@ -67,7 +63,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     serializedObject.ApplyModifiedProperties();
                 }
-                // DrawProfilesPopup(serializedObject.targetObject as StageLightTimelineClip);
             }
 
             var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
@@ -81,8 +76,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
-                
-                
                 GUI.backgroundColor= Color.green;
                 GUI.contentColor = Color.white;
                 if (GUILayout.Button("Load Profile",GUILayout.MaxWidth(100)))
@@ -93,8 +86,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     serializedObject.ApplyModifiedProperties();
                     Repaint();
                 }
-                
-                
                 GUI.backgroundColor= Color.white;
                 GUI.contentColor = Color.white;
                 if (GUILayout.Button("Save Profile",GUILayout.MaxWidth(100)))
@@ -102,10 +93,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     stageLightTimelineClip.SaveProfile();
                     
                 }
-                
             }
             
-
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("syncReferenceProfile"));
             if (EditorGUI.EndChangeCheck())
@@ -187,8 +176,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 if(selectedClips.Last() != stageLightTimelineClip)
                     return;
                 
-
-                // var serializedProfile = stageLightTimelineClip.track.SerializedProfile;
                 var referenceProfile = stageLightTimelineClip.track.ReferenceStageLightProfile;
                 var serializedProfile = new SerializedObject(referenceProfile);
                 var stageLightPropertiesProperty = serializedProfile.FindProperty("stageLightProperties");
@@ -228,15 +215,21 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             else
             {
                 EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
-           
-                
-              
                 var stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
                 var behaviourProperty = serializedObject.FindProperty("behaviour");
                 var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueData");
                 var serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
             
-                // _stageLightPropertyEditors.Clear();
+                for (int i = 0; i < stageLightProperties.Count; i++)
+                {
+                    if (stageLightProperties[i] == null)
+                    {
+                        stageLightProperties.RemoveAt(i);
+                    }
+
+                    serializedObject.ApplyModifiedProperties();
+                }
+                
                 for (int i = 0; i < stageLightProperties.Count; i++)
                 {
 
@@ -255,9 +248,15 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     EditorGUI.BeginDisabledGroup(!property.propertyOverride);
                     
                     // get serializable property name in property
-                    property.GetType().GetFields().ToList().ForEach(f =>
+                    var fields = property.GetType().GetFields().ToList();
+                    var bpmOverride = fields.Find(x => x.Name == "bpmOverride");
+                    if (bpmOverride != null)
                     {
-                        
+                        fields.Remove(bpmOverride);
+                        fields.Insert(0,bpmOverride);
+                    }
+                    fields.ForEach(f =>
+                    {
                         StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name));
                     });
                     var action = new Action(() =>
@@ -280,21 +279,12 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         private void DrawAddPropertyButton(StageLightTimelineClip stageLightTimelineClip)
         {
             EditorGUI.BeginChangeCheck();
-
-
-            // var propertyTypes = SlmUtility.GetTypes(typeof(SlmAdditionalProperty));
-
-            // propertyTypes.Remove(typeof(RollProperty));
             var selectList = new List<string>();
             
-            SlmUtility.SlmAdditionalTypes.ForEach(t =>
+            SlmUtility.SlmPropertyTypes.ForEach(t =>
             {
-                if(t != typeof(RollProperty))selectList.Add(t.Name);
+                selectList.Add(t.Name);
             });
-            
-            
-            
-            // var typeDict = new Dictionary<string, Type>();
             
             selectList.Insert(0,"Add Property");
             foreach (var property in stageLightTimelineClip.behaviour.stageLightQueData
@@ -330,9 +320,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
                         manualLightArrayProperty.initialValue.innerAngle= lightProperty.innerSpotAngle.value.constant;
                         manualLightArrayProperty.initialValue.range = lightProperty.range.value.constant;
-
                     }
-                    
                     if(lightIntensityProperty != null)
                     {
                         manualLightArrayProperty.initialValue.intensity = lightIntensityProperty.lightToggleIntensity.value.constant;
@@ -347,660 +335,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             }
             
             
-        }
-
-        private void DrawRollProperty(FieldInfo[] fields)
-        {
-            foreach (var fieldInfo in fields)
-            {
-            }
-        }
-        
-
-        private void DrawStageLightPropertyGUI(SlmProperty property, Object undoTarget, Action onRemove)
-        {
-
-            if(property == null) return;
-
-            using (new EditorGUILayout.VerticalScope("GroupBox"))
-            {
-                var fields = property.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).ToList();
-                var propertyOverrideFieldInfo = property.GetType().BaseType.GetField("propertyOverride");
-                var isPropertyOverride = (bool)propertyOverrideFieldInfo.GetValue(property);
-               
-                var opened =EditorGUILayout.Foldout( isPropertyOverride, property.propertyName);
-
-                if(opened != isPropertyOverride)
-                    propertyOverrideFieldInfo.SetValue(property,opened);
-                
-                if (!opened)
-                {
-                    return;
-                }
-                
-                EditorGUI.indentLevel++;
-               
-
-                var orderedFields = new List<FieldInfo>();
-                // var bpmOverrideFields = new List<FieldInfo>();
-                if (property.GetType().BaseType == typeof(SlmAdditionalProperty) || property.GetType().BaseType == typeof(RollProperty))
-                {
-                    orderedFields.Add(fields.Find(x=>x.Name == "bpmOverrideData"));
-                 
-                    foreach (var f in fields)
-                    {
-                        if(f.Name != "bpmOverrideData")
-                            orderedFields.Add(f);
-                    }
-                }
-                else
-                {
-                    orderedFields = fields;
-                }
-                
-
-                using (new EditorGUILayout.VerticalScope())
-                {
-                    foreach (var fieldInfo in orderedFields)
-                    {
-                        var fieldValue = fieldInfo.GetValue(property);
-                        var fieldType = fieldInfo.FieldType;
-                        var displayName = fieldInfo.GetCustomAttribute<DisplayNameAttribute>();
-                        var labelValue = displayName != null ? displayName.name : fieldInfo.Name;
-
-                        if (fieldType == typeof(ClipProperty))
-                        {
-
-                            var clipProperty = fieldValue as ClipProperty;
-                            EditorGUILayout.BeginHorizontal();
-                            // GUILayout.FlexibleSpace();      
-                            EditorGUILayout.LabelField(
-                                $"Constant Duration: {clipProperty.clipEndTime - clipProperty.clipStartTime}");
-                            // EditorGUILayout.LabelField($"End: {clipProperty.clipEndTime}");
-
-                            EditorGUILayout.EndHorizontal();
-
-
-                        }
-                        else if (fieldType.IsGenericType &&
-                                 fieldType.GetGenericTypeDefinition() == typeof(SlmToggleValue<>))
-                        {
-                            object resultValue = null;
-                            var stageLightValueFieldInfo = fieldValue.GetType().GetField("value");
-                            var propertyOverride = fieldValue.GetType().BaseType.GetField("propertyOverride");
-                            EditorGUILayout.BeginHorizontal();
-
-                            EditorGUI.BeginChangeCheck();
-
-                            var propertyOverrideToggle = false;
-
-                            propertyOverrideToggle = EditorGUILayout.Toggle((bool)propertyOverride.GetValue(fieldValue),
-                                GUILayout.Width(40));
-
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                propertyOverride.SetValue(fieldValue, propertyOverrideToggle);
-                            }
-
-                            EditorGUI.BeginDisabledGroup(!propertyOverrideToggle);
-
-
-                            EditorGUI.BeginChangeCheck();
-                            if (stageLightValueFieldInfo.FieldType == typeof(System.Single))
-                            {
-
-                                if (property.GetType().BaseType == typeof(SlmAdditionalProperty) &&
-                                    labelValue == "BPM Scale" ||
-                                    property.GetType().BaseType == typeof(SlmAdditionalProperty) &&
-                                    labelValue == "BPM Offset")
-                                {
-                                    var stageLightAdditionalProperty = property as SlmAdditionalProperty;
-                                    EditorGUI.BeginDisabledGroup(!stageLightAdditionalProperty.bpmOverrideData.value
-                                        .propertyOverride);
-                                    using (new EditorGUI.IndentLevelScope())
-                                    {
-                                        resultValue = EditorGUILayout.FloatField(labelValue,
-                                            (float)stageLightValueFieldInfo.GetValue(fieldValue));
-                                    }
-
-                                    EditorGUI.EndDisabledGroup();
-                                }
-                                else
-                                {
-                                    resultValue = EditorGUILayout.FloatField(labelValue,
-                                        (float)stageLightValueFieldInfo.GetValue(fieldValue));
-                                }
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(MinMaxEasingValue))
-                            {
-                                DrawMinMaxEaseUI(labelValue, stageLightValueFieldInfo, fieldValue, undoTarget);
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(BpmOverrideToggleValueBase))
-                            {
-                                var bpmOverrideData =
-                                    stageLightValueFieldInfo.GetValue(fieldValue) as BpmOverrideToggleValueBase;
-                                // Debug.Log(bpmOverrideData);
-
-                                using (new EditorGUILayout.VerticalScope())
-                                {
-
-                                    using (new EditorGUILayout.HorizontalScope())
-                                    {
-                                        EditorGUILayout.LabelField("BPM Override");   
-                                    }
-                                    using (new EditorGUI.IndentLevelScope())
-                                    {
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-
-                                            // using (new LabelWidth(120))
-                                            // {
-                                                // EditorGUI.BeginChangeCheck();
-                                                // var bpmOverride = EditorGUILayout.Toggle("Override Time",
-                                                //     bpmOverrideData.propertyOverride);
-                                                // if (EditorGUI.EndChangeCheck())
-                                                // {
-                                                //     bpmOverrideData.GetType().GetField("bpmOverride")
-                                                //         .SetValue(bpmOverrideData, bpmOverride);
-                                                // }
-
-                                        }
-
-                                        EditorGUI.BeginDisabledGroup(!bpmOverrideData.propertyOverride);
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            // using (new EditorCommon.LabelWidth(100))
-                                            // {
-                                            EditorGUI.BeginChangeCheck();
-                                            var resultLoopType =
-                                                EditorGUILayout.EnumPopup("Loop Type", bpmOverrideData.loopType);
-                                            if (EditorGUI.EndChangeCheck())
-                                            {
-                                                bpmOverrideData.GetType().GetField("loopType")
-                                                    .SetValue(bpmOverrideData, resultLoopType);
-                                            }
-                                            // }
-                                        }
-                                        
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            EditorGUI.BeginChangeCheck();
-                                            var bpmScaleValue = EditorGUILayout.FloatField("Offset Time",
-                                                bpmOverrideData.offsetTime);
-                                            if (EditorGUI.EndChangeCheck())
-                                            {
-                                                bpmOverrideData.GetType().GetField("offsetTime")
-                                                    .SetValue(bpmOverrideData, bpmScaleValue);
-                                            }
-                                            
-                                        }
-
-
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            EditorGUI.BeginChangeCheck();
-                                            var bpmScaleValue = EditorGUILayout.FloatField("BPM Scale",
-                                                bpmOverrideData.bpmScale);
-                                            
-                                            if (EditorGUI.EndChangeCheck())
-                                            {
-                                                if (bpmScaleValue == 0)
-                                                {
-                                                    bpmScaleValue = 0.0001f;
-                                                }
-                                                bpmOverrideData.GetType().GetField("bpmScale")
-                                                    .SetValue(bpmOverrideData, bpmScaleValue);
-                                            }
-                                        }
-
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            EditorGUI.BeginChangeCheck();
-                                            var bpmOffsetValue = EditorGUILayout.FloatField("Child Stagger",
-                                                bpmOverrideData.childStagger);
-                                            if (EditorGUI.EndChangeCheck())
-                                            {
-                                                bpmOverrideData.GetType().GetField("childStagger")
-                                                    .SetValue(bpmOverrideData, bpmOffsetValue);
-                                            }
-                                     
-                                        }
-
-                                        EditorGUI.EndDisabledGroup();
-                                    }
-                                }
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(System.Int32))
-                            {
-                                resultValue = EditorGUILayout.IntField(labelValue,
-                                    (int)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(System.Boolean))
-                            {
-                                resultValue = EditorGUILayout.Toggle(labelValue,
-                                    (bool)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(System.String))
-                            {
-                                resultValue = EditorGUILayout.TextField(labelValue,
-                                    (string)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Color))
-                            {
-                                resultValue = EditorGUILayout.ColorField(labelValue,
-                                    (Color)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Vector2))
-                            {
-                                resultValue = EditorGUILayout.Vector2Field(
-                                    labelValue, (Vector2)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Vector3))
-                            {
-                                resultValue = EditorGUILayout.Vector3Field(
-                                    labelValue, (Vector3)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Vector4))
-                            {
-                                resultValue = EditorGUILayout.Vector4Field(
-                                    labelValue, (Vector4)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Quaternion))
-                            {
-                                resultValue = EditorGUILayout.Vector4Field(
-                                    labelValue, (Vector4)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.AnimationCurve))
-                            {
-                                resultValue = EditorGUILayout.CurveField(labelValue,
-                                    (AnimationCurve)stageLightValueFieldInfo.GetValue(fieldValue));
-
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(Texture2D))
-                            {
-                                resultValue = EditorGUILayout.ObjectField(labelValue,
-                                    (Texture2D)stageLightValueFieldInfo.GetValue(fieldValue), typeof(Texture2D), false);
-                            }
-                            
-                            if (stageLightValueFieldInfo.FieldType == typeof(Texture))
-                            {
-                                resultValue = EditorGUILayout.ObjectField(labelValue,
-                                    (Texture)stageLightValueFieldInfo.GetValue(fieldValue), typeof(Texture), false);
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType.BaseType != null &&
-                                stageLightValueFieldInfo.FieldType.BaseType == typeof(System.Enum))
-                            {
-                                var easeType = stageLightValueFieldInfo.GetValue(fieldValue) as Enum;
-                                resultValue = EditorGUILayout.EnumPopup(labelValue, easeType);
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Gradient))
-                            {
-                                resultValue = EditorGUILayout.GradientField(labelValue,
-                                    (Gradient)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-                            if (stageLightValueFieldInfo.FieldType == typeof(UnityEngine.Color))
-                            {
-                                resultValue = EditorGUILayout.ColorField(labelValue,
-                                    (Color)stageLightValueFieldInfo.GetValue(fieldValue));
-                            }
-
-                            if (stageLightValueFieldInfo.FieldType == typeof(List<PanTiltPrimitive>))
-                            {
-                                using (new EditorGUILayout.VerticalScope())
-                                {
-                                    
-                                    using (new EditorGUILayout.HorizontalScope())
-                                    {
-                                        
-                                        EditorGUILayout.LabelField("Pan Tilt List");
-                                    }
-                                    
-                                    // var rect = EditorGUI.RectField()
-                                    var panTiltList = stageLightValueFieldInfo.GetValue(fieldValue) as List<PanTiltPrimitive>;
-                                   
-                                    for (int k = 0; k< panTiltList.Count; k++)
-                                    {
-                                        var panTilt = panTiltList[k];
-
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            GUI.color = Color.gray;
-                                            EditorGUILayout.LabelField(panTilt.name);
-                                            GUI.color = Color.white;
-                                        }
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            
-
-                                            using (new LabelWidth(60))
-                                            {
-                                                var pan = EditorGUILayout.FloatField("Pan", panTilt.pan);
-                                                var tilt =
-                                                    EditorGUILayout.FloatField("Tilt", panTilt.tilt);
-                                                panTiltList[k].pan = pan;
-                                                panTiltList[k].tilt = tilt;
-                                            }
-
-                                        }
-                                    }
-                                    
-                                    resultValue = panTiltList;
-                                
-                                
-                                }
-                            }
-                            
-                            if (stageLightValueFieldInfo.FieldType == typeof(List<LightPrimitiveValue>))
-                            {
-                                using (new EditorGUILayout.VerticalScope())
-                                {
-                                    
-                                    using (new EditorGUILayout.HorizontalScope())
-                                    {
-                                        
-                                        EditorGUILayout.LabelField("Light List");
-                                    }
-                                    
-                                    // var rect = EditorGUI.RectField()
-                                    var lightPrimitiveValues = stageLightValueFieldInfo.GetValue(fieldValue) as List<LightPrimitiveValue>;
-                                   
-                                    for (int k = 0; k< lightPrimitiveValues.Count; k++)
-                                    {
-                                        var lightPrimitive = lightPrimitiveValues[k];
-
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            GUI.color = Color.gray;
-                                            EditorGUILayout.LabelField(lightPrimitive.name);
-                                            GUI.color = Color.white;
-                                        }
-                                        // using (new EditorGUILayout.HorizontalScope())
-                                        // {
-                                            
-                                            var intensity = EditorGUILayout.FloatField("Intensity", lightPrimitive.intensity);
-                                            lightPrimitiveValues[k].intensity = intensity;
-
-                                            var angle = EditorGUILayout.FloatField("Angle", lightPrimitive.angle);
-                                            lightPrimitiveValues[k].angle = angle;
-                                            
-                                            var innerAngle = EditorGUILayout.FloatField("Inner Angle", lightPrimitive.innerAngle);
-                                            lightPrimitiveValues[k].innerAngle = innerAngle;
-                                            
-                                            var range = EditorGUILayout.FloatField("Range", lightPrimitive.range);
-                                            lightPrimitiveValues[k].range = range;
-                                            
-                                        // }
-                                    }
-                                    
-                                    resultValue = lightPrimitiveValues;
-                                }
-                            }
-                            
-                            if (stageLightValueFieldInfo.FieldType == typeof(List<ColorPrimitiveValue>))
-                            {
-                                using (new EditorGUILayout.VerticalScope())
-                                {
-                                    
-                                    using (new EditorGUILayout.HorizontalScope())
-                                    {
-                                        
-                                        EditorGUILayout.LabelField("Color List");
-                                    }
-                                    
-                                    // var rect = EditorGUI.RectField()
-                                    var colorPrimitiveValues = stageLightValueFieldInfo.GetValue(fieldValue) as List<ColorPrimitiveValue>;
-                                   
-                                    for (int k = 0; k< colorPrimitiveValues.Count; k++)
-                                    {
-                                        var colorPrimitiveValue = colorPrimitiveValues[k];
-
-                                        using (new EditorGUILayout.HorizontalScope())
-                                        {
-                                            GUI.color = Color.gray;
-                                            EditorGUILayout.LabelField(colorPrimitiveValue.name);
-                                            GUI.color = Color.white;
-                                        }
-                                        // using (new EditorGUILayout.HorizontalScope())
-                                        // {
-                                            
-                                        
-                                            
-                                            var color = EditorGUILayout.ColorField("color", colorPrimitiveValue.color);
-                                            colorPrimitiveValues[k].color = color;
-                                            
-                                        // }
-                                    }
-                                    
-                                    resultValue = colorPrimitiveValues;
-                                }
-                            }
-                           
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-
-                                if (property.GetType().BaseType == typeof(SlmAdditionalProperty) &&
-                                    labelValue == "BPM Scale" ||
-                                    labelValue == "BPM")
-                                {
-                                    var bpmScale = (float) resultValue;
-                                    if (bpmScale == 0f)
-                                    {
-                                        resultValue = 0.0001f;
-                                    }
-                                }
-                                if (resultValue != null)
-                                {
-                                    stageLightValueFieldInfo.SetValue(fieldValue, resultValue);
-                                }
-
-                            }
-                            
-
-                            EditorGUILayout.EndHorizontal();
-                            EditorGUI.EndDisabledGroup();
-                        }
-                    }
-
-                    using (new EditorGUILayout.VerticalScope())
-                    {
-                        GUILayout.Space(2);
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            
-                            GUILayout.FlexibleSpace();
-                            if (GUILayout.Button("Remove", GUILayout.Width(120)))
-                            {
-
-                                onRemove?.Invoke();
-                                serializedObject.ApplyModifiedProperties();
-                            }
-
-                            GUILayout.FlexibleSpace();
-                            
-                        }
-                    }
-
-                    EditorGUI.indentLevel--;
-                }
-            }
-        }
-
-        protected void DrawMinMaxEaseUI(string labelName ,FieldInfo fieldInfo,object target, Object undoTarget=null)
-        {
-            
-            var minMaxEasingValue = fieldInfo.GetValue(target) as MinMaxEasingValue;
-            using (new EditorGUILayout.VerticalScope())
-            {
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    EditorGUILayout.LabelField(labelName);
-                }
-
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    var inverse = minMaxEasingValue.inverse;
-                    EditorGUI.BeginChangeCheck();
-                    var resultBoole = EditorGUILayout.Toggle("Inverse", inverse);
-                    if(EditorGUI.EndChangeCheck())
-                    {
-                        minMaxEasingValue.GetType().GetField("inverse").SetValue(minMaxEasingValue,resultBoole);
-                    }
-                }
-
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    EditorGUI.BeginChangeCheck();
-                    // using (new EditorCommon.LabelWidth(80))
-                    // {
-                        var animationMode = EditorGUILayout.EnumPopup("Mode", minMaxEasingValue.mode);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        minMaxEasingValue.GetType().GetField("mode")
-                            .SetValue(minMaxEasingValue, animationMode);
-                    }
-                    // }   
-                }
-
-                if (minMaxEasingValue.mode == AnimationMode.Ease)
-                {
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        var easeType = minMaxEasingValue.easeType;
-                        EditorGUI.BeginChangeCheck();
-                        var resultEaseType = EditorGUILayout.EnumPopup("Ease Type", easeType);
-                        if(EditorGUI.EndChangeCheck())
-                        {
-                            minMaxEasingValue.GetType().GetField("easeType").SetValue(minMaxEasingValue,resultEaseType);
-                        }
-                    }
-                    
-
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                        // GUILayout.FlexibleSpace();
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            using (new LabelWidth(60))
-                            {
-                                EditorGUI.BeginChangeCheck();
-                                var min = EditorGUILayout.FloatField("Min",
-                                    minMaxEasingValue.minMaxValue.x);
-                                if (EditorGUI.EndChangeCheck())
-                                {
-                                    if(undoTarget != null)Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                                    minMaxEasingValue.GetType().GetField("valueMinMax")
-                                        .SetValue(minMaxEasingValue,
-                                            new Vector2(min, minMaxEasingValue.minMaxValue.y) as object);
-                                }
-                            }
-                        }
-
-                        GUILayout.FlexibleSpace();
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            using (new LabelWidth(60))
-                            {
-                                EditorGUI.BeginChangeCheck();
-                                var max = EditorGUILayout.FloatField("Max",
-                                    minMaxEasingValue.minMaxValue.y);
-                                if (EditorGUI.EndChangeCheck())
-                                {
-                                    Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                                    minMaxEasingValue.GetType().GetField("valueMinMax")
-                                        .SetValue(minMaxEasingValue,
-                                            new Vector2(minMaxEasingValue.minMaxValue.x, max) as object);
-                                }
-                            }
-                        }
-
-                        EditorGUILayout.EndHorizontal();
-                    }
-
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-
-                        EditorGUILayout.FloatField(minMaxEasingValue.minMaxLimit.x, GUILayout.Width(80));
-                        EditorGUILayout.MinMaxSlider(ref minMaxEasingValue.minMaxLimit.x,
-                            ref minMaxEasingValue.minMaxLimit.y,
-                            minMaxEasingValue.minMaxValue.x, minMaxEasingValue.minMaxValue.y);
-                        EditorGUILayout.FloatField(minMaxEasingValue.minMaxLimit.y, GUILayout.Width(80));
-
-                    }
-                }
-                if(minMaxEasingValue.mode == AnimationMode.AnimationCurve)
-                {
-                    EditorGUI.BeginChangeCheck();
-                    var curveResult = EditorGUILayout.CurveField("Curve",
-                        (AnimationCurve)minMaxEasingValue.animationCurve);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                        minMaxEasingValue.GetType().GetField("animationCurve")
-                            .SetValue(minMaxEasingValue,
-                                curveResult);
-                    }
-                }
-
-                if (minMaxEasingValue.mode == AnimationMode.Constant)
-                {
-                    EditorGUI.BeginChangeCheck();
-                    var floatResult = EditorGUILayout.FloatField("constant",
-                        minMaxEasingValue.constant);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        Undo.RecordObject(undoTarget, "Changed Area Of Effect");
-                        minMaxEasingValue.GetType().GetField("constant")
-                            .SetValue(minMaxEasingValue,
-                                floatResult);
-                    }
-                }
-            }
-        }
-        
-        protected void DrawRemainingPropertiesInInspector()
-        {
-            EditorGUI.BeginChangeCheck();
-            DrawPropertiesExcluding(serializedObject, mExcluded.ToArray());
-            if (EditorGUI.EndChangeCheck())
-                serializedObject.ApplyModifiedProperties();
-        }
-        
-        protected void DrawPropertyInInspector(SerializedProperty p)
-        {
-            if (!IsPropertyExcluded(p.name))
-            {
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(p);
-                if (EditorGUI.EndChangeCheck())
-                    serializedObject.ApplyModifiedProperties();
-                ExcludeProperty(p.name);
-            }
-        }
-        
-        private bool IsPropertyExcluded(string propertyName)
-        {
-            return mExcluded.Contains(propertyName);
-        }
-
-        private void ExcludeProperty(string propertyName)
-        {
-            mExcluded.Add(propertyName);
         }
 
         private void SetFilePath(StageLightTimelineClip stageLightTimelineClip)

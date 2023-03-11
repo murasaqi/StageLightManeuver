@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 namespace StageLightManeuver
@@ -94,12 +95,12 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmAdditionalProperty:SlmProperty
     {
-        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>();
+        [FormerlySerializedAs("bpmOverrideData")] [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>();
     }
     
     public class SlmAdditionalArrayProperty:SlmProperty
     {
-        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>();
+        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>();
         public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
             

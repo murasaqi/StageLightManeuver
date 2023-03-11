@@ -298,7 +298,7 @@ namespace StageLightManeuver
         public float GetNormalizedTime(float currentTime, TimeProperty timeProperty, SlmAdditionalProperty slmAdditionalProperty)
         {
             
-            var bpmOverrideData = slmAdditionalProperty.bpmOverrideData.value;
+            var bpmOverrideData = slmAdditionalProperty.bpmOverride.value;
             var offsetTime = timeProperty.offsetTime.value;
             var bpm =  timeProperty.bpm.value;
             var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.childStagger : timeProperty.childStagger.value;

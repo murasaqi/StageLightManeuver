@@ -15,7 +15,7 @@ namespace StageLightManeuver
             propertyName = "Rotation";
 
             propertyOverride = false;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
                 { value = new BpmOverrideToggleValueBase() };
             // rotationAxis = new SlmToggleValue<Vector3>(){value = new Vector3(0,0,1)};
             rotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
@@ -29,7 +29,7 @@ namespace StageLightManeuver
             propertyOverride = toggle;
             // rotationAxis.propertyOverride=(toggle);
             rotationSpeed.propertyOverride=(toggle);
-            bpmOverrideData.propertyOverride=(toggle);
+            bpmOverride.propertyOverride=(toggle);
         }
 
         public override void OverwriteProperty(SlmProperty other)
@@ -40,7 +40,7 @@ namespace StageLightManeuver
             if (rotationProperty == null) return;
             if (rotationProperty.propertyOverride) return;
             if(rotationProperty.rotationSpeed.propertyOverride) rotationSpeed.value = rotationProperty.rotationSpeed.value; 
-            if(rotationProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(rotationProperty.bpmOverrideData.value);
+            if(rotationProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(rotationProperty.bpmOverride.value);
             
         }
 
@@ -48,10 +48,10 @@ namespace StageLightManeuver
         {
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
-                propertyOverride =  other.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase(other.bpmOverrideData.value)
+                propertyOverride =  other.bpmOverride.propertyOverride,
+                value = new BpmOverrideToggleValueBase(other.bpmOverride.value)
             };
             // rotationAxis = new SlmToggleValue<Vector3>(other.rotationAxis){};
             rotationSpeed = new SlmToggleValue<MinMaxEasingValue>()

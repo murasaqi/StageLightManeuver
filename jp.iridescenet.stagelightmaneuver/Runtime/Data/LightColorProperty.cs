@@ -10,7 +10,7 @@ namespace StageLightManeuver
         public LightColorProperty()
         {
             propertyName = "Light Color";
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
                 propertyOverride = false,
                 value = new BpmOverrideToggleValueBase()
@@ -26,7 +26,7 @@ namespace StageLightManeuver
         public LightColorProperty( LightColorProperty other )
         {
             propertyName = other.propertyName;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverrideData);
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverride);
             lightToggleColor = new SlmToggleValue<Gradient>()
             {
                 propertyOverride = other.lightToggleColor.propertyOverride,
@@ -41,7 +41,7 @@ namespace StageLightManeuver
             if (other.propertyOverride)
             {
                 if(otherProperty.lightToggleColor.propertyOverride) lightToggleColor.value = SlmUtility.CopyGradient(otherProperty.lightToggleColor.value);
-                if(otherProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverrideData.value);
+                if(otherProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverride.value);
             }
         }
     }

@@ -57,7 +57,7 @@ namespace StageLightManeuver
             EditorGUI.BeginChangeCheck();
              var selectList = new List<string>();
             
-            SlmUtility.SlmAdditionalTypes.ForEach(t =>
+            SlmUtility.SlmPropertyTypes.ForEach(t =>
             {
                 if(t != typeof(RollProperty))selectList.Add(t.Name);
             });

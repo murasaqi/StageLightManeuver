@@ -11,7 +11,7 @@ namespace StageLightManeuver
         public LightIntensityProperty()
         {
             propertyName = "Intensity";
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
                 propertyOverride = false,
                 value = new BpmOverrideToggleValueBase()
@@ -32,7 +32,7 @@ namespace StageLightManeuver
         public LightIntensityProperty( LightIntensityProperty other )
         {
             propertyName = other.propertyName;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverrideData);
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverride);
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>()
             {
                 propertyOverride = other.lightToggleIntensity.propertyOverride,
@@ -48,7 +48,7 @@ namespace StageLightManeuver
                 if (other.propertyOverride)
                 {
                     if(otherProperty.lightToggleIntensity.propertyOverride) lightToggleIntensity.value = new MinMaxEasingValue(otherProperty.lightToggleIntensity.value);
-                    if(otherProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverrideData.value);
+                    if(otherProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverride.value);
                 }
                     
             }

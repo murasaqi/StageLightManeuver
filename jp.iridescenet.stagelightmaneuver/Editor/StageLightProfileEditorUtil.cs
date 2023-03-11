@@ -144,7 +144,9 @@ namespace StageLightManeuver
         public static bool DrawHeader(SerializedProperty serializedProperty, string propertyName, bool headerBackground = true)
         {
             // var stageLightProfile = serializedObject.targetObject as StageLightProfile;
+            if (serializedProperty == null) return false;
             var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
+            if(propertyOverride == null) return false;
             var position = EditorGUILayout.GetControlRect();
             if(headerBackground)EditorGUI.DrawRect(position, new Color(0.3f, 0.3f, 0.3f));
             var expanded = EditorGUI.Foldout(position, serializedProperty.isExpanded, GUIContent.none);
@@ -345,7 +347,7 @@ namespace StageLightManeuver
         {
             EditorGUI.BeginChangeCheck();
             var selectList = new List<string>();
-            SlmUtility.SlmAdditionalTypes.ForEach(t =>
+            SlmUtility.SlmPropertyTypes.ForEach(t =>
             {
                 if(t != typeof(RollProperty))selectList.Add(t.Name);
             });

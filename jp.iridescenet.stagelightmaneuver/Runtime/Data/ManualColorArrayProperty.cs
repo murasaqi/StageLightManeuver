@@ -88,8 +88,8 @@ namespace StageLightManeuver
                 if(otherManualColorArrayProperty.colorValues.propertyOverride)
                     colorValues.value = copy.ToList();
                 
-                if(otherManualColorArrayProperty.bpmOverrideData.propertyOverride)
-                    bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(otherManualColorArrayProperty.bpmOverrideData);
+                if(otherManualColorArrayProperty.bpmOverride.propertyOverride)
+                    bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(otherManualColorArrayProperty.bpmOverride);
             }              
         }
     }

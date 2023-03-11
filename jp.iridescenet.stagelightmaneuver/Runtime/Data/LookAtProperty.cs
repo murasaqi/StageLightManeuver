@@ -11,7 +11,7 @@ namespace StageLightManeuver
         public LookAtProperty()
         {
             propertyName = "Look At";
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
                 propertyOverride = false,
                 value = new BpmOverrideToggleValueBase()
@@ -29,7 +29,7 @@ namespace StageLightManeuver
         public LookAtProperty( LookAtProperty other )
         {
             propertyName = other.propertyName;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverrideData);
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverride);
             weight = new SlmToggleValue<float>(other.weight);
             lookAtIndex = new SlmToggleValue<int>(other.lookAtIndex);
             speed = new SlmToggleValue<float>(other.speed);
@@ -43,7 +43,7 @@ namespace StageLightManeuver
             if(lookAtProperty.weight.propertyOverride) weight.value = lookAtProperty.weight.value;
             if(lookAtProperty.lookAtIndex.propertyOverride) lookAtIndex.value = lookAtProperty.lookAtIndex.value;
             if(lookAtProperty.speed.propertyOverride) speed.value = lookAtProperty.speed.value;
-            if(lookAtProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(lookAtProperty.bpmOverrideData.value);
+            if(lookAtProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(lookAtProperty.bpmOverride.value);
             
         }
     }

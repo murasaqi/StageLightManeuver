@@ -15,10 +15,10 @@ namespace StageLightManeuver
         {
             propertyName = rollProperty.propertyName;
 
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
             {
-                propertyOverride = rollProperty.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase(rollProperty.bpmOverrideData.value)
+                propertyOverride = rollProperty.bpmOverride.propertyOverride,
+                value = new BpmOverrideToggleValueBase(rollProperty.bpmOverride.value)
             };
             this.rollTransform = new SlmToggleValue<MinMaxEasingValue>()
             {
@@ -32,7 +32,7 @@ namespace StageLightManeuver
         public RollProperty()
         {
             propertyOverride = false;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
+            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
             rollTransform = new SlmToggleValue<MinMaxEasingValue>() {value = new MinMaxEasingValue()};
         }
 
@@ -50,7 +50,7 @@ namespace StageLightManeuver
             RollProperty rollProperty = other as RollProperty;
             if (rollProperty == null) return;
             if(rollProperty.rollTransform.propertyOverride) rollTransform.value = new MinMaxEasingValue(rollProperty.rollTransform.value);
-            if(rollProperty.bpmOverrideData.propertyOverride) bpmOverrideData.value = new BpmOverrideToggleValueBase(rollProperty.bpmOverrideData.value);
+            if(rollProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(rollProperty.bpmOverride.value);
         }
     }
     
