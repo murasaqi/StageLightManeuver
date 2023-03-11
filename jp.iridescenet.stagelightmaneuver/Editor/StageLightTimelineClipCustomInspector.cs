@@ -41,18 +41,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         private static List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
         // group by folder
         private Dictionary<string, List<StageLightProfile>> folderNamesProfileDict = new Dictionary<string, List<StageLightProfile>>();
-
-        // public override VisualElement CreateInspectorGUI()
-        // {
-        //     // stageLightProfileCopy = CreateInstance<StageLightProfile>();
-        //     // stageLightProfileCopy.stageLightProperties = new List<SlmProperty>();
-        //     var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
-        //     InitProfileList(stageLightTimelineClip);
-        //     var root = new VisualElement();
-        //     var template = EditorGUIUtility.Load("StageLightTimelineClipEditor.uxml") as VisualTreeAsset;
-        //     template.CloneTree(root);
-        //     return root;
-        // }
+        
 
         private List<string> mExcluded = new List<string>();
 
@@ -98,7 +87,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 GUI.contentColor = Color.white;
                 if (GUILayout.Button("Load Profile",GUILayout.MaxWidth(100)))
                 {
+                    // set dirty
+                    EditorUtility.SetDirty(stageLightTimelineClip);
                     stageLightTimelineClip.LoadProfile();
+                    serializedObject.ApplyModifiedProperties();
+                    Repaint();
                 }
                 
                 
@@ -215,7 +208,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     var serializedProperty = stageLightPropertiesProperty.GetArrayElementAtIndex(i);
                     if(serializedProperty == null)
                         continue;
-                    StageLightProfileEditorUtil.DrawStageLightProperty(serializedObject,serializedProperty ,false);
+                    StageLightProfileEditorUtil.DrawStageLightProperty(referenceProfile.stageLightProperties,serializedProperty ,false);
 
                     GUILayout.Space(2);
                     using (new EditorGUILayout.HorizontalScope())
@@ -236,22 +229,45 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             {
                 EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
            
+                
+              
                 var stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
-                // var stageLightProfile = new SerializedObject( stageLightTimelineClip.stageLightQueData);
+                var behaviourProperty = serializedObject.FindProperty("behaviour");
+                var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueData");
+                var serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
             
-                _stageLightPropertyEditors.Clear();
+                // _stageLightPropertyEditors.Clear();
                 for (int i = 0; i < stageLightProperties.Count; i++)
                 {
 
                     var property = stageLightProperties[i];
                     if(property == null) continue;
+                
+                    var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
+                    var expanded = false;
+                    expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, property.propertyName);
+                    
+                    
+                    if (!expanded)
+                    {
+                        continue;
+                    }
+                    EditorGUI.BeginDisabledGroup(!property.propertyOverride);
+                    
+                    // get serializable property name in property
+                    property.GetType().GetFields().ToList().ForEach(f =>
+                    {
+                        
+                        StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name));
+                    });
                     var action = new Action(() =>
                     {
                         stageLightProperties.Remove(property);
                         return;
                     });
-                    DrawStageLightPropertyGUI(property, stageLightTimelineClip,action);
-               
+                    StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
+                    
+                    EditorGUI.EndDisabledGroup();
                 }
             
                 DrawAddPropertyButton(stageLightTimelineClip);

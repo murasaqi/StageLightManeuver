@@ -35,7 +35,7 @@ namespace StageLightManeuver
                     {
                         continue;
                     } 
-                    StageLightProfileEditorUtil.DrawStageLightProperty(serializedObject, stageLightPropertiesProperty.GetArrayElementAtIndex(i));
+                    StageLightProfileEditorUtil.DrawStageLightProperty(stageLightProfile.stageLightProperties, stageLightPropertiesProperty.GetArrayElementAtIndex(i),true);
                 }
             }
             GUILayout.Space(2);
