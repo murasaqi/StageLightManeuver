@@ -34,13 +34,17 @@ namespace StageLightManeuver
                 DrawSlmToggleValue(serializedObject, property);
 
             }
-            var action = new Action(() =>
-            {
-                if(stageLightProfile)stageLightProfile.stageLightProperties.Remove(slmProperty);
-                return;
-            });
 
-            if(drawRemoveButton)DrawRemoveButton(serializedObject, stageLightProfile.stageLightProperties, action);
+
+            if (drawRemoveButton)
+            {
+                var action = new Action(() =>
+                {
+                    if(stageLightProfile)stageLightProfile.stageLightProperties.Remove(slmProperty);
+                    return;
+                });
+                DrawRemoveButton(serializedObject, stageLightProfile.stageLightProperties, action);
+            }
             EditorGUI.EndDisabledGroup();
             
           
@@ -147,17 +151,18 @@ namespace StageLightManeuver
             if (expanded != serializedProperty.isExpanded) 
             {
                 serializedProperty.isExpanded = expanded; 
+                serializedProperty.serializedObject.ApplyModifiedProperties();
             } 
             position.x += 15; 
-            EditorGUI.BeginChangeCheck(); 
+            // EditorGUI.BeginChangeCheck(); 
             var isOverride = EditorGUI.ToggleLeft(position, propertyName, propertyOverride.boolValue);
-            if (EditorGUI.EndChangeCheck()) 
+            if (propertyOverride.boolValue != isOverride) 
             { 
                 propertyOverride.boolValue = isOverride; 
                 serializedProperty.serializedObject.ApplyModifiedProperties();
                 if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true; 
             } 
-            EditorGUI.BeginChangeCheck(); 
+            // EditorGUI.BeginChangeCheck(); 
 
             return expanded;
 

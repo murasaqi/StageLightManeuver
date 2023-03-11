@@ -182,7 +182,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             {
                 selectedClips = SlmEditorUtility.SelectClips();
                 SlmEditorUtility.InitAndProperties(stageLightTimelineClip.track.ReferenceStageLightProfile,selectedClips);  
-                Repaint();
+                // Repaint();
             };
        
          
@@ -191,8 +191,9 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if (isMultiSelect)
             {
 
-                // if(selectedClips.Last() != stageLightTimelineClip)
-                //     return;
+                if(selectedClips.Last() != stageLightTimelineClip)
+                    return;
+                
 
                 // var serializedProfile = stageLightTimelineClip.track.SerializedProfile;
                 var referenceProfile = stageLightTimelineClip.track.ReferenceStageLightProfile;
@@ -201,6 +202,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                
                 if(stageLightPropertiesProperty == null)
                     return;
+                
                 for (int i = 0; i < referenceProfile.stageLightProperties.Count; i++)
                 {   
                     
@@ -209,11 +211,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     {
                         continue;
                     }
-                    // property.ToggleOverride(true);
+                    // Debug.Log(property.propertyName);
                     var serializedProperty = stageLightPropertiesProperty.GetArrayElementAtIndex(i);
                     if(serializedProperty == null)
                         continue;
-                    // serializedProperty.isExpanded = true;
                     StageLightProfileEditorUtil.DrawStageLightProperty(serializedObject,serializedProperty ,false);
 
                     GUILayout.Space(2);

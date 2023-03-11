@@ -53,7 +53,6 @@ namespace StageLightManeuver
                 if (referenceStageLightProfile == null || referenceStageLightProfile.stageLightProperties == null)
                 {
                     referenceStageLightProfile =  ScriptableObject.CreateInstance<StageLightProfile>();
-                    referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
                 }
 
                 return referenceStageLightProfile;
@@ -64,7 +63,6 @@ namespace StageLightManeuver
         {
             #if UNITY_EDITOR
             // serializedProfile = new SerializedObject(ReferenceStageLightProfile);
-            referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
             // slmProperties = referenceStageLightProfile.stageLightProperties;
             #endif
             var mixer = ScriptPlayable<StageLightTimelineMixerBehaviour>.Create(graph, inputCount);
