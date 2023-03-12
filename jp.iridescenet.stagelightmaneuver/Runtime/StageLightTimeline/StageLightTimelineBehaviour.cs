@@ -17,6 +17,11 @@ namespace StageLightManeuver
             // stageLightProfile.name = "StageLightProfile";
             // stageLightProfile.stageLightProperties = new List<SlmProperty>();
         }
+        
+        public void RemoveNullProperties()
+        {
+            stageLightQueData.stageLightProperties.RemoveAll(item => item == null);
+        }
     }
 
 }

@@ -33,6 +33,13 @@ namespace StageLightManeuver
             colorValues = new SlmToggleValue<List<ColorPrimitiveValue>>() { value = new List<ColorPrimitiveValue>() };
         }
 
+        public override void ToggleOverride(bool toggle)
+        {
+            base.ToggleOverride(toggle);
+            colorValues.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
+        }
+
         public override void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
             var colorPrimitiveValues = colorValues.value;
@@ -88,8 +95,8 @@ namespace StageLightManeuver
                 if(otherManualColorArrayProperty.colorValues.propertyOverride)
                     colorValues.value = copy.ToList();
                 
-                if(otherManualColorArrayProperty.bpmOverride.propertyOverride)
-                    bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(otherManualColorArrayProperty.bpmOverride);
+                if(otherManualColorArrayProperty.clockOverride.propertyOverride)
+                    clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(otherManualColorArrayProperty.clockOverride);
             }              
         }
     }

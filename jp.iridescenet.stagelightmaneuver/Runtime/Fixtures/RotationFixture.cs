@@ -37,7 +37,7 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperties = queueData.TryGet<TimeProperty>() as TimeProperty;
+                var stageLightBaseProperties = queueData.TryGet<ClockProperty>() as ClockProperty;
                 var rotationProperty = queueData.TryGet<RotationProperty>() as RotationProperty;
 
                 if (rotationProperty == null || stageLightBaseProperties == null)

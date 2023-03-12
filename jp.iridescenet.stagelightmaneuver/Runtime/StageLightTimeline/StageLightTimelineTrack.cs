@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
+#if UNITY_EDITOR
+using System.Reflection;
+#endif
 namespace StageLightManeuver
 {
 
@@ -28,6 +31,8 @@ namespace StageLightManeuver
         [SerializeField] public bool updateOnOutOfClip = false;
 
         private StageLightProfile referenceStageLightProfile;
+        
+        public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
          // public List<SlmProperty> slmProperties;
 
 #if UNITY_EDITOR
@@ -96,7 +101,41 @@ namespace StageLightManeuver
             
             if(serializedProfile == null)
                 serializedProfile = new SerializedObject(ReferenceStageLightProfile);
+            Selection.selectionChanged -=OnSelection;
+            Selection.selectionChanged += OnSelection;
             // slmProperties = referenceStageLightProfile.stageLightProperties;
         }
+
+#if UNITY_EDITOR
+        
+        private void OnSelection()
+        {
+            
+            var select = Selection.objects.ToList(); 
+            selectedClips = new List<StageLightTimelineClip>();
+            // selectedClips.Clear();
+            foreach (var s in select)
+            {
+                if (s.GetType().ToString() == "UnityEditor.Timeline.EditorClip")
+                {
+                    var clip = s.GetType().GetField("m_Clip", BindingFlags.NonPublic | BindingFlags.Instance)
+                        .GetValue(s);
+                    
+                    var timelineClip = clip as TimelineClip;
+                    if(timelineClip == null) continue;
+                    if (timelineClip.asset.GetType() == typeof(StageLightTimelineClip))
+                    {
+                        // stringBuilder.AppendLine(timelineClip.displayName);
+                        var asset = timelineClip.asset as StageLightTimelineClip;
+                        
+                        selectedClips.Add(asset);
+
+                    }
+                }
+                
+            }
+        }
+        
+#endif
     }
 }

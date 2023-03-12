@@ -35,24 +35,238 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         private List<StageLightProfile> allProfilesInProject = new List<StageLightProfile>();
         private List<string> profileNames = new List<string>();
         private int selectedProfileIndex = 0;
-        private static List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
-        // group by folder
         private Dictionary<string, List<StageLightProfile>> folderNamesProfileDict = new Dictionary<string, List<StageLightProfile>>();
-        
-
-        private List<string> mExcluded = new List<string>();
-
+        private StageLightTimelineClip stageLightTimelineClip;
+        private bool isMultiSelect;
         public override void OnInspectorGUI()
         {
+            stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
+            Selection.selectionChanged += () =>
+            {
+                SlmEditorUtility.InitAndProperties(stageLightTimelineClip.track.ReferenceStageLightProfile,stageLightTimelineClip.track.selectedClips);
+            };
+            isMultiSelect = stageLightTimelineClip.track.selectedClips.Count > 1;
             BeginInspector();
-            mExcluded.Clear();
             
         }
         
         private void BeginInspector()
         {
-            serializedObject.Update();
+            DrawProfileIO();
 
+            EditorGUILayout.Space(2);
+            
+            if (isMultiSelect)
+            {
+                var serializedTrack = new SerializedObject(stageLightTimelineClip.track);
+                serializedTrack.Update();
+                var selectedClipsProperty = serializedTrack.FindProperty("selectedClips");
+                if (selectedClipsProperty == null)
+                    return;
+                EditorGUILayout.PropertyField(selectedClipsProperty, true);
+                
+                EditorGUILayout.Space(2);
+                
+                
+                var referenceProfile = stageLightTimelineClip.track.ReferenceStageLightProfile;
+                var serializedProfile = new SerializedObject(referenceProfile);
+                serializedProfile.Update();
+                var stageLightPropertiesProperty = serializedProfile.FindProperty("stageLightProperties");
+               
+                if(stageLightPropertiesProperty == null)
+                    return;
+                
+                for (int i = 0; i < referenceProfile.stageLightProperties.Count; i++)
+                {   
+                    
+                    var property = referenceProfile.stageLightProperties[i];
+                    if (property == null)
+                    {
+                        continue;
+                    }
+                    // Debug.Log(property.propertyName);
+                    var serializedProperty = stageLightPropertiesProperty.GetArrayElementAtIndex(i);
+                    if(serializedProperty == null)
+                        continue;
+                    StageLightProfileEditorUtil.DrawStageLightProperty(referenceProfile.stageLightProperties,serializedProperty ,false);
+
+                    GUILayout.Space(2);
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+
+                        GUILayout.FlexibleSpace();
+                        if (GUILayout.Button("☑ Apply checked properties", GUILayout.Width(200)))
+                        {
+                            SlmEditorUtility.OverwriteProperties( referenceProfile, stageLightTimelineClip.track.selectedClips);
+                        }
+                        GUILayout.FlexibleSpace();
+                    }
+                    GUILayout.Space(2);
+            
+                }
+            }
+            else
+            {
+                EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
+                stageLightTimelineClip.behaviour.RemoveNullProperties();
+                var stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
+                
+                var behaviourProperty = serializedObject.FindProperty("behaviour");
+                var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueData");
+                var serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
+            
+                // var clockProperty = stageLightProperties.Find(x => x.propertyName == "Clock");
+                // clockProperty.propertyOrder = -999;
+                
+                stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
+                
+                for (int i = 0; i < stageLightProperties.Count; i++)
+                {
+
+                    var slmProperty = stageLightProperties[i];
+                    if(slmProperty == null) continue;
+                
+                    var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
+                    var expanded = false;
+                    expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, slmProperty.propertyName);
+                    
+                    if (!expanded)
+                    {
+                        continue;
+                    }
+                    EditorGUI.BeginDisabledGroup(!slmProperty.propertyOverride);
+
+                      
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        GUIStyle style = new GUIStyle();
+                        style.normal.background =null;
+                        style.fixedWidth = 40;
+                        style.alignment = TextAnchor.MiddleCenter;
+                        style.normal.textColor = Color.gray;
+                        // GUILayout.FlexibleSpace();
+                        if (GUILayout.Button("All", style))
+                        {
+                            slmProperty.ToggleOverride(true);
+                        }
+                
+                        GUILayout.Space(2);
+                        if (GUILayout.Button("None", style))
+                        {
+                            slmProperty.ToggleOverride(false);
+                            slmProperty.propertyOverride = true;
+                        }
+                    
+                    }
+
+                    
+                    var fields = slmProperty.GetType().GetFields().ToList();
+                    var clockOverride = fields.Find(x => x.FieldType == typeof(SlmToggleValue<ClockOverrideToggleValueBase>));
+                    if (clockOverride != null)
+                    {
+                        fields.Remove(clockOverride);
+                        fields.Insert(0,clockOverride);
+                    }
+                    fields.ForEach(f =>
+                    {
+                        var marginBottom = f.FieldType == typeof(SlmToggleValue<ClockOverrideToggleValueBase>) ? 0 : 4;
+                        StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
+                    });
+                    var action = new Action(() =>
+                    {
+                        stageLightProperties.Remove(slmProperty);
+                        return;
+                    });
+                    StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
+                    
+                    EditorGUI.EndDisabledGroup();
+                }
+            
+                DrawAddPropertyButton(stageLightTimelineClip);
+           
+                EditorGUI.EndDisabledGroup();    
+            }
+            
+        }
+        
+        private void DrawAddPropertyButton(StageLightTimelineClip stageLightTimelineClip)
+        {
+            EditorGUI.BeginChangeCheck();
+            var selectList = new List<string>();
+            
+            SlmUtility.SlmPropertyTypes.ForEach(t =>
+            {
+                selectList.Add(t.Name);
+            });
+            
+            selectList.Insert(0,"Add Property");
+            foreach (var property in stageLightTimelineClip.behaviour.stageLightQueData
+                         .stageLightProperties)
+            {
+               if(property == null) continue;
+                if (selectList.Find(x => x== property.GetType().Name) != null)
+                {
+                    selectList.Remove(property.GetType().Name);
+                }
+                    
+                
+            }
+            
+            EditorGUI.BeginDisabledGroup(selectList.Count  <= 1);
+            var select = EditorGUILayout.Popup(0, selectList.ToArray());
+            EditorGUI.EndDisabledGroup();
+            if (EditorGUI.EndChangeCheck())
+            {
+                // SetDirty 
+                Undo.RecordObject(stageLightTimelineClip, "Add Property");
+                EditorUtility.SetDirty(stageLightTimelineClip);   
+                var type = SlmUtility.GetTypeByClassName(selectList[select]);
+                var property = Activator.CreateInstance(type) as SlmProperty;
+
+                if (property.GetType() == typeof(ManualLightArrayProperty))
+                {
+                    var manualLightArrayProperty = property as ManualLightArrayProperty;
+                    var lightProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<LightProperty>();
+                    var lightIntensityProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<LightIntensityProperty>();
+                    if(lightProperty != null)
+                    {
+                        manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
+                        manualLightArrayProperty.initialValue.innerAngle= lightProperty.innerSpotAngle.value.constant;
+                        manualLightArrayProperty.initialValue.range = lightProperty.range.value.constant;
+                    }
+                    if(lightIntensityProperty != null)
+                    {
+                        manualLightArrayProperty.initialValue.intensity = lightIntensityProperty.lightToggleIntensity.value.constant;
+                    }
+                }
+                stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties.Add(property);
+                
+                // apply serialized object
+                serializedObject.ApplyModifiedProperties();
+                //Save asset
+                AssetDatabase.SaveAssets();
+            }
+            
+            
+        }
+
+        private void SetFilePath(StageLightTimelineClip stageLightTimelineClip)
+        {
+            var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
+            var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
+            var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
+            string fileName = Path.GetFileName(path);
+            if(path == "") return;
+            path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
+            string dir = Path.GetDirectoryName(path);
+            stageLightTimelineClip.exportPath = path;
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawProfileIO()
+        {
+             serializedObject.Update();
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("Profile", GUILayout.MaxWidth(60));
@@ -65,9 +279,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 }
             }
 
-            var stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
-
-            
             EditorGUI.BeginDisabledGroup(stageLightTimelineClip.referenceStageLightProfile == null);
 
 
@@ -159,192 +370,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 }
                     
             }
-
-            Selection.selectionChanged += () =>
-            {
-                selectedClips = SlmEditorUtility.SelectClips();
-                SlmEditorUtility.InitAndProperties(stageLightTimelineClip.track.ReferenceStageLightProfile,selectedClips);  
-                // Repaint();
-            };
-       
-         
-            var isMultiSelect = selectedClips.Count > 1;
-
-            if (isMultiSelect)
-            {
-                var referenceProfile = stageLightTimelineClip.track.ReferenceStageLightProfile;
-                var serializedProfile = new SerializedObject(referenceProfile);
-                var stageLightPropertiesProperty = serializedProfile.FindProperty("stageLightProperties");
-               
-                if(stageLightPropertiesProperty == null)
-                    return;
-                
-                for (int i = 0; i < referenceProfile.stageLightProperties.Count; i++)
-                {   
-                    
-                    var property = referenceProfile.stageLightProperties[i];
-                    if (property == null)
-                    {
-                        continue;
-                    }
-                    // Debug.Log(property.propertyName);
-                    var serializedProperty = stageLightPropertiesProperty.GetArrayElementAtIndex(i);
-                    if(serializedProperty == null)
-                        continue;
-                    StageLightProfileEditorUtil.DrawStageLightProperty(referenceProfile.stageLightProperties,serializedProperty ,false);
-
-                    GUILayout.Space(2);
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-
-                        GUILayout.FlexibleSpace();
-                        if (GUILayout.Button("☑ Apply checked properties", GUILayout.Width(200)))
-                        {
-                            SlmEditorUtility.OverwriteProperties( referenceProfile, selectedClips);
-                        }
-                        GUILayout.FlexibleSpace();
-                    }
-                    GUILayout.Space(2);
-            
-                }
-            }
-            else
-            {
-                EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
-                var stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties;
-                var behaviourProperty = serializedObject.FindProperty("behaviour");
-                var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueData");
-                var serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
-            
-                for (int i = 0; i < stageLightProperties.Count; i++)
-                {
-                    if (stageLightProperties[i] == null)
-                    {
-                        stageLightProperties.RemoveAt(i);
-                    }
-
-                    serializedObject.ApplyModifiedProperties();
-                }
-                
-                for (int i = 0; i < stageLightProperties.Count; i++)
-                {
-
-                    var property = stageLightProperties[i];
-                    if(property == null) continue;
-                
-                    var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
-                    var expanded = false;
-                    expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, property.propertyName);
-                    
-                    
-                    if (!expanded)
-                    {
-                        continue;
-                    }
-                    EditorGUI.BeginDisabledGroup(!property.propertyOverride);
-                    
-                    // get serializable property name in property
-                    var fields = property.GetType().GetFields().ToList();
-                    var bpmOverride = fields.Find(x => x.Name == "bpmOverride");
-                    if (bpmOverride != null)
-                    {
-                        fields.Remove(bpmOverride);
-                        fields.Insert(0,bpmOverride);
-                    }
-                    fields.ForEach(f =>
-                    {
-                        StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name));
-                    });
-                    var action = new Action(() =>
-                    {
-                        stageLightProperties.Remove(property);
-                        return;
-                    });
-                    StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
-                    
-                    EditorGUI.EndDisabledGroup();
-                }
-            
-                DrawAddPropertyButton(stageLightTimelineClip);
-           
-                EditorGUI.EndDisabledGroup();    
-            }
-            
-        }
-        
-        private void DrawAddPropertyButton(StageLightTimelineClip stageLightTimelineClip)
-        {
-            EditorGUI.BeginChangeCheck();
-            var selectList = new List<string>();
-            
-            SlmUtility.SlmPropertyTypes.ForEach(t =>
-            {
-                selectList.Add(t.Name);
-            });
-            
-            selectList.Insert(0,"Add Property");
-            foreach (var property in stageLightTimelineClip.behaviour.stageLightQueData
-                         .stageLightProperties)
-            {
-               if(property == null) continue;
-                if (selectList.Find(x => x== property.GetType().Name) != null)
-                {
-                    selectList.Remove(property.GetType().Name);
-                }
-                    
-                
-            }
-            
-            EditorGUI.BeginDisabledGroup(selectList.Count  <= 1);
-            var select = EditorGUILayout.Popup(0, selectList.ToArray());
-            EditorGUI.EndDisabledGroup();
-            if (EditorGUI.EndChangeCheck())
-            {
-                // SetDirty 
-                Undo.RecordObject(stageLightTimelineClip, "Add Property");
-                EditorUtility.SetDirty(stageLightTimelineClip);   
-                var type = SlmUtility.GetTypeByClassName(selectList[select]);
-                var property = Activator.CreateInstance(type) as SlmProperty;
-
-                if (property.GetType() == typeof(ManualLightArrayProperty))
-                {
-                    var manualLightArrayProperty = property as ManualLightArrayProperty;
-                    var lightProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<LightProperty>();
-                    var lightIntensityProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<LightIntensityProperty>();
-                    if(lightProperty != null)
-                    {
-                        manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
-                        manualLightArrayProperty.initialValue.innerAngle= lightProperty.innerSpotAngle.value.constant;
-                        manualLightArrayProperty.initialValue.range = lightProperty.range.value.constant;
-                    }
-                    if(lightIntensityProperty != null)
-                    {
-                        manualLightArrayProperty.initialValue.intensity = lightIntensityProperty.lightToggleIntensity.value.constant;
-                    }
-                }
-                stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties.Add(property);
-                
-                // apply serialized object
-                serializedObject.ApplyModifiedProperties();
-                //Save asset
-                AssetDatabase.SaveAssets();
-            }
-            
-            
-        }
-
-        private void SetFilePath(StageLightTimelineClip stageLightTimelineClip)
-        {
-            var exportPath = stageLightTimelineClip.referenceStageLightProfile != null ? AssetDatabase.GetAssetPath(stageLightTimelineClip.referenceStageLightProfile) : "Asset";
-            var exportName = stageLightTimelineClip.referenceStageLightProfile != null ? stageLightTimelineClip.referenceStageLightProfile.name+"(Clone)" : "new stageLightProfile";
-            var path = EditorUtility.SaveFilePanel("Save StageLightProfile Asset", exportPath,exportName, "asset");
-            string fileName = Path.GetFileName(path);
-            if(path == "") return;
-            path = path.Replace("\\", "/").Replace(Application.dataPath, "Assets");
-            string dir = Path.GetDirectoryName(path);
-            stageLightTimelineClip.exportPath = path;
-
-            serializedObject.ApplyModifiedProperties();
         }
 
 

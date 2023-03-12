@@ -180,7 +180,7 @@ namespace StageLightManeuver
             
             
             
-            var timeProperty = customClip.behaviour.stageLightQueData.TryGet<TimeProperty>();
+            var timeProperty = customClip.behaviour.stageLightQueData.TryGet<ClockProperty>();
             
             if (timeProperty != null)
             {
@@ -249,7 +249,7 @@ namespace StageLightManeuver
             
                 // var lightProfile = lightProperty;
                 
-                var timeProperty = customClip.behaviour.stageLightQueData.TryGet<TimeProperty>();
+                var timeProperty = customClip.behaviour.stageLightQueData.TryGet<ClockProperty>();
                 if (timeProperty != null)
                 {
                     
@@ -295,16 +295,16 @@ namespace StageLightManeuver
             return tex;
         }
 
-        public float GetNormalizedTime(float currentTime, TimeProperty timeProperty, SlmAdditionalProperty slmAdditionalProperty)
+        public float GetNormalizedTime(float currentTime, ClockProperty clockProperty, SlmAdditionalProperty slmAdditionalProperty)
         {
             
-            var bpmOverrideData = slmAdditionalProperty.bpmOverride.value;
-            var offsetTime = timeProperty.offsetTime.value;
-            var bpm =  timeProperty.bpm.value;
-            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.childStagger : timeProperty.childStagger.value;
-            var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.bpmScale : timeProperty.bpmScale.value;
-            var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.loopType : timeProperty.loopType.value;
-            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,timeProperty.clipProperty, loopType);
+            var bpmOverrideData = slmAdditionalProperty.clockOverride.value;
+            var offsetTime = clockProperty.offsetTime.value;
+            var bpm =  clockProperty.bpm.value;
+            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.childStagger : clockProperty.childStagger.value;
+            var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.bpmScale : clockProperty.bpmScale.value;
+            var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.loopType : clockProperty.loopType.value;
+            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,clockProperty.clipProperty, loopType);
         }
 
         public override void GetSubTimelines(TimelineClip clip, PlayableDirector director, List<PlayableDirector> subTimelines)

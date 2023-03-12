@@ -11,8 +11,8 @@ namespace StageLightManeuver
         public  MaterialTextureProperty()
         {
             propertyName = "Material Texture";
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
-                { value = new BpmOverrideToggleValueBase() };
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
+                { value = new ClockOverrideToggleValueBase() };
             texturePropertyName = new SlmToggleValue<string>(){value = "_Texture"};
             materialindex = new SlmToggleValue<int>() {value = 0};
             texture = new SlmToggleValue<Texture2D>(){value = null};
@@ -21,10 +21,10 @@ namespace StageLightManeuver
         public MaterialTextureProperty(MaterialTextureProperty materialTextureProperty)
         {
             propertyName = materialTextureProperty.propertyName;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
-                propertyOverride =  materialTextureProperty.bpmOverride.propertyOverride,
-                value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverride.value)
+                propertyOverride =  materialTextureProperty.clockOverride.propertyOverride,
+                value = new ClockOverrideToggleValueBase(materialTextureProperty.clockOverride.value)
             };
             texturePropertyName = new SlmToggleValue<string>(materialTextureProperty.texturePropertyName);
             materialindex = new SlmToggleValue<int>(materialTextureProperty.materialindex);
@@ -40,6 +40,7 @@ namespace StageLightManeuver
             texturePropertyName.propertyOverride = toggle;
             materialindex.propertyOverride = toggle;
             texture.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
         }
 
         public override void OverwriteProperty(SlmProperty other)
@@ -50,7 +51,7 @@ namespace StageLightManeuver
             if(materialTextureProperty.texturePropertyName.propertyOverride) texturePropertyName.value = materialTextureProperty.texturePropertyName.value;
             if(materialTextureProperty.materialindex.propertyOverride) materialindex.value = materialTextureProperty.materialindex.value;
             if(materialTextureProperty.texture.propertyOverride) texture.value = materialTextureProperty.texture.value;
-            if(materialTextureProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(materialTextureProperty.bpmOverride.value);
+            if(materialTextureProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(materialTextureProperty.clockOverride.value);
         }
     }
 }

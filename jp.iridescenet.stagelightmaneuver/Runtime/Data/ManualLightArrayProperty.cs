@@ -136,6 +136,14 @@ namespace StageLightManeuver
             lightValues = new SlmToggleValue<List<LightPrimitiveValue>>() { value = copy.ToList() };
         }
 
+        public override void ToggleOverride(bool toggle)
+        {
+            base.ToggleOverride(toggle);
+            lightValues.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
+            
+        }
+
         public override void OverwriteProperty(SlmProperty other)
         {
             ManualLightArrayProperty manualLightArrayProperty = other as ManualLightArrayProperty;

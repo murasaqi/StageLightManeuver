@@ -42,7 +42,7 @@ namespace StageLightManeuver
                 ScriptPlayable<StageLightTimelineBehaviour> inputPlayable =
                     (ScriptPlayable<StageLightTimelineBehaviour>)playable.GetInput(i);
                 // StageLightTimelineBehaviour input = inputPlayable.GetBehaviour ();
-                var timeProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<TimeProperty>();
+                var timeProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ClockProperty>();
                 if (timeProperty != null)
                 {
                     timeProperty.clipProperty.clipStartTime = (float)clip.start;

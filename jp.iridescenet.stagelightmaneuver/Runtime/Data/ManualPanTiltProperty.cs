@@ -84,6 +84,15 @@ namespace StageLightManeuver
             }
         }
 
+        public override void ToggleOverride(bool toggle)
+        {
+            base.ToggleOverride(toggle);
+            positions.propertyOverride = toggle;
+            mode.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
+            
+        }
+
         public override void OverwriteProperty(SlmProperty other)
         {
             ManualPanTiltProperty manualPanTiltProperty = other as ManualPanTiltProperty;

@@ -11,10 +11,10 @@ namespace StageLightManeuver
         public LookAtProperty()
         {
             propertyName = "Look At";
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
                 propertyOverride = false,
-                value = new BpmOverrideToggleValueBase()
+                value = new ClockOverrideToggleValueBase()
             };
             weight = new SlmToggleValue<float>(){value = 1f};
             lookAtIndex = new SlmToggleValue<int>(){value = 0};
@@ -23,13 +23,16 @@ namespace StageLightManeuver
         
         public override void ToggleOverride(bool toggle)
         {
+            base.ToggleOverride(toggle);
+            lookAtIndex.propertyOverride = toggle;
+            speed.propertyOverride = toggle;
             weight.propertyOverride = toggle;
         }
         
         public LookAtProperty( LookAtProperty other )
         {
             propertyName = other.propertyName;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverride);
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(other.clockOverride);
             weight = new SlmToggleValue<float>(other.weight);
             lookAtIndex = new SlmToggleValue<int>(other.lookAtIndex);
             speed = new SlmToggleValue<float>(other.speed);
@@ -43,7 +46,7 @@ namespace StageLightManeuver
             if(lookAtProperty.weight.propertyOverride) weight.value = lookAtProperty.weight.value;
             if(lookAtProperty.lookAtIndex.propertyOverride) lookAtIndex.value = lookAtProperty.lookAtIndex.value;
             if(lookAtProperty.speed.propertyOverride) speed.value = lookAtProperty.speed.value;
-            if(lookAtProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(lookAtProperty.bpmOverride.value);
+            if(lookAtProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(lookAtProperty.clockOverride.value);
             
         }
     }

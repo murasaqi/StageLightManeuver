@@ -36,15 +36,15 @@ namespace StageLightManeuver
         public float GetNormalizedTime(float time ,StageLightQueData queData, Type propertyType)
         {
             var additionalProperty = queData.TryGetAdditionalProperty(propertyType) as SlmAdditionalProperty;
-            var timeProperty = queData.TryGet<TimeProperty>();
+            var timeProperty = queData.TryGet<ClockProperty>();
             var weight = queData.weight;
             if (additionalProperty == null || timeProperty == null) return 0f;
             var bpm = timeProperty.bpm.value;
-            var bpmOffset = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.childStagger : timeProperty.childStagger.value;
-            var bpmScale = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.bpmScale : timeProperty.bpmScale.value;
-            var loopType = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.loopType : timeProperty.loopType.value;
-            var offsetTime = additionalProperty.bpmOverride.value.propertyOverride
-                ? additionalProperty.bpmOverride.value.offsetTime
+            var bpmOffset = additionalProperty.clockOverride.value.propertyOverride ? additionalProperty.clockOverride.value.childStagger : timeProperty.childStagger.value;
+            var bpmScale = additionalProperty.clockOverride.value.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : timeProperty.bpmScale.value;
+            var loopType = additionalProperty.clockOverride.value.propertyOverride ? additionalProperty.clockOverride.value.loopType : timeProperty.loopType.value;
+            var offsetTime = additionalProperty.clockOverride.value.propertyOverride
+                ? additionalProperty.clockOverride.value.offsetTime
                 : timeProperty.offsetTime.value;
             var clipProperty = timeProperty.clipProperty;
             var t = GetNormalizedTime(time+offsetTime,bpm,bpmOffset,bpmScale,clipProperty,loopType);
@@ -55,10 +55,10 @@ namespace StageLightManeuver
         public float GetOffsetTime(StageLightQueData queData, Type propertyType)
         {
             var additionalProperty = queData.TryGetAdditionalProperty(propertyType) as SlmAdditionalProperty;
-            var timeProperty = queData.TryGet<TimeProperty>();
+            var timeProperty = queData.TryGet<ClockProperty>();
             var bpm = timeProperty.bpm.value;
-            var bpmOffset = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.childStagger : timeProperty.childStagger.value;
-            var bpmScale = additionalProperty.bpmOverride.value.propertyOverride ? additionalProperty.bpmOverride.value.bpmScale : timeProperty.bpmScale.value;
+            var bpmOffset = additionalProperty.clockOverride.value.propertyOverride ? additionalProperty.clockOverride.value.childStagger : timeProperty.childStagger.value;
+            var bpmScale = additionalProperty.clockOverride.value.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : timeProperty.bpmScale.value;
             var scaledBpm = bpm * bpmScale;
             var duration = 60 / scaledBpm;
             var offset = duration* bpmOffset * (Index+1);

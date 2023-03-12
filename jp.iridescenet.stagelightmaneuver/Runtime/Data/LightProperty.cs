@@ -14,7 +14,7 @@ namespace StageLightManeuver
         {
             propertyName = "Light";
             propertyOverride = false;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(){value = new ClockOverrideToggleValueBase()};
             spotAngle = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
                 minMaxValue =  new Vector2(0,180),
@@ -44,6 +44,7 @@ namespace StageLightManeuver
             innerSpotAngle.propertyOverride = toggle;
             range.propertyOverride = toggle;
             cookie.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
             
         }
 
@@ -51,10 +52,10 @@ namespace StageLightManeuver
         {
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
-                propertyOverride =  other.bpmOverride.propertyOverride,
-                value =  new BpmOverrideToggleValueBase(other.bpmOverride.value),
+                propertyOverride =  other.clockOverride.propertyOverride,
+                value =  new ClockOverrideToggleValueBase(other.clockOverride.value),
             };
             spotAngle = new SlmToggleValue<MinMaxEasingValue>()
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [Serializable]
-    public class TimeProperty: SlmProperty
+    public class ClockProperty: SlmProperty
     {
         [HideInInspector,DisplayName("Clip Duration")] public ClipProperty clipProperty;
         [DisplayName("Loop Type")] public SlmToggleValue<LoopType> loopType;
@@ -13,9 +13,10 @@ namespace StageLightManeuver
         [DisplayName("Offset Time")] public SlmToggleValue<float> offsetTime;
         [DisplayName("Child Stagger")]public SlmToggleValue<float> childStagger;
         
-        public TimeProperty()
+        public ClockProperty()
         {
-            propertyName = "Time";
+            propertyName = "Clock";
+            propertyOrder = -999;
             propertyOverride = false;
             loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop};
             clipProperty = new ClipProperty(){clipStartTime = 0, clipEndTime = 0};
@@ -37,7 +38,7 @@ namespace StageLightManeuver
             
         }
 
-        public TimeProperty(TimeProperty other)
+        public ClockProperty(ClockProperty other)
         {
             propertyOverride = other.propertyOverride;
             propertyName = other.propertyName;
@@ -52,7 +53,7 @@ namespace StageLightManeuver
 
         public override void OverwriteProperty(SlmProperty other)
         {
-            if (other is TimeProperty timeProperty)
+            if (other is ClockProperty timeProperty)
             {
                 if (timeProperty.propertyOverride)
                 {

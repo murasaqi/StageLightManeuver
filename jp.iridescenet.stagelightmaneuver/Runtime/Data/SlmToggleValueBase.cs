@@ -48,7 +48,7 @@ namespace StageLightManeuver
     public class SlmProperty:SlmToggleValueBase
     {
         public string propertyName;
-        
+        public int propertyOrder = 0;
         public virtual void ToggleOverride(bool toggle)
         {
             propertyOverride = toggle;
@@ -62,7 +62,7 @@ namespace StageLightManeuver
     
     
     [Serializable]
-    public class BpmOverrideToggleValueBase:SlmToggleValueBase
+    public class ClockOverrideToggleValueBase:SlmToggleValueBase
     {
         [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
         // [DisplayName("Override Time")] public bool bpmOverride = false;
@@ -70,7 +70,7 @@ namespace StageLightManeuver
         [DisplayName("BPM Scale")] public float bpmScale = 1;
         [DisplayName("Child Stagger")] public float childStagger = 0;
        
-        public BpmOverrideToggleValueBase()
+        public ClockOverrideToggleValueBase()
         {
             propertyOverride = false;
             bpmScale = 1;
@@ -80,14 +80,14 @@ namespace StageLightManeuver
             offsetTime = 0;
         }
         
-        public BpmOverrideToggleValueBase(BpmOverrideToggleValueBase bpmOverrideToggleValueBase)
+        public ClockOverrideToggleValueBase(ClockOverrideToggleValueBase clockOverrideToggleValueBase)
         {
-            propertyOverride = bpmOverrideToggleValueBase.propertyOverride;
-            bpmScale = bpmOverrideToggleValueBase.bpmScale;
-            childStagger = bpmOverrideToggleValueBase.childStagger;
-            loopType = bpmOverrideToggleValueBase.loopType;
+            propertyOverride = clockOverrideToggleValueBase.propertyOverride;
+            bpmScale = clockOverrideToggleValueBase.bpmScale;
+            childStagger = clockOverrideToggleValueBase.childStagger;
+            loopType = clockOverrideToggleValueBase.loopType;
             // bpmOverride = bpmOverrideToggleValueBase.bpmOverride;
-            offsetTime = bpmOverrideToggleValueBase.offsetTime;
+            offsetTime = clockOverrideToggleValueBase.offsetTime;
         }
     }
     
@@ -95,12 +95,12 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmAdditionalProperty:SlmProperty
     {
-        [FormerlySerializedAs("bpmOverrideData")] [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>();
+        [FormerlySerializedAs("bpmOverride")] [FormerlySerializedAs("bpmOverrideData")] [DisplayName("BPM Override")]public SlmToggleValue<ClockOverrideToggleValueBase> clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>();
     }
     
     public class SlmAdditionalArrayProperty:SlmProperty
     {
-        [DisplayName("BPM Override")]public SlmToggleValue<BpmOverrideToggleValueBase> bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>();
+        [DisplayName("BPM Override")]public SlmToggleValue<ClockOverrideToggleValueBase> clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>();
         public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
             

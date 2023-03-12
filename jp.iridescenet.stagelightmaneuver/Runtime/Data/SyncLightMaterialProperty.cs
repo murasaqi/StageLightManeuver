@@ -14,7 +14,16 @@
             maxIntensityLimit = new SlmToggleValue<float>() { value = 3f };
             
         }
-        
+
+        public override void ToggleOverride(bool toggle)
+        {
+            base.ToggleOverride(toggle);
+            clockOverride.propertyOverride = toggle;
+            intensitymultiplier.propertyOverride = toggle;
+            brightnessDecreasesToBlack.propertyOverride = toggle;
+            maxIntensityLimit.propertyOverride = toggle;
+        }
+
         public SyncLightMaterialProperty(SyncLightMaterialProperty other)
         {
             propertyName = other.propertyName;

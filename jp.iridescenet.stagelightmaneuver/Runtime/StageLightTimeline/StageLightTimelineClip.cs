@@ -46,10 +46,10 @@ namespace StageLightManeuver
 
             var queData = behaviour.stageLightQueData;
 
-            var timeProperty = queData.TryGet<TimeProperty>();
+            var timeProperty = queData.TryGet<ClockProperty>();
             if (timeProperty == null)
             {
-                timeProperty = new TimeProperty();
+                timeProperty = new ClockProperty();
                 timeProperty.bpm.value = track.bpm;
                 timeProperty.bpmScale.value = track.bpmScale;
 
@@ -138,11 +138,11 @@ namespace StageLightManeuver
                     as SlmProperty);
             }
 
-            var timeProperty = copy.Find(x => x.GetType() == typeof(TimeProperty));
+            var timeProperty = copy.Find(x => x.GetType() == typeof(ClockProperty));
 
             if (timeProperty == null)
             {
-                copy.Insert(0, new TimeProperty());
+                copy.Insert(0, new ClockProperty());
             }
             
             behaviour.stageLightQueData.stageLightProperties = copy;

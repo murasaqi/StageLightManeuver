@@ -20,7 +20,7 @@ namespace StageLightManeuver
             {
                 var queueData = stageLightDataQueue.Dequeue();
                 var qTiltProperty = queueData.TryGet<TiltProperty>() as TiltProperty;
-                var timeProperty = queueData.TryGet<TimeProperty>() as TimeProperty;
+                var timeProperty = queueData.TryGet<ClockProperty>() as ClockProperty;
                 var weight = queueData.weight;
                 if (qTiltProperty == null || timeProperty == null) continue;
                 var normalizedTime = GetNormalizedTime(currentTime, queueData, typeof(TiltProperty));

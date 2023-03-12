@@ -55,7 +55,7 @@ namespace StageLightManeuver
             {
                 var queueData = stageLightDataQueue.Dequeue();
 
-                var qLightBaseProperty = queueData.TryGet<TimeProperty>() as TimeProperty;
+                var qLightBaseProperty = queueData.TryGet<ClockProperty>() as ClockProperty;
                 var qPanProperty = queueData.TryGet<PanProperty>() as PanProperty;
                 var weight = queueData.weight;
                 if (qPanProperty == null || qLightBaseProperty == null) continue;

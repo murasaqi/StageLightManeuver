@@ -96,7 +96,7 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count>0)
             {
                 var data = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperty= data.TryGet<TimeProperty>() as TimeProperty;
+                var stageLightBaseProperty= data.TryGet<ClockProperty>() as ClockProperty;
                 var lightProperty = data.TryGet<LightProperty>() as LightProperty;
                 var lightColorProperty = data.TryGet<LightColorProperty>() as LightColorProperty;
                 var lightIntensityProperty = data.TryGet<LightIntensityProperty>() as LightIntensityProperty;
@@ -125,7 +125,7 @@ namespace StageLightManeuver
                 {
                     if (lightIntensityProperty != null)
                     {
-                        var t =lightIntensityProperty.bpmOverride.value.propertyOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : normalizedTime;
+                        var t =lightIntensityProperty.clockOverride.value.propertyOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : normalizedTime;
                         lightIntensity += lightIntensityProperty.lightToggleIntensity.value.Evaluate(t) * weight;
                     }
                     spotAngle += lightProperty.spotAngle.value.Evaluate(normalizedTime) * weight;
@@ -144,7 +144,7 @@ namespace StageLightManeuver
                     
                 }else if (lightColorProperty != null)
                 {
-                    var t =lightColorProperty.bpmOverride.value.propertyOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : normalizedTime;
+                    var t =lightColorProperty.clockOverride.value.propertyOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : normalizedTime;
                     lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
                 }
 

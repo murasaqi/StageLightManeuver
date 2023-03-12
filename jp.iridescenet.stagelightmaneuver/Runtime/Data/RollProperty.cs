@@ -15,10 +15,10 @@ namespace StageLightManeuver
         {
             propertyName = rollProperty.propertyName;
 
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
-                propertyOverride = rollProperty.bpmOverride.propertyOverride,
-                value = new BpmOverrideToggleValueBase(rollProperty.bpmOverride.value)
+                propertyOverride = rollProperty.clockOverride.propertyOverride,
+                value = new ClockOverrideToggleValueBase(rollProperty.clockOverride.value)
             };
             this.rollTransform = new SlmToggleValue<MinMaxEasingValue>()
             {
@@ -32,7 +32,7 @@ namespace StageLightManeuver
         public RollProperty()
         {
             propertyOverride = false;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(){value = new ClockOverrideToggleValueBase()};
             rollTransform = new SlmToggleValue<MinMaxEasingValue>() {value = new MinMaxEasingValue()};
         }
 
@@ -41,6 +41,7 @@ namespace StageLightManeuver
             base.ToggleOverride(toggle);
             propertyOverride = toggle;
             rollTransform.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
             
         }
 
@@ -50,7 +51,7 @@ namespace StageLightManeuver
             RollProperty rollProperty = other as RollProperty;
             if (rollProperty == null) return;
             if(rollProperty.rollTransform.propertyOverride) rollTransform.value = new MinMaxEasingValue(rollProperty.rollTransform.value);
-            if(rollProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(rollProperty.bpmOverride.value);
+            if(rollProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(rollProperty.clockOverride.value);
         }
     }
     

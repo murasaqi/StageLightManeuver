@@ -12,9 +12,9 @@ namespace StageLightManeuver
         public MaterialColorProperty()
         {
             propertyName = "Material Color";
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
-                value = new BpmOverrideToggleValueBase()
+                value = new ClockOverrideToggleValueBase()
             };
             colorPropertyName = new SlmToggleValue<string>(){value = "_ShaderPropertyName"};
             materialindex = new SlmToggleValue<int>(){value = 0};
@@ -26,14 +26,25 @@ namespace StageLightManeuver
                 constant = 1
             }};
         }
-        
+
+        public override void ToggleOverride(bool toggle)
+        {
+            base.ToggleOverride(toggle);
+            colorPropertyName.propertyOverride = toggle;
+            materialindex.propertyOverride = toggle;
+            color.propertyOverride = toggle;
+            intensity.propertyOverride = toggle;
+            clockOverride.propertyOverride = toggle;
+            
+        }
+
         public MaterialColorProperty(MaterialColorProperty materialColorProperty)
         {
             propertyName = materialColorProperty.propertyName;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
-                propertyOverride =  materialColorProperty.bpmOverride.propertyOverride,
-                value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverride.value)
+                propertyOverride =  materialColorProperty.clockOverride.propertyOverride,
+                value = new ClockOverrideToggleValueBase(materialColorProperty.clockOverride.value)
             };
             colorPropertyName = new SlmToggleValue<string>(){value = materialColorProperty.colorPropertyName.value};
             materialindex = new SlmToggleValue<int>(){value = materialColorProperty.materialindex.value};
@@ -58,7 +69,7 @@ namespace StageLightManeuver
             if(materialColorProperty.materialindex.propertyOverride) materialindex.value = materialColorProperty.materialindex.value;
             if(materialColorProperty.color.propertyOverride) color.value = SlmUtility.CopyGradient(materialColorProperty.color.value);
             if(materialColorProperty.intensity.propertyOverride) intensity.value = new MinMaxEasingValue(materialColorProperty.intensity.value);
-            if(materialColorProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(materialColorProperty.bpmOverride.value);
+            if(materialColorProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(materialColorProperty.clockOverride.value);
         }
     }
 }

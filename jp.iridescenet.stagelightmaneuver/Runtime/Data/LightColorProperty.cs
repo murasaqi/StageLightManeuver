@@ -10,23 +10,25 @@ namespace StageLightManeuver
         public LightColorProperty()
         {
             propertyName = "Light Color";
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>()
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
             {
                 propertyOverride = false,
-                value = new BpmOverrideToggleValueBase()
+                value = new ClockOverrideToggleValueBase()
             };
             lightToggleColor = new SlmToggleValue<Gradient>(){value = new Gradient()};
         }
         
         public override void ToggleOverride(bool toggle)
         {
+            clockOverride.propertyOverride = toggle;
             lightToggleColor.propertyOverride = toggle;
+            propertyOverride = toggle;
         }
         
         public LightColorProperty( LightColorProperty other )
         {
             propertyName = other.propertyName;
-            bpmOverride = new SlmToggleValue<BpmOverrideToggleValueBase>(other.bpmOverride);
+            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(other.clockOverride);
             lightToggleColor = new SlmToggleValue<Gradient>()
             {
                 propertyOverride = other.lightToggleColor.propertyOverride,
@@ -41,7 +43,7 @@ namespace StageLightManeuver
             if (other.propertyOverride)
             {
                 if(otherProperty.lightToggleColor.propertyOverride) lightToggleColor.value = SlmUtility.CopyGradient(otherProperty.lightToggleColor.value);
-                if(otherProperty.bpmOverride.propertyOverride) bpmOverride.value = new BpmOverrideToggleValueBase(otherProperty.bpmOverride.value);
+                if(otherProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(otherProperty.clockOverride.value);
             }
         }
     }
