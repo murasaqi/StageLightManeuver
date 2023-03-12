@@ -174,24 +174,27 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         fields.Remove(clockOverride);
                         fields.Insert(0,clockOverride);
                     }
-
                     
                     fields.ForEach(f =>
                     {
                         if (slmProperty.GetType() == typeof(ClockProperty))
                         {
                             var clockProperty = slmProperty as ClockProperty;
-                            if (f.Name == "arrayStaggerValue")
+                            var loopType = clockProperty.loopType.value;
+
+                            if (loopType == LoopType.FixedStagger)
                             {
-                                if (clockProperty.loopType.value == LoopType.FixedStagger)
+                                if (f.Name == "arrayStaggerValue" || f.Name == "loopType")
                                 {
                                     StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
                                 }
-                            }else
+                            }
+                            else
                             {
-                               
+                                if (f.Name != "arrayStaggerValue")
+                                {
                                     StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
-                               
+                                }
                             }
                         }
                         else

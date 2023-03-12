@@ -61,9 +61,35 @@ namespace StageLightManeuver
             
             foreach (SerializedProperty property in serializedProperty)
             {
-                if(property.name == "propertyOverride" ||
-                   property.name == "propertyName") continue;
-                DrawSlmToggleValue(property);
+                var marginBottom =slmProperty.GetType() == typeof(ClockProperty) ? 0 : 4;
+                if (slmProperty.GetType() == typeof(ClockProperty))
+                {
+                    var clockProperty = slmProperty as ClockProperty;
+                    var loopType = clockProperty.loopType.value;
+
+                    if (loopType == LoopType.FixedStagger)
+                    {
+                        if (property.name == "arrayStaggerValue" || property.name == "loopType")
+                        {
+                            DrawSlmToggleValue(property,marginBottom);
+                        }
+                    }
+                    else
+                    {
+                        if (property.name != "arrayStaggerValue")
+                        {
+                            DrawSlmToggleValue(property,marginBottom);
+                        }
+                    }
+                }
+                else
+                {
+                    DrawSlmToggleValue(property,marginBottom);
+                }
+
+                // if(property.name == "propertyOverride" ||
+                //    property.name == "propertyName") continue;
+                // DrawSlmToggleValue(property);
 
             }
 
@@ -182,23 +208,38 @@ namespace StageLightManeuver
                 {
                     var loopType = value.FindPropertyRelative("loopType");
                     var childDepth = value.depth+1;
-                    while(value.NextVisible(true) && value.depth >= childDepth){
+                    while(value.NextVisible(true) && value.depth >= childDepth)
+                    {
                         if (value.depth == childDepth)
                         {
-                            if (value.name == "arrayStaggerValue" && loopType.enumValueIndex == 3)
+                            if (loopType.enumValueIndex == 3)
                             {
-                                var serializedObject = value.GetValue<object>();
-                                ArrayStaggerValue(value, serializedObject as ArrayStaggerValue);
+                                if (value.name == "arrayStaggerValue")
+                                {
+                                    var serializedObject = value.GetValue<object>();
+                                    ArrayStaggerValue(value, serializedObject as ArrayStaggerValue);
+                                }
+
+                                if (value.name == "loopType")
+                                {
+                                    EditorGUI.BeginChangeCheck();
+                                    EditorGUILayout.PropertyField(value);
+                                    if (EditorGUI.EndChangeCheck())
+                                    {
+                                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                                    }    
+                                }
                             }
                             else
                             {
+                                if (value.name == "arrayStaggerValue" )continue;
                                 EditorGUI.BeginChangeCheck();
                                 EditorGUILayout.PropertyField(value);
                                 if (EditorGUI.EndChangeCheck())
                                 {
                                     serializedProperty.serializedObject.ApplyModifiedProperties();
                                     // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                                }
+                                }    
                             }
                         }
                     }
@@ -240,6 +281,7 @@ namespace StageLightManeuver
             else
             {
                 var serializedObject = serializedProperty.GetValue<object>();
+                if(serializedObject == null) return;
                 if(serializedObject.GetType() == typeof(ArrayStaggerValue))
                 {
                     ArrayStaggerValue(serializedProperty, serializedObject as ArrayStaggerValue);
@@ -292,16 +334,13 @@ namespace StageLightManeuver
 
         public static void ArrayStaggerValue(SerializedProperty serializedProperty, ArrayStaggerValue arrayStaggerValue)
         {
-            var animationDurationProperty = serializedProperty.FindPropertyRelative("animationDuration");
             var childDepth = serializedProperty.depth+1;
-            while(serializedProperty.NextVisible(true) && serializedProperty.depth >= childDepth){
+            while(serializedProperty.NextVisible(true) && serializedProperty.depth >= childDepth)
+            {
                 if (serializedProperty.depth == childDepth)
                 {
-
                     if (serializedProperty.name == "lightStaggerInfo" || serializedProperty.name == "randomStaggerInfo")
                     {
-                        
-                      
                         if (arrayStaggerValue.staggerCalculationType == StaggerCalculationType.Random &&
                             serializedProperty.name == "randomStaggerInfo")
                         {
@@ -314,10 +353,7 @@ namespace StageLightManeuver
                                 }
                                 GUILayout.FlexibleSpace();
                             }
-                           
-
                             DrawStaggerMinMaxSliders( arrayStaggerValue, serializedProperty);
-                            
                             EditorGUILayout.EndFoldoutHeaderGroup();
                         }
                         if( arrayStaggerValue.staggerCalculationType != StaggerCalculationType.Random &&
@@ -325,9 +361,6 @@ namespace StageLightManeuver
                         {
                             DrawStaggerMinMaxSliders( arrayStaggerValue, serializedProperty);
                         }
-                        
-                        
-                        
                     }else if (serializedProperty.name == "staggerCalculationType")
                     {
                         EditorGUI.BeginChangeCheck();
@@ -339,6 +372,7 @@ namespace StageLightManeuver
                     }
                     else
                     {
+                        EditorGUI.BeginChangeCheck();
                         EditorGUILayout.PropertyField(serializedProperty);
                         if (EditorGUI.EndChangeCheck())
                         {

@@ -35,7 +35,7 @@ namespace StageLightManeuver
             animationDuration = 1f;
             delayRatio = 0.1f;
             animationCurve = AnimationCurve.EaseInOut(0,0,1,1);
-            lightStaggerInfo = new List<Vector2>();
+            // lightStaggerInfo = new List<Vector2>();
             randomStaggerInfo = new List<Vector2>();
         }
         
