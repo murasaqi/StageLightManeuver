@@ -25,9 +25,9 @@ namespace StageLightManeuver
         public static List<Type> SlmPropertyTypes = GetTypes(typeof(SlmProperty));
         
         
-        public static float GetNormalizedTime(float time ,StageLightQueData queData, Type propertyType,int index = 0)
+        public static float GetNormalizedTime(float time ,StageLightProfile queData, Type propertyType,int index = 0)
         {
-            var additionalProperty = queData.TryGetAdditionalProperty(propertyType);
+            var additionalProperty = queData.TryGetSlmAdditionalProperty(propertyType);
             var timeProperty = queData.TryGet<ClockProperty>();
             var weight = queData.weight;
             if (additionalProperty == null || timeProperty == null) return 0f;

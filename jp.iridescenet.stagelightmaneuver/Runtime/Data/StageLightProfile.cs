@@ -127,8 +127,6 @@ namespace StageLightManeuver
         {
             if(stageLightProperties == null)
                 return null;
-            // remove null
-            stageLightProperties.RemoveAll(x => x == null);
             var result = stageLightProperties.Find(x => x.GetType() == typeof(T));
             return result as T;
         }
@@ -136,6 +134,16 @@ namespace StageLightManeuver
         public SlmProperty TryGet(Type type)
         {
             var result = stageLightProperties.Find(x => x.GetType() == type);
+            return result;
+        }
+
+        public SlmAdditionalProperty TryGetSlmAdditionalProperty(Type type)
+        {
+            if (type.IsSubclassOf(typeof(SlmAdditionalProperty)) == false)
+            {
+                return null;
+            }
+            var result = stageLightProperties.Find(x => x.GetType() == type) as SlmAdditionalProperty;
             return result;
         }
         public StageLightProfile()

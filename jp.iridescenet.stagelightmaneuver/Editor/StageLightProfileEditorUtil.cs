@@ -107,7 +107,7 @@ namespace StageLightManeuver
 
         public static void DrawSlmToggleValue(SerializedProperty serializedProperty, int marginBottom = 0)
         {
-            
+            if(serializedProperty == null) return;
             if (serializedProperty.FindPropertyRelative("propertyOverride") != null)
             {
                 SerializedProperty value = serializedProperty.FindPropertyRelative("value");

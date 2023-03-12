@@ -115,10 +115,18 @@ namespace StageLightManeuver
         
         public void InitStageLightProfile()
         {
-            stageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
-            stageLightProfile.name = "StageLightProfile";
-            stageLightProfile.stageLightProperties = new List<SlmProperty>();
-            stageLightProfile.stageLightProperties.Add(new ClockProperty());
+            if (stageLightProfile == null)
+            {
+                stageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
+                stageLightProfile.name = "StageLightProfile";
+                stageLightProfile.stageLightProperties = new List<SlmProperty>();     
+            }
+
+            if (stageLightProfile.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
+            {
+                stageLightProfile.stageLightProperties.Add(new ClockProperty());    
+            }
+            
             // stageLightProfile.stageLightProperties.AddRange(behaviour.stageLightQueData.stageLightProperties);
         }
         // private void SetInitValues()

@@ -107,9 +107,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             }
             else
             {
-                // stageLightTimelineClip.behaviour.RemoveNullProperties();
-                // stageLightTimelineClip.behaviour.InitStageLightProfile();
-                // stageLightTimelineClip.InitStageLightProfile();
                 EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
                 
                 var stageLightProperties = stageLightTimelineClip.stageLightProfile.stageLightProperties;
