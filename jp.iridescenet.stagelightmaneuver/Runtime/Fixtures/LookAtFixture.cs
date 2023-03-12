@@ -69,7 +69,7 @@ namespace StageLightManeuver
                 if (lookAtProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var normalizedTime = GetNormalizedTime(time, queueData, typeof(LookAtProperty));
+                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(LookAtProperty), Index);
 
                 lookAtTransformIndex = queueData.weight >= 0.5f ? lookAtProperty.lookAtIndex.value : lookAtTransformIndex;
                 // calculate the angle between this transform and the target

@@ -15,11 +15,7 @@ namespace StageLightManeuver
         {
             propertyName = rollProperty.propertyName;
 
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride = rollProperty.clockOverride.propertyOverride,
-                value = new ClockOverrideToggleValueBase(rollProperty.clockOverride.value)
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             this.rollTransform = new SlmToggleValue<MinMaxEasingValue>()
             {
                 propertyOverride =  rollProperty.rollTransform.propertyOverride,
@@ -32,7 +28,7 @@ namespace StageLightManeuver
         public RollProperty()
         {
             propertyOverride = false;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(){value = new ClockOverrideToggleValueBase()};
+            clockOverride = new SlmToggleValue<ClockOverride>();
             rollTransform = new SlmToggleValue<MinMaxEasingValue>() {value = new MinMaxEasingValue()};
         }
 
@@ -51,7 +47,7 @@ namespace StageLightManeuver
             RollProperty rollProperty = other as RollProperty;
             if (rollProperty == null) return;
             if(rollProperty.rollTransform.propertyOverride) rollTransform.value = new MinMaxEasingValue(rollProperty.rollTransform.value);
-            if(rollProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(rollProperty.clockOverride.value);
+            if(rollProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(rollProperty.clockOverride);
         }
     }
     

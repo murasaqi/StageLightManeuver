@@ -43,8 +43,8 @@ namespace StageLightManeuver
                 if (rotationProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var normalizedTime = GetNormalizedTime(time, queueData, typeof(RotationProperty));
-                offsetTime += GetOffsetTime(queueData, typeof(RotationProperty)) * queueData.weight;
+                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(RotationProperty),Index);
+                offsetTime += SlmUtility.GetOffsetTime(queueData, typeof(RotationProperty),Index) * queueData.weight;
 
                 // rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
                 rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime) * queueData.weight;

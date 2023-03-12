@@ -15,7 +15,7 @@ namespace StageLightManeuver
         public DecalProperty()
         {
             propertyOverride = false;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(){value = new ClockOverrideToggleValueBase()};
+            clockOverride = new SlmToggleValue<ClockOverride>();
             propertyName = "Decal";
             decalTexture = new SlmToggleValue<Texture2D>();
             decalSizeScaler = new SlmToggleValue<float>(){value = 0.8f};
@@ -42,11 +42,7 @@ namespace StageLightManeuver
         public DecalProperty(DecalProperty other)
         {
             propertyOverride = other.propertyOverride;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride = other.clockOverride.propertyOverride,
-                value = new ClockOverrideToggleValueBase(other.clockOverride.value)
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             decalTexture = new SlmToggleValue<Texture2D>()
             {
                 propertyOverride = other.decalTexture.propertyOverride,

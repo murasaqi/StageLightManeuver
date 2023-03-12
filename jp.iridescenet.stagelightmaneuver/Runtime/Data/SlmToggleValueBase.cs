@@ -23,13 +23,13 @@ namespace StageLightManeuver
     public class SlmToggleValueBase
     {
         [SerializeField] public bool propertyOverride = false;
+        public int sortOrder = 0;
     }
 
     [Serializable]
     public class SlmToggleValue<T>:SlmToggleValueBase
     {
         public T value;
-        
         public SlmToggleValue(SlmToggleValue<T> slmToggleValue)
         {
             propertyOverride = slmToggleValue.propertyOverride;
@@ -62,45 +62,87 @@ namespace StageLightManeuver
     
     
     [Serializable]
-    public class ClockOverrideToggleValueBase:SlmToggleValueBase
+      public class ClockOverride
     {
-        [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
-        // [DisplayName("Override Time")] public bool bpmOverride = false;
-        [DisplayName("Offset Time")] public float offsetTime = 0;
-        [DisplayName("BPM Scale")] public float bpmScale = 1;
-        [DisplayName("Child Stagger")] public float childStagger = 0;
-       
-        public ClockOverrideToggleValueBase()
+        [DisplayName("Loop Type")] public SlmToggleValue<LoopType> loopType;
+        [DisplayName("Offset Time")] public SlmToggleValue<float> offsetTime;
+        [DisplayName("BPM Scale")]public SlmToggleValue<float> bpmScale;
+        [DisplayName("Child Stagger")]public SlmToggleValue<float> childStagger;
+        
+        public ClockOverride()
         {
-            propertyOverride = false;
-            bpmScale = 1;
-            childStagger = 0;
-            loopType = LoopType.Loop;
-            // bpmOverride = false;
-            offsetTime = 0;
+            // propertyName = "Clock Override";
+            loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop};
+            // bpm = new SlmToggleValue<float>() { value = 60 };
+            bpmScale = new SlmToggleValue<float>() { value = 1f };
+            offsetTime = new SlmToggleValue<float>() { value = 0f };
+            childStagger = new SlmToggleValue<float>() { value = 0f };
         }
         
-        public ClockOverrideToggleValueBase(ClockOverrideToggleValueBase clockOverrideToggleValueBase)
+        public ClockOverride(ClockOverride clockOverride)
         {
-            propertyOverride = clockOverrideToggleValueBase.propertyOverride;
-            bpmScale = clockOverrideToggleValueBase.bpmScale;
-            childStagger = clockOverrideToggleValueBase.childStagger;
-            loopType = clockOverrideToggleValueBase.loopType;
-            // bpmOverride = bpmOverrideToggleValueBase.bpmOverride;
-            offsetTime = clockOverrideToggleValueBase.offsetTime;
+            // propertyName = clockOverride.propertyName;
+            loopType = new SlmToggleValue<LoopType>()
+            {
+                propertyOverride = clockOverride.loopType.propertyOverride,
+                value = clockOverride.loopType.value
+            };
+            // bpm = new SlmToggleValue<float>(clockOverride.bpm);
+            bpmScale = new SlmToggleValue<float>(clockOverride.bpmScale);
+            offsetTime = new SlmToggleValue<float>(clockOverride.offsetTime);
+            childStagger = new SlmToggleValue<float>(clockOverride.childStagger);
+            
         }
+        
+       
+        
+        
     }
+    // public class ClockOverrideToggleValueBase:SlmToggleValueBase
+    // {
+    //     [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
+    //     // [DisplayName("Override Time")] public bool bpmOverride = false;
+    //     [DisplayName("Offset Time")] public float offsetTime = 0;
+    //     [DisplayName("BPM Scale")] public float bpmScale = 1;
+    //     [DisplayName("Child Stagger")] public float childStagger = 0;
+    //    
+    //     public ClockOverrideToggleValueBase()
+    //     {
+    //         propertyOverride = false;
+    //         bpmScale = 1;
+    //         childStagger = 0;
+    //         loopType = LoopType.Loop;
+    //         // bpmOverride = false;
+    //         offsetTime = 0;
+    //     }
+    //     
+    //     public ClockOverrideToggleValueBase(ClockOverrideToggleValueBase clockOverrideToggleValueBase)
+    //     {
+    //         propertyOverride = clockOverrideToggleValueBase.propertyOverride;
+    //         bpmScale = clockOverrideToggleValueBase.bpmScale;
+    //         childStagger = clockOverrideToggleValueBase.childStagger;
+    //         loopType = clockOverrideToggleValueBase.loopType;
+    //         // bpmOverride = bpmOverrideToggleValueBase.bpmOverride;
+    //         offsetTime = clockOverrideToggleValueBase.offsetTime;
+    //     }
+    // }
     
     
     [Serializable]
     public class SlmAdditionalProperty:SlmProperty
     {
-        [FormerlySerializedAs("bpmOverride")] [FormerlySerializedAs("bpmOverrideData")] [DisplayName("BPM Override")]public SlmToggleValue<ClockOverrideToggleValueBase> clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>();
+        public SlmToggleValue<ClockOverride> clockOverride = new  SlmToggleValue<ClockOverride>()
+        {
+            sortOrder = -999
+        };
     }
     
     public class SlmAdditionalArrayProperty:SlmProperty
     {
-        [DisplayName("BPM Override")]public SlmToggleValue<ClockOverrideToggleValueBase> clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>();
+        [DisplayName("BPM Override")]public SlmToggleValue<ClockOverride> clockOverride = new  SlmToggleValue<ClockOverride>()
+        {
+            sortOrder = -999
+        };
         public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
             

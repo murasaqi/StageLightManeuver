@@ -55,7 +55,7 @@ namespace StageLightManeuver
                 if (qDecalProperty == null || timeProperty == null) continue;
                 var weight = queueData.weight;
                 
-                var t = GetNormalizedTime(time, queueData,typeof(DecalProperty));
+                var t = SlmUtility.GetNormalizedTime(time, queueData,typeof(DecalProperty), Index);
 
                 opacity += qDecalProperty.opacity.value * weight;
                 fadeFactor += qDecalProperty.fadeFactor.value * weight;

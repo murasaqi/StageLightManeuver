@@ -11,11 +11,7 @@ namespace StageLightManeuver
         public LookAtProperty()
         {
             propertyName = "Look At";
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride = false,
-                value = new ClockOverrideToggleValueBase()
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             weight = new SlmToggleValue<float>(){value = 1f};
             lookAtIndex = new SlmToggleValue<int>(){value = 0};
             speed = new SlmToggleValue<float>(){value = 1f};
@@ -32,7 +28,7 @@ namespace StageLightManeuver
         public LookAtProperty( LookAtProperty other )
         {
             propertyName = other.propertyName;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(other.clockOverride);
+            clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             weight = new SlmToggleValue<float>(other.weight);
             lookAtIndex = new SlmToggleValue<int>(other.lookAtIndex);
             speed = new SlmToggleValue<float>(other.speed);
@@ -46,7 +42,7 @@ namespace StageLightManeuver
             if(lookAtProperty.weight.propertyOverride) weight.value = lookAtProperty.weight.value;
             if(lookAtProperty.lookAtIndex.propertyOverride) lookAtIndex.value = lookAtProperty.lookAtIndex.value;
             if(lookAtProperty.speed.propertyOverride) speed.value = lookAtProperty.speed.value;
-            if(lookAtProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(lookAtProperty.clockOverride.value);
+            if(lookAtProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(lookAtProperty.clockOverride);
             
         }
     }

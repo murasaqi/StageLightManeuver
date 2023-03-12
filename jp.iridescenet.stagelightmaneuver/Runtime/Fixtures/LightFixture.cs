@@ -103,7 +103,8 @@ namespace StageLightManeuver
                 var weight = data.weight;
                 if(lightProperty == null || stageLightBaseProperty == null) continue;
              
-                var normalizedTime = GetNormalizedTime(currentTime, data, typeof(LightProperty));
+                // Debug.Log($"{lightProperty.clockOverride.value.childStagger}, {lightProperty.clockOverride.value.propertyOverride}");
+                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime, data, typeof(LightProperty),Index);
                 var manualLightArrayProperty = data.TryGet<ManualLightArrayProperty>();
                 var manualColorArrayProperty = data.TryGet<ManualColorArrayProperty>();
                 
@@ -125,7 +126,7 @@ namespace StageLightManeuver
                 {
                     if (lightIntensityProperty != null)
                     {
-                        var t =lightIntensityProperty.clockOverride.value.propertyOverride ? GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty)) : normalizedTime;
+                        var t =lightIntensityProperty.clockOverride.propertyOverride ? SlmUtility.GetNormalizedTime(currentTime, data, typeof(LightIntensityProperty),Index) : normalizedTime;
                         lightIntensity += lightIntensityProperty.lightToggleIntensity.value.Evaluate(t) * weight;
                     }
                     spotAngle += lightProperty.spotAngle.value.Evaluate(normalizedTime) * weight;
@@ -144,7 +145,7 @@ namespace StageLightManeuver
                     
                 }else if (lightColorProperty != null)
                 {
-                    var t =lightColorProperty.clockOverride.value.propertyOverride ? GetNormalizedTime(currentTime, data, typeof(LightColorProperty)) : normalizedTime;
+                    var t =lightColorProperty.clockOverride.propertyOverride ? SlmUtility.GetNormalizedTime(currentTime, data, typeof(LightColorProperty),Index) : normalizedTime;
                     lightColor += lightColorProperty.lightToggleColor.value.Evaluate(t) * weight;
                 }
 

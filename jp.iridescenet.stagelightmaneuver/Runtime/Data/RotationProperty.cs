@@ -15,8 +15,7 @@ namespace StageLightManeuver
             propertyName = "Rotation";
 
             propertyOverride = false;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-                { value = new ClockOverrideToggleValueBase() };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             // rotationAxis = new SlmToggleValue<Vector3>(){value = new Vector3(0,0,1)};
             rotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
             {
@@ -41,7 +40,7 @@ namespace StageLightManeuver
             if (rotationProperty == null) return;
             if (rotationProperty.propertyOverride) return;
             if(rotationProperty.rotationSpeed.propertyOverride) rotationSpeed.value = rotationProperty.rotationSpeed.value; 
-            if(rotationProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(rotationProperty.clockOverride.value);
+            if(rotationProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(rotationProperty.clockOverride);
             
         }
 
@@ -49,11 +48,7 @@ namespace StageLightManeuver
         {
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride =  other.clockOverride.propertyOverride,
-                value = new ClockOverrideToggleValueBase(other.clockOverride.value)
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             // rotationAxis = new SlmToggleValue<Vector3>(other.rotationAxis){};
             rotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
             {

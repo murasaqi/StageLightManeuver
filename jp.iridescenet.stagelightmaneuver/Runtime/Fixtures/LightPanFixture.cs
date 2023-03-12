@@ -60,7 +60,7 @@ namespace StageLightManeuver
                 var weight = queueData.weight;
                 if (qPanProperty == null || qLightBaseProperty == null) continue;
               
-                var normalizedTime = GetNormalizedTime(currentTime,queueData,typeof(PanProperty));
+                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime,queueData,typeof(PanProperty),Index);
                 // Debug.Log($"{queueData.stageLightSetting.name},{time}");
                 
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();

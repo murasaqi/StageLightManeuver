@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using StageLightManeuver.StageLightTimeline.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace StageLightManeuver
         
         public static void DrawStageLightProperty(List<SlmProperty> stageLightProperties, SerializedProperty serializedProperty, bool drawRemoveButton)
         {
+            // var stageLightProperties = stageLightProfile.stageLightProperties;
             var serializedObject = serializedProperty.serializedObject;
             var slmProperty = serializedProperty.GetValue<SlmProperty>();
             if(slmProperty == null) return;
@@ -43,6 +45,7 @@ namespace StageLightManeuver
                 if (GUILayout.Button("All", style))
                 {
                     slmProperty.ToggleOverride(true);
+                    // stageLightProfile.isUpdateGuiFlag = true;
                 }
                 
                 GUILayout.Space(2);
@@ -50,6 +53,7 @@ namespace StageLightManeuver
                 {
                     slmProperty.ToggleOverride(false);
                     slmProperty.propertyOverride = true;
+                    // stageLightProfile.isUpdateGuiFlag = true;
                 }
                     
             }
@@ -71,11 +75,51 @@ namespace StageLightManeuver
                     stageLightProperties.Remove(slmProperty);
                     return;
                 });
-                DrawRemoveButton(serializedObject,stageLightProperties, action);
+                DrawRemoveButton(serializedObject, stageLightProperties,action);
             }
             EditorGUI.EndDisabledGroup();
             
           
+        }
+
+        public static void DrawClockOverrideProperty(SerializedProperty serializedProperty)
+        {
+            var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
+            // var clockOverride = serializedProperty.GetValue<object>() as ClockProperty;
+            EditorGUI.BeginChangeCheck();
+            var isOverride = EditorGUILayout.ToggleLeft("Clock Override", propertyOverride.boolValue);
+            if (EditorGUI.EndChangeCheck())
+            {
+                propertyOverride.boolValue = isOverride;
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+            }
+
+            EditorGUI.indentLevel++;
+
+            EditorGUI.BeginDisabledGroup(!isOverride);
+
+
+            var fields = typeof(ClockProperty).GetFields().ToList();
+            
+            foreach (var fieldInfo in fields)
+            {
+                // var index = fields.IndexOf(fieldInfo);
+                if (fieldInfo.Name == "propertyOverride" ||
+                    fieldInfo.Name == "propertyName") continue;
+             
+                Debug.Log(fieldInfo.Name);
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(serializedProperty.FindPropertyRelative(fieldInfo.Name));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                }
+            }
+            //
+            EditorGUI.EndDisabledGroup();
+            EditorGUI.indentLevel--;
+        
+
         }
 
 
@@ -100,26 +144,64 @@ namespace StageLightManeuver
 
         public static bool IsVerticalLayoutField(object value)
         {
-            return (value.GetType() != typeof(MinMaxEasingValue) &&
-             value.GetType().BaseType != typeof(SlmToggleValueBase) &&
-             !value.GetType().IsArray && !value.GetType().IsGenericType);
+            var hasVerticalLayoutType = (value.GetType() == typeof(MinMaxEasingValue) ||
+                    value.GetType() == typeof(ClockOverride) ||
+                    value.GetType().IsArray || value.GetType().IsGenericType);
+            return hasVerticalLayoutType;
         }
 
+
+        public static void DrawOneLineSlmToggleValue(SerializedProperty serializedProperty,int marginBottom = 0)
+        {
+           
+            var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
+            if(propertyOverride == null) return;
+            EditorGUILayout.BeginHorizontal();
+            EditorGUI.BeginChangeCheck();
+            var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue, GUILayout.Width(120));
+            if (EditorGUI.EndChangeCheck())
+            {
+                propertyOverride.boolValue = isOverride;
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
+            }
+            
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(serializedProperty.FindPropertyRelative("value"), GUIContent.none);
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
+            }
+            
+            EditorGUILayout.EndHorizontal();
+        }
+        
+        
         public static void DrawSlmToggleValue(SerializedProperty serializedProperty, int marginBottom = 0)
         {
             if(serializedProperty == null) return;
+            
             if (serializedProperty.FindPropertyRelative("propertyOverride") != null)
             {
                 SerializedProperty value = serializedProperty.FindPropertyRelative("value");
                 if (value == null) return;
                 var valueObject = value.GetValue<object>();
                 if(valueObject == null) return;
-                var isSingleObject = IsVerticalLayoutField(valueObject);
-                if (isSingleObject) EditorGUILayout.BeginHorizontal();
+
+                if (valueObject.GetType() == typeof(SlmToggleValue<ClockOverride>))
+                {
+                    var slmToggleValue = valueObject as SlmToggleValue<ClockOverride>;
+                    slmToggleValue.sortOrder = -999;
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                }
+                
+                var hasMultiLineObject = IsVerticalLayoutField(valueObject);
+                if (!hasMultiLineObject) EditorGUILayout.BeginHorizontal();
              
                 var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
                 EditorGUI.BeginChangeCheck();
-                var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue);
+                var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue,GUILayout.Width(120));
                 if (EditorGUI.EndChangeCheck())
                 {
                     propertyOverride.boolValue = isOverride;
@@ -127,7 +209,7 @@ namespace StageLightManeuver
                     // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                 }
 
-                if (!isSingleObject) EditorGUI.indentLevel++;
+                if (hasMultiLineObject) EditorGUI.indentLevel++;
 
                 EditorGUI.BeginDisabledGroup(!isOverride);
 
@@ -137,8 +219,17 @@ namespace StageLightManeuver
                 if (valueObject.GetType() == typeof(MinMaxEasingValue))
                 {
                     DrawMinMaxEaseUI(value);
+                }else if (valueObject.GetType() == typeof(ClockOverride))
+                {
+                    var childDepth = value.depth+1;
+                    while(value.NextVisible(true) && value.depth >= childDepth){
+                        if (value.depth == childDepth)
+                        {
+                            DrawOneLineSlmToggleValue(value);
+                        }
+                    }
                 }
-                else if (valueObject.GetType().BaseType == typeof(SlmToggleValueBase))
+                else if (valueObject.GetType().BaseType == typeof(SlmProperty))
                 {
 
                     foreach (SerializedProperty childProperty in value)
@@ -165,11 +256,11 @@ namespace StageLightManeuver
                     }
                 }
                 EditorGUI.EndDisabledGroup();
-                if(isSingleObject)EditorGUILayout.EndHorizontal();
+                if(!hasMultiLineObject)EditorGUILayout.EndHorizontal();
                 // EditorGUI.IndentedRect(EditorGUILayout.GetControlRect(false, 1));
                 
                 GUILayout.Space(marginBottom);
-                if(!isSingleObject) EditorGUI.indentLevel--;
+                if(hasMultiLineObject) EditorGUI.indentLevel--;
                 
             }
             
@@ -189,6 +280,7 @@ namespace StageLightManeuver
             {
                 serializedProperty.isExpanded = expanded; 
                 serializedProperty.serializedObject.ApplyModifiedProperties();
+                // stageLightProfile.isUpdateGuiFlag = true;
             } 
             position.x += 5; 
             // EditorGUI.BeginChangeCheck(); 
@@ -200,6 +292,7 @@ namespace StageLightManeuver
             { 
                 propertyOverride.boolValue = isOverride; 
                 serializedProperty.serializedObject.ApplyModifiedProperties();
+                // stageLightProfile.isUpdateGuiFlag = true;
                 // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true; 
             } 
             // EditorGUI.BeginChangeCheck(); 
@@ -253,28 +346,9 @@ namespace StageLightManeuver
                 var minMaxValueProperty = serializedProperty.FindPropertyRelative("minMaxValue");
                 var minMaxValue = minMaxValueProperty.vector2Value;
                 var minMaxLimit = minMaxLimitProperty.vector2Value;
-
-                if (minMaxValue.x == minMaxValue.y)
-                {
                 
-                    minMaxLimitProperty.vector2Value = new Vector2(minMaxValue.y - 1f, minMaxValue.y);
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                }
-
-                if (minMaxLimit.x > minMaxValue.x)
-                {
-                    minMaxLimitProperty.vector2Value = new Vector2(minMaxValue.x, minMaxLimit.y);
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                }
                 
-                if (minMaxLimit.y < minMaxValue.y)
-                {
-                    minMaxLimitProperty.vector2Value = new Vector2(minMaxLimit.x, minMaxValue.y);
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                }
+
                 
                 if (mode.enumValueIndex == 0)
                 {
@@ -301,8 +375,11 @@ namespace StageLightManeuver
                                     minMaxLimitProperty.vector2Value.x);
                                 if (EditorGUI.EndChangeCheck())
                                 {
+                                    min = min >= minMaxLimit.y ? minMaxLimit.y-1 : min;
                                     minMaxLimitProperty.vector2Value = new Vector2(min, minMaxLimitProperty.vector2Value.y);
                                     serializedProperty.serializedObject.ApplyModifiedProperties();
+                                    
+                                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                                 }
                             }
                         }
@@ -317,6 +394,7 @@ namespace StageLightManeuver
                                     minMaxLimitProperty.vector2Value.y);
                                 if (EditorGUI.EndChangeCheck())
                                 {
+                                    max = max <= minMaxLimit.x ? minMaxLimit.x+1 : max;
                                     minMaxLimitProperty.vector2Value = new Vector2(minMaxLimitProperty.vector2Value.x, max);
                                     serializedProperty.serializedObject.ApplyModifiedProperties();
                                 }
@@ -331,6 +409,18 @@ namespace StageLightManeuver
                         var minValue = minMaxValueProperty.vector2Value.x;
                         var maxValue = minMaxValueProperty.vector2Value.y;
 
+                        if(minMaxLimit.x > minMaxValueProperty.vector2Value.x)
+                        {
+                            minMaxValueProperty.vector2Value = new Vector2(minMaxLimit.x, minMaxValueProperty.vector2Value.y);
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                        }
+                        
+                        if(minMaxLimit.y < minMaxValueProperty.vector2Value.y)
+                        {
+                            minMaxValueProperty.vector2Value = new Vector2(minMaxValueProperty.vector2Value.x, minMaxLimit.y);
+                            serializedProperty.serializedObject.ApplyModifiedProperties();  
+                        }
+                        
                         EditorGUI.BeginChangeCheck();
                         var x = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.x, GUILayout.Width(80));
                         if (EditorGUI.EndChangeCheck())
@@ -388,6 +478,9 @@ namespace StageLightManeuver
                 EditorGUI.indentLevel--;
             }
         }
+
+      
+        
           
         private static void DrawAddPropertyButton(SerializedObject serializedObject, StageLightProfile stageLightProfile)
         {

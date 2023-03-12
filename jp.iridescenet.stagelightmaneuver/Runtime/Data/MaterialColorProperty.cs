@@ -12,10 +12,7 @@ namespace StageLightManeuver
         public MaterialColorProperty()
         {
             propertyName = "Material Color";
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                value = new ClockOverrideToggleValueBase()
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             colorPropertyName = new SlmToggleValue<string>(){value = "_ShaderPropertyName"};
             materialindex = new SlmToggleValue<int>(){value = 0};
             color = new SlmToggleValue<Gradient>(){value =new Gradient()};
@@ -41,11 +38,7 @@ namespace StageLightManeuver
         public MaterialColorProperty(MaterialColorProperty materialColorProperty)
         {
             propertyName = materialColorProperty.propertyName;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride =  materialColorProperty.clockOverride.propertyOverride,
-                value = new ClockOverrideToggleValueBase(materialColorProperty.clockOverride.value)
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             colorPropertyName = new SlmToggleValue<string>(){value = materialColorProperty.colorPropertyName.value};
             materialindex = new SlmToggleValue<int>(){value = materialColorProperty.materialindex.value};
             
@@ -69,7 +62,7 @@ namespace StageLightManeuver
             if(materialColorProperty.materialindex.propertyOverride) materialindex.value = materialColorProperty.materialindex.value;
             if(materialColorProperty.color.propertyOverride) color.value = SlmUtility.CopyGradient(materialColorProperty.color.value);
             if(materialColorProperty.intensity.propertyOverride) intensity.value = new MinMaxEasingValue(materialColorProperty.intensity.value);
-            if(materialColorProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(materialColorProperty.clockOverride.value);
+            if(materialColorProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(materialColorProperty.clockOverride);
         }
     }
 }

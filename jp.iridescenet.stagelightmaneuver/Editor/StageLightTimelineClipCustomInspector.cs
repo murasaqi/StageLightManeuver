@@ -104,17 +104,24 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     GUILayout.Space(2);
             
                 }
+
+                if (referenceProfile.isUpdateGuiFlag)
+                {
+                    serializedProfile.ApplyModifiedProperties();
+                    referenceProfile.isUpdateGuiFlag = false;
+                }
             }
             else
             {
                 EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
                 
-                var stageLightProperties = stageLightTimelineClip.stageLightProfile.stageLightProperties;
+                var stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueueData.stageLightProperties;
                // Debug.Log(stageLightProperties.Count);
-               var serializedStageLightProfile = new SerializedObject(stageLightTimelineClip.stageLightProfile);
-                // var behaviourProperty = serializedObject.FindProperty("stageLightProfile");
-                // var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightProfile");
-                var serializedProperty =serializedStageLightProfile.FindProperty("stageLightProperties");
+               if(stageLightTimelineClip.behaviour.stageLightQueueData == null) stageLightTimelineClip.behaviour.Init();
+               // var serializedStageLightProfile = new SerializedObject(stageLightTimelineClip.stageLightDataQueue);
+                var behaviourProperty = serializedObject.FindProperty("behaviour");
+                var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueueData");
+                var serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
             
                 // var clockProperty = stageLightProperties.Find(x => x.propertyName == "Clock");
                 // clockProperty.propertyOrder = -999;
@@ -123,10 +130,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 
                 for (int i = 0; i < stageLightProperties.Count; i++)
                 {
-
+    
                     var slmProperty = stageLightProperties[i];
                     if(slmProperty == null) continue;
-                
+                    
                     var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
                     var expanded = false;
                     expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, slmProperty.propertyName);
@@ -136,8 +143,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         continue;
                     }
                     EditorGUI.BeginDisabledGroup(!slmProperty.propertyOverride);
-
-                      
+                    
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         GUIStyle style = new GUIStyle();
@@ -162,15 +168,16 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     var marginBottom =slmProperty.GetType() == typeof(ClockProperty) ? 0 : 4;
                     
                     var fields = slmProperty.GetType().GetFields().ToList();
-                    var clockOverride = fields.Find(x => x.FieldType == typeof(SlmToggleValue<ClockOverrideToggleValueBase>));
+                    var clockOverride = fields.Find(x => x.FieldType == typeof(SlmToggleValue<ClockOverride>));
                     if (clockOverride != null)
                     {
                         fields.Remove(clockOverride);
                         fields.Insert(0,clockOverride);
                     }
+
+                    
                     fields.ForEach(f =>
-                    {
-                        
+                    { 
                         StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
                     });
                     var action = new Action(() =>
@@ -186,6 +193,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 DrawAddPropertyButton(stageLightTimelineClip);
            
                 EditorGUI.EndDisabledGroup();    
+                
             }
             
         }
@@ -201,7 +209,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             });
             
             selectList.Insert(0,"Add Property");
-            foreach (var property in stageLightTimelineClip.stageLightProfile
+            foreach (var property in stageLightTimelineClip.StageLightQueueData
                          .stageLightProperties)
             {
                if(property == null) continue;
@@ -227,8 +235,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {
                     var manualLightArrayProperty = property as ManualLightArrayProperty;
-                    var lightProperty = stageLightTimelineClip.stageLightProfile.TryGet<LightProperty>();
-                    var lightIntensityProperty = stageLightTimelineClip.stageLightProfile.TryGet<LightIntensityProperty>();
+                    var lightProperty = stageLightTimelineClip.StageLightQueueData.TryGet<LightProperty>();
+                    var lightIntensityProperty = stageLightTimelineClip.StageLightQueueData.TryGet<LightIntensityProperty>();
                     if(lightProperty != null)
                     {
                         manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
@@ -240,7 +248,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         manualLightArrayProperty.initialValue.intensity = lightIntensityProperty.lightToggleIntensity.value.constant;
                     }
                 }
-                stageLightTimelineClip.stageLightProfile.stageLightProperties.Add(property);
+                stageLightTimelineClip.StageLightQueueData.stageLightProperties.Add(property);
                 
                 // apply serialized object
                 serializedObject.ApplyModifiedProperties();
@@ -381,7 +389,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorUtility.SetDirty(stageLightTimelineClip);
             
             var newProfile = CreateInstance<StageLightProfile>();
-            newProfile.stageLightProperties = stageLightTimelineClip.stageLightProfile.stageLightProperties;
+            newProfile.stageLightProperties = stageLightTimelineClip.StageLightQueueData.stageLightProperties;
             var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName) + ".asset";
 
             // if directory not exist, create it

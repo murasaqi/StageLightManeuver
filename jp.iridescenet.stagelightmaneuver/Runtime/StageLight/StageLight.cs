@@ -29,7 +29,7 @@ namespace StageLightManeuver
             Init();
         }
 
-        public override void AddQue(StageLightProfile stageLightQueData)
+        public override void AddQue(StageLightQueueData stageLightQueData)
         {
             base.AddQue(stageLightQueData);
             foreach (var stageLightFixture in StageLightFixtures)

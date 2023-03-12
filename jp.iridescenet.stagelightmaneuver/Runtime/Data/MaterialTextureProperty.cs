@@ -11,8 +11,7 @@ namespace StageLightManeuver
         public  MaterialTextureProperty()
         {
             propertyName = "Material Texture";
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-                { value = new ClockOverrideToggleValueBase() };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             texturePropertyName = new SlmToggleValue<string>(){value = "_Texture"};
             materialindex = new SlmToggleValue<int>() {value = 0};
             texture = new SlmToggleValue<Texture2D>(){value = null};
@@ -21,11 +20,7 @@ namespace StageLightManeuver
         public MaterialTextureProperty(MaterialTextureProperty materialTextureProperty)
         {
             propertyName = materialTextureProperty.propertyName;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride =  materialTextureProperty.clockOverride.propertyOverride,
-                value = new ClockOverrideToggleValueBase(materialTextureProperty.clockOverride.value)
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             texturePropertyName = new SlmToggleValue<string>(materialTextureProperty.texturePropertyName);
             materialindex = new SlmToggleValue<int>(materialTextureProperty.materialindex);
             texture = new SlmToggleValue<Texture2D>()
@@ -51,7 +46,7 @@ namespace StageLightManeuver
             if(materialTextureProperty.texturePropertyName.propertyOverride) texturePropertyName.value = materialTextureProperty.texturePropertyName.value;
             if(materialTextureProperty.materialindex.propertyOverride) materialindex.value = materialTextureProperty.materialindex.value;
             if(materialTextureProperty.texture.propertyOverride) texture.value = materialTextureProperty.texture.value;
-            if(materialTextureProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(materialTextureProperty.clockOverride.value);
+            if(materialTextureProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(materialTextureProperty.clockOverride);
         }
     }
 }

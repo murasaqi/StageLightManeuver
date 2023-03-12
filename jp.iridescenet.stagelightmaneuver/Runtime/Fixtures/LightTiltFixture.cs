@@ -23,7 +23,7 @@ namespace StageLightManeuver
                 var timeProperty = queueData.TryGet<ClockProperty>() as ClockProperty;
                 var weight = queueData.weight;
                 if (qTiltProperty == null || timeProperty == null) continue;
-                var normalizedTime = GetNormalizedTime(currentTime, queueData, typeof(TiltProperty));
+                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime, queueData, typeof(TiltProperty), Index);
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
                 
                 var lookAtProperty = queueData.TryGet<LookAtProperty>();

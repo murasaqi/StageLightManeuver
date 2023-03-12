@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace StageLightManeuver
 {
+  
     [Serializable]
     public class ClockProperty: SlmProperty
     {

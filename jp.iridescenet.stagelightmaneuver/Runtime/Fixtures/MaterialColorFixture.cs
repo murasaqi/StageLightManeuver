@@ -82,7 +82,7 @@ namespace StageLightManeuver
                         Init();
                     }
                 }
-                var t = GetNormalizedTime(currentTime, queueData, typeof(MaterialColorProperty));
+                var t = SlmUtility.GetNormalizedTime(currentTime, queueData, typeof(MaterialColorProperty), Index);
                 color += materialProperty.color.value.Evaluate(t) * weight;
                 intensity += materialProperty.intensity.value.Evaluate(t) * weight;
                 

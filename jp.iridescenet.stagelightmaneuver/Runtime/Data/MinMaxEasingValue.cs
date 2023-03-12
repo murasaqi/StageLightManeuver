@@ -67,11 +67,11 @@ namespace StageLightManeuver
             animationCurve = SlmUtility.CopyAnimationCurve(other.animationCurve);
         }
         
-        public MinMaxEasingValue(AnimationMode mode, Vector2 rollRange, Vector2 rollMinMax, EaseType easeType, float constant, AnimationCurve animationCurve)
+        public MinMaxEasingValue(AnimationMode mode, Vector2 minMaxLimit, Vector2 minMaxValue, EaseType easeType, float constant, AnimationCurve animationCurve)
         {
             this.mode = mode;
-            this.minMaxLimit = new Vector2( rollRange.x, rollRange.y);
-            this.minMaxValue = new Vector2( rollMinMax.x, rollMinMax.y);
+            this.minMaxLimit = new Vector2( minMaxLimit.x, minMaxLimit.y);
+            this.minMaxValue = new Vector2( minMaxValue.x, minMaxValue.y);
             this.easeType = easeType;
             this.constant = constant;
             var keys = new List<Keyframe>();
@@ -93,8 +93,8 @@ namespace StageLightManeuver
             }
             else if (mode == AnimationMode.Ease)
             {
-                value = EaseUtil.GetEaseValue(easeType, time, 1f, minMaxLimit.x,
-                    minMaxLimit.y);
+                value = EaseUtil.GetEaseValue(easeType, time, 1f,minMaxValue.x,
+                    minMaxValue.y);
             }
             else if (mode == AnimationMode.Constant)
             {

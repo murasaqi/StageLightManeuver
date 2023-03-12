@@ -96,7 +96,7 @@ namespace StageLightManeuver
                     colorValues.value = copy.ToList();
                 
                 if(otherManualColorArrayProperty.clockOverride.propertyOverride)
-                    clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(otherManualColorArrayProperty.clockOverride);
+                    clockOverride = new SlmToggleValue<ClockOverride>(otherManualColorArrayProperty.clockOverride);
             }              
         }
     }

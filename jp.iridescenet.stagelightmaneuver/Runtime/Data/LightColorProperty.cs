@@ -10,11 +10,7 @@ namespace StageLightManeuver
         public LightColorProperty()
         {
             propertyName = "Light Color";
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride = false,
-                value = new ClockOverrideToggleValueBase()
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             lightToggleColor = new SlmToggleValue<Gradient>(){value = new Gradient()};
         }
         
@@ -28,7 +24,7 @@ namespace StageLightManeuver
         public LightColorProperty( LightColorProperty other )
         {
             propertyName = other.propertyName;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(other.clockOverride);
+            clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             lightToggleColor = new SlmToggleValue<Gradient>()
             {
                 propertyOverride = other.lightToggleColor.propertyOverride,
@@ -43,7 +39,7 @@ namespace StageLightManeuver
             if (other.propertyOverride)
             {
                 if(otherProperty.lightToggleColor.propertyOverride) lightToggleColor.value = SlmUtility.CopyGradient(otherProperty.lightToggleColor.value);
-                if(otherProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(otherProperty.clockOverride.value);
+                if(otherProperty.clockOverride.propertyOverride) clockOverride= new SlmToggleValue<ClockOverride>(otherProperty.clockOverride);
             }
         }
     }

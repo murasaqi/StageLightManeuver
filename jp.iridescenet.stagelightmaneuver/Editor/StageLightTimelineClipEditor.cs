@@ -144,46 +144,18 @@ namespace StageLightManeuver
             
             stageLightTimelineClip.forceTimelineClipUpdate = false;
         }
-
-        // private float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType)
-        // {
-        //     
-        //     var scaledBpm = bpm * bpmScale;
-        //     var duration = 60 / scaledBpm;
-        //     var offset = duration* bpmOffset *0;
-        //     var offsetTime = time + offset;
-        //     var result = 0f;
-        //     var t = (float)offsetTime % duration;
-        //     var normalisedTime = t / duration;
-        //     
-        //     if (loopType == LoopType.Loop)
-        //     {
-        //         result = normalisedTime;     
-        //     }else if (loopType == LoopType.PingPong)
-        //     {
-        //         result = Mathf.PingPong(offsetTime / duration, 1f);
-        //     }
-        //     else if(loopType == LoopType.Fixed)
-        //     {
-        //         result = Mathf.InverseLerp(clipProperty.clipStartTime, clipProperty.clipEndTime, time);
-        //     }
-        //    
-        //     return result;
-        // }
-
-
-
+        
         public void UpdateBeatPoint(TimelineClip clip,float step = 0.01f)
         {
             var customClip = clip.asset as StageLightTimelineClip;
             var beatPointList = new List<float>();
 
-            if (customClip.stageLightProfile == null)
+            if (customClip.StageLightQueueData == null)
             {
                 customClip.InitStageLightProfile();
             }
             
-            var timeProperty = customClip.stageLightProfile.TryGet<ClockProperty>();
+            var timeProperty = customClip.StageLightQueueData.TryGet<ClockProperty>();
             
             if (timeProperty != null)
             {
@@ -226,14 +198,14 @@ namespace StageLightManeuver
             
             if (!customClip) return tex;
 
-            if(customClip.stageLightProfile == null) return tex;
-            var lightProperty = customClip.stageLightProfile.TryGet<LightProperty>();
-            var lightColorProperty = customClip.stageLightProfile.TryGet<LightColorProperty>();
+            if(customClip.StageLightQueueData == null) return tex;
+            var lightProperty = customClip.StageLightQueueData.TryGet<LightProperty>();
+            var lightColorProperty = customClip.StageLightQueueData.TryGet<LightColorProperty>();
             if(lightColorProperty == null || lightProperty == null) return tex;
             if(lightColorProperty.lightToggleColor == null) return tex;
             var gradient = lightColorProperty.lightToggleColor.value;
             
-            var lightIntensityProperty = customClip.stageLightProfile.TryGet<LightIntensityProperty>();
+            var lightIntensityProperty = customClip.StageLightQueueData.TryGet<LightIntensityProperty>();
             if (update) 
             {
                 _gradientTextures.Remove(customClip);
@@ -252,7 +224,7 @@ namespace StageLightManeuver
             
                 // var lightProfile = lightProperty;
                 
-                var timeProperty = customClip.stageLightProfile.TryGet<ClockProperty>();
+                var timeProperty = customClip.StageLightQueueData.TryGet<ClockProperty>();
                 if (timeProperty != null)
                 {
                     
@@ -298,16 +270,16 @@ namespace StageLightManeuver
             return tex;
         }
 
-        public float GetNormalizedTime(float currentTime, ClockProperty clockProperty, SlmAdditionalProperty slmAdditionalProperty)
+        public float GetNormalizedTime(float currentTime, ClockProperty clockOverride, SlmAdditionalProperty slmAdditionalProperty)
         {
             
-            var bpmOverrideData = slmAdditionalProperty.clockOverride.value;
-            var offsetTime = clockProperty.offsetTime.value;
-            var bpm =  clockProperty.bpm.value;
-            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.childStagger : clockProperty.childStagger.value;
-            var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.bpmScale : clockProperty.bpmScale.value;
-            var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.loopType : clockProperty.loopType.value;
-            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,clockProperty.clipProperty, loopType);
+            var bpmOverrideData = slmAdditionalProperty.clockOverride;
+            var offsetTime = bpmOverrideData.value.offsetTime.propertyOverride ? bpmOverrideData.value.offsetTime.value : clockOverride.offsetTime.value;
+            var bpm =  clockOverride.bpm.value;
+            var bpmOffset =bpmOverrideData.value.childStagger.propertyOverride ? bpmOverrideData.value.childStagger.value : clockOverride.childStagger.value;
+            var bpmScale = bpmOverrideData.value.bpmScale.propertyOverride ? bpmOverrideData.value.bpmScale.value : clockOverride.bpmScale.value;
+            var loopType = bpmOverrideData.value.loopType.propertyOverride ? bpmOverrideData.value.loopType.value : clockOverride.loopType.value;
+            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,clockOverride.clipProperty, loopType);
         }
 
         public override void GetSubTimelines(TimelineClip clip, PlayableDirector director, List<PlayableDirector> subTimelines)

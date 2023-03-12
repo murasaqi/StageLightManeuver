@@ -11,11 +11,7 @@ namespace StageLightManeuver
         public LightIntensityProperty()
         {
             propertyName = "Intensity";
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>()
-            {
-                propertyOverride = false,
-                value = new ClockOverrideToggleValueBase()
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>();
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()
             {
                 minMaxValue = new Vector2(0, 10),
@@ -34,7 +30,7 @@ namespace StageLightManeuver
         public LightIntensityProperty( LightIntensityProperty other )
         {
             propertyName = other.propertyName;
-            clockOverride = new SlmToggleValue<ClockOverrideToggleValueBase>(other.clockOverride);
+            clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>()
             {
                 propertyOverride = other.lightToggleIntensity.propertyOverride,
@@ -50,7 +46,7 @@ namespace StageLightManeuver
                 if (other.propertyOverride)
                 {
                     if(otherProperty.lightToggleIntensity.propertyOverride) lightToggleIntensity.value = new MinMaxEasingValue(otherProperty.lightToggleIntensity.value);
-                    if(otherProperty.clockOverride.propertyOverride) clockOverride.value = new ClockOverrideToggleValueBase(otherProperty.clockOverride.value);
+                    if(otherProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(otherProperty.clockOverride);
                 }
                     
             }

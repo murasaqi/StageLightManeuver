@@ -17,9 +17,9 @@ namespace StageLightManeuver
     public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     {
 
-        public StageLightProfile referenceStageLightProfile;
-        public StageLightProfile stageLightProfile;
+        [SerializeReference]public StageLightProfile referenceStageLightProfile;
         [HideInInspector] public StageLightTimelineBehaviour behaviour = new StageLightTimelineBehaviour();
+        public StageLightQueueData StageLightQueueData => behaviour.stageLightQueueData;
         public bool forceTimelineClipUpdate;
         public bool syncReferenceProfile = false;
         public StageLightTimelineTrack track;
@@ -45,7 +45,7 @@ namespace StageLightManeuver
             var playable = ScriptPlayable<StageLightTimelineBehaviour>.Create(graph, behaviour);
             behaviour = playable.GetBehaviour();
 
-            var queData = stageLightProfile;
+            var queData = StageLightQueueData;
 
             var timeProperty = queData.TryGet<ClockProperty>();
             if (timeProperty == null)
@@ -115,16 +115,14 @@ namespace StageLightManeuver
         
         public void InitStageLightProfile()
         {
-            if (stageLightProfile == null)
+            if (StageLightQueueData == null)
             {
-                stageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
-                stageLightProfile.name = "StageLightProfile";
-                stageLightProfile.stageLightProperties = new List<SlmProperty>();     
+                behaviour.Init();
             }
 
-            if (stageLightProfile.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
+            if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
             {
-                stageLightProfile.stageLightProperties.Add(new ClockProperty());    
+                StageLightQueueData.stageLightProperties.Add(new ClockProperty());    
             }
             
             // stageLightProfile.stageLightProperties.AddRange(behaviour.stageLightQueData.stageLightProperties);
@@ -163,7 +161,7 @@ namespace StageLightManeuver
                 copy.Insert(0, new ClockProperty());
             }
             
-            stageLightProfile.stageLightProperties = copy;
+            StageLightQueueData.stageLightProperties = copy;
                 
 
 
@@ -174,7 +172,7 @@ namespace StageLightManeuver
 #if UNITY_EDITOR
             Undo.RegisterCompleteObjectUndo(referenceStageLightProfile, referenceStageLightProfile.name);
             var copy = new List<SlmProperty>();
-            foreach (var stageLightProperty in stageLightProfile.stageLightProperties)
+            foreach (var stageLightProperty in StageLightQueueData.stageLightProperties)
             {
                 if(stageLightProperty ==null) continue;
                 var type = stageLightProperty.GetType();
@@ -204,7 +202,7 @@ namespace StageLightManeuver
                         stageLightProperty.propertyOverride = true;
                     }
 
-                    stageLightProfile.stageLightProperties =
+                    StageLightQueueData.stageLightProperties =
                         referenceStageLightProfile.stageLightProperties;
                 }
             }
@@ -223,7 +221,7 @@ namespace StageLightManeuver
                             as SlmProperty);
                     }
 
-                    stageLightProfile.stageLightProperties = copy;
+                    StageLightQueueData.stageLightProperties = copy;
                 }
             }
         }
