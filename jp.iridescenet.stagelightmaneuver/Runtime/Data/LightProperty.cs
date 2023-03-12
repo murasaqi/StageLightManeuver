@@ -53,7 +53,6 @@ namespace StageLightManeuver
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
             
-            Debug.Log($"{clockOverride.propertyOverride},{other.clockOverride.propertyOverride}");
             clockOverride = new SlmToggleValue<ClockOverride> (other.clockOverride);
             spotAngle = new SlmToggleValue<MinMaxEasingValue>()
             {

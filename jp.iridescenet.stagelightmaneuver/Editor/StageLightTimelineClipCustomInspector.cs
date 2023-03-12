@@ -56,63 +56,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
             EditorGUILayout.Space(2);
             
-            // if (isMultiSelect)
-            // {
-            //     var serializedTrack = new SerializedObject(stageLightTimelineClip.track);
-            //     serializedTrack.Update();
-            //     var selectedClipsProperty = serializedTrack.FindProperty("selectedClips");
-            //     if (selectedClipsProperty == null)
-            //         return;
-            //     EditorGUILayout.PropertyField(selectedClipsProperty, true);
-            //     
-            //     EditorGUILayout.Space(2);
-            //     
-            //     
-            //     var referenceProfile = stageLightTimelineClip.track.ReferenceStageLightProfile;
-            //     var serializedProfile = new SerializedObject(referenceProfile);
-            //     serializedProfile.Update();
-            //     var stageLightPropertiesProperty = serializedProfile.FindProperty("stageLightProperties");
-            //    
-            //     if(stageLightPropertiesProperty == null)
-            //         return;
-            //     
-            //     for (int i = 0; i < referenceProfile.stageLightProperties.Count; i++)
-            //     {   
-            //         
-            //         var property = referenceProfile.stageLightProperties[i];
-            //         if (property == null)
-            //         {
-            //             continue;
-            //         }
-            //         // Debug.Log(property.propertyName);
-            //         var serializedProperty = stageLightPropertiesProperty.GetArrayElementAtIndex(i);
-            //         if(serializedProperty == null)
-            //             continue;
-            //         StageLightProfileEditorUtil.DrawStageLightProperty(referenceProfile.stageLightProperties,serializedProperty ,false);
-            //
-            //         GUILayout.Space(2);
-            //         using (new EditorGUILayout.HorizontalScope())
-            //         {
-            //
-            //             GUILayout.FlexibleSpace();
-            //             if (GUILayout.Button("☑ Apply checked properties", GUILayout.Width(200)))
-            //             {
-            //                 SlmEditorUtility.OverwriteProperties( referenceProfile, stageLightTimelineClip.track.selectedClips);
-            //             }
-            //             GUILayout.FlexibleSpace();
-            //         }
-            //         GUILayout.Space(2);
-            //
-            //     }
-            //
-            //     if (referenceProfile.isUpdateGuiFlag)
-            //     {
-            //         serializedProfile.ApplyModifiedProperties();
-            //         referenceProfile.isUpdateGuiFlag = false;
-            //     }
-            // }
-            // else
-            // {
+            
                 EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
                 
                 var stageLightProperties = new List<SlmProperty>();
