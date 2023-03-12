@@ -432,7 +432,7 @@ MonoBehaviour:
         bpm:
           propertyOverride: 0
           sortOrder: 0
-          value: 60
+          value: 120
         bpmScale:
           propertyOverride: 0
           sortOrder: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
           propertyOverride: 1
           sortOrder: 0
           value:
-            loopType: 3
+            loopType: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
@@ -749,7 +749,7 @@ MonoBehaviour:
           propertyOverride: 1
           sortOrder: 0
           value:
-            loopType: 3
+            loopType: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
@@ -893,7 +893,7 @@ MonoBehaviour:
             minMaxLimit: {x: 0, y: 10}
             minMaxValue: {x: 0, y: 10}
             easeType: 0
-            constant: 1
+            constant: 11.3
             animationCurve:
               serializedVersion: 2
               m_Curve:
@@ -1166,7 +1166,7 @@ MonoBehaviour:
     - rid: 2468971231591006278
       type: {class: ClockProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         sortOrder: 0
         propertyName: Clock
         propertyOrder: -999
@@ -1180,7 +1180,7 @@ MonoBehaviour:
         bpm:
           propertyOverride: 0
           sortOrder: 0
-          value: 60
+          value: 120
         bpmScale:
           propertyOverride: 0
           sortOrder: 0

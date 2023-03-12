@@ -426,37 +426,23 @@ namespace StageLightManeuver
             {
                 var inverse = serializedProperty.FindPropertyRelative("inverse");
                 var mode = serializedProperty.FindPropertyRelative("mode");
-                var currentPosition = EditorGUILayout.GetControlRect();
-
-
-                currentPosition.width = 80;
-                    EditorGUI.LabelField(currentPosition,"Inverse");
-                    EditorGUI.BeginChangeCheck();
-                    currentPosition.x += 50;
-                    currentPosition.width = 20;
-                    EditorGUI.PropertyField(currentPosition,inverse,GUIContent.none);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        serializedProperty.serializedObject.ApplyModifiedProperties();
-                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                    }
                
-                    currentPosition.x += 30;
-                    currentPosition.width = 80;
-                    EditorGUI.LabelField(currentPosition,"Mode");
-                    currentPosition.x += 40;
-                    currentPosition.width = 200;
-                    EditorGUI.BeginChangeCheck();
-                    EditorGUI.PropertyField(currentPosition,mode,GUIContent.none);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        serializedProperty.serializedObject.ApplyModifiedProperties();
-                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                    }
-
-                    // GUILayout.FlexibleSpace();
-                
-
+                EditorGUI.BeginChangeCheck();
+             
+                EditorGUILayout.PropertyField(inverse);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                    
+                }
+               
+              
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(mode);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                }
                 EditorGUI.indentLevel++;
                 
                 var minMaxLimitProperty = serializedProperty.FindPropertyRelative("minMaxLimit");

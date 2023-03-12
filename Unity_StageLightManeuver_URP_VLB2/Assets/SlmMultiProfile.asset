@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a57934446d44b0ca793db9de904ce39, type: 3}
   m_Name: SlmMultiProfile
   m_EditorClassIdentifier: 
-  isUpdateGuiFlag: 1
+  isUpdateGuiFlag: 0
   stageLightProperties:
   - rid: 2468971217057481061
   - rid: 2468971217057481062
@@ -21,9 +21,12 @@ MonoBehaviour:
   - rid: 2468971217057481065
   - rid: 2468971217057481066
   - rid: 2468971217057481067
+  weight: 1
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 2468971217057481061
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -51,17 +54,49 @@ MonoBehaviour:
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
+        sortOrder: 0
         propertyName: Light
-        bpmOverrideData:
+        propertyOrder: 0
+        clockOverride:
           propertyOverride: 1
+          sortOrder: 0
           value:
-            propertyOverride: 0
-            loopType: 1
-            offsetTime: 1
+            loopType: 0
+            offsetTime: 0
             bpmScale: 1
             childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
         spotAngle:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
@@ -95,6 +130,7 @@ MonoBehaviour:
               m_RotationOrder: 4
         innerSpotAngle:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
@@ -128,6 +164,7 @@ MonoBehaviour:
               m_RotationOrder: 4
         range:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
@@ -161,22 +198,55 @@ MonoBehaviour:
               m_RotationOrder: 4
         cookie:
           propertyOverride: 1
+          sortOrder: 0
           value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
     - rid: 2468971217057481063
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
+        sortOrder: 0
         propertyName: Pan
-        bpmOverrideData:
-          propertyOverride: 1
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 0
+          sortOrder: 0
           value:
-            propertyOverride: 0
             loopType: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
         rollTransform:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
@@ -212,17 +282,49 @@ MonoBehaviour:
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
+        sortOrder: 0
         propertyName: Tilt
-        bpmOverrideData:
+        propertyOrder: 0
+        clockOverride:
           propertyOverride: 0
+          sortOrder: 0
           value:
-            propertyOverride: 0
             loopType: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
         rollTransform:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
@@ -258,17 +360,49 @@ MonoBehaviour:
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
+        sortOrder: 0
         propertyName: Intensity
-        bpmOverrideData:
-          propertyOverride: 1
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 0
+          sortOrder: 0
           value:
-            propertyOverride: 0
-            loopType: 1
+            loopType: 0
             offsetTime: 0
-            bpmScale: 4
+            bpmScale: 1
             childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
         lightToggleIntensity:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
@@ -304,17 +438,49 @@ MonoBehaviour:
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
+        sortOrder: 0
         propertyName: Light Color
-        bpmOverrideData:
-          propertyOverride: 1
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 0
+          sortOrder: 0
           value:
-            propertyOverride: 0
-            loopType: 1
+            loopType: 0
             offsetTime: 0
-            bpmScale: 2
+            bpmScale: 1
             childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
         lightToggleColor:
           propertyOverride: 1
+          sortOrder: 0
           value:
             serializedVersion: 2
             key0: {r: 0, g: 0, b: 0, a: 1}
@@ -348,23 +514,57 @@ MonoBehaviour:
       type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
+        sortOrder: 0
         propertyName: Material Color
-        bpmOverrideData:
+        propertyOrder: 0
+        clockOverride:
           propertyOverride: 0
+          sortOrder: 0
           value:
-            propertyOverride: 0
             loopType: 0
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
         colorPropertyName:
           propertyOverride: 0
+          sortOrder: 0
           value: _ShaderPropertyName
         materialindex:
           propertyOverride: 0
+          sortOrder: 0
           value: 0
         color:
           propertyOverride: 0
+          sortOrder: 0
           value:
             serializedVersion: 2
             key0: {r: 1, g: 1, b: 1, a: 1}
@@ -396,6 +596,7 @@ MonoBehaviour:
             m_NumAlphaKeys: 2
         intensity:
           propertyOverride: 1
+          sortOrder: 0
           value:
             mode: 0
             inverse: 0
