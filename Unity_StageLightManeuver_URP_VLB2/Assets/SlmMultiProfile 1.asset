@@ -30,7 +30,7 @@ MonoBehaviour:
     - rid: 2468971047057096739
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Time
         clipProperty:
           clipStartTime: 2.7666667

@@ -12,29 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a57934446d44b0ca793db9de904ce39, type: 3}
   m_Name: SlmMultiProfile
   m_EditorClassIdentifier: 
-  isUpdateGuiFlag: 0
+  isUpdateGuiFlag: 1
   stageLightProperties:
-  - rid: 2468971047057096739
-  - rid: 2468971047057096740
-  - rid: 2468971047057096741
-  - rid: 2468971047057096742
-  - rid: -2
-  - rid: 2468971047057096743
-  - rid: 2468971047057096744
-  - rid: 2468971047057096745
+  - rid: 2468971217057481061
+  - rid: 2468971217057481062
+  - rid: 2468971217057481063
+  - rid: 2468971217057481064
+  - rid: 2468971217057481065
+  - rid: 2468971217057481066
+  - rid: 2468971217057481067
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2468971047057096739
+    - rid: 2468971217057481061
       type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         propertyName: Time
         clipProperty:
-          clipStartTime: 2.7666667
-          clipEndTime: 3.6
+          clipStartTime: 0
+          clipEndTime: 1.85
         loopType:
           propertyOverride: 1
           value: 0
@@ -43,14 +40,14 @@ MonoBehaviour:
           value: 60
         bpmScale:
           propertyOverride: 1
-          value: 1
+          value: 2
         offsetTime:
           propertyOverride: 1
           value: 0
         childStagger:
           propertyOverride: 1
-          value: 0
-    - rid: 2468971047057096740
+          value: 39.4
+    - rid: 2468971217057481062
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -165,7 +162,7 @@ MonoBehaviour:
         cookie:
           propertyOverride: 1
           value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
-    - rid: 2468971047057096741
+    - rid: 2468971217057481063
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -211,7 +208,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 2468971047057096742
+    - rid: 2468971217057481064
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -257,10 +254,10 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 2468971047057096743
+    - rid: 2468971217057481065
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Intensity
         bpmOverrideData:
           propertyOverride: 1
@@ -303,10 +300,10 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 2468971047057096744
+    - rid: 2468971217057481066
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Light Color
         bpmOverrideData:
           propertyOverride: 1
@@ -347,10 +344,10 @@ MonoBehaviour:
             m_Mode: 1
             m_NumColorKeys: 8
             m_NumAlphaKeys: 2
-    - rid: 2468971047057096745
+    - rid: 2468971217057481067
       type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 1
+        propertyOverride: 0
         propertyName: Material Color
         bpmOverrideData:
           propertyOverride: 0
