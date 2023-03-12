@@ -163,10 +163,11 @@ namespace StageLightManeuver
                 for (float i =(float) clip.start; i < (float)clip.end; i+=step)
                 {
                     var bpm = timeProperty.bpm.value;
-                    var bpmOffset =timeProperty.childStagger.value;
+                    var bpmOffset =timeProperty.staggerDelay.value;
                     var bpmScale = timeProperty.bpmScale.value;
                     var loopType = LoopType.Loop;
-                    var t =SlmUtility.GetNormalizedTime(i,bpm,bpmOffset,bpmScale,timeProperty.clipProperty,loopType);
+                    var arrayStaggerValue = timeProperty.arrayStaggerValue;
+                    var t =SlmUtility.GetNormalizedTime(i,bpm,bpmOffset,bpmScale,timeProperty.clipProperty,loopType,arrayStaggerValue);
                     
                     
                     if (preBeat> t)
@@ -233,7 +234,7 @@ namespace StageLightManeuver
 
                     if (lightColorProperty != null && lightColorProperty.lightToggleColor != null)
                     {
-                        var lightT = GetNormalizedTime(currentTime, timeProperty, lightColorProperty);
+                        var lightT = SlmUtility.GetNormalizedTime(currentTime, timeProperty, lightColorProperty);
                         color = gradient.Evaluate(lightT);     
                        
                     }
@@ -241,7 +242,7 @@ namespace StageLightManeuver
                     var intensityValue = 1f;
                     if (lightIntensityProperty != null && lightIntensityProperty.lightToggleIntensity != null)
                     {
-                        var t = GetNormalizedTime(currentTime, timeProperty, lightIntensityProperty);
+                        var t = SlmUtility.GetNormalizedTime(currentTime, timeProperty, lightIntensityProperty);
                         intensityValue = lightIntensityProperty.lightToggleIntensity.value.Evaluate(t);
                         // intensityValue = intensityValue
                     }
@@ -270,18 +271,7 @@ namespace StageLightManeuver
             return tex;
         }
 
-        public float GetNormalizedTime(float currentTime, ClockProperty clockOverride, SlmAdditionalProperty slmAdditionalProperty)
-        {
-            
-            var bpmOverrideData = slmAdditionalProperty.clockOverride;
-            var offsetTime = bpmOverrideData.value.offsetTime.propertyOverride ? bpmOverrideData.value.offsetTime.value : clockOverride.offsetTime.value;
-            var bpm =  clockOverride.bpm.value;
-            var bpmOffset =bpmOverrideData.value.childStagger.propertyOverride ? bpmOverrideData.value.childStagger.value : clockOverride.childStagger.value;
-            var bpmScale = bpmOverrideData.value.bpmScale.propertyOverride ? bpmOverrideData.value.bpmScale.value : clockOverride.bpmScale.value;
-            var loopType = bpmOverrideData.value.loopType.propertyOverride ? bpmOverrideData.value.loopType.value : clockOverride.loopType.value;
-            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,clockOverride.clipProperty, loopType);
-        }
-
+        
         public override void GetSubTimelines(TimelineClip clip, PlayableDirector director, List<PlayableDirector> subTimelines)
         {
             base.GetSubTimelines(clip, director, subTimelines);

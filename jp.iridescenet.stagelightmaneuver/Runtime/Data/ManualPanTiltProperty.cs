@@ -26,7 +26,7 @@ namespace StageLightManeuver
     
     
     [Serializable]
-    public class ManualPanTiltProperty:SlmAdditionalArrayProperty
+    public class ManualPanTiltProperty:SlmAdditionalProperty
     {
         public SlmToggleValue<ManualPanTiltMode> mode;
         public SlmToggleValue<List<PanTiltPrimitive>> positions;

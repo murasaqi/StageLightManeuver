@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -52,9 +53,9 @@ namespace StageLightManeuver
                 foreach (var stageLightProperty in stageLightTimelineClip.StageLightQueueData.stageLightProperties)
                 {
                     if(stageLightProperty == null) continue;
-                    if (stageLightProperty.GetType().IsSubclassOf (typeof(SlmAdditionalArrayProperty)))
+                    if (stageLightProperty.GetType().GetInterfaces().Contains(typeof(IArrayProperty)) )
                     {
-                        var additionalArrayProperty = stageLightProperty as SlmAdditionalArrayProperty;
+                        var additionalArrayProperty = stageLightProperty as IArrayProperty;
                         additionalArrayProperty?.ResyncArraySize(trackBinding);
                     }
                 }

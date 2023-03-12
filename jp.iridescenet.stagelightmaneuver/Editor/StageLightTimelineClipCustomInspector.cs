@@ -177,8 +177,28 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
                     
                     fields.ForEach(f =>
-                    { 
-                        StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
+                    {
+                        if (slmProperty.GetType() == typeof(ClockProperty))
+                        {
+                            var clockProperty = slmProperty as ClockProperty;
+                            if (f.Name == "arrayStaggerValue")
+                            {
+                                if (clockProperty.loopType.value == LoopType.FixedStagger)
+                                {
+                                    StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
+                                }
+                            }else
+                            {
+                               
+                                    StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
+                               
+                            }
+                        }
+                        else
+                        {
+                            StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
+                        }
+                        
                     });
                     var action = new Action(() =>
                     {

@@ -82,46 +82,7 @@ namespace StageLightManeuver
           
         }
 
-        public static void DrawClockOverrideProperty(SerializedProperty serializedProperty)
-        {
-            var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
-            // var clockOverride = serializedProperty.GetValue<object>() as ClockProperty;
-            EditorGUI.BeginChangeCheck();
-            var isOverride = EditorGUILayout.ToggleLeft("Clock Override", propertyOverride.boolValue);
-            if (EditorGUI.EndChangeCheck())
-            {
-                propertyOverride.boolValue = isOverride;
-                serializedProperty.serializedObject.ApplyModifiedProperties();
-            }
-
-            EditorGUI.indentLevel++;
-
-            EditorGUI.BeginDisabledGroup(!isOverride);
-
-
-            var fields = typeof(ClockProperty).GetFields().ToList();
-            
-            foreach (var fieldInfo in fields)
-            {
-                // var index = fields.IndexOf(fieldInfo);
-                if (fieldInfo.Name == "propertyOverride" ||
-                    fieldInfo.Name == "propertyName") continue;
-             
-                Debug.Log(fieldInfo.Name);
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(serializedProperty.FindPropertyRelative(fieldInfo.Name));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                }
-            }
-            //
-            EditorGUI.EndDisabledGroup();
-            EditorGUI.indentLevel--;
-        
-
-        }
-
+       
 
         public static void DrawRemoveButton(SerializedObject serializedObject, List<SlmProperty> properties, Action onRemove)
         {
@@ -213,19 +174,32 @@ namespace StageLightManeuver
 
                 EditorGUI.BeginDisabledGroup(!isOverride);
 
-                
-                
-                
+
                 if (valueObject.GetType() == typeof(MinMaxEasingValue))
                 {
                     DrawMinMaxEaseUI(value);
                 }else if (valueObject.GetType() == typeof(ClockOverride))
                 {
+                    var loopType = value.FindPropertyRelative("loopType");
                     var childDepth = value.depth+1;
                     while(value.NextVisible(true) && value.depth >= childDepth){
                         if (value.depth == childDepth)
                         {
-                            DrawOneLineSlmToggleValue(value);
+                            if (value.name == "arrayStaggerValue" && loopType.enumValueIndex == 3)
+                            {
+                                var serializedObject = value.GetValue<object>();
+                                ArrayStaggerValue(value, serializedObject as ArrayStaggerValue);
+                            }
+                            else
+                            {
+                                EditorGUI.BeginChangeCheck();
+                                EditorGUILayout.PropertyField(value);
+                                if (EditorGUI.EndChangeCheck())
+                                {
+                                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
+                                }
+                            }
                         }
                     }
                 }
@@ -263,9 +237,118 @@ namespace StageLightManeuver
                 if(hasMultiLineObject) EditorGUI.indentLevel--;
                 
             }
+            else
+            {
+                var serializedObject = serializedProperty.GetValue<object>();
+                if(serializedObject.GetType() == typeof(ArrayStaggerValue))
+                {
+                    ArrayStaggerValue(serializedProperty, serializedObject as ArrayStaggerValue);
+                }
+            }
             
             
            
+        }
+
+        public static void DrawStaggerMinMaxSliders(ArrayStaggerValue arrayStaggerValue, SerializedProperty serializedProperty)
+        {
+         
+            var expand =EditorGUILayout.Foldout(serializedProperty.isExpanded, serializedProperty.displayName);
+            if (expand != serializedProperty.isExpanded)
+            {
+                serializedProperty.isExpanded = expand;
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+            }
+
+            if (!expand)
+            {
+                EditorGUILayout.EndFoldoutHeaderGroup();
+                return;
+            }
+
+            EditorGUI.indentLevel++;
+            var arrayValue = serializedProperty.GetValue<object>() as List<Vector2>;
+            if (arrayValue == null) return;
+
+
+            foreach (var value in arrayValue)
+            {
+                var min = value.x;
+                var max = value.y;
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.MinMaxSlider(ref min,ref max,0,1f);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var index = arrayValue.IndexOf(value);
+                    serializedProperty.GetArrayElementAtIndex(index).vector2Value = new Vector2(min,max);
+                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                }
+                            
+            }
+
+            EditorGUI.indentLevel--;
+            EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+
+        public static void ArrayStaggerValue(SerializedProperty serializedProperty, ArrayStaggerValue arrayStaggerValue)
+        {
+            var animationDurationProperty = serializedProperty.FindPropertyRelative("animationDuration");
+            var childDepth = serializedProperty.depth+1;
+            while(serializedProperty.NextVisible(true) && serializedProperty.depth >= childDepth){
+                if (serializedProperty.depth == childDepth)
+                {
+
+                    if (serializedProperty.name == "lightStaggerInfo" || serializedProperty.name == "randomStaggerInfo")
+                    {
+                        
+                      
+                        if (arrayStaggerValue.staggerCalculationType == StaggerCalculationType.Random &&
+                            serializedProperty.name == "randomStaggerInfo")
+                        {
+                            using (new EditorGUILayout.HorizontalScope())
+                            {
+                                GUILayout.FlexibleSpace();
+                                if(GUILayout.Button("Set Random",GUILayout.Width(100)))
+                                {
+                                    arrayStaggerValue.CalculateRandomStaggerTime();
+                                }
+                                GUILayout.FlexibleSpace();
+                            }
+                           
+
+                            DrawStaggerMinMaxSliders( arrayStaggerValue, serializedProperty);
+                            
+                            EditorGUILayout.EndFoldoutHeaderGroup();
+                        }
+                        if( arrayStaggerValue.staggerCalculationType != StaggerCalculationType.Random &&
+                            serializedProperty.name == "lightStaggerInfo")
+                        {
+                            DrawStaggerMinMaxSliders( arrayStaggerValue, serializedProperty);
+                        }
+                        
+                        
+                        
+                    }else if (serializedProperty.name == "staggerCalculationType")
+                    {
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(serializedProperty);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                        }
+                    }
+                    else
+                    {
+                        EditorGUILayout.PropertyField(serializedProperty);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                        }     
+                    }
+                   
+                }
+            }
+            
         }
         public static bool DrawHeader(SerializedProperty serializedProperty, string propertyName, bool headerBackground = true)
         {

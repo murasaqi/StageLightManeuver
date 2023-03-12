@@ -37,7 +37,7 @@ namespace StageLightManeuver
     
     
     [Serializable]
-    public class ManualLightArrayProperty:SlmAdditionalArrayProperty
+    public class ManualLightArrayProperty:SlmAdditionalProperty
     {
         public SlmToggleValue<List<LightPrimitiveValue>> lightValues;
         

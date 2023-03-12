@@ -29,13 +29,28 @@ namespace StageLightManeuver
             var additionalProperty = queData.TryGet(propertyType) as SlmAdditionalProperty;
             var clockProperty = queData.TryGet<ClockProperty>();
             var bpm =clockProperty.bpm.value;
-            var bpmOffset = additionalProperty.clockOverride.value.childStagger.propertyOverride ? additionalProperty.clockOverride.value.childStagger.value : clockProperty.childStagger.value;
-            var bpmScale = additionalProperty.clockOverride.value.bpmScale.propertyOverride ? additionalProperty.clockOverride.value.bpmScale.value : clockProperty.bpmScale.value;
+            var bpmOffset = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
+            var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
             var scaledBpm = bpm * bpmScale;
             var duration = 60 / scaledBpm;
             var offset = duration* bpmOffset * (index+1);
             return offset;
         }
+        
+        public static float GetNormalizedTime(float currentTime, ClockProperty clockOverride, SlmAdditionalProperty slmAdditionalProperty)
+        {
+            
+            var bpmOverrideData = slmAdditionalProperty.clockOverride;
+            var offsetTime = bpmOverrideData.propertyOverride ? bpmOverrideData.value.offsetTime : clockOverride.offsetTime.value;
+            var bpm =  clockOverride.bpm.value;
+            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.value.childStagger : clockOverride.staggerDelay.value;
+            var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.value.bpmScale : clockOverride.bpmScale.value;
+            var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.value.loopType : clockOverride.loopType.value;
+            
+            var arrayStaggerValue = bpmOverrideData.propertyOverride ? bpmOverrideData.value.arrayStaggerValue: clockOverride.arrayStaggerValue;
+            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,clockOverride.clipProperty, loopType,arrayStaggerValue);
+        }
+
         
         public static float GetNormalizedTime(float time ,StageLightQueueData queData, Type propertyType,int index = 0)
         {
@@ -44,14 +59,15 @@ namespace StageLightManeuver
             var weight = queData.weight;
             if (additionalProperty == null || clockProperty == null) return 0f;
             var bpm = clockProperty.bpm.value;
-            var stagger = additionalProperty.clockOverride.value.childStagger.propertyOverride ? additionalProperty.clockOverride.value.childStagger.value : clockProperty.childStagger.value;
-            var bpmScale = additionalProperty.clockOverride.value.bpmScale.propertyOverride ? additionalProperty.clockOverride.value.bpmScale.value : clockProperty.bpmScale.value;
-            var loopType = additionalProperty.clockOverride.value.loopType.propertyOverride ? additionalProperty.clockOverride.value.loopType.value : clockProperty.loopType.value;
-            var offsetTime = additionalProperty.clockOverride.value.offsetTime.propertyOverride
-              ? additionalProperty.clockOverride.value.offsetTime.value
+            var stagger = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
+            var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
+            var loopType = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.loopType : clockProperty.loopType.value;
+            var offsetTime = additionalProperty.clockOverride.propertyOverride
+              ? additionalProperty.clockOverride.value.offsetTime
               : clockProperty.offsetTime.value;
             var clipProperty = clockProperty.clipProperty;
-            var t = GetNormalizedTime(time+offsetTime,bpm,stagger,bpmScale,clipProperty,loopType,index);
+            var arrayStaggerValue = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.arrayStaggerValue : clockProperty.arrayStaggerValue;
+            var t = GetNormalizedTime(time+offsetTime,bpm,stagger,bpmScale,clipProperty,loopType,arrayStaggerValue,index);
             return t; 
         }
           
@@ -73,7 +89,7 @@ namespace StageLightManeuver
             return profiles;
         }
         
-        public static float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType, int index = 0)
+        public static float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType, ArrayStaggerValue arrayStaggerValue, int index = 0)
         {
             
             var scaledBpm = bpm * bpmScale;
@@ -94,6 +110,12 @@ namespace StageLightManeuver
             else if(loopType == LoopType.Fixed)
             {
                 result = Mathf.InverseLerp(clipProperty.clipStartTime, clipProperty.clipEndTime, time);
+            }
+            else if(loopType == LoopType.FixedStagger)
+            {
+                // var staggerStartEnd =arrayStaggerValue.GetStaggerStartEnd(index);
+                var clipDuration = clipProperty.clipEndTime - clipProperty.clipStartTime;
+                result = arrayStaggerValue.Evaluate(time, clipDuration, index);
             }
            
             return result;
