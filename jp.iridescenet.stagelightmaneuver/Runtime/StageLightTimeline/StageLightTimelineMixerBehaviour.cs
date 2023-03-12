@@ -42,14 +42,14 @@ namespace StageLightManeuver
                 ScriptPlayable<StageLightTimelineBehaviour> inputPlayable =
                     (ScriptPlayable<StageLightTimelineBehaviour>)playable.GetInput(i);
                 // StageLightTimelineBehaviour input = inputPlayable.GetBehaviour ();
-                var timeProperty = stageLightTimelineClip.behaviour.stageLightQueData.TryGet<ClockProperty>();
+                var timeProperty = stageLightTimelineClip.stageLightProfile.TryGet<ClockProperty>();
                 if (timeProperty != null)
                 {
                     timeProperty.clipProperty.clipStartTime = (float)clip.start;
                     timeProperty.clipProperty.clipEndTime = (float)clip.end;
                 }
 
-                foreach (var stageLightProperty in stageLightTimelineClip.behaviour.stageLightQueData.stageLightProperties)
+                foreach (var stageLightProperty in stageLightTimelineClip.stageLightProfile.stageLightProperties)
                 {
                     if(stageLightProperty == null) continue;
                     if (stageLightProperty.GetType().IsSubclassOf (typeof(SlmAdditionalArrayProperty)))
@@ -61,8 +61,8 @@ namespace StageLightManeuver
                 
                 if (inputWeight > 0)
                 {
-                    stageLightTimelineClip.behaviour.stageLightQueData.weight = inputWeight;
-                    trackBinding.AddQue(stageLightTimelineClip.behaviour.stageLightQueData);
+                    stageLightTimelineClip.stageLightProfile.weight = inputWeight;
+                    trackBinding.AddQue(stageLightTimelineClip.stageLightProfile);
                     hasAnyClipPlaying = true;
                     // Debug.Log($"{clip.displayName},{inputWeight}");
                 }

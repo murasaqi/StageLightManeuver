@@ -177,10 +177,13 @@ namespace StageLightManeuver
         {
             var customClip = clip.asset as StageLightTimelineClip;
             var beatPointList = new List<float>();
+
+            if (customClip.stageLightProfile == null)
+            {
+                customClip.InitStageLightProfile();
+            }
             
-            
-            
-            var timeProperty = customClip.behaviour.stageLightQueData.TryGet<ClockProperty>();
+            var timeProperty = customClip.stageLightProfile.TryGet<ClockProperty>();
             
             if (timeProperty != null)
             {
@@ -223,14 +226,14 @@ namespace StageLightManeuver
             
             if (!customClip) return tex;
 
-            if(customClip.behaviour.stageLightQueData == null) return tex;
-            var lightProperty = customClip.behaviour.stageLightQueData.TryGet<LightProperty>();
-            var lightColorProperty = customClip.behaviour.stageLightQueData.TryGet<LightColorProperty>();
+            if(customClip.stageLightProfile == null) return tex;
+            var lightProperty = customClip.stageLightProfile.TryGet<LightProperty>();
+            var lightColorProperty = customClip.stageLightProfile.TryGet<LightColorProperty>();
             if(lightColorProperty == null || lightProperty == null) return tex;
             if(lightColorProperty.lightToggleColor == null) return tex;
             var gradient = lightColorProperty.lightToggleColor.value;
             
-            var lightIntensityProperty = customClip.behaviour.stageLightQueData.TryGet<LightIntensityProperty>();
+            var lightIntensityProperty = customClip.stageLightProfile.TryGet<LightIntensityProperty>();
             if (update) 
             {
                 _gradientTextures.Remove(customClip);
@@ -249,7 +252,7 @@ namespace StageLightManeuver
             
                 // var lightProfile = lightProperty;
                 
-                var timeProperty = customClip.behaviour.stageLightQueData.TryGet<ClockProperty>();
+                var timeProperty = customClip.stageLightProfile.TryGet<ClockProperty>();
                 if (timeProperty != null)
                 {
                     

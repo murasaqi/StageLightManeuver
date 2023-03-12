@@ -54,7 +54,7 @@ namespace StageLightManeuver
             Init();
         }
 
-        public void AddQue(StageLightQueData stageLightQueData)
+        public void AddQue(StageLightProfile stageLightQueData)
         {
             foreach (var stageLight in allStageLights)
             {

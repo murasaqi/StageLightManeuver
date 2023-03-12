@@ -29,7 +29,7 @@ namespace StageLightManeuver
             
         }
 
-        public virtual void AddQue(StageLightQueData stageLightQueData)
+        public virtual void AddQue(StageLightProfile stageLightQueData)
         {
             
             foreach (var stageLight in SyncStageLight)

@@ -26,8 +26,8 @@ namespace StageLightManeuver
         public bool isUpdateGuiFlag = false;
         [SerializeReference]public List<SlmProperty> stageLightProperties = new List<SlmProperty>();
   
-        
-        
+        public float weight = 1f;
+
         [ContextMenu("Init")]
         public void Init()
         {
@@ -125,6 +125,10 @@ namespace StageLightManeuver
 
         public T TryGet<T>() where T : SlmProperty
         {
+            if(stageLightProperties == null)
+                return null;
+            // remove null
+            stageLightProperties.RemoveAll(x => x == null);
             var result = stageLightProperties.Find(x => x.GetType() == typeof(T));
             return result as T;
         }

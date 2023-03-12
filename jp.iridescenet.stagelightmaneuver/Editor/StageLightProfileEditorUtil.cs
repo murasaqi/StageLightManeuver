@@ -192,7 +192,10 @@ namespace StageLightManeuver
             } 
             position.x += 5; 
             // EditorGUI.BeginChangeCheck(); 
+            // EditorGUI.showMixedValue = true;
+            // {
             var isOverride = EditorGUI.ToggleLeft(position, propertyName, propertyOverride.boolValue);
+            
             if (propertyOverride.boolValue != isOverride) 
             { 
                 propertyOverride.boolValue = isOverride; 

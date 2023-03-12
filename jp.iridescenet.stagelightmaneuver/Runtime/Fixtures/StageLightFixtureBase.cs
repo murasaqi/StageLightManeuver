@@ -12,7 +12,7 @@ namespace StageLightManeuver
     public abstract class StageLightFixtureBase: MonoBehaviour,IStageLight
     {
         public List<Type> PropertyTypes = new List<Type>();
-        public Queue<StageLightQueData> stageLightDataQueue = new Queue<StageLightQueData>();
+        public Queue<StageLightProfile> stageLightDataQueue = new Queue<StageLightProfile>();
         public int updateOrder = 0;
         public int Index { get; set; }
         public List<StageLightBase> SyncStageLight { get; set; }
@@ -33,9 +33,9 @@ namespace StageLightManeuver
             
         }
         
-        public float GetNormalizedTime(float time ,StageLightQueData queData, Type propertyType)
+        public float GetNormalizedTime(float time ,StageLightProfile queData, Type propertyType)
         {
-            var additionalProperty = queData.TryGetAdditionalProperty(propertyType) as SlmAdditionalProperty;
+            var additionalProperty = queData.TryGet(propertyType) as SlmAdditionalProperty;
             var timeProperty = queData.TryGet<ClockProperty>();
             var weight = queData.weight;
             if (additionalProperty == null || timeProperty == null) return 0f;
@@ -52,9 +52,9 @@ namespace StageLightManeuver
         }
 
 
-        public float GetOffsetTime(StageLightQueData queData, Type propertyType)
+        public float GetOffsetTime(StageLightProfile queData, Type propertyType)
         {
-            var additionalProperty = queData.TryGetAdditionalProperty(propertyType) as SlmAdditionalProperty;
+            var additionalProperty = queData.TryGet(propertyType) as SlmAdditionalProperty;
             var timeProperty = queData.TryGet<ClockProperty>();
             var bpm = timeProperty.bpm.value;
             var bpmOffset = additionalProperty.clockOverride.value.propertyOverride ? additionalProperty.clockOverride.value.childStagger : timeProperty.childStagger.value;
