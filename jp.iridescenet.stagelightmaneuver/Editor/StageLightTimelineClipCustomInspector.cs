@@ -41,11 +41,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
         {
             stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
             if(stageLightTimelineClip.stopEditorUiUpdate)  return;
-            // Selection.selectionChanged += () =>
-            // {
-            //     SlmEditorUtility.InitAndProperties(stageLightTimelineClip.track.ReferenceStageLightProfile,stageLightTimelineClip.track.selectedClips);
-            // };
-            // isMultiSelect = stageLightTimelineClip.track.selectedClips.Count > 1;
             BeginInspector();
             
         }
@@ -61,39 +56,21 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 // isMultiSelect = false;
                 var stageLightProperties = new List<SlmProperty>();
                 SerializedProperty serializedProperty;
-                // if (isMultiSelect)
-                // {
-                //     stageLightProperties = stageLightTimelineClip.track.ReferenceStageLightProfile.stageLightProperties;
-                //     var serializedProfile = new SerializedObject(stageLightTimelineClip.track.ReferenceStageLightProfile);  
-                //     serializedProfile.Update();
-                //     serializedProperty = serializedProfile.FindProperty("stageLightProperties");
-                // }
-                // else
-                // {
-                    // referenceProfile = stageLightTimelineClip.behaviour.stageLightQueueData.stageLightProfile;
+                
                 stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueueData.stageLightProperties;
                 if(stageLightTimelineClip.behaviour.stageLightQueueData == null) stageLightTimelineClip.behaviour.Init();
                 var behaviourProperty = serializedObject.FindProperty("behaviour");
                 var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueueData");
                 serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
 
-                // }
-              
-            
                 stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
                 
                 for (int i = 0; i < stageLightProperties.Count; i++)
                 {
-    
                     var slmProperty = stageLightProperties[i];
                     if(slmProperty == null) continue;
                     
                     var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
-                    // if (isMultiSelect)
-                    // {
-                    //     slmProperty.propertyOverride = true;
-                    //     serializedSlmProperty.isExpanded = true;
-                    // } 
                     var expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, slmProperty.propertyName);
                     
                     if (!expanded)
@@ -121,7 +98,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             slmProperty.ToggleOverride(false);
                             slmProperty.propertyOverride = true;
                         }
-                    
                     }
                     var marginBottom =slmProperty.GetType() == typeof(ClockProperty) ? 0 : 4;
                     
@@ -159,37 +135,19 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
                         }
                     });
-                    // if (isMultiSelect)
-                    // {
-                    //     GUILayout.Space(2);
-                    //     using (new EditorGUILayout.HorizontalScope())
-                    //     {
-                    //         GUILayout.FlexibleSpace();
-                    //         if (GUILayout.Button("☑ Apply checked properties", GUILayout.Width(200)))
-                    //         {
-                    //             SlmEditorUtility.OverwriteProperties( stageLightTimelineClip.track.ReferenceStageLightProfile, stageLightTimelineClip.track.selectedClips);
-                    //         }
-                    //         GUILayout.FlexibleSpace();
-                    //     }
-                    //     GUILayout.Space(2);
-                    // }
-                    // else
-                    // {
                     var action = new Action(() =>
                     {
                         stageLightProperties.Remove(slmProperty);
                         return;
                     });     
                     StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
-                    // }
                     EditorGUI.EndDisabledGroup();
                 }
             
                 DrawAddPropertyButton(stageLightTimelineClip);
            
                 EditorGUI.EndDisabledGroup();    
-                
-            // }
+            
             
         }
         
@@ -212,8 +170,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     selectList.Remove(property.GetType().Name);
                 }
-                    
-                
             }
             
             EditorGUI.BeginDisabledGroup(selectList.Count  <= 1);
@@ -221,7 +177,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorGUI.EndDisabledGroup();
             if (EditorGUI.EndChangeCheck())
             {
-                // SetDirty 
                 Undo.RecordObject(stageLightTimelineClip, "Add Property");
                 EditorUtility.SetDirty(stageLightTimelineClip);   
                 var type = SlmUtility.GetTypeByClassName(selectList[select]);
@@ -244,10 +199,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     }
                 }
                 stageLightTimelineClip.StageLightQueueData.stageLightProperties.Add(property);
-                
-                // apply serialized object
                 serializedObject.ApplyModifiedProperties();
-                //Save asset
                 AssetDatabase.SaveAssets();
             }
             

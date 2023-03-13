@@ -9,6 +9,7 @@
         {
             propertyName = "Sync Light Material";
             propertyOverride = false;
+            clockOverride = new SlmToggleValue<ClockOverride>();
             intensitymultiplier = new SlmToggleValue<float>() { value = 1f };
             brightnessDecreasesToBlack = new SlmToggleValue<bool>() { value = false };
             maxIntensityLimit = new SlmToggleValue<float>() { value = 3f };
@@ -27,6 +28,7 @@
         public SyncLightMaterialProperty(SyncLightMaterialProperty other)
         {
             propertyName = other.propertyName;
+            clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             propertyOverride = other.propertyOverride;
             intensitymultiplier = new SlmToggleValue<float>(){value = other.intensitymultiplier.value};
             brightnessDecreasesToBlack = new SlmToggleValue<bool>() { value = other.brightnessDecreasesToBlack.value };
@@ -37,6 +39,7 @@
         {
             SyncLightMaterialProperty syncLightMaterialProperty = other as SyncLightMaterialProperty;
             if (syncLightMaterialProperty == null) return;
+            if(clockOverride.propertyOverride) clockOverride = new  SlmToggleValue<ClockOverride>(syncLightMaterialProperty.clockOverride);
             if (syncLightMaterialProperty.propertyOverride)
             {
                 if(syncLightMaterialProperty.intensitymultiplier.propertyOverride) intensitymultiplier.value = syncLightMaterialProperty.intensitymultiplier.value;

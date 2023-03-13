@@ -77,12 +77,11 @@ namespace StageLightManeuver
 
         public ClockOverride()
         {
-            // propertyName = "Clock Override";
             loopType = LoopType.Loop;
-            // bpm = new SlmToggleValue<float>() { value = 60 };
             bpmScale = 1f;
             offsetTime = 0f;
             childStagger = 0f;
+            arrayStaggerValue = new ArrayStaggerValue();
         }
         
         public ClockOverride(ClockOverride clockOverride)
@@ -92,7 +91,6 @@ namespace StageLightManeuver
             offsetTime = clockOverride.offsetTime;
             childStagger = clockOverride.childStagger;
             arrayStaggerValue = new ArrayStaggerValue(clockOverride.arrayStaggerValue);
-            
         }
         
        
@@ -112,7 +110,7 @@ namespace StageLightManeuver
         {
             sortOrder = -999
         };
-        
+
         public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
             clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
