@@ -120,7 +120,6 @@ namespace StageLightManeuver
             if(staggerCalculationType != StaggerCalculationType.Random) return;
             for (int i = 0; i < randomStaggerInfo.Count; i++)
             {
-                Debug.Log(randomStaggerInfo[i]);
                 var duration = animationDuration * (1 - delayRatio);
                 var totalDelay = animationDuration - duration;
                 var delay = Random.Range(0f, totalDelay);
