@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
@@ -11,11 +13,17 @@ namespace StageLightManeuver
         public Vector3 rotationVector = Vector3.left;
         public Transform rotateTransform;
         public bool ignore = false;
+        private Vector3 currentVelocity;
+        public float smoothTime = 0.05f;
+        private float maxSpeed = float.PositiveInfinity;
+        [FormerlySerializedAs("smoothness")] public bool useSmoothness = false;
+        private float previousAngle = 0f;
         public override void EvaluateQue(float currentTime)
         {
             base.EvaluateQue(currentTime);
             if(rotateTransform == null) return;
             _angle = 0f;
+            smoothTime = 0f;
             while (stageLightDataQueue.Count>0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
@@ -51,6 +59,9 @@ namespace StageLightManeuver
                 {
                     _angle += qTiltProperty.rollTransform.value.Evaluate(normalizedTime) * weight;
                 }
+                
+                smoothTime += qTiltProperty.smoothTime.value * weight;
+                if(weight > 0.5f) useSmoothness = qTiltProperty.useSmoothness.value;
 
             }
         }
@@ -68,9 +79,24 @@ namespace StageLightManeuver
         public override void UpdateFixture()
         {
             if(ignore) return;
-            rotateTransform.localEulerAngles =  rotationVector * _angle;
+            
+            if(useSmoothness) return;
+            rotateTransform.localEulerAngles = rotationVector * _angle;
+            
         }
-        
+
+        public void Update()
+        {
+            if (useSmoothness)
+            {
+                var smoothAngle = Mathf.SmoothDampAngle(previousAngle, _angle, ref currentVelocity.x, smoothTime, maxSpeed);
+                rotateTransform.localEulerAngles = rotationVector * smoothAngle;
+                previousAngle = smoothAngle;
+            }
+            
+           
+        }
+
         public override void Init()
         {
             PropertyTypes.Add(typeof(TiltProperty));

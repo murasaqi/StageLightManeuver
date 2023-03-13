@@ -9,10 +9,7 @@ using UnityEditor;
 
 namespace StageLightManeuver
 {
-
     
-    
-
     [Serializable]
     public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     {
@@ -31,7 +28,7 @@ namespace StageLightManeuver
         }
 
         public string clipDisplayName;
-
+        public bool stopEditorUiUpdate = false;
 
         public void OnEnable()
         {
@@ -141,9 +138,7 @@ namespace StageLightManeuver
         {
             if (referenceStageLightProfile == null || syncReferenceProfile) return;
 
-            var hasTimeProperty = false;
-           
-            
+
             var copy = new List<SlmProperty>();
             foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
             {
@@ -162,9 +157,7 @@ namespace StageLightManeuver
             }
             
             StageLightQueueData.stageLightProperties = copy;
-                
-
-
+            stopEditorUiUpdate = false;
         }
 
         public void SaveProfile()

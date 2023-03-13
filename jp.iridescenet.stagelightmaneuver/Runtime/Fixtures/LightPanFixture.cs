@@ -25,11 +25,13 @@ namespace StageLightManeuver
         private float _angle;
         public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
-
+        public Vector3 currentVelocity;
+        public float smoothTime = 0.1f;
+        private float maxSpeed = float.PositiveInfinity;
         private bool ignore = false;
-
+        public bool useSmoothness = false;
         public LightTransformType LightTransformType => _lightTransformType;
-
+        private float previousAngle = 0f;
         void Start()
         {
             Init();
@@ -49,7 +51,7 @@ namespace StageLightManeuver
         {   
             base.EvaluateQue(currentTime);
             if(rotateTransform == null) return;
-           
+           smoothTime = 0f;
             _angle = 0f;
             while (stageLightDataQueue.Count>0)
             {
@@ -61,7 +63,7 @@ namespace StageLightManeuver
                 if (qPanProperty == null || qLightBaseProperty == null) continue;
               
                 var normalizedTime = SlmUtility.GetNormalizedTime(currentTime,queueData,typeof(PanProperty),Index);
-                // Debug.Log($"{queueData.stageLightSetting.name},{time}");
+                
                 
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
                var lookAtProperty = queueData.TryGet<LookAtProperty>();
@@ -93,17 +95,31 @@ namespace StageLightManeuver
                      
                 }
                 
-                
+                smoothTime += qPanProperty.smoothTime.value * weight;
+                if(weight > 0.5f) useSmoothness = qPanProperty.useSmoothness.value;
                
                 
             }
             
         }
-
+        
         public override void UpdateFixture()
         {
             if(ignore) return;
-            rotateTransform.localEulerAngles =  rotationVector * _angle;
+            
+            if(useSmoothness) return;
+            rotateTransform.localEulerAngles = rotationVector * _angle;
+            
+        }
+
+        public void Update()
+        {
+            if (useSmoothness)
+            {
+                var smoothAngle = Mathf.SmoothDampAngle(previousAngle, _angle, ref currentVelocity.x, smoothTime, maxSpeed);
+                rotateTransform.localEulerAngles = rotationVector * smoothAngle;
+                previousAngle = smoothAngle;
+            }
         }
     }
 }

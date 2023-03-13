@@ -9,8 +9,9 @@ namespace StageLightManeuver
     [Serializable]
     public class RollProperty:SlmAdditionalProperty
     {
-        [DisplayName("Roll Transform")]public SlmToggleValue<MinMaxEasingValue> rollTransform;
-       
+        [DisplayName("Roll Transform")]public SlmToggleValue<MinMaxEasingValue> rollTransform; 
+        public SlmToggleValue<float> smoothTime = new SlmToggleValue<float>(); 
+        public SlmToggleValue<bool> useSmoothness = new SlmToggleValue<bool>();
         public RollProperty(RollProperty rollProperty)
         {
             propertyName = rollProperty.propertyName;
@@ -21,6 +22,16 @@ namespace StageLightManeuver
                 propertyOverride =  rollProperty.rollTransform.propertyOverride,
                 value =     new MinMaxEasingValue(rollProperty.rollTransform.value),
             };
+            smoothTime = new SlmToggleValue<float>()
+            {
+                propertyOverride = rollProperty.smoothTime.propertyOverride,
+                value = rollProperty.smoothTime.value
+            };
+            useSmoothness = new SlmToggleValue<bool>()
+            {
+                propertyOverride = rollProperty.useSmoothness.propertyOverride,
+                value = rollProperty.useSmoothness.value
+            };
             propertyOverride = rollProperty.propertyOverride;
 
         }
@@ -30,6 +41,8 @@ namespace StageLightManeuver
             propertyOverride = false;
             clockOverride = new SlmToggleValue<ClockOverride>();
             rollTransform = new SlmToggleValue<MinMaxEasingValue>() {value = new MinMaxEasingValue()};
+            smoothTime = new SlmToggleValue<float>() {value = 0.05f};
+            useSmoothness = new SlmToggleValue<bool>() {value = false};
         }
 
         public override void ToggleOverride(bool toggle)
@@ -38,6 +51,8 @@ namespace StageLightManeuver
             propertyOverride = toggle;
             rollTransform.propertyOverride = toggle;
             clockOverride.propertyOverride = toggle;
+            smoothTime.propertyOverride = toggle;
+            useSmoothness.propertyOverride = toggle;
             
         }
 
@@ -48,6 +63,8 @@ namespace StageLightManeuver
             if (rollProperty == null) return;
             if(rollProperty.rollTransform.propertyOverride) rollTransform.value = new MinMaxEasingValue(rollProperty.rollTransform.value);
             if(rollProperty.clockOverride.propertyOverride) clockOverride = new SlmToggleValue<ClockOverride>(rollProperty.clockOverride);
+            if(rollProperty.smoothTime.propertyOverride) smoothTime.value = rollProperty.smoothTime.value;
+            if(rollProperty.useSmoothness.propertyOverride) useSmoothness.value = rollProperty.useSmoothness.value;
         }
     }
     

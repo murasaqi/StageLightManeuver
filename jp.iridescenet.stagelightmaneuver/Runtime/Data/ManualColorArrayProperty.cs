@@ -22,7 +22,7 @@ namespace StageLightManeuver
     
     
     [Serializable]
-    public class ManualColorArrayProperty:SlmAdditionalProperty,IArrayProperty
+    public class ManualColorArrayProperty:SlmAdditionalProperty
     {
         public SlmToggleValue<List<ColorPrimitiveValue>> colorValues;
         
@@ -40,7 +40,7 @@ namespace StageLightManeuver
             clockOverride.propertyOverride = toggle;
         }
 
-        public  void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public override void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
             var colorPrimitiveValues = colorValues.value;
             if (colorPrimitiveValues.Count < stageLightSupervisor.AllStageLights.Count)

@@ -30,7 +30,7 @@ namespace StageLightManeuver
         [SerializeField] public Color beatLineColor = new Color(0, 1, 0.7126422f, 0.2f);
         [SerializeField] public bool updateOnOutOfClip = false;
 
-        private StageLightProfile referenceStageLightProfile;
+        // private StageLightProfile referenceStageLightProfile;
         
         public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
          // public List<SlmProperty> slmProperties;
@@ -51,19 +51,19 @@ namespace StageLightManeuver
         // }
         #endif
         
-        public StageLightProfile ReferenceStageLightProfile
-        {
-            get
-            {
-                if (referenceStageLightProfile == null || referenceStageLightProfile.stageLightProperties == null)
-                {
-                    referenceStageLightProfile =  ScriptableObject.CreateInstance<StageLightProfile>();
-                }
-
-                return referenceStageLightProfile;
-            }
-            set => referenceStageLightProfile = value;
-        }
+        // public StageLightProfile ReferenceStageLightProfile
+        // {
+        //     get
+        //     {
+        //         if (referenceStageLightProfile == null || referenceStageLightProfile.stageLightProperties == null)
+        //         {
+        //             referenceStageLightProfile =  ScriptableObject.CreateInstance<StageLightProfile>();
+        //         }
+        //
+        //         return referenceStageLightProfile;
+        //     }
+        //     set => referenceStageLightProfile = value;
+        // }
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
         {
             #if UNITY_EDITOR
@@ -89,18 +89,18 @@ namespace StageLightManeuver
 
         public void OnEnable()
         {
-            if (referenceStageLightProfile == null)
-            {
-                referenceStageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
-                referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
-            }
-            
-
-            if (referenceStageLightProfile.stageLightProperties == null)
-                referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
-            
-            if(serializedProfile == null)
-                serializedProfile = new SerializedObject(ReferenceStageLightProfile);
+            // if (referenceStageLightProfile == null)
+            // {
+            //     referenceStageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
+            //     referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
+            // }
+            //
+            //
+            // if (referenceStageLightProfile.stageLightProperties == null)
+            //     referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
+            //
+            // if(serializedProfile == null)
+            //     serializedProfile = new SerializedObject(ReferenceStageLightProfile);
             Selection.selectionChanged -=OnSelection;
             Selection.selectionChanged += OnSelection;
             // slmProperties = referenceStageLightProfile.stageLightProperties;

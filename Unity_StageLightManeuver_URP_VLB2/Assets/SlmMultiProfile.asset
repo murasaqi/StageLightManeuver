@@ -14,43 +14,77 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isUpdateGuiFlag: 0
   stageLightProperties:
-  - rid: 2468971217057481061
-  - rid: 2468971217057481062
-  - rid: 2468971217057481063
-  - rid: 2468971217057481064
-  - rid: 2468971217057481065
-  - rid: 2468971217057481066
-  - rid: 2468971217057481067
+  - rid: 2701923684718215175
+  - rid: 2701923684718215176
+  - rid: 2701923684718215177
+  - rid: 2701923684718215178
+  - rid: 2701923684718215179
+  - rid: 2701923684718215180
+  - rid: 2701923684718215181
   weight: 1
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2468971217057481061
-      type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+    - rid: 2701923684718215175
+      type: {class: ClockProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
-        propertyName: Time
+        sortOrder: 0
+        propertyName: Clock
+        propertyOrder: 0
         clipProperty:
-          clipStartTime: 0
-          clipEndTime: 1.85
+          clipStartTime: 2.15
+          clipEndTime: 2.7666667
         loopType:
           propertyOverride: 1
-          value: 0
+          sortOrder: 0
+          value: 3
         bpm:
-          propertyOverride: 1
+          propertyOverride: 0
+          sortOrder: 0
           value: 60
         bpmScale:
-          propertyOverride: 1
-          value: 2
+          propertyOverride: 0
+          sortOrder: 0
+          value: 1
         offsetTime:
-          propertyOverride: 1
+          propertyOverride: 0
+          sortOrder: 0
           value: 0
-        childStagger:
-          propertyOverride: 1
-          value: 39.4
-    - rid: 2468971217057481062
+        staggerDelay:
+          propertyOverride: 0
+          sortOrder: 0
+          value: 0
+        arrayStaggerValue:
+          staggerCalculationType: 3
+          delayRatio: 0.1
+          animationCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          lightStaggerInfo: []
+          randomStaggerInfo: []
+    - rid: 2701923684718215176
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -61,7 +95,7 @@ MonoBehaviour:
           propertyOverride: 1
           sortOrder: 0
           value:
-            loopType: 0
+            loopType: 1
             offsetTime: 0
             bpmScale: 1
             childStagger: 0
@@ -92,8 +126,20 @@ MonoBehaviour:
                 m_PreInfinity: 2
                 m_PostInfinity: 2
                 m_RotationOrder: 4
-              lightStaggerInfo: []
-              randomStaggerInfo: []
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         spotAngle:
           propertyOverride: 1
           sortOrder: 0
@@ -200,7 +246,7 @@ MonoBehaviour:
           propertyOverride: 1
           sortOrder: 0
           value: {fileID: 2800000, guid: 9236fc9922624c34892e8643960d85a4, type: 3}
-    - rid: 2468971217057481063
+    - rid: 2701923684718215177
       type: {class: PanProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -278,7 +324,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 2468971217057481064
+    - rid: 2701923684718215178
       type: {class: TiltProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 1
@@ -356,7 +402,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 2468971217057481065
+    - rid: 2701923684718215179
       type: {class: LightIntensityProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -398,8 +444,20 @@ MonoBehaviour:
                 m_PreInfinity: 2
                 m_PostInfinity: 2
                 m_RotationOrder: 4
-              lightStaggerInfo: []
-              randomStaggerInfo: []
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         lightToggleIntensity:
           propertyOverride: 1
           sortOrder: 0
@@ -434,7 +492,7 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
-    - rid: 2468971217057481066
+    - rid: 2701923684718215180
       type: {class: LightColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0
@@ -476,8 +534,20 @@ MonoBehaviour:
                 m_PreInfinity: 2
                 m_PostInfinity: 2
                 m_RotationOrder: 4
-              lightStaggerInfo: []
-              randomStaggerInfo: []
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         lightToggleColor:
           propertyOverride: 1
           sortOrder: 0
@@ -510,7 +580,7 @@ MonoBehaviour:
             m_Mode: 1
             m_NumColorKeys: 8
             m_NumAlphaKeys: 2
-    - rid: 2468971217057481067
+    - rid: 2701923684718215181
       type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
         propertyOverride: 0

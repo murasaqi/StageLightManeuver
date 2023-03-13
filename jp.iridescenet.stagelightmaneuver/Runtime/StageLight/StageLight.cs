@@ -68,7 +68,7 @@ namespace StageLightManeuver
 
         private void OnDestroy()
         {
-            Debug.Log("On Destroy");
+            // Debug.Log("On Destroy");
             // for (int i = stageLightFixtures.Count-1; i >=0; i--)
             // {
             //     try
