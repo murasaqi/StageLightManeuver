@@ -114,41 +114,8 @@ MonoBehaviour:
     m_ParentTrack: {fileID: -5344037227520383593}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.5815972652907169
+    m_BlendInDuration: -1
     m_BlendOutDuration: 0.06666666666666554
-    m_MixInCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_MixOutCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_BlendInCurveMode: 0
-    m_BlendOutCurveMode: 0
-    m_ExposedParameterNames: []
-    m_AnimationCurves: {fileID: 0}
-    m_Recordable: 0
-    m_PostExtrapolationMode: 0
-    m_PreExtrapolationMode: 0
-    m_PostExtrapolationTime: 0
-    m_PreExtrapolationTime: 0
-    m_DisplayName: SlmMultiProfile
-  - m_Version: 1
-    m_Start: 5.751736068042617
-    m_ClipIn: 0
-    m_Asset: {fileID: 7457748143568193617}
-    m_Duration: 1.1833333333333331
-    m_TimeScale: 1
-    m_ParentTrack: {fileID: -5344037227520383593}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
-    m_BlendInDuration: 0.06666666666666554
-    m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -190,7 +157,76 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: SlmMultiProfile
   - m_Version: 1
-    m_Start: 4.95
+    m_Start: 5.751736068042617
+    m_ClipIn: 0
+    m_Asset: {fileID: 7457748143568193617}
+    m_Duration: 1.1833333333333331
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -5344037227520383593}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0.06666666666666554
+    m_BlendOutDuration: -1
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: SlmMultiProfile
+  - m_Version: 1
+    m_Start: 4.216666666666667
     m_ClipIn: 0
     m_Asset: {fileID: -1781159368689342151}
     m_Duration: 0.6166666666666665
@@ -199,7 +235,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 0.5815972652907169
+    m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -310,7 +346,25 @@ MonoBehaviour:
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -335,7 +389,6 @@ MonoBehaviour:
   updateOnOutOfClip: 0
   selectedClips:
   - {fileID: -2575851122240455050}
-  - {fileID: 5512701032716643563}
 --- !u!114 &-3081571132314861926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -458,7 +511,7 @@ MonoBehaviour:
       - rid: 2468971231591006284
       - rid: 2468971231591006285
       - rid: 2468971231591006286
-      - rid: 2468971231591006287
+      - rid: 2468971258509787136
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -500,8 +553,8 @@ MonoBehaviour:
           sortOrder: 0
           value: 0
         arrayStaggerValue:
-          staggerCalculationType: 3
-          delayRatio: 0.165
+          staggerCalculationType: 2
+          delayRatio: 0.6
           animationCurve:
             serializedVersion: 2
             m_Curve:
@@ -527,19 +580,19 @@ MonoBehaviour:
             m_PostInfinity: 2
             m_RotationOrder: 4
           lightStaggerInfo:
-          - {x: 0, y: 1}
-          - {x: 0.1318, y: 1}
-          - {x: 0.2636, y: 1}
-          - {x: 0.3954, y: 1}
-          - {x: 0.5272, y: 1}
-          - {x: 0.659, y: 1}
+          - {x: 0, y: 0.39999998}
+          - {x: 0.120000005, y: 0.52}
+          - {x: 0.24000001, y: 0.64}
+          - {x: 0.36, y: 0.76}
+          - {x: 0.48000002, y: 0.88}
+          - {x: 0.6, y: 1}
           randomStaggerInfo:
-          - {x: 0.040993005, y: 0.875993}
-          - {x: 0.081544004, y: 0.91654396}
-          - {x: 0.07885864, y: 0.9138586}
-          - {x: 0.16068497, y: 0.995685}
-          - {x: 0.11684202, y: 0.951842}
-          - {x: 0.043042734, y: 0.8780427}
+          - {x: 0.2551945, y: 0.8781945}
+          - {x: 0.2523342, y: 0.87533426}
+          - {x: 0.31741726, y: 0.9404173}
+          - {x: 0.18907252, y: 0.8120725}
+          - {x: 0.29168442, y: 0.9146844}
+          - {x: 0.27416447, y: 0.89716446}
     - rid: 2468971231591006282
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -584,18 +637,18 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 1}
-              - {x: 0.0444, y: 1}
-              - {x: 0.0888, y: 1}
-              - {x: 0.13319999, y: 1}
-              - {x: 0.1776, y: 1}
-              - {x: 0.222, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               randomStaggerInfo:
-              - {x: 0.21911268, y: 0.9971127}
-              - {x: 0.061139695, y: 0.8391397}
-              - {x: 0.08148459, y: 0.8594846}
-              - {x: 0.1450747, y: 0.9230747}
-              - {x: 0.0038797432, y: 0.7818797}
-              - {x: 0.14357452, y: 0.92157453}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         spotAngle:
           propertyOverride: 1
           sortOrder: 0
@@ -718,20 +771,20 @@ MonoBehaviour:
             bpmScale: 1
             childStagger: 0
             arrayStaggerValue:
-              staggerCalculationType: 0
-              delayRatio: 0.623
+              staggerCalculationType: 2
+              delayRatio: 0.596
               animationCurve:
                 serializedVersion: 2
                 m_Curve:
                 - serializedVersion: 3
                   time: 0
                   value: 0
-                  inSlope: 0
-                  outSlope: 0
+                  inSlope: 2.5041716
+                  outSlope: 2.5041716
                   tangentMode: 0
                   weightedMode: 0
                   inWeight: 0
-                  outWeight: 0
+                  outWeight: 0.13926941
                 - serializedVersion: 3
                   time: 1
                   value: 1
@@ -745,12 +798,12 @@ MonoBehaviour:
                 m_PostInfinity: 2
                 m_RotationOrder: 4
               lightStaggerInfo:
-              - {x: 0, y: 1}
-              - {x: 0.12460001, y: 1}
-              - {x: 0.24920002, y: 1}
-              - {x: 0.37380004, y: 1}
-              - {x: 0.49840003, y: 1}
-              - {x: 0.623, y: 1}
+              - {x: 0, y: 0.40399998}
+              - {x: 0.119200006, y: 0.5232}
+              - {x: 0.23840001, y: 0.6424}
+              - {x: 0.3576, y: 0.7616}
+              - {x: 0.47680002, y: 0.8808}
+              - {x: 0.596, y: 1}
               randomStaggerInfo:
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -817,7 +870,7 @@ MonoBehaviour:
             childStagger: 0
             arrayStaggerValue:
               staggerCalculationType: 2
-              delayRatio: 0.699
+              delayRatio: 0.548
               animationCurve:
                 serializedVersion: 2
                 m_Curve:
@@ -843,12 +896,12 @@ MonoBehaviour:
                 m_PostInfinity: 2
                 m_RotationOrder: 4
               lightStaggerInfo:
-              - {x: 0, y: 0.301}
-              - {x: 0.1398, y: 0.4408}
-              - {x: 0.2796, y: 0.5806}
-              - {x: 0.4194, y: 0.7204}
-              - {x: 0.5592, y: 0.8602}
-              - {x: 0.699, y: 1}
+              - {x: 0, y: 0.45200002}
+              - {x: 0.10959999, y: 0.5616}
+              - {x: 0.21919999, y: 0.67120004}
+              - {x: 0.3288, y: 0.7808}
+              - {x: 0.43839997, y: 0.8904}
+              - {x: 0.548, y: 1}
               randomStaggerInfo:
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1076,16 +1129,16 @@ MonoBehaviour:
             m_Mode: 0
             m_NumColorKeys: 2
             m_NumAlphaKeys: 2
-    - rid: 2468971231591006287
-      type: {class: MaterialColorProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+    - rid: 2468971258509787136
+      type: {class: SyncLightMaterialProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         sortOrder: 0
-        propertyName: Material Color
+        propertyName: Sync Light Material
         propertyOrder: 0
         clockOverride:
-          propertyOverride: 0
-          sortOrder: 0
+          propertyOverride: 1
+          sortOrder: -999
           value:
             loopType: 0
             offsetTime: 0
@@ -1132,80 +1185,18 @@ MonoBehaviour:
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
-        colorPropertyName:
-          propertyOverride: 0
-          sortOrder: 0
-          value: _ShaderPropertyName
-        materialindex:
-          propertyOverride: 0
-          sortOrder: 0
-          value: 0
-        color:
-          propertyOverride: 0
-          sortOrder: 0
-          value:
-            serializedVersion: 2
-            key0: {r: 1, g: 1, b: 1, a: 1}
-            key1: {r: 1, g: 1, b: 1, a: 1}
-            key2: {r: 0, g: 0, b: 0, a: 0}
-            key3: {r: 0, g: 0, b: 0, a: 0}
-            key4: {r: 0, g: 0, b: 0, a: 0}
-            key5: {r: 0, g: 0, b: 0, a: 0}
-            key6: {r: 0, g: 0, b: 0, a: 0}
-            key7: {r: 0, g: 0, b: 0, a: 0}
-            ctime0: 0
-            ctime1: 65535
-            ctime2: 0
-            ctime3: 0
-            ctime4: 0
-            ctime5: 0
-            ctime6: 0
-            ctime7: 0
-            atime0: 0
-            atime1: 65535
-            atime2: 0
-            atime3: 0
-            atime4: 0
-            atime5: 0
-            atime6: 0
-            atime7: 0
-            m_Mode: 0
-            m_NumColorKeys: 2
-            m_NumAlphaKeys: 2
-        intensity:
+        intensitymultiplier:
           propertyOverride: 1
           sortOrder: 0
-          value:
-            mode: 0
-            inverse: 0
-            minMaxLimit: {x: -180, y: 180}
-            minMaxValue: {x: -180, y: 180}
-            easeType: 0
-            constant: 1
-            animationCurve:
-              serializedVersion: 2
-              m_Curve:
-              - serializedVersion: 3
-                time: 0
-                value: 0
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
-              - serializedVersion: 3
-                time: 1
-                value: 1
-                inSlope: 0
-                outSlope: 0
-                tangentMode: 0
-                weightedMode: 0
-                inWeight: 0
-                outWeight: 0
-              m_PreInfinity: 2
-              m_PostInfinity: 2
-              m_RotationOrder: 4
+          value: 1
+        brightnessDecreasesToBlack:
+          propertyOverride: 1
+          sortOrder: 0
+          value: 0
+        maxIntensityLimit:
+          propertyOverride: 1
+          sortOrder: 0
+          value: 3
 --- !u!114 &-1781159368689342151
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1248,8 +1239,8 @@ MonoBehaviour:
         propertyName: Clock
         propertyOrder: -999
         clipProperty:
-          clipStartTime: 4.95
-          clipEndTime: 5.5666666
+          clipStartTime: 4.2166667
+          clipEndTime: 4.8333335
         loopType:
           propertyOverride: 1
           sortOrder: 0
@@ -1298,19 +1289,19 @@ MonoBehaviour:
             m_PostInfinity: 2
             m_RotationOrder: 4
           lightStaggerInfo:
-          - {x: 0, y: 0.9}
-          - {x: 0.02, y: 0.91999996}
-          - {x: 0.04, y: 0.94}
-          - {x: 0.060000002, y: 0.96}
-          - {x: 0.08, y: 0.97999996}
-          - {x: 0.1, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
           randomStaggerInfo:
-          - {x: 0.0122978, y: 0.9122978}
-          - {x: 0.098517835, y: 0.9985178}
-          - {x: 0.06966827, y: 0.96966827}
-          - {x: 0.002085126, y: 0.9020851}
-          - {x: 0.08055734, y: 0.9805573}
-          - {x: 0.05952918, y: 0.95952916}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
     - rid: 2701923683903733761
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -2096,7 +2087,7 @@ MonoBehaviour:
     m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
-  m_MarkerTrack: {fileID: 0}
+  m_MarkerTrack: {fileID: 5598606992021782628}
 --- !u!114 &5512701032716643563
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2868,6 +2859,29 @@ MonoBehaviour:
               m_PreInfinity: 2
               m_PostInfinity: 2
               m_RotationOrder: 4
+--- !u!114 &5598606992021782628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a16748d9461eae46a725db9776d5390, type: 3}
+  m_Name: Markers
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects: []
 --- !u!114 &7326441571734702824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2886,7 +2900,7 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 2468971231591006279
-      weight: 0.22776105
+      weight: 0.0022942424
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}

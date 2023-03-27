@@ -43,6 +43,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             if(stageLightTimelineClip.stopEditorUiUpdate)  return;
             BeginInspector();
             
+    
         }
         
         private void BeginInspector()
