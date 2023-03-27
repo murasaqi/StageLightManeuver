@@ -388,7 +388,7 @@ MonoBehaviour:
   beatLineColor: {r: 0, g: 1, b: 0.09774709, a: 0.078431375}
   updateOnOutOfClip: 0
   selectedClips:
-  - {fileID: -2575851122240455050}
+  - {fileID: -3081571132314861926}
 --- !u!114 &-3081571132314861926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -407,6 +407,7 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 2468971231591006288
+      - rid: 2468971577640747013
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -488,6 +489,156 @@ MonoBehaviour:
           - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
+    - rid: 2468971577640747013
+      type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 0
+        sortOrder: 0
+        propertyName: Light
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            loopType: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo: []
+              randomStaggerInfo: []
+        spotAngle:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 30
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        innerSpotAngle:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 10
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        range:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          sortOrder: 0
+          value: {fileID: 0}
 --- !u!114 &-2575851122240455050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1986,6 +2137,7 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 2468971231591006289
+      - rid: 2468971577640747010
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -2067,6 +2219,168 @@ MonoBehaviour:
           - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
+    - rid: 2468971577640747010
+      type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 0
+        sortOrder: 0
+        propertyName: Light
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            loopType: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+        spotAngle:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 30
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        innerSpotAngle:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 10
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        range:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 0
+          sortOrder: 0
+          value: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2900,7 +3214,8 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 2468971231591006279
-      weight: 0.0022942424
+      - rid: 2468971577640747008
+      weight: 0.0019991398
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -2981,6 +3296,168 @@ MonoBehaviour:
           - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
+    - rid: 2468971577640747008
+      type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 1
+        sortOrder: 0
+        propertyName: Light
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            loopType: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+        spotAngle:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 30
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        innerSpotAngle:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 10
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        range:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 1
+          sortOrder: 0
+          value: {fileID: 0}
 --- !u!114 &7457748143568193617
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2999,7 +3476,8 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 2468971231591006280
-      weight: 1
+      - rid: 2468971577640747009
+      weight: 0.99800086
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
   track: {fileID: -5344037227520383593}
@@ -3080,3 +3558,165 @@ MonoBehaviour:
           - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
+    - rid: 2468971577640747009
+      type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 1
+        sortOrder: 0
+        propertyName: Light
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            loopType: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+        spotAngle:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 30
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        innerSpotAngle:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 180}
+            easeType: 0
+            constant: 10
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        range:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -180, y: 180}
+            minMaxValue: {x: 0, y: 100}
+            easeType: 0
+            constant: 5
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+        cookie:
+          propertyOverride: 1
+          sortOrder: 0
+          value: {fileID: 0}

@@ -449,132 +449,142 @@ namespace StageLightManeuver
                 var minMaxValueProperty = serializedProperty.FindPropertyRelative("minMaxValue");
                 var minMaxValue = minMaxValueProperty.vector2Value;
                 var minMaxLimit = minMaxLimitProperty.vector2Value;
-                
-                
 
-                
-                if (mode.enumValueIndex == 0)
+
+
+                if (mode.propertyType == SerializedPropertyType.Enum)
                 {
-                    using (new EditorGUILayout.HorizontalScope())
+                    if (mode.enumValueIndex == 0)
                     {
-                        var easeType = serializedProperty.FindPropertyRelative("easeType");
-                        EditorGUI.BeginChangeCheck();
-                        EditorGUILayout.PropertyField(easeType);
-                        if(EditorGUI.EndChangeCheck())
-                        {
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                            // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                        }
-                    }
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        EditorGUILayout.BeginHorizontal();
                         using (new EditorGUILayout.HorizontalScope())
                         {
-                            using (new LabelWidth(110))
+                            var easeType = serializedProperty.FindPropertyRelative("easeType");
+                            EditorGUI.BeginChangeCheck();
+                            EditorGUILayout.PropertyField(easeType);
+                            if (EditorGUI.EndChangeCheck())
                             {
-                                EditorGUI.BeginChangeCheck();
-                                var min = EditorGUILayout.FloatField("Min Limit",
-                                    minMaxLimitProperty.vector2Value.x);
-                                if (EditorGUI.EndChangeCheck())
-                                {
-                                    min = min >= minMaxLimit.y ? minMaxLimit.y-1 : min;
-                                    minMaxLimitProperty.vector2Value = new Vector2(min, minMaxLimitProperty.vector2Value.y);
-                                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                                    
-                                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                                }
+                                serializedProperty.serializedObject.ApplyModifiedProperties();
+                                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                             }
                         }
-                
-                        GUILayout.FlexibleSpace();
+
                         using (new EditorGUILayout.HorizontalScope())
                         {
-                            using (new LabelWidth(110))
+                            EditorGUILayout.BeginHorizontal();
+                            using (new EditorGUILayout.HorizontalScope())
                             {
-                                EditorGUI.BeginChangeCheck();
-                                var max = EditorGUILayout.FloatField("Max Limit",
-                                    minMaxLimitProperty.vector2Value.y);
-                                if (EditorGUI.EndChangeCheck())
+                                using (new LabelWidth(110))
                                 {
-                                    max = max <= minMaxLimit.x ? minMaxLimit.x+1 : max;
-                                    minMaxLimitProperty.vector2Value = new Vector2(minMaxLimitProperty.vector2Value.x, max);
-                                    serializedProperty.serializedObject.ApplyModifiedProperties();
+                                    EditorGUI.BeginChangeCheck();
+                                    var min = EditorGUILayout.FloatField("Min Limit",
+                                        minMaxLimitProperty.vector2Value.x);
+                                    if (EditorGUI.EndChangeCheck())
+                                    {
+                                        min = min >= minMaxLimit.y ? minMaxLimit.y - 1 : min;
+                                        minMaxLimitProperty.vector2Value =
+                                            new Vector2(min, minMaxLimitProperty.vector2Value.y);
+                                        serializedProperty.serializedObject.ApplyModifiedProperties();
+
+                                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
+                                    }
                                 }
                             }
+
+                            GUILayout.FlexibleSpace();
+                            using (new EditorGUILayout.HorizontalScope())
+                            {
+                                using (new LabelWidth(110))
+                                {
+                                    EditorGUI.BeginChangeCheck();
+                                    var max = EditorGUILayout.FloatField("Max Limit",
+                                        minMaxLimitProperty.vector2Value.y);
+                                    if (EditorGUI.EndChangeCheck())
+                                    {
+                                        max = max <= minMaxLimit.x ? minMaxLimit.x + 1 : max;
+                                        minMaxLimitProperty.vector2Value =
+                                            new Vector2(minMaxLimitProperty.vector2Value.x, max);
+                                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                                    }
+                                }
+                            }
+
+                            EditorGUILayout.EndHorizontal();
                         }
-                
-                        EditorGUILayout.EndHorizontal();
+
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+
+                            var minValue = minMaxValueProperty.vector2Value.x;
+                            var maxValue = minMaxValueProperty.vector2Value.y;
+
+                            if (minMaxLimit.x > minMaxValueProperty.vector2Value.x)
+                            {
+                                minMaxValueProperty.vector2Value =
+                                    new Vector2(minMaxLimit.x, minMaxValueProperty.vector2Value.y);
+                                serializedProperty.serializedObject.ApplyModifiedProperties();
+                            }
+
+                            if (minMaxLimit.y < minMaxValueProperty.vector2Value.y)
+                            {
+                                minMaxValueProperty.vector2Value =
+                                    new Vector2(minMaxValueProperty.vector2Value.x, minMaxLimit.y);
+                                serializedProperty.serializedObject.ApplyModifiedProperties();
+                            }
+
+                            EditorGUI.BeginChangeCheck();
+                            var x = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.x, GUILayout.Width(80));
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                minMaxValueProperty.vector2Value = new Vector2(x, minMaxValueProperty.vector2Value.y);
+                                serializedProperty.serializedObject.ApplyModifiedProperties();
+                                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
+                            }
+
+                            EditorGUI.BeginChangeCheck();
+                            EditorGUILayout.MinMaxSlider(ref minValue,
+                                ref maxValue,
+                                minMaxLimitProperty.vector2Value.x, minMaxLimitProperty.vector2Value.y);
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                minMaxValueProperty.vector2Value = new Vector2(minValue, maxValue);
+                                serializedProperty.serializedObject.ApplyModifiedProperties();
+                                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
+                            }
+
+                            EditorGUI.BeginChangeCheck();
+                            var y = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.y, GUILayout.Width(80));
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                minMaxValueProperty.vector2Value = new Vector2(x, y);
+                                serializedProperty.serializedObject.ApplyModifiedProperties();
+                                // if(stageLightProfile) stageLightProfile.isUpdateGuiFlag = true;
+                            }
+                        }
                     }
-                    using (new EditorGUILayout.HorizontalScope())
+
+                    if (mode.enumValueIndex == 1)
                     {
-
-                        var minValue = minMaxValueProperty.vector2Value.x;
-                        var maxValue = minMaxValueProperty.vector2Value.y;
-
-                        if(minMaxLimit.x > minMaxValueProperty.vector2Value.x)
-                        {
-                            minMaxValueProperty.vector2Value = new Vector2(minMaxLimit.x, minMaxValueProperty.vector2Value.y);
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                        }
-                        
-                        if(minMaxLimit.y < minMaxValueProperty.vector2Value.y)
-                        {
-                            minMaxValueProperty.vector2Value = new Vector2(minMaxValueProperty.vector2Value.x, minMaxLimit.y);
-                            serializedProperty.serializedObject.ApplyModifiedProperties();  
-                        }
-                        
+                        var curve = serializedProperty.FindPropertyRelative("animationCurve");
                         EditorGUI.BeginChangeCheck();
-                        var x = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.x, GUILayout.Width(80));
+
+                        EditorGUILayout.PropertyField(curve);
                         if (EditorGUI.EndChangeCheck())
                         {
-                            minMaxValueProperty.vector2Value = new Vector2(x, minMaxValueProperty.vector2Value.y);
+                            serializedProperty.serializedObject.ApplyModifiedProperties();
+                            // stageLightProfile.isUpdateGuiFlag = true;
+                        }
+                    }
+
+                    if (mode.enumValueIndex == 2)
+                    {
+                        var constant = serializedProperty.FindPropertyRelative("constant");
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(constant);
+                        if (EditorGUI.EndChangeCheck())
+                        {
                             serializedProperty.serializedObject.ApplyModifiedProperties();
                             // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                         }
-                        EditorGUI.BeginChangeCheck();
-                        EditorGUILayout.MinMaxSlider(ref minValue,
-                            ref maxValue,
-                            minMaxLimitProperty.vector2Value.x, minMaxLimitProperty.vector2Value.y);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            minMaxValueProperty.vector2Value = new Vector2(minValue, maxValue);
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                            // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                        }
-                        
-                        EditorGUI.BeginChangeCheck();
-                        var y = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.y, GUILayout.Width(80));
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            minMaxValueProperty.vector2Value = new Vector2(x, y);
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                            // if(stageLightProfile) stageLightProfile.isUpdateGuiFlag = true;
-                        }
-                    }
-                }
-                if(mode.enumValueIndex == 1)
-                {
-                    var curve = serializedProperty.FindPropertyRelative("animationCurve");
-                    EditorGUI.BeginChangeCheck();
-                
-                    EditorGUILayout.PropertyField(curve);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        serializedProperty.serializedObject.ApplyModifiedProperties();
-                        // stageLightProfile.isUpdateGuiFlag = true;
-                    }
-                }
-                
-                if (mode.enumValueIndex == 2)
-                {
-                    var constant = serializedProperty.FindPropertyRelative("constant");
-                    EditorGUI.BeginChangeCheck();
-                    EditorGUILayout.PropertyField(constant);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        serializedProperty.serializedObject.ApplyModifiedProperties();
-                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
 

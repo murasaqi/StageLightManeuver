@@ -69,7 +69,7 @@ namespace StageLightManeuver
     [Serializable]
       public class ClockOverride
     {
-        [DisplayName("Loop Type")] public LoopType loopType;
+        [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
         [DisplayName("Offset Time")] public float offsetTime;
         [DisplayName("BPM Scale")]public float bpmScale;
         [DisplayName("Child Stagger")]public float childStagger;
@@ -108,12 +108,14 @@ namespace StageLightManeuver
     {
         public SlmToggleValue<ClockOverride> clockOverride = new  SlmToggleValue<ClockOverride>()
         {
+            value = new ClockOverride(),
             sortOrder = -999
         };
 
         public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
         {
-            clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
+            if(clockOverride.value != null && clockOverride.value.arrayStaggerValue != null)
+                clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
         }
     }
     
