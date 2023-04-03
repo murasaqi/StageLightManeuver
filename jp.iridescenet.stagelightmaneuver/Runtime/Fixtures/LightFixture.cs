@@ -60,6 +60,7 @@ namespace StageLightManeuver
 #endif
             foreach (var light in lights)
             {
+                if(light == null) continue;
                 lightColor = light.color;
                 lightIntensity = light.intensity;
                 spotAngle = light.spotAngle;
