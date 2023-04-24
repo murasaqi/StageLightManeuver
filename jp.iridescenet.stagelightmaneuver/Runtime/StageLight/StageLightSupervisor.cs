@@ -64,7 +64,7 @@ namespace StageLightManeuver
 
         public void EvaluateQue(float time)
         {
-            foreach (var stageLight in stageLights)
+            foreach (var stageLight in allStageLights)
             {
                  if(stageLight != null)stageLight.EvaluateQue(time);
             }
@@ -92,7 +92,7 @@ namespace StageLightManeuver
 
         public void UpdateFixture()
         {
-            foreach (var stageLightBase in stageLights)
+            foreach (var stageLightBase in allStageLights)
             {
                 if(stageLightBase != null)stageLightBase.UpdateFixture();
             }
