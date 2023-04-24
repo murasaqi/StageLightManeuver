@@ -22,7 +22,7 @@ namespace StageLightManeuver
             allStageLights.AddRange(stageLights);
             foreach (var stageLightSupervisor in stageLightSupervisors)
             {
-                allStageLights.AddRange(stageLightSupervisor.stageLights);
+                allStageLights.AddRange(stageLightSupervisor.allStageLights);
             }
             
             
