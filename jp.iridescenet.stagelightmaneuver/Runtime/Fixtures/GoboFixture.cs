@@ -52,7 +52,7 @@ namespace StageLightManeuver
 
         public override void EvaluateQue(float time)
         {
-            timelineTime = time;
+            timelineTime = 0;
             goboTexture = null;
             speed = 0f;
             while (stageLightDataQueue.Count > 0)
@@ -63,40 +63,28 @@ namespace StageLightManeuver
                 
                 if(goboProperty == null || stageLightBaseProperties == null)continue;
 
-                var t = GetNormalizedTime(time, queueData, typeof(GoboProperty));
-
-
-                if(goboProperty ==null || stageLightBaseProperties == null) continue;
+                var t = SlmUtility.GetNormalizedTime(time, queueData, typeof(GoboProperty), Index);
+               timelineTime += (time+SlmUtility.GetOffsetTime(time,queueData,typeof(GoboProperty),Index)) * queueData.weight;
                 if (queueData.weight > 0.5f)
                 {
                     goboTexture = goboProperty.goboTexture.value;
                     goboPropertyName = goboProperty.goboPropertyName.value;
                 }
-
-                if (goboProperty.goroRotationSpeed.value.mode == AnimationMode.Ease)
-                {
-                    speed +=EaseUtil.GetEaseValue(goboProperty.goroRotationSpeed.value.easeType, time, 1f, goboProperty.goroRotationSpeed.value.valueRange.x,
-                        goboProperty.goroRotationSpeed.value.valueRange.y) * queueData.weight;
-                    
-                }
-                else if(goboProperty.goroRotationSpeed.value.mode == AnimationMode.AnimationCurve)
-                {
-                    speed += goboProperty.goroRotationSpeed.value.animationCurve.Evaluate(t) * queueData.weight;     
-                }
-                else if(goboProperty.goroRotationSpeed.value.mode == AnimationMode.Constant)
-                {
-                    speed += goboProperty.goroRotationSpeed.value.constant * queueData.weight;     
-                }
+                
+                speed += goboProperty.goboRotationSpeed.value.Evaluate(t) * queueData.weight;
                
             }
+            
+            
         }
+        
 
         public override void UpdateFixture()
         {
             
             if (goboTransform != null)
             {
-                goboTransform.localEulerAngles = goboRotationOffset + (goboRotateVector *(speed*timelineTime));
+                goboTransform.localEulerAngles = goboRotationOffset + (goboRotateVector*speed*timelineTime);
             }
             if (meshRenderer != null)
             {

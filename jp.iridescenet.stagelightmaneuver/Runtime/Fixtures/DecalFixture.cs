@@ -91,6 +91,8 @@ namespace StageLightManeuver
                                                           Mathf.Clamp(decalColor.b,0,1))));
             decalProjector.material.SetColor("_Color",decalColor);
             decalProjector.material.SetTexture("_MainTex",decalTexture);
+            
+            decalProjector.gameObject.SetActive(decalTexture != null);
         }
         public override void Init()
         {
