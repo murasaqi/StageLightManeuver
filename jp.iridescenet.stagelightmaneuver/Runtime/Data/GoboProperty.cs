@@ -1,6 +1,7 @@
 #if USE_VLB_ALTER
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
@@ -9,16 +10,16 @@ namespace StageLightManeuver
     {
         [DisplayName("Gobo Texture")]public SlmToggleValue<Texture2D> goboTexture;
         [DisplayName("Gobo Property Name")]public SlmToggleValue<string> goboPropertyName;
-        [DisplayName("Rotation Speed")]public SlmToggleValue<MinMaxEasingValue> goroRotationSpeed;
+        [FormerlySerializedAs("goroRotationSpeed")] [DisplayName("Rotation Speed")]public SlmToggleValue<MinMaxEasingValue> goboRotationSpeed;
 
         public GoboProperty()
         {
             propertyName = "Gobo";
             propertyOverride = false;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>(){value = new BpmOverrideToggleValueBase()};
+            clockOverride = new SlmToggleValue<ClockOverride>();
             goboTexture = new SlmToggleValue<Texture2D>(){value = null};
             goboPropertyName = new SlmToggleValue<string>(){value = "_GoboTexture"};
-            goroRotationSpeed = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()};
+            goboRotationSpeed = new SlmToggleValue<MinMaxEasingValue>(){value = new MinMaxEasingValue()};
         }
 
         public override void ToggleOverride(bool toggle)
@@ -27,24 +28,20 @@ namespace StageLightManeuver
             propertyOverride = toggle;
             goboTexture.propertyOverride = toggle;
             goboPropertyName.propertyOverride = toggle;
-            goroRotationSpeed.propertyOverride = toggle;
+            goboRotationSpeed.propertyOverride = toggle;
         }
 
         public GoboProperty(GoboProperty other)
         {
             propertyName = other.propertyName;
             propertyOverride = other.propertyOverride;
-            bpmOverrideData = new SlmToggleValue<BpmOverrideToggleValueBase>()
-            {
-                propertyOverride = other.bpmOverrideData.propertyOverride,
-                value = new BpmOverrideToggleValueBase(other.bpmOverrideData.value)
-            };
+            clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             goboTexture = new SlmToggleValue<Texture2D>(){value =  other.goboTexture.value};
             goboPropertyName = new SlmToggleValue<string>(){value = other.goboPropertyName.value};
-            goroRotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
+            goboRotationSpeed = new SlmToggleValue<MinMaxEasingValue>()
             {
-                propertyOverride = other.goroRotationSpeed.propertyOverride,
-                value = new MinMaxEasingValue( other.goroRotationSpeed.value)
+                propertyOverride = other.goboRotationSpeed.propertyOverride,
+                value = new MinMaxEasingValue( other.goboRotationSpeed.value)
             };
         }
     }

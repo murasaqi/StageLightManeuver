@@ -29,8 +29,6 @@ namespace StageLightManeuver
         public override void EvaluateQue(float time)
         {
 
-            // rotationAxis = Vector3.zero;
-            // rotationSpeed = 0f;
             rotationSpeed = 0f;
             rotation = 0f;
             var offsetTime = 0f;
@@ -44,17 +42,12 @@ namespace StageLightManeuver
                     return;
 
                 var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(RotationProperty),Index);
-                offsetTime += SlmUtility.GetOffsetTime(queueData, typeof(RotationProperty),Index) * queueData.weight;
-
-                // rotationAxis += rotationProperty.rotationAxis.value * queueData.weight;
+                offsetTime += SlmUtility.GetOffsetTime(time, queueData, typeof(RotationProperty),Index) * queueData.weight;
                 rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime) * queueData.weight;
-                // Debug.Log($"{Index}: {(time * offsetTime)}, {rotationSpeed}");
-                // rotation += rotationSpeed * (time * offsetTime) * queueData.weight;
-
+              
             }
 
-            rotation = (rotationSpeed * (time + offsetTime)) % 360;
-            // rotationSpeed = rotationSpeed % 360;
+            rotation = (rotationSpeed * offsetTime) % 360;
         }
 
         public override void UpdateFixture()

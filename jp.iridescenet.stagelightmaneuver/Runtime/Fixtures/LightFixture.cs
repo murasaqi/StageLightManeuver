@@ -32,6 +32,14 @@ namespace StageLightManeuver
         public float innerSpotAngle;
         public float spotRange;
         public Texture lightCookie;
+        public float limitIntensityMin = 0f;
+        public float limitIntensityMax = 10000f;
+        public float limitSpotAngleMin = 0f;
+        public float limitSpotAngleMax = 100f;
+        public float limitInnerSpotAngleMin = 0f;
+        public float limitInnerSpotAngleMax = 100f;
+        public float limitSpotRangeMin = 0f;
+        public float limitSpotRangeMax = 100f;
 #if USE_VLB
         public VolumetricLightBeamHD volumetricLightBeamHd;
         public VolumetricCookieHD volumetricCookieHd;
@@ -158,6 +166,13 @@ namespace StageLightManeuver
 #endif
                 }
             }
+            
+            lightIntensity = Mathf.Clamp(lightIntensity, limitIntensityMin, limitIntensityMax);
+            spotAngle = Mathf.Clamp(spotAngle, limitSpotAngleMin, limitSpotAngleMax);
+            innerSpotAngle = Mathf.Clamp(innerSpotAngle, limitInnerSpotAngleMin, limitInnerSpotAngleMax);
+            spotRange = Mathf.Clamp(spotRange, limitSpotRangeMin, limitSpotRangeMax);
+            
+            
         }
 
         public override void UpdateFixture()

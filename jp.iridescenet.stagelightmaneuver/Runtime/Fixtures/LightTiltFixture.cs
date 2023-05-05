@@ -18,6 +18,9 @@ namespace StageLightManeuver
         private float maxSpeed = float.PositiveInfinity;
         [FormerlySerializedAs("smoothness")] public bool useSmoothness = false;
         private float previousAngle = 0f;
+        public float minAngleValue = -360;
+        public float maxAngleValue = 360;
+        
         public override void EvaluateQue(float currentTime)
         {
             base.EvaluateQue(currentTime);
@@ -64,6 +67,8 @@ namespace StageLightManeuver
                 if(weight > 0.5f) useSmoothness = qTiltProperty.useSmoothness.value;
 
             }
+            
+            _angle = Mathf.Clamp(_angle, minAngleValue, maxAngleValue);
         }
         
         void Start()
