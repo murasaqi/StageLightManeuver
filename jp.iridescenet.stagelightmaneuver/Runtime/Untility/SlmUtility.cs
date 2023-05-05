@@ -24,17 +24,22 @@ namespace StageLightManeuver
 
         public static List<Type> SlmPropertyTypes = GetTypes(typeof(SlmProperty));
         
-        public static float GetOffsetTime(StageLightQueueData queData, Type propertyType,int index)
+        public static float GetOffsetTime(float currentTime, StageLightQueueData queData, Type propertyType,int index)
         {
             var additionalProperty = queData.TryGet(propertyType) as SlmAdditionalProperty;
             var clockProperty = queData.TryGet<ClockProperty>();
             var bpm =clockProperty.bpm.value;
-            var bpmOffset = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
+            var staggerDelay = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
             var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
+            var offsetTime = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.offsetTime :clockProperty.offsetTime.value;
+           
             var scaledBpm = bpm * bpmScale;
             var duration = 60 / scaledBpm;
-            var offset = duration* bpmOffset * (index+1);
-            return offset;
+            var offset = duration* staggerDelay * (index+1);
+            // var offsetTime = time + offset;
+            
+            
+            return currentTime+offset;
         }
         
         public static float GetNormalizedTime(float currentTime, ClockProperty clockOverride, SlmAdditionalProperty slmAdditionalProperty)
@@ -54,6 +59,7 @@ namespace StageLightManeuver
         
         public static float GetNormalizedTime(float time ,StageLightQueueData queData, Type propertyType,int index = 0)
         {
+            
             var additionalProperty = queData.TryGet(propertyType);
             var clockProperty = queData.TryGet<ClockProperty>();
             var weight = queData.weight;

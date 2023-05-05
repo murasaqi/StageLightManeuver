@@ -25,13 +25,14 @@ namespace StageLightManeuver
         private float _angle;
         public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
-        public Vector3 currentVelocity;
+        private Vector3 currentVelocity;
         public float smoothTime = 0.1f;
         private float maxSpeed = float.PositiveInfinity;
         private bool ignore = false;
         public bool useSmoothness = false;
-        public LightTransformType LightTransformType => _lightTransformType;
         private float previousAngle = 0f;
+        public float minAngleValue = -360;
+        public float maxAngleValue = 360;
         void Start()
         {
             Init();
@@ -101,6 +102,10 @@ namespace StageLightManeuver
                 
             }
             
+            
+            
+            // if over limit angle, clamp it
+            _angle = Mathf.Clamp(_angle, minAngleValue, maxAngleValue);
         }
         
         public override void UpdateFixture()
