@@ -136,11 +136,13 @@ namespace StageLightManeuver
             return lightStaggerInfo[index];
         }
         
-        public float Evaluate(float time, float totalDuration,int index)
+        public float Evaluate(float normalizedTime,int index)
         {
             var staggerStartEnd = GetStaggerStartEnd(index);
-            var progress = Mathf.InverseLerp(staggerStartEnd.x*totalDuration, staggerStartEnd.y*totalDuration, time);
-            return animationCurve.Evaluate(progress);
+            var progress = Mathf.InverseLerp(staggerStartEnd.x, staggerStartEnd.y, normalizedTime);
+            var resut = animationCurve.Evaluate(progress);
+            return resut;
+
         }
     }
   

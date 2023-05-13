@@ -42,7 +42,6 @@ namespace StageLightManeuver
                 float inputWeight = playable.GetInputWeight(i);
                 ScriptPlayable<StageLightTimelineBehaviour> inputPlayable =
                     (ScriptPlayable<StageLightTimelineBehaviour>)playable.GetInput(i);
-                // StageLightTimelineBehaviour input = inputPlayable.GetBehaviour ();
                 var timeProperty = stageLightTimelineClip.StageLightQueueData.TryGet<ClockProperty>();
                 if (timeProperty != null)
                 {

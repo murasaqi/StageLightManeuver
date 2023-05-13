@@ -119,9 +119,7 @@ namespace StageLightManeuver
             }
             else if(loopType == LoopType.FixedStagger)
             {
-                // var staggerStartEnd =arrayStaggerValue.GetStaggerStartEnd(index);
-                var clipDuration = clipProperty.clipEndTime - clipProperty.clipStartTime;
-                result = arrayStaggerValue.Evaluate(time, clipDuration, index);
+                result = arrayStaggerValue.Evaluate( Mathf.InverseLerp(clipProperty.clipStartTime, clipProperty.clipEndTime, time), index);
             }
            
             return result;

@@ -64,8 +64,7 @@ namespace StageLightManeuver
                 if (qPanProperty == null || qLightBaseProperty == null) continue;
               
                 var normalizedTime = SlmUtility.GetNormalizedTime(currentTime,queueData,typeof(PanProperty),Index);
-                
-                
+
                 var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
                var lookAtProperty = queueData.TryGet<LookAtProperty>();
                ignore = lookAtProperty != null;
@@ -84,16 +83,11 @@ namespace StageLightManeuver
                                 _angle += (positions[Index].pan+qPanProperty.rollTransform.value.Evaluate(normalizedTime)) * weight;
                                 break;
                         }
-                            // Debug.Log($"pan({Index}): {positions[Index].pan}, weight: {weight}");
                     }
-                    
                 }
                 else
                 {
-                    
-                
                     _angle += qPanProperty.rollTransform.value.Evaluate(normalizedTime) * weight;
-                     
                 }
                 
                 smoothTime += qPanProperty.smoothTime.value * weight;
@@ -101,9 +95,6 @@ namespace StageLightManeuver
                
                 
             }
-            
-            
-            
             // if over limit angle, clamp it
             _angle = Mathf.Clamp(_angle, minAngleValue, maxAngleValue);
         }
