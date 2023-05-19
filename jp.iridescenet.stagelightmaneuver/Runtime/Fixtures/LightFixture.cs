@@ -83,12 +83,13 @@ namespace StageLightManeuver
                 volumetricLightBeamHd = light.GetComponent<VolumetricLightBeamHD>();
                 volumetricCookieHd = light.GetComponent<VolumetricCookieHD>();
 #endif
-                PropertyTypes = new List<Type>();
-                PropertyTypes.Add(typeof(LightProperty));
-                PropertyTypes.Add(typeof(LightColorProperty));
-                PropertyTypes.Add(typeof(LightIntensityProperty));
                 // PropertyType.Add(typeof(property));
             }
+            PropertyTypes = new List<Type>();
+            PropertyTypes.Add(typeof(LightProperty));
+            PropertyTypes.Add(typeof(LightColorProperty));
+            PropertyTypes.Add(typeof(LightIntensityProperty));
+
         }
 
         public override void EvaluateQue(float currentTime)
