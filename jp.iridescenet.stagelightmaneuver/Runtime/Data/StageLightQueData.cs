@@ -21,7 +21,7 @@ namespace StageLightManeuver
         public StageLightQueData()
         {
             stageLightProperties = new List<SlmProperty>();
-            stageLightProperties.Add(new TimeProperty());
+            // stageLightProperties.Add(new TimeProperty());
             weight = 1f;
         }
         public T TryGet<T>() where T : SlmProperty

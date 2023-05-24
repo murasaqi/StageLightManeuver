@@ -40,34 +40,34 @@ namespace StageLightManeuver
             clockOverride.propertyOverride = toggle;
         }
 
-        public override void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public override void ResyncArraySize(List<StageLightBase> stageLights)
         {
             var colorPrimitiveValues = colorValues.value;
-            if (colorPrimitiveValues.Count < stageLightSupervisor.AllStageLights.Count)
+            if (colorPrimitiveValues.Count < stageLights.Count)
             {
-                while (colorPrimitiveValues.Count < stageLightSupervisor.AllStageLights.Count)
+                while (colorPrimitiveValues.Count < stageLights.Count)
                 {
                     colorPrimitiveValues.Add(new ColorPrimitiveValue());
                 }
 
             }
 
-            if (colorPrimitiveValues.Count > stageLightSupervisor.AllStageLights.Count)
+            if (colorPrimitiveValues.Count > stageLights.Count)
             {
-                while (colorPrimitiveValues.Count > stageLightSupervisor.AllStageLights.Count)
+                while (colorPrimitiveValues.Count > stageLights.Count)
                 {
                     colorPrimitiveValues.RemoveAt(colorPrimitiveValues.Count - 1);
                 }
             }
 
-            for (int j = 0; j < stageLightSupervisor.AllStageLights.Count; j++)
+            for (int j = 0; j < stageLights.Count; j++)
             {
                 // if not index is out of range
-                if (j < colorPrimitiveValues.Count && j < stageLightSupervisor.AllStageLights.Count)
+                if (j < colorPrimitiveValues.Count && j < stageLights.Count)
                 {
-                    if (colorPrimitiveValues[j] != null && stageLightSupervisor.AllStageLights[j] != null)
+                    if (colorPrimitiveValues[j] != null && stageLights[j] != null)
                     {
-                        colorPrimitiveValues[j].name = stageLightSupervisor.AllStageLights[j].name;
+                        colorPrimitiveValues[j].name = stageLights[j].name;
                     }
 
                 }

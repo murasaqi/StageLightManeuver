@@ -67,7 +67,7 @@ namespace StageLightManeuver
                 var data = stageLightDataQueue.Dequeue();
                 // var t=GetNormalizedTime(currentTime,data,typeof(SyncLightMaterialProperty));
 
-                var syncLightMaterialProperty = data.TryGet<SyncLightMaterialProperty>();
+                var syncLightMaterialProperty = data.TryGetActiveProperty<SyncLightMaterialProperty>();
                 if(syncLightMaterialProperty != null)
                 {
                     intensityMultiplier += syncLightMaterialProperty.intensitymultiplier.value * data.weight;

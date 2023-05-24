@@ -42,7 +42,7 @@ namespace StageLightManeuver
                 float inputWeight = playable.GetInputWeight(i);
                 ScriptPlayable<StageLightTimelineBehaviour> inputPlayable =
                     (ScriptPlayable<StageLightTimelineBehaviour>)playable.GetInput(i);
-                var timeProperty = stageLightTimelineClip.StageLightQueueData.TryGet<ClockProperty>();
+                var timeProperty = stageLightTimelineClip.StageLightQueueData.TryGetActiveProperty<ClockProperty>();
                 if (timeProperty != null)
                 {
                     timeProperty.clipProperty.clipStartTime = (float)clip.start;
@@ -55,7 +55,7 @@ namespace StageLightManeuver
                     if (stageLightProperty.GetType().GetInterfaces().Contains(typeof(IArrayProperty)) )
                     {
                         var additionalArrayProperty = stageLightProperty as IArrayProperty;
-                        additionalArrayProperty?.ResyncArraySize(trackBinding);
+                        additionalArrayProperty?.ResyncArraySize(trackBinding.AllStageLights);
                     }
                 }
                 

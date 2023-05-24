@@ -19,7 +19,7 @@ using VLB;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
-    [AddComponentMenu("")]
+    // [AddComponentMenu("")]
     public class LightFixture : StageLightFixtureBase
     {
         public List<Light> lights = new List<Light>();
@@ -106,20 +106,18 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count>0)
             {
                 var data = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperty= data.TryGet<ClockProperty>() as ClockProperty;
-                var lightProperty = data.TryGet<LightProperty>() as LightProperty;
-                var lightColorProperty = data.TryGet<LightColorProperty>() as LightColorProperty;
-                var lightIntensityProperty = data.TryGet<LightIntensityProperty>() as LightIntensityProperty;
+                var stageLightBaseProperty= data.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var lightProperty = data.TryGetActiveProperty<LightProperty>() as LightProperty;
+                var lightColorProperty = data.TryGetActiveProperty<LightColorProperty>() as LightColorProperty;
+                var lightIntensityProperty = data.TryGetActiveProperty<LightIntensityProperty>() as LightIntensityProperty;
                 var weight = data.weight;
                 if(lightProperty == null || stageLightBaseProperty == null) continue;
              
                 // Debug.Log($"{lightProperty.clockOverride.value.childStagger}, {lightProperty.clockOverride.value.propertyOverride}");
                 var normalizedTime = SlmUtility.GetNormalizedTime(currentTime, data, typeof(LightProperty),Index);
-                var manualLightArrayProperty = data.TryGet<ManualLightArrayProperty>();
-                var manualColorArrayProperty = data.TryGet<ManualColorArrayProperty>();
+                var manualLightArrayProperty = data.TryGetActiveProperty<ManualLightArrayProperty>();
+                var manualColorArrayProperty = data.TryGetActiveProperty<ManualColorArrayProperty>();
                 
-                
-
                 if (manualLightArrayProperty != null)
                 {
                     var values = manualLightArrayProperty.lightValues.value;

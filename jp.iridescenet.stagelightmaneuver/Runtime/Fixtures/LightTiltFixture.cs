@@ -8,7 +8,7 @@ namespace StageLightManeuver
     [AddComponentMenu("")]
     public class LightTiltFixture: StageLightFixtureBase
     {
-        private LightTransformType _lightTransformType = LightTransformType.Tilt;
+        // private LightTransformType _lightTransformType = LightTransformType.Tilt;
         private float _angle =0f;
         public Vector3 rotationVector = Vector3.left;
         public Transform rotateTransform;
@@ -30,14 +30,14 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count>0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var qTiltProperty = queueData.TryGet<TiltProperty>() as TiltProperty;
-                var timeProperty = queueData.TryGet<ClockProperty>() as ClockProperty;
+                var qTiltProperty = queueData.TryGetActiveProperty<TiltProperty>() as TiltProperty;
+                var timeProperty = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
                 var weight = queueData.weight;
                 if (qTiltProperty == null || timeProperty == null) continue;
                 var normalizedTime = SlmUtility.GetNormalizedTime(currentTime, queueData, typeof(TiltProperty), Index);
-                var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
+                var manualPanTiltProperty = queueData.TryGetActiveProperty<ManualPanTiltProperty>();
                 
-                var lookAtProperty = queueData.TryGet<LookAtProperty>();
+                var lookAtProperty = queueData.TryGetActiveProperty<LookAtProperty>();
                 ignore = lookAtProperty != null;
                 
                 if(manualPanTiltProperty != null)

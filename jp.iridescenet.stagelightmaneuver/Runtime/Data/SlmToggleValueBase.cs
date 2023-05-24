@@ -100,7 +100,8 @@ namespace StageLightManeuver
       
       public interface IArrayProperty
       {
-          void ResyncArraySize(StageLightSupervisor stageLightSupervisor);
+          // void ResyncArraySize(StageLightSupervisor stageLightSupervisor);
+          public void ResyncArraySize(List<StageLightBase> stageLights);
       } 
     
     [Serializable]
@@ -112,13 +113,20 @@ namespace StageLightManeuver
             sortOrder = -999
         };
 
-        public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public virtual void ResyncArraySize(List<StageLightBase> stageLights)
         {
             if(clockOverride.value != null && clockOverride.value.arrayStaggerValue != null)
-                clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
+                clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLights);
         }
     }
-    
+
+    [Serializable]
+    public class SlmBarLightProperty : SlmAdditionalProperty
+    {
+        public virtual void ResizeBarLightArray(List<LightFixture> lightFixtures)
+        {
+        }
+    }
  
     
     // [Serializable]

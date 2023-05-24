@@ -48,8 +48,8 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count>0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var timeProperty = queueData.TryGet<ClockProperty>();
-                var materialTextureProperty = queueData.TryGet<MaterialTextureProperty>();
+                var timeProperty = queueData.TryGetActiveProperty<ClockProperty>();
+                var materialTextureProperty = queueData.TryGetActiveProperty<MaterialTextureProperty>();
                 var weight = queueData.weight;
                 if (timeProperty == null || materialTextureProperty == null)
                 {

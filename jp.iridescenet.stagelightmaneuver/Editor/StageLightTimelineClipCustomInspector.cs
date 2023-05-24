@@ -139,10 +139,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     var action = new Action(() =>
                     {
                         stageLightProperties.Remove(slmProperty);
-                        return;
                     });     
-                    StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
                     EditorGUI.EndDisabledGroup();
+                    if(slmProperty.GetType() != typeof(ClockProperty))StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
+                    
                 }
             
                 DrawAddPropertyButton(stageLightTimelineClip);
@@ -186,8 +186,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {
                     var manualLightArrayProperty = property as ManualLightArrayProperty;
-                    var lightProperty = stageLightTimelineClip.StageLightQueueData.TryGet<LightProperty>();
-                    var lightIntensityProperty = stageLightTimelineClip.StageLightQueueData.TryGet<LightIntensityProperty>();
+                    var lightProperty = stageLightTimelineClip.StageLightQueueData.TryGetActiveProperty<LightProperty>();
+                    var lightIntensityProperty = stageLightTimelineClip.StageLightQueueData.TryGetActiveProperty<LightIntensityProperty>();
                     if(lightProperty != null)
                     {
                         manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
@@ -202,6 +202,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 stageLightTimelineClip.StageLightQueueData.stageLightProperties.Add(property);
                 serializedObject.ApplyModifiedProperties();
                 AssetDatabase.SaveAssets();
+                // refresh editor gui
+                EditorUtility.SetDirty(stageLightTimelineClip);
             }
             
             

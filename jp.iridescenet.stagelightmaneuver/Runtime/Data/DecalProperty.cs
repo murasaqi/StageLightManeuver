@@ -23,6 +23,7 @@ namespace StageLightManeuver
             decalDepthScaler = new SlmToggleValue<float> { value = 1f };
             fadeFactor = new SlmToggleValue<float> { value = 1f };
             opacity = new SlmToggleValue<float> { value = 1f };
+            
         }
 
         public override void ToggleOverride(bool toggle)
@@ -54,6 +55,8 @@ namespace StageLightManeuver
             decalDepthScaler = new SlmToggleValue<float>(other.decalDepthScaler);
             fadeFactor = new SlmToggleValue<float>(other.fadeFactor);
             opacity = new SlmToggleValue<float>(other.opacity);
+            
+            Debug.Log("DecalProperty Created");
         }
 
 

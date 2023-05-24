@@ -95,7 +95,7 @@ namespace StageLightManeuver
             {
                 stageLightFixtures = new List<StageLightFixtureBase>();
             }
-            StageLightFixtures = GetComponentsInChildren<StageLightFixtureBase>().ToList();
+            StageLightFixtures = GetComponents<StageLightFixtureBase>().ToList();
         }
     }
 }

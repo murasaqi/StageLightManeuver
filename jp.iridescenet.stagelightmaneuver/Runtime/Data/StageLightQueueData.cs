@@ -22,10 +22,9 @@ namespace StageLightManeuver
         {
             stageLightProperties = new List<SlmProperty>();
             stageLightProperties.Clear();
-            stageLightProperties.Add(new ClockProperty());
             weight = 1f;
         }
-        public T TryGet<T>() where T : SlmProperty
+        public T TryGetActiveProperty<T>() where T : SlmProperty
         {
             foreach (var property in stageLightProperties)
             {
@@ -33,7 +32,7 @@ namespace StageLightManeuver
                 {
                     continue;
                 }
-                if (property.GetType() == typeof(T))
+                if (property.GetType() == typeof(T) && property.propertyOverride)
                 {
                     return property as T;
                 }
@@ -41,7 +40,7 @@ namespace StageLightManeuver
             return null;
         }
         
-        public SlmAdditionalProperty TryGet(Type T) 
+        public SlmAdditionalProperty TryGetActiveProperty(Type T) 
         {
             foreach (var property in stageLightProperties)
             {
@@ -49,7 +48,7 @@ namespace StageLightManeuver
                 {
                     continue;
                 }
-                if (property.GetType() ==T)
+                if (property.GetType() ==T && property.propertyOverride)
                 {
                     return property as SlmAdditionalProperty;
                 }

@@ -26,8 +26,8 @@ namespace StageLightManeuver
         
         public static float GetOffsetTime(float currentTime, StageLightQueueData queData, Type propertyType,int index)
         {
-            var additionalProperty = queData.TryGet(propertyType) as SlmAdditionalProperty;
-            var clockProperty = queData.TryGet<ClockProperty>();
+            var additionalProperty = queData.TryGetActiveProperty(propertyType) as SlmAdditionalProperty;
+            var clockProperty = queData.TryGetActiveProperty<ClockProperty>();
             var bpm =clockProperty.bpm.value;
             var staggerDelay = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
             var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
@@ -60,8 +60,8 @@ namespace StageLightManeuver
         public static float GetNormalizedTime(float time ,StageLightQueueData queData, Type propertyType,int index = 0)
         {
             
-            var additionalProperty = queData.TryGet(propertyType);
-            var clockProperty = queData.TryGet<ClockProperty>();
+            var additionalProperty = queData.TryGetActiveProperty(propertyType);
+            var clockProperty = queData.TryGetActiveProperty<ClockProperty>();
             var weight = queData.weight;
             if (additionalProperty == null || clockProperty == null) return 0f;
             var bpm = clockProperty.bpm.value;

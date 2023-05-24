@@ -22,6 +22,7 @@ namespace StageLightManeuver
         public StageLightTimelineTrack track;
         public string exportPath = "";
         public StageLightTimelineMixerBehaviour mixer;
+        
         public ClipCaps clipCaps
         {
             get { return ClipCaps.Blending; }
@@ -44,7 +45,28 @@ namespace StageLightManeuver
             var queData = StageLightQueueData;
 
             var playabledirector = owner.GetComponent<PlayableDirector>();
-        
+
+            if (queData.stageLightProperties.Count <=0)
+            {
+                AddAllProperty(playabledirector, queData);
+            }
+
+            if (syncReferenceProfile && referenceStageLightProfile != null)
+            {
+                InitSyncData();
+            }
+
+            return playable;
+        }
+
+        private void AddAllProperty(PlayableDirector playabledirector, StageLightQueueData queData)
+        {
+            
+            if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
+            {
+                StageLightQueueData.stageLightProperties.Add(new ClockProperty());    
+            }
+            
             var propertyTypes = new List<Type>();
             foreach (var tAssetOutput in playabledirector.playableAsset.outputs)
             {
@@ -81,20 +103,8 @@ namespace StageLightManeuver
                     queData.stageLightProperties.Add(fixture);
                 }
             }
-
-            
-            // Debug.Log(owner);
-            
-            // Find StageLightSupervisor from owner
-           
-
-            if (syncReferenceProfile && referenceStageLightProfile != null)
-            {
-                InitSyncData();
-            }
-
-            return playable;
         }
+        
 
         
         public void InitStageLightProfile()
@@ -103,21 +113,7 @@ namespace StageLightManeuver
             {
                 behaviour.Init();
             }
-
-            if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
-            {
-                StageLightQueueData.stageLightProperties.Add(new ClockProperty());    
-            }
-            
-            // stageLightProfile.stageLightProperties.AddRange(behaviour.stageLightQueData.stageLightProperties);
         }
-        // private void SetInitValues()
-        // {
-        //     foreach (var VARIABLE in behaviour.stageLightQueData.stageLightProperties)
-        //     {
-        //         
-        //     }
-        // }
 
 
         [ContextMenu("Apply")]

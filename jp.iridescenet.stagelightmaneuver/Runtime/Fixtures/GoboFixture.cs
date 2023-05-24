@@ -58,8 +58,8 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperties = queueData.TryGet<TimeProperty>() as TimeProperty;
-                var goboProperty = queueData.TryGet<GoboProperty>() as GoboProperty;
+                var stageLightBaseProperties = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var goboProperty = queueData.TryGetActiveProperty<GoboProperty>() as GoboProperty;
                 
                 if(goboProperty == null || stageLightBaseProperties == null)continue;
 

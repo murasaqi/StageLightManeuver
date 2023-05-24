@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using StageLightManeuver.StageLightTimeline.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -86,10 +87,7 @@ namespace StageLightManeuver
                 {
                     DrawSlmToggleValue(property,marginBottom);
                 }
-
-                // if(property.name == "propertyOverride" ||
-                //    property.name == "propertyName") continue;
-                // DrawSlmToggleValue(property);
+                
 
             }
 
@@ -121,6 +119,7 @@ namespace StageLightManeuver
                 {
                     onRemove?.Invoke();
                     serializedObject.ApplyModifiedProperties();
+                    
                 }
                 GUILayout.FlexibleSpace();
             }
@@ -174,8 +173,12 @@ namespace StageLightManeuver
                 SerializedProperty value = serializedProperty.FindPropertyRelative("value");
                 if (value == null) return;
                 var valueObject = value.GetValue<object>();
-                if(valueObject == null) return;
+                // GetCustomAttributes
+             
+               if(valueObject == null) return;
 
+
+           
                 if (valueObject.GetType() == typeof(SlmToggleValue<ClockOverride>))
                 {
                     var slmToggleValue = valueObject as SlmToggleValue<ClockOverride>;
@@ -204,7 +207,14 @@ namespace StageLightManeuver
                 if (valueObject.GetType() == typeof(MinMaxEasingValue))
                 {
                     DrawMinMaxEaseUI(value);
-                }else if (valueObject.GetType() == typeof(ClockOverride))
+                    
+                }else if (valueObject.GetType() == typeof(ArrayStaggerValue))
+                {
+                    
+                    ArrayStaggerValue(value, valueObject as ArrayStaggerValue);
+                    
+                }
+                else if (valueObject.GetType() == typeof(ClockOverride))
                 {
                     var loopType = value.FindPropertyRelative("loopType");
                     var childDepth = value.depth+1;
@@ -212,7 +222,7 @@ namespace StageLightManeuver
                     {
                         if (value.depth == childDepth)
                         {
-                            if (loopType.enumValueIndex == 3)
+                            if (loopType.propertyType == SerializedPropertyType.Enum  &&  loopType.enumValueIndex == 3)
                             {
                                 if (value.name == "arrayStaggerValue")
                                 {
@@ -252,6 +262,9 @@ namespace StageLightManeuver
                         if (childProperty.name == "propertyOverride" ||
                             childProperty.name == "propertyName") continue;
                         EditorGUI.BeginChangeCheck();
+                     
+                        
+                     
                         EditorGUILayout.PropertyField(childProperty);
                         if (EditorGUI.EndChangeCheck())
                         {
@@ -267,7 +280,6 @@ namespace StageLightManeuver
                     if (EditorGUI.EndChangeCheck())
                     {
                         serializedProperty.serializedObject.ApplyModifiedProperties();
-                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
                 EditorGUI.EndDisabledGroup();

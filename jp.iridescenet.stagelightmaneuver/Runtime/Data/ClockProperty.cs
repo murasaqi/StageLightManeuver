@@ -35,7 +35,7 @@ namespace StageLightManeuver
             animationDuration = 1f;
             delayRatio = 0.1f;
             animationCurve = AnimationCurve.EaseInOut(0,0,1,1);
-            // lightStaggerInfo = new List<Vector2>();
+            lightStaggerInfo = new List<Vector2>();
             randomStaggerInfo = new List<Vector2>();
         }
         
@@ -47,9 +47,9 @@ namespace StageLightManeuver
             lightStaggerInfo = new List<Vector2>(arrayStaggerValue.lightStaggerInfo);
             randomStaggerInfo = new List<Vector2>(arrayStaggerValue.randomStaggerInfo);
         }
-        public void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public void ResyncArraySize(List<StageLightBase> stageLights)
         {
-            var countDifference = stageLightSupervisor.AllStageLights.Count - lightStaggerInfo.Count;
+            var countDifference = stageLights.Count - lightStaggerInfo.Count;
             if (countDifference > 0)
             {
                 for (int i = 0; i < countDifference; i++)
@@ -62,7 +62,7 @@ namespace StageLightManeuver
                 lightStaggerInfo.RemoveRange(lightStaggerInfo.Count + countDifference, -countDifference);
             }
             
-            countDifference = stageLightSupervisor.AllStageLights.Count - randomStaggerInfo.Count;
+            countDifference = stageLights.Count - randomStaggerInfo.Count;
             if (countDifference > 0)
             {
                 for (int i = 0; i < countDifference; i++)
@@ -170,9 +170,9 @@ namespace StageLightManeuver
             offsetTime = new SlmToggleValue<float>() { value = 0f };
         }
 
-        public void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public void ResyncArraySize(List<StageLightBase> stageLights)
         {
-            arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
+            arrayStaggerValue.ResyncArraySize(stageLights);
         }
         public override void ToggleOverride(bool toggle)
         {

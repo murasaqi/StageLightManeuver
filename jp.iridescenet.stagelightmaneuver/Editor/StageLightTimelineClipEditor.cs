@@ -155,7 +155,7 @@ namespace StageLightManeuver
                 customClip.InitStageLightProfile();
             }
             
-            var timeProperty = customClip.StageLightQueueData.TryGet<ClockProperty>();
+            var timeProperty = customClip.StageLightQueueData.TryGetActiveProperty<ClockProperty>();
             
             if (timeProperty != null)
             {
@@ -200,13 +200,13 @@ namespace StageLightManeuver
             if (!customClip) return tex;
 
             if(customClip.StageLightQueueData == null) return tex;
-            var lightProperty = customClip.StageLightQueueData.TryGet<LightProperty>();
-            var lightColorProperty = customClip.StageLightQueueData.TryGet<LightColorProperty>();
+            var lightProperty = customClip.StageLightQueueData.TryGetActiveProperty<LightProperty>();
+            var lightColorProperty = customClip.StageLightQueueData.TryGetActiveProperty<LightColorProperty>();
             if(lightColorProperty == null || lightProperty == null) return tex;
             if(lightColorProperty.lightToggleColor == null) return tex;
             var gradient = lightColorProperty.lightToggleColor.value;
             
-            var lightIntensityProperty = customClip.StageLightQueueData.TryGet<LightIntensityProperty>();
+            var lightIntensityProperty = customClip.StageLightQueueData.TryGetActiveProperty<LightIntensityProperty>();
             if (update) 
             {
                 _gradientTextures.Remove(customClip);
@@ -225,7 +225,7 @@ namespace StageLightManeuver
             
                 // var lightProfile = lightProperty;
                 
-                var timeProperty = customClip.StageLightQueueData.TryGet<ClockProperty>();
+                var timeProperty = customClip.StageLightQueueData.TryGetActiveProperty<ClockProperty>();
                 if (timeProperty != null)
                 {
                     
