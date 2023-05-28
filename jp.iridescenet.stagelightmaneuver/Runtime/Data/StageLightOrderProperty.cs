@@ -51,7 +51,6 @@ namespace StageLightManeuver
         public override void InitStageLightSupervisor(StageLightSupervisor stageLightSupervisor)
         {
             stageLightOrderQueue.stageLightOrderSettingList = stageLightSupervisor.stageLightOrderSettings;
-            Debug.Log(stageLightOrderQueue.stageLightOrderSettingList.Count);
         }
 
         public StageLightOrderProperty( StageLightOrderProperty other)

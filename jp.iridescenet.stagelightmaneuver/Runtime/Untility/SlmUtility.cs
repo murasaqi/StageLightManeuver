@@ -48,6 +48,9 @@ namespace StageLightManeuver
             var bpmOverrideData = slmAdditionalProperty.clockOverride;
             var offsetTime = bpmOverrideData.propertyOverride ? bpmOverrideData.value.offsetTime : clockOverride.offsetTime.value;
             var bpm =  clockOverride.bpm.value;
+            if(clockOverride.bpmScale.value <= 0) clockOverride.bpmScale.value = 1;
+            if(clockOverride.bpm.value <= 0) clockOverride.bpm.value = 120;
+            if(slmAdditionalProperty.clockOverride.value.bpmScale <= 0) slmAdditionalProperty.clockOverride.value.bpmScale = 1;
             var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.value.childStagger : clockOverride.staggerDelay.value;
             var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.value.bpmScale : clockOverride.bpmScale.value;
             var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.value.loopType : clockOverride.loopType.value;
@@ -64,9 +67,13 @@ namespace StageLightManeuver
             var clockProperty = queData.TryGetActiveProperty<ClockProperty>();
             var weight = queData.weight;
             if (additionalProperty == null || clockProperty == null) return 0f;
+            if (clockProperty.bpm.value <= 0) clockProperty.bpm.value = 120;
+            if(clockProperty.bpmScale.value <= 0) clockProperty.bpmScale.value = 1;
+            if(additionalProperty.clockOverride.value.bpmScale <= 0) additionalProperty.clockOverride.value.bpmScale = 1;
             var bpm = clockProperty.bpm.value;
             var stagger = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
             var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
+
             var loopType = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.loopType : clockProperty.loopType.value;
             var offsetTime = additionalProperty.clockOverride.propertyOverride
               ? additionalProperty.clockOverride.value.offsetTime
