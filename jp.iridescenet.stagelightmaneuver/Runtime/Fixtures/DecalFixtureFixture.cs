@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if USE_HDRP
 using UnityEngine.Rendering.HighDefinition;
@@ -11,9 +12,9 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class DecalFixture: StageLightFixtureBase
+    public class DecalFixtureFixture: StageLightFixtureFixtureBase
     {
-        public LightFixture lightFixture;
+        [FormerlySerializedAs("lightFxFixture")] [FormerlySerializedAs("lightFixture")] public LightFixtureFixture lightFixtureFixture;
         public Texture2D decalTexture;
         public Color decalColor = Color.white;
         public float decalSizeScaler = 1f;
@@ -52,10 +53,12 @@ namespace StageLightManeuver
                 var queueData = stageLightDataQueue.Dequeue();
                 var timeProperty = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
                 var qDecalProperty = queueData.TryGetActiveProperty<DecalProperty>() as DecalProperty;
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (qDecalProperty == null || timeProperty == null) continue;
                 var weight = queueData.weight;
                 
-                var t = SlmUtility.GetNormalizedTime(time, queueData,typeof(DecalProperty), Index);
+                var t = SlmUtility.GetNormalizedTime(time, queueData,typeof(DecalProperty), index);
 
                 opacity += qDecalProperty.opacity.value * weight;
                 fadeFactor += qDecalProperty.fadeFactor.value * weight;
@@ -65,7 +68,7 @@ namespace StageLightManeuver
                 if(weight > 0.5f)decalTexture = qDecalProperty.decalTexture.value;
             }
 
-            decalColor = lightFixture.lightColor;
+            decalColor = lightFixtureFixture.lightColor;
 
         }
 
@@ -75,13 +78,13 @@ namespace StageLightManeuver
             
             var floor = new Vector3(0,floorHeight,0);
             var distance = Vector3.Distance(transform.position,floor);
-            var angle = lightFixture.spotAngle;
+            var angle = lightFixtureFixture.spotAngle;
             _radius = Mathf.Tan(angle * Mathf.Deg2Rad) * distance * decalSizeScaler;
             _depth = distance * decalDepthScaler;
             
             decalProjector.size = new Vector3(_radius,_radius, _depth);
             decalProjector.fadeFactor = fadeFactor;
-            if (lightFixture != null) decalProjector.fadeFactor *= lightFixture.lightIntensity; 
+            if (lightFixtureFixture != null) decalProjector.fadeFactor *= lightFixtureFixture.lightIntensity; 
             decalProjector.pivot = new Vector3(0, 0, _depth / 2f);
             
             decalProjector.material.SetFloat("_Alpha",opacity*
@@ -103,7 +106,7 @@ namespace StageLightManeuver
                 decalProjector.material = _instancedDecalMaterial;     
             }
             
-            lightFixture = GetComponent<LightFixture>();
+            lightFixtureFixture = GetComponent<LightFixtureFixture>();
             PropertyTypes.Add( typeof(DecalProperty));
         }
         

@@ -23,8 +23,24 @@ namespace StageLightManeuver
         public void Init()
         {
             stageLightQueueData = new StageLightQueueData();
-            // stageLightQueueData.stageLightProperties = new List<SlmProperty>();
-            // stageLightQueueData.stageLightProperties.Add(new ClockProperty());
+            
+         
+
+        }
+        
+        public void CheckRequiredProperties()
+        {
+            if(stageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) ==
+               null)
+            {
+                stageLightQueueData.stageLightProperties.Insert(0,new ClockProperty());
+            }
+            
+            if (stageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(StageLightOrderProperty)) ==
+                null)
+            {
+                stageLightQueueData.stageLightProperties.Insert(1,new StageLightOrderProperty());
+            }
         }
         public void RemoveNullProperties()
         {

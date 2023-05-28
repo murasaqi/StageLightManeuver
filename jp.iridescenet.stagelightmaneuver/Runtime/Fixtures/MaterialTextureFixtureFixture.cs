@@ -5,7 +5,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [AddComponentMenu("")]
-    public class MaterialTextureFixture:StageLightFixtureBase
+    public class MaterialTextureFixtureFixture:StageLightFixtureFixtureBase
     {
         public List<MeshRenderer> meshRenderers;
         public int materialIndex;

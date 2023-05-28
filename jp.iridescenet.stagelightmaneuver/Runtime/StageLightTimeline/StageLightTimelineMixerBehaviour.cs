@@ -48,14 +48,17 @@ namespace StageLightManeuver
                     timeProperty.clipProperty.clipStartTime = (float)clip.start;
                     timeProperty.clipProperty.clipEndTime = (float)clip.end;
                 }
+                // var stageLightOrderProperty = stageLightTimelineClip.StageLightQueueData.TryGetActiveProperty<StageLightOrderProperty>();
+               
 
                 foreach (var stageLightProperty in stageLightTimelineClip.StageLightQueueData.stageLightProperties)
                 {
                     if(stageLightProperty == null) continue;
+                    stageLightProperty.InitStageLightSupervisor(trackBinding);
                     if (stageLightProperty.GetType().GetInterfaces().Contains(typeof(IArrayProperty)) )
                     {
                         var additionalArrayProperty = stageLightProperty as IArrayProperty;
-                        additionalArrayProperty?.ResyncArraySize(trackBinding.AllStageLights);
+                        additionalArrayProperty?.ResyncArraySize(trackBinding.stageLights);
                     }
                 }
                 

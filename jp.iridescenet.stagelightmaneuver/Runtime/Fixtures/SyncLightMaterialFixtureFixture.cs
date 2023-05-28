@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if USE_HDRP
 using UnityEngine.Rendering.HighDefinition;
@@ -14,7 +15,7 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class SyncLightMaterialFixture : StageLightFixtureBase
+    public class SyncLightMaterialFixtureFixture : StageLightFixtureFixtureBase
     {
         // public StageLightProperty<bool> fromLightFixture = new StageLightProperty<bool>();
         public List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
@@ -28,7 +29,7 @@ namespace StageLightManeuver
         public float maxIntensityLimit = 3;
         public bool brightnessDecreasesToBlack = true;
         private Dictionary<MeshRenderer,MaterialPropertyBlock> _materialPropertyBlocks;
-        public LightFixture lightFixture;
+        [FormerlySerializedAs("lightFxFixture")] [FormerlySerializedAs("lightFixture")] public LightFixtureFixture lightFixtureFixture;
         private void Start()
         {
             Init();
@@ -37,14 +38,13 @@ namespace StageLightManeuver
         private void OnEnable()
         {
             Init(); 
-            lightFixture = GetComponent<LightFixture>();
+            lightFixtureFixture = GetComponent<LightFixtureFixture>();
         }
 
         public override void Init()
         {
             if(_materialPropertyBlocks != null) _materialPropertyBlocks.Clear();
             _materialPropertyBlocks = new Dictionary<MeshRenderer, MaterialPropertyBlock>();
-            // if(meshRenderers)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
 
             foreach (var meshRenderer in meshRenderers)
             {
@@ -87,14 +87,14 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
-            if(lightFixture == null) return;
+            if(lightFixtureFixture == null) return;
             if (_materialPropertyBlocks == null|| _materialPropertyBlocks.Count != meshRenderers.Count)
             {
                 Init();
             }
             
-            var intensity = Mathf.Min(lightFixture.lightIntensity * intensityMultiplier,maxIntensityLimit);
-            var hdrColor = SlmUtility.GetHDRColor(lightFixture.lightColor,
+            var intensity = Mathf.Min(lightFixtureFixture.lightIntensity * intensityMultiplier,maxIntensityLimit);
+            var hdrColor = SlmUtility.GetHDRColor(lightFixtureFixture.lightColor,
                 intensity);
             var result = brightnessDecreasesToBlack ? Color.Lerp(Color.black,hdrColor, Mathf.Clamp(intensity, 0, 1f)) : hdrColor;
 

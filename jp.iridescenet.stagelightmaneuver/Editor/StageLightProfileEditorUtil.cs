@@ -63,6 +63,7 @@ namespace StageLightManeuver
             foreach (SerializedProperty property in serializedProperty)
             {
                 var marginBottom =slmProperty.GetType() == typeof(ClockProperty) ? 0 : 4;
+                Debug.Log(slmProperty.GetType());
                 if (slmProperty.GetType() == typeof(ClockProperty))
                 {
                     var clockProperty = slmProperty as ClockProperty;
@@ -168,6 +169,7 @@ namespace StageLightManeuver
         {
             if(serializedProperty == null) return;
             
+            
             if (serializedProperty.FindPropertyRelative("propertyOverride") != null)
             {
                 SerializedProperty value = serializedProperty.FindPropertyRelative("value");
@@ -177,15 +179,20 @@ namespace StageLightManeuver
              
                if(valueObject == null) return;
 
-
-           
                 if (valueObject.GetType() == typeof(SlmToggleValue<ClockOverride>))
                 {
                     var slmToggleValue = valueObject as SlmToggleValue<ClockOverride>;
                     slmToggleValue.sortOrder = -999;
                     serializedProperty.serializedObject.ApplyModifiedProperties();
                 }
-                
+
+                // if (valueObject.GetType() == typeof(SlmToggleValue<StageLightOrderProperty>))
+                // {
+                //     var slmToggleValue = valueObject as SlmToggleValue<StageLightOrderProperty>;
+                //     slmToggleValue.sortOrder = -998;
+                //     serializedProperty.serializedObject.ApplyModifiedProperties();
+                // }
+
                 var hasMultiLineObject = IsVerticalLayoutField(valueObject);
                 if (!hasMultiLineObject) EditorGUILayout.BeginHorizontal();
              
@@ -202,6 +209,8 @@ namespace StageLightManeuver
                 if (hasMultiLineObject) EditorGUI.indentLevel++;
 
                 EditorGUI.BeginDisabledGroup(!isOverride);
+                
+              
 
 
                 if (valueObject.GetType() == typeof(MinMaxEasingValue))
@@ -262,9 +271,7 @@ namespace StageLightManeuver
                         if (childProperty.name == "propertyOverride" ||
                             childProperty.name == "propertyName") continue;
                         EditorGUI.BeginChangeCheck();
-                     
-                        
-                     
+
                         EditorGUILayout.PropertyField(childProperty);
                         if (EditorGUI.EndChangeCheck())
                         {
@@ -292,13 +299,40 @@ namespace StageLightManeuver
             }
             else
             {
+                
+            
                 var serializedObject = serializedProperty.GetValue<object>();
                 if(serializedObject == null) return;
                 if(serializedObject.GetType() == typeof(ArrayStaggerValue))
                 {
                     ArrayStaggerValue(serializedProperty, serializedObject as ArrayStaggerValue);
                 }
+                else if (serializedObject.GetType() == typeof(StageLightOrderQueue))
+                {
+                    var stageLightOrderQueue = serializedObject as StageLightOrderQueue;
+                    var settingListName = new List<string>();
+                    if(stageLightOrderQueue == null) return;
+                    settingListName.Add("(0) None");
+                    var stageLightOrderSettingList = stageLightOrderQueue.stageLightOrderSettingList;
+                    foreach (var stageLightOrderSetting in stageLightOrderSettingList)
+                    {
+                        var dropDownIndex = stageLightOrderSettingList.IndexOf(stageLightOrderSetting)+1;
+                        settingListName.Add($"({dropDownIndex}) {stageLightOrderSetting.name}");
+                    }
+                    EditorGUI.BeginChangeCheck();
+                    var index = EditorGUILayout.Popup( "Settings", stageLightOrderQueue.index+1, settingListName.ToArray());
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        stageLightOrderQueue.index = index-1;
+                        Debug.Log(stageLightOrderQueue.index);
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                        
+                    }
+                   
+                }
+                    
             }
+            
             
             
            

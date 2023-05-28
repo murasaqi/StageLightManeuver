@@ -63,7 +63,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 var behaviourProperty = serializedObject.FindProperty("behaviour");
                 var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueueData");
                 serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
-
+                stageLightTimelineClip.behaviour.CheckRequiredProperties();
+                
                 stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
                 
                 for (int i = 0; i < stageLightProperties.Count; i++)
@@ -322,7 +323,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 if (stageLightTimelineClip.mixer != null && stageLightTimelineClip.mixer.trackBinding != null)
                 {
                     var gameObjects = new List<GameObject>();
-                    foreach (var stageLight in stageLightTimelineClip.mixer.trackBinding.AllStageLights)
+                    foreach (var stageLight in stageLightTimelineClip.mixer.trackBinding.stageLights)
                     {
                         gameObjects.Add(stageLight.gameObject);
                     }
@@ -332,13 +333,11 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             }
         }
 
-
         private void ExportProfile(StageLightTimelineClip stageLightTimelineClip)
         {
            
             Undo.RegisterCompleteObjectUndo(stageLightTimelineClip, stageLightTimelineClip.name);
             EditorUtility.SetDirty(stageLightTimelineClip);
-            
             var newProfile = CreateInstance<StageLightProfile>();
             newProfile.stageLightProperties = stageLightTimelineClip.StageLightQueueData.stageLightProperties;
             var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName) + ".asset";

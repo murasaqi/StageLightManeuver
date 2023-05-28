@@ -7,10 +7,10 @@ namespace StageLightManeuver
  
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class BarLightPanFixture: StageLightFixtureBase
+    public class BarLightPanFixtureFixture: StageLightFixtureFixtureBase
     {
         // private LightTransformType _lightTransformType = LightTransformType.Pan;
-        public List<LightPanFixture> lightPanFixtures = new List<LightPanFixture>();
+        public List<LightPanFixtureFixture> lightPanFixtures = new List<LightPanFixtureFixture>();
         void Start()
         {
             Init();

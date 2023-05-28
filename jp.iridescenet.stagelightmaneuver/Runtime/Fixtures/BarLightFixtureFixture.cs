@@ -29,7 +29,7 @@ namespace StageLightManeuver
         
     }
 
-    public class BarLightFixture : StageLightFixtureBase
+    public class BarLightFixtureFixture : StageLightFixtureFixtureBase
     {
         private float lightIndex = 0;
         public List<Light> lights = new List<Light>();
@@ -89,17 +89,19 @@ namespace StageLightManeuver
             {
                 var data = stageLightDataQueue.Dequeue();
                 var stageLightBaseProperty= data.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var stageLightOrderProperty = data.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 var barLightProperty = data.TryGetActiveProperty<BarLightIntensityProperty>() as BarLightIntensityProperty;
                 var weight = data.weight;
                 if(barLightProperty == null || stageLightBaseProperty == null) continue;
-                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime, data, typeof(LightProperty),Index);
+                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime, data, typeof(BarLightIntensityProperty),index);
                 
                 if(barLightProperty != null)
                 {
                     lightIndex = 0;
                     foreach (var light in lights)
                     {
-                        var t =barLightProperty.clockOverride.propertyOverride ? SlmUtility.GetNormalizedTime(currentTime, data, typeof(BarLightIntensityProperty),Index) : normalizedTime;
+                        var t =barLightProperty.clockOverride.propertyOverride ? SlmUtility.GetNormalizedTime(currentTime, data, typeof(BarLightIntensityProperty),index) : normalizedTime;
                         light.intensity += barLightProperty.intensity.value.Evaluate(lightIndex/(lights.Count-1)) * weight;
                         lightIndex++;
                     }

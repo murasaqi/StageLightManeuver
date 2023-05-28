@@ -3,36 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
+
 
 namespace StageLightManeuver
 {
+
+    [Serializable]
+    public class StageLightIndex
+    {
+        public int index = 0;
+        [FormerlySerializedAs("stageLightFixture")] [FormerlySerializedAs("stageLightFx")] public StageLight stageLight;
+    }
+    [Serializable]
+    public class StageLightOrderSetting
+    {
+        public string name = "New Stage Light Order";
+        public List<StageLightIndex> stageLightOrder = new List<StageLightIndex>();
+    }
+    
     [ExecuteAlways]
     public class StageLightSupervisor: MonoBehaviour
     {
-        public List<StageLightBase> stageLights = new List<StageLightBase>();
-        public List<StageLightSupervisor> stageLightSupervisors = new List<StageLightSupervisor>();
-        [SerializeReference]private List<StageLightBase> allStageLights = new List<StageLightBase>();
+        public List<StageLight> stageLights = new List<StageLight>();
 
-        public List<StageLightBase> AllStageLights => allStageLights;
+        // public List<StageLight> AllStageLights => stageLights;
+        
+        public List<StageLightOrderSetting> stageLightOrderSettings = new List<StageLightOrderSetting>();
 
         [ContextMenu("Initialize")]
         public void Init()
         {
-            allStageLights.Clear();
-            allStageLights.AddRange(stageLights);
-            foreach (var stageLightSupervisor in stageLightSupervisors)
-            {
-                allStageLights.AddRange(stageLightSupervisor.allStageLights);
-            }
             
             
             
             var index = 0;
-            foreach (var stageLight in allStageLights)
+            foreach (var stageLight in stageLights)
             {
                 if (stageLight)
                 {
-                    stageLight.Index = index;
+                    stageLight.order = index;
                     stageLight.Init();
                     index++;
                 }
@@ -45,7 +55,7 @@ namespace StageLightManeuver
         public void FindStageLightsInChildren()
         {
             stageLights.Clear();
-            stageLights.AddRange(GetComponentsInChildren<StageLightBase>());
+            stageLights.AddRange(GetComponentsInChildren<StageLight>());
             Init();
         }
         
@@ -56,7 +66,7 @@ namespace StageLightManeuver
 
         public void AddQue(StageLightQueueData stageLightQueData)
         {
-            foreach (var stageLight in allStageLights)
+            foreach (var stageLight in stageLights)
             {
                 if(stageLight != null)stageLight.AddQue(stageLightQueData);
             }
@@ -64,7 +74,7 @@ namespace StageLightManeuver
 
         public void EvaluateQue(float time)
         {
-            foreach (var stageLight in allStageLights)
+            foreach (var stageLight in stageLights)
             {
                  if(stageLight != null)stageLight.EvaluateQue(time);
             }
@@ -75,7 +85,7 @@ namespace StageLightManeuver
         public List<Type> GetAllPropertyType()
         {
             var types = new List<Type>();
-            foreach (var stageLight in AllStageLights)
+            foreach (var stageLight in stageLights)
             {
 
                 if (stageLight.GetType() == typeof(StageLight))
@@ -92,7 +102,7 @@ namespace StageLightManeuver
 
         public void UpdateFixture()
         {
-            foreach (var stageLightBase in allStageLights)
+            foreach (var stageLightBase in stageLights)
             {
                 if(stageLightBase != null)stageLightBase.UpdateFixture();
             }

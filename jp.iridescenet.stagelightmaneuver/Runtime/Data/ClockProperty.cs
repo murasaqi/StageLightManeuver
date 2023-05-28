@@ -47,7 +47,7 @@ namespace StageLightManeuver
             lightStaggerInfo = new List<Vector2>(arrayStaggerValue.lightStaggerInfo);
             randomStaggerInfo = new List<Vector2>(arrayStaggerValue.randomStaggerInfo);
         }
-        public void ResyncArraySize(List<StageLightBase> stageLights)
+        public void ResyncArraySize(List<StageLight> stageLights)
         {
             var countDifference = stageLights.Count - lightStaggerInfo.Count;
             if (countDifference > 0)
@@ -161,7 +161,7 @@ namespace StageLightManeuver
         {
             propertyName = "Clock";
             propertyOrder = -999;
-            propertyOverride = false;
+            propertyOverride = true;
             loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop};
             clipProperty = new ClipProperty(){clipStartTime = 0, clipEndTime = 0};
             bpm = new SlmToggleValue<float>() { value = 60 };
@@ -170,7 +170,7 @@ namespace StageLightManeuver
             offsetTime = new SlmToggleValue<float>() { value = 0f };
         }
 
-        public void ResyncArraySize(List<StageLightBase> stageLights)
+        public void ResyncArraySize(List<StageLight> stageLights)
         {
             arrayStaggerValue.ResyncArraySize(stageLights);
         }

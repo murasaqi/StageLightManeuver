@@ -89,7 +89,7 @@ namespace StageLightManeuver
             
         }
 
-        public override void ResyncArraySize(List<StageLightBase> stageLights)
+        public override void ResyncArraySize(List<StageLight> stageLights)
         {
             
             var lightPrimitiveValues = lightValues.value;

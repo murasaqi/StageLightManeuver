@@ -55,7 +55,7 @@ namespace StageLightManeuver
             {
                 InitSyncData();
             }
-
+            
             return playable;
         }
 
@@ -65,6 +65,12 @@ namespace StageLightManeuver
             if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
             {
                 StageLightQueueData.stageLightProperties.Add(new ClockProperty());    
+            }
+
+            if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(StageLightOrderProperty)) ==
+                null)
+            {
+                StageLightQueueData.stageLightProperties.Add(new StageLightOrderProperty());
             }
             
             var propertyTypes = new List<Type>();
@@ -137,6 +143,12 @@ namespace StageLightManeuver
             if (timeProperty == null)
             {
                 copy.Insert(0, new ClockProperty());
+            }
+            
+            var orderProperty = copy.Find(x => x.GetType() == typeof(StageLightOrderProperty));
+            if(orderProperty == null)
+            {
+                copy.Insert(1, new StageLightOrderProperty());
             }
             
             StageLightQueueData.stageLightProperties = copy;

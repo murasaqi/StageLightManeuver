@@ -76,6 +76,22 @@ namespace StageLightManeuver
             var t = GetNormalizedTime(time+offsetTime,bpm,stagger,bpmScale,clipProperty,loopType,arrayStaggerValue,index);
             return t; 
         }
+
+        // public static int GetStageLightIndex(StageLightOrderProperty stageLightOrderProperty,StageLight stageLight)
+        // {
+        //     var index = 0;
+        //     if(stageLightOrderProperty == null || stageLightOrderProperty.stageLightOrderSettingList == null || stageLightOrderProperty.settingNumber <0) return stageLight.order;
+        //     var stageLightOrderSetting = stageLightOrderProperty.stageLightOrderSettingList[stageLightOrderProperty.settingNumber];
+        //     foreach (var stageLightData in stageLightOrderSetting.stageLightOrder)
+        //     {
+        //         if (stageLightData.stageLight == stageLight)
+        //         {
+        //             return index;
+        //         }
+        //         index++;
+        //     }
+        //     return stageLight.order;
+        // }
           
         public static List<StageLightProfile> GetProfileInProject()
         {

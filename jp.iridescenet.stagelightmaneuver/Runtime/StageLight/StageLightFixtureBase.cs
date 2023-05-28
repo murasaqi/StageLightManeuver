@@ -6,14 +6,14 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
-    public abstract class StageLightBase: MonoBehaviour,IStageLight
+    public abstract class StageLightFixtureBase: MonoBehaviour,IStageLightFixture
     {
         
-        [SerializeField]private int index = 0;
-        public int Index { get => index; set => index = value; }
-        [SerializeField]private List<StageLightBase> syncStageLight = new List<StageLightBase>();
+        // [SerializeField]private int index = 0;
+        // public int Index { get => index; set => index = value; }
+        [SerializeField]private List<StageLightFixtureBase> syncStageLight = new List<StageLightFixtureBase>();
 
-        public List<StageLightBase> SyncStageLight
+        public List<StageLightFixtureBase> SyncStageLight
         {
             get => syncStageLight;
             set=> syncStageLight = value;
@@ -44,7 +44,7 @@ namespace StageLightManeuver
             foreach (var stageLight in SyncStageLight)
             {
                 // Debug.Log(stageLight.name);
-                stageLight.Index = i;
+                // stageLight.Index = i;
                 stageLight.EvaluateQue(time);
                 i++;
             }
@@ -56,7 +56,7 @@ namespace StageLightManeuver
         public void AddStageLightInChild()
         {
             syncStageLight.Clear();
-            syncStageLight = GetComponentsInChildren<StageLightBase>().ToList();
+            syncStageLight = GetComponentsInChildren<StageLightFixtureBase>().ToList();
 
             if (syncStageLight == null || syncStageLight.Count == 0)
                 return;

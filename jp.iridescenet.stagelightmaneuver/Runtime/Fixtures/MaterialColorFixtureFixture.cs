@@ -8,7 +8,7 @@ namespace StageLightManeuver
     
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class MaterialColorFixture:StageLightFixtureBase
+    public class MaterialColorFixtureFixture:StageLightFixtureFixtureBase
     {
         public MeshRenderer meshRenderer;
         public List<MeshRenderer> syncMeshRenderers = new List<MeshRenderer>();
@@ -69,6 +69,8 @@ namespace StageLightManeuver
                 var timeProperty = queueData.TryGetActiveProperty<ClockProperty>();
                 var materialProperty = queueData.TryGetActiveProperty<MaterialColorProperty>();
                 var weight = queueData.weight;
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (timeProperty == null || materialProperty == null)
                 {
                     return;
@@ -82,7 +84,7 @@ namespace StageLightManeuver
                         Init();
                     }
                 }
-                var t = SlmUtility.GetNormalizedTime(currentTime, queueData, typeof(MaterialColorProperty), Index);
+                var t = SlmUtility.GetNormalizedTime(currentTime, queueData, typeof(MaterialColorProperty), index);
                 color += materialProperty.color.value.Evaluate(t) * weight;
                 intensity += materialProperty.intensity.value.Evaluate(t) * weight;
                 

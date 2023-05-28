@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
-    public class LookAtFixture:StageLightFixtureBase
+    public class LookAtFixtureFixture:StageLightFixtureFixtureBase
     {
         
-        public LightPanFixture panFixture;
-        public LightTiltFixture tiltFixture;
+        [FormerlySerializedAs("fxPanFixture")] [FormerlySerializedAs("panFixture")] public LightPanFixtureFixture panFixtureFixture;
+        [FormerlySerializedAs("fxTiltFixture")] [FormerlySerializedAs("tiltFixture")] public LightTiltFixtureFixture tiltFixtureFixture;
         public List<Transform> lookAtTransforms = new List<Transform>();
         public int lookAtTransformIndex = 0;
         public float lookAtWeight = 1f;
@@ -65,11 +66,12 @@ namespace StageLightManeuver
                 var queueData = stageLightDataQueue.Dequeue();
                 var stageLightBaseProperties = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
                 var lookAtProperty = queueData.TryGetActiveProperty<LookAtProperty>() as LookAtProperty;
-
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (lookAtProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(LookAtProperty), Index);
+                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(LookAtProperty), index);
 
                 lookAtTransformIndex = queueData.weight >= 0.5f ? lookAtProperty.lookAtIndex.value : lookAtTransformIndex;
                 // calculate the angle between this transform and the target
@@ -108,27 +110,27 @@ namespace StageLightManeuver
                 InitLookAt();
 
             var lookAtTransformLocalEulerAngles = lookAtDummy.transform.localEulerAngles;
-            if (panFixture)
+            if (panFixtureFixture)
             {
                 var panAngle =
-                    panoffset + new Vector3(lookAtTransformLocalEulerAngles.x * panFixture.rotationVector.x,
-                        lookAtTransformLocalEulerAngles.y * panFixture.rotationVector.y,
-                        lookAtTransformLocalEulerAngles.z * panFixture.rotationVector.z);
+                    panoffset + new Vector3(lookAtTransformLocalEulerAngles.x * panFixtureFixture.rotationVector.x,
+                        lookAtTransformLocalEulerAngles.y * panFixtureFixture.rotationVector.y,
+                        lookAtTransformLocalEulerAngles.z * panFixtureFixture.rotationVector.z);
 
-                panFixture.rotateTransform.localEulerAngles = panAngle;
+                panFixtureFixture.rotateTransform.localEulerAngles = panAngle;
                 // panFixture.rotateTransform.localEulerAngles += ( panAngle - panFixture.rotateTransform.localEulerAngles) * speed;
             }
 
-            if (tiltFixture)
+            if (tiltFixtureFixture)
             {
                 // Debug.Log(tiltFixture);
                var tiltAngle =
-                    tiltOffset + new Vector3(lookAtTransformLocalEulerAngles.x * tiltFixture.rotationVector.x,
-                        lookAtTransformLocalEulerAngles.y * tiltFixture.rotationVector.y,
-                        lookAtTransformLocalEulerAngles.z * tiltFixture.rotationVector.z);
+                    tiltOffset + new Vector3(lookAtTransformLocalEulerAngles.x * tiltFixtureFixture.rotationVector.x,
+                        lookAtTransformLocalEulerAngles.y * tiltFixtureFixture.rotationVector.y,
+                        lookAtTransformLocalEulerAngles.z * tiltFixtureFixture.rotationVector.z);
                
                 
-                tiltFixture.rotateTransform.localEulerAngles = tiltAngle;
+                tiltFixtureFixture.rotateTransform.localEulerAngles = tiltAngle;
                 // tiltFixture.rotateTransform.localEulerAngles += (tiltAngle - tiltFixture.rotateTransform.localEulerAngles)  * speed;
                 
             }

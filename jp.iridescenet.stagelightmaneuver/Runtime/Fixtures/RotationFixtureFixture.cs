@@ -6,7 +6,7 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class RotationFixture:StageLightFixtureBase
+    public class RotationFixtureFixture:StageLightFixtureFixtureBase
     {
         public Transform target;
         public Vector3 rotationAxis = new Vector3(0,0,1);
@@ -37,12 +37,13 @@ namespace StageLightManeuver
                 var queueData = stageLightDataQueue.Dequeue();
                 var stageLightBaseProperties = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
                 var rotationProperty = queueData.TryGetActiveProperty<RotationProperty>() as RotationProperty;
-
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (rotationProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(RotationProperty),Index);
-                offsetTime += SlmUtility.GetOffsetTime(time, queueData, typeof(RotationProperty),Index) * queueData.weight;
+                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(RotationProperty),index);
+                offsetTime += SlmUtility.GetOffsetTime(time, queueData, typeof(RotationProperty),index) * queueData.weight;
                 rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime) * queueData.weight;
               
             }
