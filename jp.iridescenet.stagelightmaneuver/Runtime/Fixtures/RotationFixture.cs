@@ -6,10 +6,11 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class RotationFixtureFixture:StageLightFixtureFixtureBase
+    public class RotationFixture:StageLightFixtureFixtureBase
     {
         public Transform target;
         public Vector3 rotationAxis = new Vector3(0,0,1);
+        public Vector3 offsetRotation = new Vector3(0,0,0);
         [FormerlySerializedAs("rotationScalar")] public float rotationSpeed = 0f;
         private float rotation = 0f;
 
@@ -53,8 +54,7 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
-            
-            if(target) target.localEulerAngles = rotationAxis * rotation;
+            if(target) target.localEulerAngles = offsetRotation + rotationAxis * rotation;
         }
     }
     

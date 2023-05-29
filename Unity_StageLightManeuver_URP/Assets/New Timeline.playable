@@ -150,8 +150,7 @@ MonoBehaviour:
   drawBeat: 1
   beatLineColor: {r: 0, g: 1, b: 0.7126422, a: 0.3}
   updateOnOutOfClip: 0
-  selectedClips:
-  - {fileID: 2758132620364594553}
+  selectedClips: []
 --- !u!114 &-63306318011524184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1063,6 +1062,7 @@ MonoBehaviour:
       - rid: 5968302255874768906
       - rid: 5968302255874768908
       - rid: 5968302621914038273
+      - rid: 5968302621914038274
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -1818,7 +1818,7 @@ MonoBehaviour:
     - rid: 5968302621914038273
       type: {class: GoboProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         sortOrder: 0
         propertyName: Gobo
         propertyOrder: 0
@@ -1857,26 +1857,34 @@ MonoBehaviour:
                 m_PreInfinity: 2
                 m_PostInfinity: 2
                 m_RotationOrder: 4
-              lightStaggerInfo: []
-              randomStaggerInfo: []
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.033333335, y: 0.93333334}
+              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         goboTexture:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
-          value: {fileID: 0}
+          value: {fileID: 2800000, guid: adaef3830f58082459e7cf6bc1b3d77e, type: 3}
         goboPropertyName:
           propertyOverride: 0
           sortOrder: 0
           value: _GoboTexture
         goboRotationSpeed:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
-            mode: 0
-            inverse: 0
+            mode: 2
+            inverse: 1
             minMaxLimit: {x: -180, y: 180}
             minMaxValue: {x: -90, y: 90}
             easeType: 0
-            constant: 0
+            constant: 1
             animationCurve:
               serializedVersion: 2
               m_Curve:
@@ -1892,6 +1900,92 @@ MonoBehaviour:
               - serializedVersion: 3
                 time: 1
                 value: 1
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+              m_RotationOrder: 4
+    - rid: 5968302621914038274
+      type: {class: RotationProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 1
+        sortOrder: 0
+        propertyName: Rotation
+        propertyOrder: 0
+        clockOverride:
+          propertyOverride: 0
+          sortOrder: 0
+          value:
+            loopType: 0
+            offsetTime: 0
+            bpmScale: 1
+            childStagger: 0
+            arrayStaggerValue:
+              staggerCalculationType: 2
+              delayRatio: 0.1
+              animationCurve:
+                serializedVersion: 2
+                m_Curve:
+                - serializedVersion: 3
+                  time: 0
+                  value: 0
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                - serializedVersion: 3
+                  time: 1
+                  value: 1
+                  inSlope: 0
+                  outSlope: 0
+                  tangentMode: 0
+                  weightedMode: 0
+                  inWeight: 0
+                  outWeight: 0
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+                m_RotationOrder: 4
+              lightStaggerInfo:
+              - {x: 0, y: 0.9}
+              - {x: 0.033333335, y: 0.93333334}
+              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.1, y: 1}
+              randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
+        rotationSpeed:
+          propertyOverride: 1
+          sortOrder: 0
+          value:
+            mode: 2
+            inverse: 0
+            minMaxLimit: {x: -30, y: 30}
+            minMaxValue: {x: -40, y: 40}
+            easeType: 0
+            constant: 30
+            animationCurve:
+              serializedVersion: 2
+              m_Curve:
+              - serializedVersion: 3
+                time: 0
+                value: 0
+                inSlope: 0
+                outSlope: 0
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0
+                outWeight: 0
+              - serializedVersion: 3
+                time: 1
+                value: 40
                 inSlope: 0
                 outSlope: 0
                 tangentMode: 0
