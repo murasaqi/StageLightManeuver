@@ -22,7 +22,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 16.383333333333333
+    m_Start: 15.233333333333333
     m_ClipIn: 0
     m_Asset: {fileID: -3081571132314861926}
     m_Duration: 6.733333333333334
@@ -150,8 +150,7 @@ MonoBehaviour:
   drawBeat: 1
   beatLineColor: {r: 0, g: 1, b: 0.7126422, a: 0.3}
   updateOnOutOfClip: 0
-  selectedClips:
-  - {fileID: -3081571132314861926}
+  selectedClips: []
 --- !u!114 &-3081571132314861926
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,7 +169,7 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 5968302072401494019
-      - rid: 4824220623761047795
+      - rid: 5968302596831313953
       - rid: 4824220623761047796
       - rid: 4824220623761047799
       - rid: 4824220623761047800
@@ -179,7 +178,6 @@ MonoBehaviour:
       - rid: 5968302072401494021
       - rid: 5968302255874768906
       - rid: 5968302255874768908
-      - rid: 5968302255874768909
       weight: 1
   forceTimelineClipUpdate: 0
   syncReferenceProfile: 0
@@ -190,32 +188,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4824220623761047795
-      type: {class: TimeProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
-      data:
-        propertyOverride: 1
-        sortOrder: 0
-        propertyName: Time
-        propertyOrder: 0
-        clipProperty:
-          clipStartTime: 6.3
-          clipEndTime: 7.9166665
-        loopType:
-          propertyOverride: 0
-          sortOrder: 0
-          value: 0
-        bpm:
-          propertyOverride: 0
-          sortOrder: 0
-          value: 60
-        bpmScale:
-          propertyOverride: 0
-          sortOrder: 0
-          value: 1
-        bpmOffset:
-          propertyOverride: 0
-          sortOrder: 0
-          value: 0
     - rid: 4824220623761047796
       type: {class: LightProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
@@ -260,10 +232,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -418,10 +394,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -476,13 +456,13 @@ MonoBehaviour:
         propertyName: Intensity
         propertyOrder: 0
         clockOverride:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
-            loopType: 0
+            loopType: 1
             offsetTime: 0
             bpmScale: 1
-            childStagger: 0
+            childStagger: 0.1
             arrayStaggerValue:
               staggerCalculationType: 2
               delayRatio: 0.1
@@ -512,10 +492,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -526,10 +510,10 @@ MonoBehaviour:
           value:
             mode: 2
             inverse: 0
-            minMaxLimit: {x: 0, y: 0}
-            minMaxValue: {x: 0, y: 10}
+            minMaxLimit: {x: 0, y: 100}
+            minMaxValue: {x: 0, y: 14.634163}
             easeType: 0
-            constant: 2.14
+            constant: 7.26
             animationCurve:
               serializedVersion: 2
               m_Curve:
@@ -542,6 +526,15 @@ MonoBehaviour:
                 weightedMode: 0
                 inWeight: 0
                 outWeight: 0
+              - serializedVersion: 3
+                time: 0.8283296
+                value: 0.3189555
+                inSlope: 1.499277
+                outSlope: 1.499277
+                tangentMode: 0
+                weightedMode: 0
+                inWeight: 0.33333334
+                outWeight: 0.33333334
               - serializedVersion: 3
                 time: 1
                 value: 1
@@ -562,13 +555,13 @@ MonoBehaviour:
         propertyName: Light Color
         propertyOrder: 0
         clockOverride:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
             loopType: 0
             offsetTime: 0
-            bpmScale: 1
-            childStagger: 0
+            bpmScale: 0.125
+            childStagger: 0.15
             arrayStaggerValue:
               staggerCalculationType: 2
               delayRatio: 0.1
@@ -598,10 +591,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -611,22 +608,22 @@ MonoBehaviour:
           sortOrder: 0
           value:
             serializedVersion: 2
-            key0: {r: 1, g: 1, b: 1, a: 1}
-            key1: {r: 0.08876202, g: 1.1334227, b: 1.4475037, a: 1}
-            key2: {r: 0.5011643, g: 0.16018222, b: 1.1576815, a: 0}
-            key3: {r: 1.7568628, g: 0.36078432, b: 0.54901963, a: 0}
-            key4: {r: 0.6895024, g: 0.35663918, b: 1.2304052, a: 0}
-            key5: {r: 0.21849114, g: 0.87396455, b: 1.2290126, a: 0}
-            key6: {r: 1, g: 1, b: 1, a: 0}
-            key7: {r: 0, g: 0, b: 0, a: 0}
-            ctime0: 1536
-            ctime1: 9984
-            ctime2: 19776
-            ctime3: 33215
-            ctime4: 45119
-            ctime5: 55871
-            ctime6: 65535
-            ctime7: 0
+            key0: {r: 0.08876202, g: 1.1334227, b: 1.4475037, a: 1}
+            key1: {r: 0, g: 0, b: 0, a: 1}
+            key2: {r: 0.09094264, g: 1.4475037, b: 0.5324767, a: 0}
+            key3: {r: 0, g: 0, b: 0, a: 0}
+            key4: {r: 0, g: 0, b: 0, a: 0}
+            key5: {r: 3.3572457, g: 2.8509674, b: 2.7765896, a: 0}
+            key6: {r: 0, g: 0, b: 0, a: 0}
+            key7: {r: 1.6627452, g: 0, b: 0.72573525, a: 0}
+            ctime0: 16704
+            ctime1: 33023
+            ctime2: 48191
+            ctime3: 65535
+            ctime4: 40895
+            ctime5: 48575
+            ctime6: 58559
+            ctime7: 65535
             atime0: 0
             atime1: 65535
             atime2: 0
@@ -635,8 +632,8 @@ MonoBehaviour:
             atime5: 0
             atime6: 0
             atime7: 0
-            m_Mode: 0
-            m_NumColorKeys: 7
+            m_Mode: 1
+            m_NumColorKeys: 4
             m_NumAlphaKeys: 2
     - rid: 5968302072401494019
       type: {class: ClockProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
@@ -646,18 +643,18 @@ MonoBehaviour:
         propertyName: Clock
         propertyOrder: -999
         clipProperty:
-          clipStartTime: 16.383333
-          clipEndTime: 23.116667
+          clipStartTime: 15.233334
+          clipEndTime: 21.966667
         loopType:
           propertyOverride: 0
           sortOrder: 0
           value: 0
         bpm:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
-          value: 60
+          value: 120
         bpmScale:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value: 1
         offsetTime:
@@ -697,10 +694,14 @@ MonoBehaviour:
             m_RotationOrder: 4
           lightStaggerInfo:
           - {x: 0, y: 0.9}
-          - {x: 0.033333335, y: 0.93333334}
-          - {x: 0.06666667, y: 0.96666664}
+          - {x: 0.02, y: 0.91999996}
+          - {x: 0.04, y: 0.94}
+          - {x: 0.060000002, y: 0.96}
+          - {x: 0.08, y: 0.97999996}
           - {x: 0.1, y: 1}
           randomStaggerInfo:
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
@@ -749,10 +750,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -813,10 +818,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -853,16 +862,16 @@ MonoBehaviour:
         propertyName: Tilt
         propertyOrder: 0
         clockOverride:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
             loopType: 0
             offsetTime: 0
             bpmScale: 1
-            childStagger: 0
+            childStagger: 0.25
             arrayStaggerValue:
-              staggerCalculationType: 2
-              delayRatio: 0.1
+              staggerCalculationType: 0
+              delayRatio: 0.431
               animationCurve:
                 serializedVersion: 2
                 m_Curve:
@@ -888,17 +897,21 @@ MonoBehaviour:
                 m_PostInfinity: 2
                 m_RotationOrder: 4
               lightStaggerInfo:
-              - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
-              - {x: 0.1, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0.0862, y: 1}
+              - {x: 0.1724, y: 1}
+              - {x: 0.2586, y: 1}
+              - {x: 0.3448, y: 1}
+              - {x: 0.431, y: 1}
               randomStaggerInfo:
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         rollTransform:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
             mode: 0
@@ -947,13 +960,13 @@ MonoBehaviour:
         propertyName: Pan
         propertyOrder: 0
         clockOverride:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
-            loopType: 0
+            loopType: 1
             offsetTime: 0
             bpmScale: 1
-            childStagger: 0
+            childStagger: 0.18
             arrayStaggerValue:
               staggerCalculationType: 2
               delayRatio: 0.1
@@ -983,19 +996,23 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
         rollTransform:
-          propertyOverride: 0
+          propertyOverride: 1
           sortOrder: 0
           value:
-            mode: 0
+            mode: 2
             inverse: 0
             minMaxLimit: {x: -180, y: 180}
             minMaxValue: {x: -90, y: 90}
@@ -1033,50 +1050,44 @@ MonoBehaviour:
           propertyOverride: 0
           sortOrder: 0
           value: 0
-    - rid: 5968302255874768909
-      type: {class: SlmAdditionalProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+    - rid: 5968302596831313953
+      type: {class: StageLightOrderProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
       data:
-        propertyOverride: 0
+        propertyOverride: 1
         sortOrder: 0
-        propertyName: 
-        propertyOrder: 0
-        clockOverride:
-          propertyOverride: 0
-          sortOrder: -999
-          value:
-            loopType: 0
-            offsetTime: 0
-            bpmScale: 1
-            childStagger: 0
-            arrayStaggerValue:
-              staggerCalculationType: 2
-              delayRatio: 0.1
-              animationCurve:
-                serializedVersion: 2
-                m_Curve:
-                - serializedVersion: 3
-                  time: 0
-                  value: 0
-                  inSlope: 0
-                  outSlope: 0
-                  tangentMode: 0
-                  weightedMode: 0
-                  inWeight: 0
-                  outWeight: 0
-                - serializedVersion: 3
-                  time: 1
-                  value: 1
-                  inSlope: 0
-                  outSlope: 0
-                  tangentMode: 0
-                  weightedMode: 0
-                  inWeight: 0
-                  outWeight: 0
-                m_PreInfinity: 2
-                m_PostInfinity: 2
-                m_RotationOrder: 4
-              lightStaggerInfo: []
-              randomStaggerInfo: []
+        propertyName: StageLight Order
+        propertyOrder: -998
+        stageLightOrderQueue:
+          index: 1
+          stageLightOrderSettingList:
+          - name: Setting01
+            stageLightOrder:
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+          - name: Setting02
+            stageLightOrder:
+            - index: 2
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 2
+              stageLight: {fileID: 0}
 --- !u!114 &-63306318011524184
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1094,6 +1105,7 @@ MonoBehaviour:
     stageLightQueueData:
       stageLightProperties:
       - rid: 5968302255874768898
+      - rid: 5968302596831313954
       - rid: 5968302255874768899
       - rid: 5968302255874768900
       - rid: 5968302255874768901
@@ -1170,10 +1182,14 @@ MonoBehaviour:
             m_RotationOrder: 4
           lightStaggerInfo:
           - {x: 0, y: 0.9}
-          - {x: 0.033333335, y: 0.93333334}
-          - {x: 0.06666667, y: 0.96666664}
+          - {x: 0.02, y: 0.91999996}
+          - {x: 0.04, y: 0.94}
+          - {x: 0.060000002, y: 0.96}
+          - {x: 0.08, y: 0.97999996}
           - {x: 0.1, y: 1}
           randomStaggerInfo:
+          - {x: 0, y: 1}
+          - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
           - {x: 0, y: 1}
@@ -1222,10 +1238,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1316,10 +1336,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1410,10 +1434,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1568,10 +1596,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1652,10 +1684,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1738,10 +1774,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1802,10 +1842,14 @@ MonoBehaviour:
                 m_RotationOrder: 4
               lightStaggerInfo:
               - {x: 0, y: 0.9}
-              - {x: 0.033333335, y: 0.93333334}
-              - {x: 0.06666667, y: 0.96666664}
+              - {x: 0.02, y: 0.91999996}
+              - {x: 0.04, y: 0.94}
+              - {x: 0.060000002, y: 0.96}
+              - {x: 0.08, y: 0.97999996}
               - {x: 0.1, y: 1}
               randomStaggerInfo:
+              - {x: 0, y: 1}
+              - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
               - {x: 0, y: 1}
@@ -1834,6 +1878,44 @@ MonoBehaviour:
           propertyOverride: 0
           sortOrder: 0
           value: 1
+    - rid: 5968302596831313954
+      type: {class: StageLightOrderProperty, ns: StageLightManeuver, asm: Iridescenent.SLM.Runtime}
+      data:
+        propertyOverride: 1
+        sortOrder: 0
+        propertyName: StageLight Order
+        propertyOrder: -998
+        stageLightOrderQueue:
+          index: -1
+          stageLightOrderSettingList:
+          - name: Setting01
+            stageLightOrder:
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+          - name: Setting02
+            stageLightOrder:
+            - index: 2
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 0
+              stageLight: {fileID: 0}
+            - index: 1
+              stageLight: {fileID: 0}
+            - index: 2
+              stageLight: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
