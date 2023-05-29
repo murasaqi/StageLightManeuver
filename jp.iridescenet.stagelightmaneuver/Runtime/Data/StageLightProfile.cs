@@ -86,13 +86,13 @@ namespace StageLightManeuver
         //     
         // }
 
-        public void TryCreatePropertyListByComponentList(List<StageLightFixtureFixtureBase> stageLightExtensions)
+        public void TryCreatePropertyListByComponentList(List<StageLightFixtureBase> stageLightExtensions)
         {
             stageLightProperties.Clear();
             foreach (var extension in stageLightExtensions)
             {
                 Debug.Log(extension);
-                if (extension.GetType() == typeof(LightFixtureFixture))
+                if (extension.GetType() == typeof(LightFixture))
                 {
                     stageLightProperties.Add(new LightProperty());
                 }
@@ -102,7 +102,7 @@ namespace StageLightManeuver
                     stageLightProperties.Add(new PanProperty());
                 }
             
-                if (extension.GetType() == typeof(LightTiltFixtureFixture))
+                if (extension.GetType() == typeof(LightTiltFixture))
                 {
                     stageLightProperties.Add(new TiltProperty());
                 }
@@ -113,7 +113,7 @@ namespace StageLightManeuver
                 }
 #if USE_VLB_ALTER
                 
-                if (extension.GetType() == typeof(GoboFixtureFixture))
+                if (extension.GetType() == typeof(GoboFixture))
                 {
                     stageLightProperties.Add(new GoboProperty());
                 }

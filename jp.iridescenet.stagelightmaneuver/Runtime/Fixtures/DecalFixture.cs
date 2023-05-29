@@ -12,9 +12,10 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class DecalFixture: StageLightFixtureFixtureBase
+    public class DecalFixture: StageLightFixtureBase
     {
-        [FormerlySerializedAs("lightFxFixture")] [FormerlySerializedAs("lightFixture")] public LightFixtureFixture lightFixtureFixture;
+        [FormerlySerializedAs("lightFixtureFixture")] [FormerlySerializedAs("lightFxFixture")]
+        public LightFixture lightFixture;
         public Texture2D decalTexture;
         public Color decalColor = Color.white;
         public float decalSizeScaler = 1f;
@@ -68,7 +69,7 @@ namespace StageLightManeuver
                 if(weight > 0.5f)decalTexture = qDecalProperty.decalTexture.value;
             }
 
-            decalColor = lightFixtureFixture.lightColor;
+            decalColor = lightFixture.lightColor;
 
         }
 
@@ -78,13 +79,13 @@ namespace StageLightManeuver
             
             var floor = new Vector3(0,floorHeight,0);
             var distance = Vector3.Distance(transform.position,floor);
-            var angle = lightFixtureFixture.spotAngle;
+            var angle = lightFixture.spotAngle;
             _radius = Mathf.Tan(angle * Mathf.Deg2Rad) * distance * decalSizeScaler;
             _depth = distance * decalDepthScaler;
             
             decalProjector.size = new Vector3(_radius,_radius, _depth);
             decalProjector.fadeFactor = fadeFactor;
-            if (lightFixtureFixture != null) decalProjector.fadeFactor *= lightFixtureFixture.lightIntensity; 
+            if (lightFixture != null) decalProjector.fadeFactor *= lightFixture.lightIntensity; 
             decalProjector.pivot = new Vector3(0, 0, _depth / 2f);
             
             decalProjector.material.SetFloat("_Alpha",opacity*
@@ -106,7 +107,7 @@ namespace StageLightManeuver
                 decalProjector.material = _instancedDecalMaterial;     
             }
             
-            lightFixtureFixture = GetComponent<LightFixtureFixture>();
+            lightFixture = GetComponent<LightFixture>();
             PropertyTypes.Add( typeof(DecalProperty));
         }
         

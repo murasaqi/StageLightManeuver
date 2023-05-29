@@ -20,7 +20,7 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     // [AddComponentMenu("")]
-    public class LightFixtureFixture : StageLightFixtureFixtureBase
+    public class LightFixture : StageLightFixtureBase
     {
         public List<Light> lights = new List<Light>();
 #if USE_HDRP

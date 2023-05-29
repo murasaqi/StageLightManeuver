@@ -6,11 +6,12 @@ using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
-    public class LookAtFixtureFixture:StageLightFixtureFixtureBase
+    public class LookAtFixture:StageLightFixtureBase
     {
         
         [FormerlySerializedAs("panFixtureFixture")] [FormerlySerializedAs("fxPanFixture")] public LightPanFixture panFixture;
-        [FormerlySerializedAs("fxTiltFixture")] [FormerlySerializedAs("tiltFixture")] public LightTiltFixtureFixture tiltFixtureFixture;
+        [FormerlySerializedAs("tiltFixtureFixture")] [FormerlySerializedAs("fxTiltFixture")]
+        public LightTiltFixture tiltFixture;
         public List<Transform> lookAtTransforms = new List<Transform>();
         public int lookAtTransformIndex = 0;
         public float lookAtWeight = 1f;
@@ -121,16 +122,16 @@ namespace StageLightManeuver
                 // panFixture.rotateTransform.localEulerAngles += ( panAngle - panFixture.rotateTransform.localEulerAngles) * speed;
             }
 
-            if (tiltFixtureFixture)
+            if (tiltFixture)
             {
                 // Debug.Log(tiltFixture);
                var tiltAngle =
-                    tiltOffset + new Vector3(lookAtTransformLocalEulerAngles.x * tiltFixtureFixture.rotationVector.x,
-                        lookAtTransformLocalEulerAngles.y * tiltFixtureFixture.rotationVector.y,
-                        lookAtTransformLocalEulerAngles.z * tiltFixtureFixture.rotationVector.z);
+                    tiltOffset + new Vector3(lookAtTransformLocalEulerAngles.x * tiltFixture.rotationVector.x,
+                        lookAtTransformLocalEulerAngles.y * tiltFixture.rotationVector.y,
+                        lookAtTransformLocalEulerAngles.z * tiltFixture.rotationVector.z);
                
                 
-                tiltFixtureFixture.rotateTransform.localEulerAngles = tiltAngle;
+                tiltFixture.rotateTransform.localEulerAngles = tiltAngle;
                 // tiltFixture.rotateTransform.localEulerAngles += (tiltAngle - tiltFixture.rotateTransform.localEulerAngles)  * speed;
                 
             }

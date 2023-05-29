@@ -10,12 +10,12 @@ namespace StageLightManeuver
   
     [Serializable]
     [AddComponentMenu("")]
-    public abstract class StageLightFixtureFixtureBase: MonoBehaviour,IStageLightFixture
+    public abstract class StageLightFixtureBase: MonoBehaviour,IStageLightFixture
     {
         public List<Type> PropertyTypes = new List<Type>();
         public Queue<StageLightQueueData> stageLightDataQueue = new Queue<StageLightQueueData>();
         public int updateOrder = 0;
-        public List<StageLightFixtureBase> SyncStageLight { get; set; }
+        public List<StageLightBase> SyncStageLight { get; set; }
         public StageLight ParentStageLight { get; set; }
         public float offsetDuration = 0f;
         [FormerlySerializedAs("parentStageLightFixture")] [FormerlySerializedAs("parentStageLightFx")]
@@ -33,8 +33,8 @@ namespace StageLightManeuver
 
         public virtual void Init()
         {
-            SyncStageLight = new List<StageLightFixtureBase>();
-            foreach (var stageLightFixtureBase in GetComponentsInChildren<StageLightFixtureBase>())
+            SyncStageLight = new List<StageLightBase>();
+            foreach (var stageLightFixtureBase in GetComponentsInChildren<StageLightBase>())
             {
                 SyncStageLight.Add(stageLightFixtureBase);
             }

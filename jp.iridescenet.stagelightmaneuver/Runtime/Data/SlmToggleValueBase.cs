@@ -127,7 +127,7 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmBarLightProperty : SlmAdditionalProperty
     {
-        public virtual void ResizeBarLightArray(List<LightFixtureFixture> lightFixtures)
+        public virtual void ResizeBarLightArray(List<LightFixture> lightFixtures)
         {
         }
     }

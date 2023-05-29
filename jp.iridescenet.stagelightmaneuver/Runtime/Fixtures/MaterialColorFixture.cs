@@ -8,7 +8,7 @@ namespace StageLightManeuver
     
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class MaterialColorFixtureFixture:StageLightFixtureFixtureBase
+    public class MaterialColorFixture:StageLightFixtureBase
     {
         public MeshRenderer meshRenderer;
         public List<MeshRenderer> syncMeshRenderers = new List<MeshRenderer>();

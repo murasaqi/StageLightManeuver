@@ -9,7 +9,7 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class GoboFixtureFixture:StageLightFixtureFixtureBase
+    public class GoboFixture:StageLightFixtureBase
     {
         public VolumetricLightBeam volumetricLightBeam;
         public MeshRenderer meshRenderer;

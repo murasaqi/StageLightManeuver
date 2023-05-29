@@ -9,8 +9,8 @@ namespace StageLightManeuver
     public class StageLight: MonoBehaviour,IStageLight
     {
         
-        [SerializeReference] private List<StageLightFixtureFixtureBase> stageLightFixtures = new List<StageLightFixtureFixtureBase>();
-        public List<StageLightFixtureFixtureBase> StageLightFixtures { get => stageLightFixtures; set => stageLightFixtures = value; }
+        [SerializeReference] private List<StageLightFixtureBase> stageLightFixtures = new List<StageLightFixtureBase>();
+        public List<StageLightFixtureBase> StageLightFixtures { get => stageLightFixtures; set => stageLightFixtures = value; }
  
         public int order = 0;
         [ContextMenu("Init")]
@@ -55,7 +55,7 @@ namespace StageLightManeuver
 
         public void UpdateFixture()
         {
-            if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureFixtureBase>();
+            if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureBase>();
             foreach (var stageLightFixture in stageLightFixtures)
             {
                 if(stageLightFixture)stageLightFixture.UpdateFixture();
@@ -95,9 +95,9 @@ namespace StageLightManeuver
             }
             else
             {
-                stageLightFixtures = new List<StageLightFixtureFixtureBase>();
+                stageLightFixtures = new List<StageLightFixtureBase>();
             }
-            StageLightFixtures = GetComponents<StageLightFixtureFixtureBase>().ToList();
+            StageLightFixtures = GetComponents<StageLightFixtureBase>().ToList();
         }
     }
 }

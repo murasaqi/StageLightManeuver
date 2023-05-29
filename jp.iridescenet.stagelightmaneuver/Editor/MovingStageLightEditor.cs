@@ -49,7 +49,7 @@ namespace StageLightManeuver
                         null
                     );
                     MethodInfo bound = mi.MakeGenericMethod(type);
-                    var fixture =bound.Invoke(targetStageLight.gameObject, null) as StageLightFixtureFixtureBase;
+                    var fixture =bound.Invoke(targetStageLight.gameObject, null) as StageLightFixtureBase;
                     if(fixture)fixture.Init();
                     targetStageLight.FindFixtures();
                 }
@@ -75,7 +75,7 @@ namespace StageLightManeuver
                     continue;
                 }
                 var types = assembly.GetTypes();
-                types.Where(t => t.IsSubclassOf(typeof(StageLightFixtureFixtureBase)))
+                types.Where(t => t.IsSubclassOf(typeof(StageLightFixtureBase)))
                     .ToList()
                     .ForEach(t =>
                     {

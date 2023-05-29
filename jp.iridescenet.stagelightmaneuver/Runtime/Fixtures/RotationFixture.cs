@@ -6,7 +6,7 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class RotationFixture:StageLightFixtureFixtureBase
+    public class RotationFixture:StageLightFixtureBase
     {
         public Transform target;
         public Vector3 rotationAxis = new Vector3(0,0,1);

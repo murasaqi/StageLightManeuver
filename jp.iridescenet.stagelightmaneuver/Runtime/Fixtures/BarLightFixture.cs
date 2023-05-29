@@ -29,7 +29,7 @@ namespace StageLightManeuver
         
     }
 
-    public class BarLightFixtureFixture : StageLightFixtureFixtureBase
+    public class BarLightFixture : StageLightFixtureBase
     {
         private float lightIndex = 0;
         public List<Light> lights = new List<Light>();

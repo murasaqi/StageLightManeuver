@@ -6,14 +6,14 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
-    public abstract class StageLightFixtureBase: MonoBehaviour,IStageLightFixture
+    public abstract class StageLightBase: MonoBehaviour,IStageLightFixture
     {
         
         // [SerializeField]private int index = 0;
         // public int Index { get => index; set => index = value; }
-        [SerializeField]private List<StageLightFixtureBase> syncStageLight = new List<StageLightFixtureBase>();
+        [SerializeField]private List<StageLightBase> syncStageLight = new List<StageLightBase>();
 
-        public List<StageLightFixtureBase> SyncStageLight
+        public List<StageLightBase> SyncStageLight
         {
             get => syncStageLight;
             set=> syncStageLight = value;
@@ -56,7 +56,7 @@ namespace StageLightManeuver
         public void AddStageLightInChild()
         {
             syncStageLight.Clear();
-            syncStageLight = GetComponentsInChildren<StageLightFixtureBase>().ToList();
+            syncStageLight = GetComponentsInChildren<StageLightBase>().ToList();
 
             if (syncStageLight == null || syncStageLight.Count == 0)
                 return;

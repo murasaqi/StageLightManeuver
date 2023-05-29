@@ -7,7 +7,7 @@ namespace StageLightManeuver
 
     public interface IStageLightFixture
     {
-        public List<StageLightFixtureBase> SyncStageLight { get; set; }
+        public List<StageLightBase> SyncStageLight { get; set; }
         public void EvaluateQue(float time);
 
         public void AddStageLightInChild()
