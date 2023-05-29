@@ -69,7 +69,7 @@ namespace StageLightManeuver
                 var timeProperty = queueData.TryGetActiveProperty<ClockProperty>();
                 var materialProperty = queueData.TryGetActiveProperty<MaterialColorProperty>();
                 var weight = queueData.weight;
-                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>();
                 var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (timeProperty == null || materialProperty == null)
                 {

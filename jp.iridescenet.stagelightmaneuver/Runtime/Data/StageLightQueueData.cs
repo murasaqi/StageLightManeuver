@@ -91,64 +91,6 @@ namespace StageLightManeuver
             stageLightProperties.Add(instance);
 
             return instance;
-            // if (T == typeof(LightFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(LightProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(lightProperty);
-            //         var lightProperty = find as LightProperty;
-            //         stageLightProperties.Add(lightProperty);
-            //         return lightProperty;
-            //     }
-            //     
-            // }
-            //
-            // if (T == typeof(LightPanFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(PanProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(panProperty);
-            //         var panProperty = find as PanProperty;
-            //         stageLightProperties.Add(new PanProperty());
-            //     }
-            //     
-            // }
-            //
-            // if (T == typeof(LightTiltFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(TiltProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(tiltProperty);
-            //         stageLightProperties.Add(new TiltProperty());
-            //     }
-            //     
-            // }
-            //
-            // if (T == typeof(GoboFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(GoboProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(goboProperty);
-            //         stageLightProperties.Add(new GoboProperty());
-            //     }
-            // }
-            //
-            // if (T == typeof(DecalProperty))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(DecalProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(decalProperty);
-            //         stageLightProperties.Add(new DecalProperty());
-            //     }
-            // }
-
-
-
         }
     }
 }

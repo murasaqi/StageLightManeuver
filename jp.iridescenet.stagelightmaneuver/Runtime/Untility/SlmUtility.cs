@@ -84,30 +84,10 @@ namespace StageLightManeuver
             return t; 
         }
 
-        // public static int GetStageLightIndex(StageLightOrderProperty stageLightOrderProperty,StageLight stageLight)
-        // {
-        //     var index = 0;
-        //     if(stageLightOrderProperty == null || stageLightOrderProperty.stageLightOrderSettingList == null || stageLightOrderProperty.settingNumber <0) return stageLight.order;
-        //     var stageLightOrderSetting = stageLightOrderProperty.stageLightOrderSettingList[stageLightOrderProperty.settingNumber];
-        //     foreach (var stageLightData in stageLightOrderSetting.stageLightOrder)
-        //     {
-        //         if (stageLightData.stageLight == stageLight)
-        //         {
-        //             return index;
-        //         }
-        //         index++;
-        //     }
-        //     return stageLight.order;
-        // }
-          
+        
         public static List<StageLightProfile> GetProfileInProject()
         {
-              // Debug.Log(Application.dataPath);
-              // Get file in Unity project folderselectedProfileIndex
-            
-
-              // var guids = AssetDatabase.FindAssets("t:StageLightProfile a:all");
-              var guids = AssetDatabase.FindAssets("t:StageLightProfile");
+            var guids = AssetDatabase.FindAssets("t:StageLightProfile");
               var profiles = new List<StageLightProfile>();
               foreach (var guid in guids)
               {
