@@ -64,7 +64,16 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueueData");
                 serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
                 stageLightTimelineClip.behaviour.CheckRequiredProperties();
-                
+                // remove null property
+                for (int i = 0; i < stageLightProperties.Count; i++)
+                {
+                    if(stageLightProperties[i] == null)
+                    {
+                        stageLightProperties.RemoveAt(i);
+                        serializedProperty.DeleteArrayElementAtIndex(i);
+                        i--;
+                    }
+                }
                 stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
                 
                 for (int i = 0; i < stageLightProperties.Count; i++)

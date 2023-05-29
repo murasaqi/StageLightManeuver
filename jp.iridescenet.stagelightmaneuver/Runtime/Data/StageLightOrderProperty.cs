@@ -12,6 +12,8 @@ namespace StageLightManeuver
         
         public int GetStageLightIndex(StageLight stageLight)
         {
+            
+            if(stageLight == null) return 0;
            
             if (index < 0)
             {
