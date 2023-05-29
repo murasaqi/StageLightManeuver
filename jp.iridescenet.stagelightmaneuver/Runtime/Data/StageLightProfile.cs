@@ -97,7 +97,7 @@ namespace StageLightManeuver
                     stageLightProperties.Add(new LightProperty());
                 }
             
-                if (extension.GetType() == typeof(LightPanFixtureFixture))
+                if (extension.GetType() == typeof(LightPanFixture))
                 {
                     stageLightProperties.Add(new PanProperty());
                 }
@@ -107,7 +107,7 @@ namespace StageLightManeuver
                     stageLightProperties.Add(new TiltProperty());
                 }
                 
-                if (extension.GetType() == typeof(DecalFixtureFixture))
+                if (extension.GetType() == typeof(DecalFixture))
                 {
                     stageLightProperties.Add(new DecalProperty());
                 }

@@ -9,7 +9,7 @@ namespace StageLightManeuver
     public class LookAtFixtureFixture:StageLightFixtureFixtureBase
     {
         
-        [FormerlySerializedAs("fxPanFixture")] [FormerlySerializedAs("panFixture")] public LightPanFixtureFixture panFixtureFixture;
+        [FormerlySerializedAs("panFixtureFixture")] [FormerlySerializedAs("fxPanFixture")] public LightPanFixture panFixture;
         [FormerlySerializedAs("fxTiltFixture")] [FormerlySerializedAs("tiltFixture")] public LightTiltFixtureFixture tiltFixtureFixture;
         public List<Transform> lookAtTransforms = new List<Transform>();
         public int lookAtTransformIndex = 0;
@@ -110,14 +110,14 @@ namespace StageLightManeuver
                 InitLookAt();
 
             var lookAtTransformLocalEulerAngles = lookAtDummy.transform.localEulerAngles;
-            if (panFixtureFixture)
+            if (panFixture)
             {
                 var panAngle =
-                    panoffset + new Vector3(lookAtTransformLocalEulerAngles.x * panFixtureFixture.rotationVector.x,
-                        lookAtTransformLocalEulerAngles.y * panFixtureFixture.rotationVector.y,
-                        lookAtTransformLocalEulerAngles.z * panFixtureFixture.rotationVector.z);
+                    panoffset + new Vector3(lookAtTransformLocalEulerAngles.x * panFixture.rotationVector.x,
+                        lookAtTransformLocalEulerAngles.y * panFixture.rotationVector.y,
+                        lookAtTransformLocalEulerAngles.z * panFixture.rotationVector.z);
 
-                panFixtureFixture.rotateTransform.localEulerAngles = panAngle;
+                panFixture.rotateTransform.localEulerAngles = panAngle;
                 // panFixture.rotateTransform.localEulerAngles += ( panAngle - panFixture.rotateTransform.localEulerAngles) * speed;
             }
 

@@ -12,7 +12,7 @@ namespace StageLightManeuver
 {
     [ExecuteAlways]
     [AddComponentMenu("")]
-    public class DecalFixtureFixture: StageLightFixtureFixtureBase
+    public class DecalFixture: StageLightFixtureFixtureBase
     {
         [FormerlySerializedAs("lightFxFixture")] [FormerlySerializedAs("lightFixture")] public LightFixtureFixture lightFixtureFixture;
         public Texture2D decalTexture;
