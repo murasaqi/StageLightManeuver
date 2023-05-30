@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.iridescent.volumetriclightbeam": {
-      "version": "file:VolumetricLightBeamAlter",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.unity.burst": {
       "version": "1.7.3",
       "depth": 1,
