@@ -87,6 +87,7 @@ namespace StageLightManeuver
         
         public static List<StageLightProfile> GetProfileInProject()
         {
+#if UNITY_EDITOR
             var guids = AssetDatabase.FindAssets("t:StageLightProfile");
               var profiles = new List<StageLightProfile>();
               foreach (var guid in guids)
@@ -95,7 +96,11 @@ namespace StageLightManeuver
                   var profile = AssetDatabase.LoadAssetAtPath<StageLightProfile>(path);
                   profiles.Add(profile);
               }
+              
             return profiles;
+#else
+        return null;
+#endif
         }
         
         public static float GetNormalizedTime(float time,float bpm, float bpmOffset,float bpmScale,ClipProperty clipProperty,LoopType loopType, ArrayStaggerValue arrayStaggerValue, int index = 0)
