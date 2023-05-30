@@ -101,8 +101,10 @@ namespace StageLightManeuver
             //
             // if(serializedProfile == null)
             //     serializedProfile = new SerializedObject(ReferenceStageLightProfile);
-            Selection.selectionChanged -=OnSelection;
+#if UNITY_EDITOR
+            Selection.selectionChanged -= OnSelection;
             Selection.selectionChanged += OnSelection;
+#endif
             // slmProperties = referenceStageLightProfile.stageLightProperties;
         }
 
