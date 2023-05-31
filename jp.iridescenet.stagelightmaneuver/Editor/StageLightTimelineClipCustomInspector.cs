@@ -244,10 +244,21 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     new GUIContent(""));
                 if (EditorGUI.EndChangeCheck())
                 {
+                    if (serializedObject.FindProperty("referenceStageLightProfile").objectReferenceValue == null)
+                    {
+                        stageLightTimelineClip.syncReferenceProfile = false;
+                    }
                     serializedObject.ApplyModifiedProperties();
                 }
             }
 
+            if (stageLightTimelineClip.referenceStageLightProfile == null &&
+                stageLightTimelineClip.syncReferenceProfile)
+            {
+                stageLightTimelineClip.syncReferenceProfile = false;
+                serializedObject.ApplyModifiedProperties();
+            }
+            
             EditorGUI.BeginDisabledGroup(stageLightTimelineClip.referenceStageLightProfile == null);
 
 
@@ -277,15 +288,19 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 }
             }
             
+            EditorGUI.EndDisabledGroup();
+            
             EditorGUI.BeginChangeCheck();
+            
             EditorGUILayout.PropertyField(serializedObject.FindProperty("syncReferenceProfile"));
             if (EditorGUI.EndChangeCheck())
             {
+                
                 serializedObject.ApplyModifiedProperties();
                 stageLightTimelineClip.InitSyncData();
             }
             
-            EditorGUI.EndDisabledGroup();
+           
 
 
             using (new EditorGUILayout.HorizontalScope())
