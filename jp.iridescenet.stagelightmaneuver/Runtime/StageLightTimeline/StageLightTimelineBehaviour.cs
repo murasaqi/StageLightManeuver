@@ -30,13 +30,17 @@ namespace StageLightManeuver
         
         public void CheckRequiredProperties()
         {
-            if(stageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) ==
+            if(stageLightQueueData == null || stageLightQueueData.stageLightProperties == null)
+            {
+                Init();
+            }
+            if(stageLightQueueData.stageLightProperties.Find(x => x?.GetType() == typeof(ClockProperty)) ==
                null)
             {
                 stageLightQueueData.stageLightProperties.Insert(0,new ClockProperty());
             }
             
-            if (stageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(StageLightOrderProperty)) ==
+            if (stageLightQueueData.stageLightProperties.Find(x => x?.GetType() == typeof(StageLightOrderProperty)) ==
                 null)
             {
                 stageLightQueueData.stageLightProperties.Insert(1,new StageLightOrderProperty());

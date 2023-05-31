@@ -265,6 +265,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                     EditorUtility.SetDirty(stageLightTimelineClip);
                     stageLightTimelineClip.LoadProfile();
                     serializedObject.ApplyModifiedProperties();
+                    stageLightTimelineClip.stopEditorUiUpdate = false;
                     // Repaint();
                 }
                 GUI.backgroundColor= Color.white;

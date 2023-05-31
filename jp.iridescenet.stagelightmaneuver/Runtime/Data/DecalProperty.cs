@@ -56,7 +56,6 @@ namespace StageLightManeuver
             fadeFactor = new SlmToggleValue<float>(other.fadeFactor);
             opacity = new SlmToggleValue<float>(other.opacity);
             
-            Debug.Log("DecalProperty Created");
         }
 
 
