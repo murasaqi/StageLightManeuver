@@ -38,32 +38,8 @@ namespace StageLightManeuver
 #if UNITY_EDITOR
         
         private SerializedObject serializedProfile;
-        // public SerializedObject SerializedProfile
-        // {
-        //     get
-        //     {
-        //
-        //         if (serializedProfile == null || serializedProfile.targetObject == null)
-        //             serializedProfile = new SerializedObject(ReferenceStageLightProfile);
-        //         return serializedProfile;
-        //     }
-        //     
-        // }
-        #endif
-        
-        // public StageLightProfile ReferenceStageLightProfile
-        // {
-        //     get
-        //     {
-        //         if (referenceStageLightProfile == null || referenceStageLightProfile.stageLightProperties == null)
-        //         {
-        //             referenceStageLightProfile =  ScriptableObject.CreateInstance<StageLightProfile>();
-        //         }
-        //
-        //         return referenceStageLightProfile;
-        //     }
-        //     set => referenceStageLightProfile = value;
-        // }
+#endif
+
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
         {
             #if UNITY_EDITOR
