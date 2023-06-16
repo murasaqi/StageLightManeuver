@@ -162,12 +162,12 @@ namespace StageLightManeuver
             propertyName = "Clock";
             propertyOrder = -999;
             propertyOverride = true;
-            loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop};
+            loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop, propertyOverride = true};
             clipProperty = new ClipProperty(){clipStartTime = 0, clipEndTime = 0};
-            bpm = new SlmToggleValue<float>() { value = 60 };
-            bpmScale = new SlmToggleValue<float>() { value = 1f };
-            // staggerDelay = new SlmToggleValue<float>() { value = 0f };
-            offsetTime = new SlmToggleValue<float>() { value = 0f };
+            bpm = new SlmToggleValue<float>() { value = 60 , propertyOverride = true};
+            bpmScale = new SlmToggleValue<float>() { value = 1f , propertyOverride = true};
+            staggerDelay = new SlmToggleValue<float>() { value = 0f , propertyOverride = false};
+            offsetTime = new SlmToggleValue<float>() { value = 0f , propertyOverride = true};
         }
 
         public void ResyncArraySize(List<StageLight> stageLights)

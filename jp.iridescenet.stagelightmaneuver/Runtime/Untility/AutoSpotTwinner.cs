@@ -12,7 +12,7 @@ namespace StageLightManeuver
         public Vector3 initialRotation = Vector3.zero;
         public Transform target;
         private Vector3 panVelocity;
-        [Range(0.001f, 1f)] public float speed = 1f;
+        [Range(0.001f, 0.1f)] public float speed = 0.02f;
         private float _maxSpeed = float.PositiveInfinity;
 
         // Start is called before the first frame update

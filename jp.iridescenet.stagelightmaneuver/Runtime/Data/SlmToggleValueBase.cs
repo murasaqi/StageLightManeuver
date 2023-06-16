@@ -116,6 +116,11 @@ namespace StageLightManeuver
             value = new ClockOverride(),
             sortOrder = -999
         };
+        
+        public SlmAdditionalProperty()
+        {
+            propertyOverride = true;
+        }
 
         public virtual void ResyncArraySize(List<StageLight> stageLights)
         {
