@@ -365,7 +365,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorUtility.SetDirty(stageLightTimelineClip);
             var newProfile = CreateInstance<StageLightProfile>();
             newProfile.stageLightProperties = stageLightTimelineClip.StageLightQueueData.stageLightProperties;
-            var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName) + ".asset";
+            var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName);
 
             // if directory not exist, create it
             var directory = Path.GetDirectoryName(exportPath);
