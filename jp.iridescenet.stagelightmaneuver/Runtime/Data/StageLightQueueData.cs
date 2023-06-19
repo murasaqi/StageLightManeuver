@@ -69,9 +69,28 @@ namespace StageLightManeuver
         }
         
         
-        
+        public bool TryAddProperty(Type T)
+        {
+           
+            foreach (var property in stageLightProperties)
+            {
+                if (property == null)
+                {
+                    continue;
+                }
+                if (property.GetType() == T)
+                {
+                    return false;
+                }
+            }
+            
+            
+            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmAdditionalProperty;
+            stageLightProperties.Add(instance);
+            return true;
+        }
 
-        public SlmAdditionalProperty TryAdd(Type T) 
+        public SlmAdditionalProperty TryAddGetProperty(Type T) 
         {
             
             foreach (var property in stageLightProperties)

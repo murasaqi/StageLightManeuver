@@ -26,7 +26,14 @@ public class StageLightTimelineTrackEditor : UnityEditor.Editor
 
         // space 
         EditorGUILayout.Space();
-        SlmEditorUtility.DrawAddPropertyField( track.stageLightTimelineClips,"Add Property All Clip");
+        var isChanged = SlmEditorUtility.DrawAddPropertyField( track.stageLightTimelineClips,"Add Property All Clip");
+
+        if (isChanged)
+        {
+            // set dirty
+            EditorUtility.SetDirty(target);
+            // AssetDatabase.SaveAssets();
+        }
     }
         
     

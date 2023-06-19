@@ -216,7 +216,11 @@ namespace StageLightManeuver
             }
             else 
             {
-                if(materialColorProperty.color == null) return tex;
+                if(materialColorProperty == null || materialColorProperty.color == null) return tex;
+                if (materialColorProperty.color.value == null)
+                {
+                    materialColorProperty.color.value = new Gradient();
+                }
                 gradient = materialColorProperty.color.value;
             }
            
