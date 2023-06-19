@@ -63,6 +63,23 @@ namespace StageLightManeuver
             return mixer;
         }
 
+        public void SortProperty()
+        {
+            var clips = GetClips().ToList();
+            foreach (var clip in clips)
+            {
+                var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
+                if(stageLightTimelineClip == null || stageLightTimelineClip.StageLightQueueData == null) continue;
+                
+                // Debug.Log(stageLightTimelineClip.StageLightQueueData.stageLightProperties.Count) as ClockProperty;
+                var clockProperty = stageLightTimelineClip.StageLightQueueData.TryAddGetProperty(typeof(ClockProperty));
+                Debug.Log(clockProperty);
+                clockProperty.sortOrder = -999;
+                stageLightTimelineClip.StageLightQueueData.TryAddGetProperty(typeof(StageLightOrderProperty)).sortOrder = -0;
+                stageLightTimelineClip.StageLightQueueData.stageLightProperties.Sort((a, b) => a.propertyOrder.CompareTo(b.propertyOrder));
+            }
+        }
+
         public void OnEnable()
         {
             // if (referenceStageLightProfile == null)

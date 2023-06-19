@@ -179,9 +179,9 @@ namespace StageLightManeuver
              
                if(valueObject == null) return;
 
-                if (valueObject.GetType() == typeof(SlmToggleValue<ClockOverride>))
+                if (valueObject.GetType() == typeof(SlmToggleValue<ClockProperty>))
                 {
-                    var slmToggleValue = valueObject as SlmToggleValue<ClockOverride>;
+                    var slmToggleValue = valueObject as SlmToggleValue<ClockProperty>;
                     slmToggleValue.sortOrder = -999;
                     serializedProperty.serializedObject.ApplyModifiedProperties();
                 }

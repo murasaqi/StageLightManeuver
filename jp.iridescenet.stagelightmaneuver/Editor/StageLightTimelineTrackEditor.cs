@@ -34,6 +34,15 @@ public class StageLightTimelineTrackEditor : UnityEditor.Editor
             EditorUtility.SetDirty(target);
             // AssetDatabase.SaveAssets();
         }
+        // EditorGUILayout.Space();
+        // EditorGUILayout.BeginHorizontal();
+        // EditorGUILayout.Space();
+        // if (GUILayout.Button("Sort property", GUILayout.MaxWidth(100)))
+        // {
+        //     track.SortProperty();
+        // }
+        // // EditorGUILayout.Space();
+        // EditorGUILayout.EndHorizontal();
     }
         
     

@@ -69,6 +69,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         i--;
                     }
                 }
+                
+                var clock =stageLightProperties.Find( x => x.GetType() == typeof(ClockProperty));
+                clock.propertyOrder = -999;
+                
+                var stageLightOrder =stageLightProperties.Find( x => x.GetType() == typeof(StageLightOrderProperty));
+                stageLightOrder.propertyOrder = -998;
+                // stageLightProperties = stageLightOrder;
                 stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
                 
                 for (int i = 0; i < stageLightProperties.Count; i++)
@@ -117,6 +124,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                         fields.Remove(clockOverride);
                         fields.Insert(0,clockOverride);
                     }
+                    
                     
                     fields.ForEach(f =>
                     {

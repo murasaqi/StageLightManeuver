@@ -90,7 +90,7 @@ namespace StageLightManeuver
             return true;
         }
 
-        public SlmAdditionalProperty TryAddGetProperty(Type T) 
+        public SlmProperty TryAddGetProperty(Type T) 
         {
             
             foreach (var property in stageLightProperties)
@@ -101,12 +101,12 @@ namespace StageLightManeuver
                 }
                 if (property.GetType() == T)
                 {
-                    return property as SlmAdditionalProperty;
+                    return property as SlmProperty;
                 }
             }
             
             
-            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmAdditionalProperty;
+            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmProperty;
             stageLightProperties.Add(instance);
 
             return instance;

@@ -64,13 +64,13 @@ namespace StageLightManeuver
             
             if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(ClockProperty)) == null)
             {
-                StageLightQueueData.stageLightProperties.Add(new ClockProperty());    
+                StageLightQueueData.stageLightProperties.Insert(0,new ClockProperty());    
             }
 
             if (StageLightQueueData.stageLightProperties.Find(x => x.GetType() == typeof(StageLightOrderProperty)) ==
                 null)
             {
-                StageLightQueueData.stageLightProperties.Add(new StageLightOrderProperty());
+                StageLightQueueData.stageLightProperties.Insert(1,new StageLightOrderProperty());
             }
             
             var propertyTypes = new List<Type>();
