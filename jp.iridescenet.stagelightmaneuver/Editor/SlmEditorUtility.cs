@@ -300,8 +300,10 @@ namespace StageLightManeuver
             selectList.Insert(0, pullDownName);
 
 
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.Space();
             EditorGUI.BeginDisabledGroup(selectList.Count <= 1);
-            var select = EditorGUILayout.Popup(0, selectList.ToArray());
+            var select = EditorGUILayout.Popup(0, selectList.ToArray(), GUILayout.Width(150));
             EditorGUI.EndDisabledGroup();
             if (EditorGUI.EndChangeCheck())
             {
@@ -310,8 +312,9 @@ namespace StageLightManeuver
                     AddPropertyInClip(stageLightTimelineClip, selectList[select]);
                 }
             }
-
+            EditorGUILayout.Space();
             EditorGUI.EndChangeCheck();
+            EditorGUILayout.EndHorizontal();
         }
 
         public static void AddPropertyInClip(StageLightTimelineClip stageLightTimelineClip, string propertyTypeName)

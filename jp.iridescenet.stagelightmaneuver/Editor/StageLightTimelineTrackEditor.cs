@@ -15,12 +15,18 @@ public class StageLightTimelineTrackEditor : UnityEditor.Editor
         var target = serializedObject.targetObject;
         var track = target as StageLightTimelineTrack;
         // draw apply button
-        if (GUILayout.Button("Apply BPM"))
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Apply BPM", GUILayout.MaxWidth(100)))
         {
             track.ApplyBPM();
         }
+        // EditorGUILayout.Space();
+        EditorGUILayout.EndHorizontal();
 
-        SlmEditorUtility.DrawAddPropertyField( track.stageLightTimelineClips);
+        // space 
+        EditorGUILayout.Space();
+        SlmEditorUtility.DrawAddPropertyField( track.stageLightTimelineClips,"Add Property All Clip");
     }
         
     
