@@ -29,9 +29,7 @@ namespace StageLightManeuver
         [SerializeField] public bool drawBeat = true;
         [SerializeField] public Color beatLineColor = new Color(0, 1, 0.7126422f, 0.2f);
         [SerializeField] public bool updateOnOutOfClip = false;
-
-        // private StageLightProfile referenceStageLightProfile;
-        
+        public List<StageLightTimelineClip> stageLightTimelineClips = new List<StageLightTimelineClip>();
         public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
          // public List<SlmProperty> slmProperties;
 
@@ -48,16 +46,18 @@ namespace StageLightManeuver
             #endif
             var mixer = ScriptPlayable<StageLightTimelineMixerBehaviour>.Create(graph, inputCount);
             var stageLightTimelineMixer = mixer.GetBehaviour();
+            stageLightTimelineClips.Clear();
             stageLightTimelineMixer.stageLightTimelineTrack = this;
-            var clips = GetClips().ToList();
-            stageLightTimelineMixer.clips = clips;
+            var timelineClips = GetClips().ToList();
+            stageLightTimelineMixer.clips = timelineClips;
             var director = go.GetComponent<PlayableDirector>();
-            foreach (var clip in clips)
+            foreach (var clip in timelineClips)
             {
                 var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
                 stageLightTimelineClip.track = this;
                 stageLightTimelineClip.mixer = stageLightTimelineMixer;
                 stageLightTimelineClip.clipDisplayName = clip.displayName;
+                stageLightTimelineClips.Add(stageLightTimelineClip);
             }
 
             return mixer;
@@ -110,6 +110,20 @@ namespace StageLightManeuver
 
                     }
                 }
+                
+            }
+        }
+
+        public void ApplyBPM()
+        {
+            var clips = GetClips().ToList();
+            foreach (var clip in clips)
+            {
+                var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
+                var clockProperty = stageLightTimelineClip.behaviour.stageLightQueueData.TryGetActiveProperty<ClockProperty>();
+                clockProperty.bpm.value = bpm;
+                // Set dirty
+                EditorUtility.SetDirty(stageLightTimelineClip);
                 
             }
         }

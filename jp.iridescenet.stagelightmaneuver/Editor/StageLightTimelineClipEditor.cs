@@ -201,11 +201,30 @@ namespace StageLightManeuver
 
             if(customClip.StageLightQueueData == null) return tex;
             var lightProperty = customClip.StageLightQueueData.TryGetActiveProperty<LightProperty>();
+            var materialColorProperty = customClip.StageLightQueueData.TryGetActiveProperty<MaterialColorProperty>();
             var lightColorProperty = customClip.StageLightQueueData.TryGetActiveProperty<LightColorProperty>();
-            if(lightColorProperty == null || lightProperty == null) return tex;
-            if(lightColorProperty.lightToggleColor == null) return tex;
-            var gradient = lightColorProperty.lightToggleColor.value;
+            if(lightColorProperty == null && lightProperty == null && materialColorProperty == null) return tex;
             
+        
+
+        
+            var gradient = new Gradient();
+            if (lightColorProperty != null && materialColorProperty == null)
+            {
+                if(lightColorProperty.lightToggleColor == null) return tex;
+                gradient = lightColorProperty.lightToggleColor.value;
+            }
+            else 
+            {
+                if(materialColorProperty == null || materialColorProperty.color == null) return tex;
+                if (materialColorProperty.color.value == null)
+                {
+                    materialColorProperty.color.value = new Gradient();
+                }
+                gradient = materialColorProperty.color.value;
+            }
+           
+
             var lightIntensityProperty = customClip.StageLightQueueData.TryGetActiveProperty<LightIntensityProperty>();
             if (update) 
             {
@@ -223,8 +242,6 @@ namespace StageLightManeuver
             {
                 var currentTime  =(float)clip.start+(float)clip.duration* (float)i / tex.width;
             
-                // var lightProfile = lightProperty;
-                
                 var timeProperty = customClip.StageLightQueueData.TryGetActiveProperty<ClockProperty>();
                 if (timeProperty != null)
                 {
@@ -232,20 +249,31 @@ namespace StageLightManeuver
                     var color = Color.black;
 
 
-                    if (lightColorProperty != null && lightColorProperty.lightToggleColor != null)
+                    if (lightColorProperty != null)
                     {
                         var lightT = SlmUtility.GetNormalizedTime(currentTime, timeProperty, lightColorProperty);
                         color = gradient.Evaluate(lightT);     
                        
                     }
+                    else if(materialColorProperty != null)
+                    {
+                        var materialT = SlmUtility.GetNormalizedTime(currentTime, timeProperty, materialColorProperty);
+                        color = gradient.Evaluate(materialT);
+                    }
 
                     var intensityValue = 1f;
-                    if (lightIntensityProperty != null && lightIntensityProperty.lightToggleIntensity != null)
+                    if (lightIntensityProperty != null)
                     {
                         var t = SlmUtility.GetNormalizedTime(currentTime, timeProperty, lightIntensityProperty);
                         intensityValue = lightIntensityProperty.lightToggleIntensity.value.Evaluate(t);
                         // intensityValue = intensityValue
                     }
+                    else if(materialColorProperty != null)
+                    {
+                        var t = SlmUtility.GetNormalizedTime(currentTime, timeProperty, materialColorProperty);
+                        intensityValue = materialColorProperty.intensity.value.Evaluate(t);
+                    }
+                    
                     color = new Color(color.r,
                         color.g,
                         color.b,

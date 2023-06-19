@@ -42,18 +42,13 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             stageLightTimelineClip = serializedObject.targetObject as StageLightTimelineClip;
             if(stageLightTimelineClip.stopEditorUiUpdate)  return;
             BeginInspector();
-            
-    
         }
         
         private void BeginInspector()
         {
             DrawProfileIO();
-
             EditorGUILayout.Space(2);
-            
-            
-                EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
+            EditorGUI.BeginDisabledGroup(stageLightTimelineClip.syncReferenceProfile);
                 // isMultiSelect = false;
                 var stageLightProperties = new List<SlmProperty>();
                 SerializedProperty serializedProperty;
@@ -80,7 +75,10 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 {
                     var slmProperty = stageLightProperties[i];
                     if(slmProperty == null) continue;
-                    
+                    if(i >= serializedProperty.arraySize)
+                    {
+                      return;
+                    }
                     var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
                     var expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, slmProperty.propertyName);
                     
@@ -365,7 +363,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorUtility.SetDirty(stageLightTimelineClip);
             var newProfile = CreateInstance<StageLightProfile>();
             newProfile.stageLightProperties = stageLightTimelineClip.StageLightQueueData.stageLightProperties;
-            var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName) + ".asset";
+            var exportPath = SlmUtility.GetExportPath(stageLightTimelineClip.exportPath,stageLightTimelineClip.clipDisplayName);
 
             // if directory not exist, create it
             var directory = Path.GetDirectoryName(exportPath);

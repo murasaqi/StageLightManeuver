@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,31 +9,45 @@ namespace StageLightManeuver
     public class AutoSpotTwinner : MonoBehaviour
     {
 
+        public Vector3 initialRotation = Vector3.zero;
         public Transform target;
         private Vector3 panVelocity;
-        [Range(0.001f, 0.3f)] public float speed = 1f;
+        [Range(0.001f, 0.1f)] public float speed = 0.02f;
+        private float _maxSpeed = float.PositiveInfinity;
 
         // Start is called before the first frame update
         void Start()
         {
-
+            Init();
         }
+
+        public void Init()
+        {
+            transform.rotation = Quaternion.Euler(initialRotation);
+        }
+
+        private void OnDestroy()
+        {
+            Init();
+        }
+
+        private void OnDisable()
+        {
+            Init();
+        }
+
+        private void OnEnable()
+        {
+            Init();
+        }
+
 
         // Update is called once per frame
         void Update()
         {
-            if (target == null) return;
             var targetRotation = Quaternion.LookRotation(target.position - transform.position);
-            // calculate angle SmoothDampAngle
-            var angleY = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y, ref panVelocity.y, speed);
-            var angleX = Mathf.SmoothDampAngle(transform.eulerAngles.x, targetRotation.eulerAngles.x, ref panVelocity.x, speed);
-            var angleZ = Mathf.SmoothDampAngle(transform.eulerAngles.z, targetRotation.eulerAngles.z, ref panVelocity.z, speed);
-            transform.eulerAngles = new Vector3(angleX, angleY, angleZ);
-            
-            panVelocity = new Vector3( angleX, angleY, angleZ);
-            // transform.rotation = Quaternion.LookRotation(target.position - transform.position);
-            
-            // calculate the rotation needed to point at the target smoothdamp    
+            var startRotation = transform.rotation;
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, speed * Time.fixedTime);
         }
     }
 }
