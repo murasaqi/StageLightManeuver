@@ -94,20 +94,18 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
-            
             if (_materialPropertyBlock == null || _materialPropertyBlocks == null) return;
             {
                 Init();
             }
-            if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
             if(_materialPropertyBlock ==null) return;
-            _materialPropertyBlock.SetColor(colorPropertyName,SlmUtility.GetHDRColor(color,intensity));
 
             if (meshRenderer)
             {
-                // Debug.Log($"{SlmUtility.GetHDRColor(color,intensity)},{materialIndex}");
+                meshRenderer.GetPropertyBlock(_materialPropertyBlock,materialIndex);
+                _materialPropertyBlock.SetColor(colorPropertyName,SlmUtility.GetHDRColor(color,intensity));
                 meshRenderer.SetPropertyBlock(_materialPropertyBlock,materialIndex);
-                // meshRenderer.up
+                
             }
             
             
@@ -116,7 +114,7 @@ namespace StageLightManeuver
                 var meshRenderer = materialPropertyBlock.Key;
                 var block = materialPropertyBlock.Value;
                 if(meshRenderer == null || block == null) continue;
-                
+                meshRenderer.GetPropertyBlock(block,materialIndex);
                 block.SetColor(colorPropertyName,SlmUtility.GetHDRColor(color,intensity));
                 meshRenderer.SetPropertyBlock(block,materialIndex);
             }
