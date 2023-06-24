@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using System.Linq;
-using System.Reflection;
 using UnityEngine.SceneManagement;
 
 // using System.Reflection;
@@ -22,8 +20,6 @@ namespace StageLightManeuver
             return path.Replace("<Scene>", SceneManager.GetActiveScene().name).Replace("<ClipName>", clipName);
         }
 
-        public static List<Type> SlmPropertyTypes = GetTypes(typeof(SlmProperty));
-        
         public static float GetOffsetTime(float currentTime, StageLightQueueData queData, Type propertyType,int index)
         {
             var additionalProperty = queData.TryGetActiveProperty(propertyType) as SlmAdditionalProperty;
@@ -133,41 +129,6 @@ namespace StageLightManeuver
             return result;
         }
 
-        public static List<Type> GetTypes(Type T)
-        {
-            var assemblyList = AppDomain.CurrentDomain.GetAssemblies();
-
-            var typeList = new List<Type>();
-            foreach ( var assembly in assemblyList )
-            {
-                
-                //
-                if ( assembly == null )
-                {
-                    continue;
-                }
-                
-
-                var types = assembly.GetTypes();
-                typeList.AddRange(types.Where(t => t.IsSubclassOf(T))
-                    .ToList());
-              
-            }
-
-            return typeList;
-        }
-        
-        public static Type GetTypeByClassName( string className )
-        {
-            foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() ) {
-                foreach( Type type in assembly.GetTypes() ) {
-                    if( type.Name == className ) {
-                        return type;
-                    }
-                }
-            }
-            return null;
-        }
         
         public static Color GetHDRColor(Color color, float intensity)
         {

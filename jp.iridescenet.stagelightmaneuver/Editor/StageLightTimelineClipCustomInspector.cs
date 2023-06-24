@@ -173,7 +173,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             EditorGUI.BeginChangeCheck();
             var selectList = new List<string>();
             
-            SlmUtility.SlmPropertyTypes.ForEach(t =>
+            SlmEditorUtility.SlmPropertyTypes.ForEach(t =>
             {
                 selectList.Add(t.Name);
             });
@@ -196,7 +196,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
             {
                 Undo.RecordObject(stageLightTimelineClip, "Add Property");
                 EditorUtility.SetDirty(stageLightTimelineClip);   
-                var type = SlmUtility.GetTypeByClassName(selectList[select]);
+                var type = SlmEditorUtility.GetTypeByClassName(selectList[select]);
                 var property = Activator.CreateInstance(type) as SlmProperty;
 
                 if (property.GetType() == typeof(ManualLightArrayProperty))

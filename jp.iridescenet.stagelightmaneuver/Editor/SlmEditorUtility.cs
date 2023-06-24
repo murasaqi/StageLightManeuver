@@ -10,6 +10,31 @@ namespace StageLightManeuver
 {
     public static class SlmEditorUtility
     {
+        
+        public static List<Type> SlmPropertyTypes = GetTypes(typeof(SlmProperty));
+        public static List<Type> GetTypes(Type T)
+        {
+            var assemblyList = AppDomain.CurrentDomain.GetAssemblies();
+
+            var typeList = new List<Type>();
+            foreach ( var assembly in assemblyList )
+            {
+                
+                //
+                if ( assembly == null )
+                {
+                    continue;
+                }
+                
+
+                var types = assembly.GetTypes();
+                typeList.AddRange(types.Where(t => t.IsSubclassOf(T))
+                    .ToList());
+              
+            }
+
+            return typeList;
+        }
         public static void DrawDefaultGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             property = property.serializedObject.FindProperty(property.propertyPath);
@@ -295,7 +320,7 @@ namespace StageLightManeuver
             EditorGUI.BeginChangeCheck();
             var selectList = new List<string>();
 
-            SlmUtility.SlmPropertyTypes.ForEach(t => { selectList.Add(t.Name); });
+            SlmPropertyTypes.ForEach(t => { selectList.Add(t.Name); });
 
             selectList.Insert(0, pullDownName);
             var isChanged = false;
@@ -320,12 +345,22 @@ namespace StageLightManeuver
             return isChanged;
             // AssetDatabase.SaveAssets();
         }
-
+        public static Type GetTypeByClassName( string className )
+        {
+            foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() ) {
+                foreach( Type type in assembly.GetTypes() ) {
+                    if( type.Name == className ) {
+                        return type;
+                    }
+                }
+            }
+            return null;
+        }
         public static bool AddPropertyInClip(StageLightTimelineClip stageLightTimelineClip, string propertyTypeName, bool saveAssets = true)
         {
             Undo.RecordObject(stageLightTimelineClip, "Add Property");
             EditorUtility.SetDirty(stageLightTimelineClip);
-            var type = SlmUtility.GetTypeByClassName(propertyTypeName);
+            var type = GetTypeByClassName(propertyTypeName);
            
 
             var result =stageLightTimelineClip.StageLightQueueData.TryAddProperty(type);

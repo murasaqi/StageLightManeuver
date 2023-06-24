@@ -13,11 +13,9 @@ namespace StageLightManeuver
         public List<TimelineClip> clips;
 
         public StageLightTimelineTrack stageLightTimelineTrack;
-        private bool firstFrameHapend = false;
+        private bool firstFrameHappened = false;
 
         public StageLightSupervisor trackBinding;
-
-        // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             trackBinding = playerData as StageLightSupervisor;
@@ -25,10 +23,10 @@ namespace StageLightManeuver
             if (!trackBinding)
                 return;
 
-            if (firstFrameHapend)
+            if (firstFrameHappened)
             {
                 trackBinding.Init();
-                firstFrameHapend = true;
+                firstFrameHappened = true;
             }
 
 
@@ -51,7 +49,7 @@ namespace StageLightManeuver
                 {
                     if(stageLightProperty == null) continue;
                     stageLightProperty.InitStageLightSupervisor(trackBinding);
-                    if (stageLightProperty.GetType().GetInterfaces().Contains(typeof(IArrayProperty)) )
+                    if (stageLightProperty.propertyType == StageLightPropertyType.Array )
                     {
                         var additionalArrayProperty = stageLightProperty as IArrayProperty;
                         additionalArrayProperty?.ResyncArraySize(trackBinding.stageLights);
@@ -63,7 +61,6 @@ namespace StageLightManeuver
                     stageLightTimelineClip.StageLightQueueData.weight = inputWeight;
                     trackBinding.AddQue(stageLightTimelineClip.StageLightQueueData);
                     hasAnyClipPlaying = true;
-                    // Debug.Log($"{clip.displayName},{inputWeight}");
                 }
             }
 

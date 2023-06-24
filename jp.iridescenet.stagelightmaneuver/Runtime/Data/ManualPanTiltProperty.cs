@@ -36,6 +36,7 @@ namespace StageLightManeuver
             propertyName = "Manual Pan Tilt";
             positions = new SlmToggleValue<List<PanTiltPrimitive>>() { value = new List<PanTiltPrimitive>() };
             mode = new SlmToggleValue<ManualPanTiltMode>() { value = ManualPanTiltMode.Overwrite };
+            propertyOverride = true;
         }
         
         
@@ -47,6 +48,7 @@ namespace StageLightManeuver
             other.positions.value.CopyTo(copy);
             positions = new SlmToggleValue<List<PanTiltPrimitive>>() { value = copy.ToList() };
             mode = new SlmToggleValue<ManualPanTiltMode>() { value = other.mode.value };
+            propertyOverride = true;
         }
 
         public override void ResyncArraySize(List<StageLight> stageLights)

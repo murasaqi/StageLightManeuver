@@ -45,8 +45,16 @@ namespace StageLightManeuver
 
 
     [Serializable]
+    public enum StageLightPropertyType
+    {
+        None,
+        Array,
+    }
+
+    [Serializable]
     public class SlmProperty:SlmToggleValueBase
     {
+        public StageLightPropertyType propertyType = StageLightPropertyType.None;
         public string propertyName;
         public int propertyOrder = 0;
         public virtual void ToggleOverride(bool toggle)
@@ -111,14 +119,16 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmAdditionalProperty:SlmProperty,IArrayProperty
     {
+        
         public SlmToggleValue<ClockOverride> clockOverride = new  SlmToggleValue<ClockOverride>()
         {
             value = new ClockOverride(),
-            sortOrder = -999
+            sortOrder = -999,
         };
         
         public SlmAdditionalProperty()
         {
+            propertyType = StageLightPropertyType.Array;
             propertyOverride = true;
         }
 

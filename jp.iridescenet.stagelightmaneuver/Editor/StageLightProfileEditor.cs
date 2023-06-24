@@ -155,7 +155,7 @@ namespace StageLightManeuver
             EditorGUI.BeginChangeCheck();
              var selectList = new List<string>();
             
-            SlmUtility.SlmPropertyTypes.ForEach(t =>
+            SlmEditorUtility.SlmPropertyTypes.ForEach(t =>
             {
                 if(t != typeof(RollProperty))selectList.Add(t.Name);
             });
@@ -175,7 +175,7 @@ namespace StageLightManeuver
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(stageLightProfile);   
-                var type = SlmUtility.GetTypeByClassName(selectList[select]);
+                var type = SlmEditorUtility.GetTypeByClassName(selectList[select]);
                 var property = Activator.CreateInstance(type) as SlmProperty;
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {
