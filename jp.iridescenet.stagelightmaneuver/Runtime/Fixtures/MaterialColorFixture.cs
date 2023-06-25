@@ -102,6 +102,7 @@ namespace StageLightManeuver
 
             if (meshRenderer)
             {
+                if(meshRenderer.sharedMaterials.Length <= materialIndex) return;
                 meshRenderer.GetPropertyBlock(_materialPropertyBlock,materialIndex);
                 _materialPropertyBlock.SetColor(colorPropertyName,SlmUtility.GetHDRColor(color,intensity));
                 meshRenderer.SetPropertyBlock(_materialPropertyBlock,materialIndex);
