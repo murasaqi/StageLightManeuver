@@ -21,7 +21,7 @@ namespace StageLightManeuver
     {
         public StaggerCalculationType staggerCalculationType = StaggerCalculationType.StaggerInOut;
        
-        static float animationDuration = 1f;
+        public float animationDuration = 1f;
         // [FormerlySerializedAs("staticDuration")] public float animationDuration = 1f;
         [FormerlySerializedAs("staticDelay")] [Range(0,1)]public float delayRatio = 0.1f;
         public AnimationCurve animationCurve = AnimationCurve.EaseInOut(0,0,1,1);
@@ -42,6 +42,7 @@ namespace StageLightManeuver
         public ArrayStaggerValue(ArrayStaggerValue arrayStaggerValue)
         {
             staggerCalculationType = arrayStaggerValue.staggerCalculationType;
+            animationDuration = arrayStaggerValue.animationDuration;
             delayRatio = arrayStaggerValue.delayRatio;
             animationCurve = SlmUtility.CopyAnimationCurve(arrayStaggerValue.animationCurve);
             lightStaggerInfo = new List<Vector2>(arrayStaggerValue.lightStaggerInfo);
@@ -192,7 +193,7 @@ namespace StageLightManeuver
             propertyName = other.propertyName;
             bpm = new SlmToggleValue<float>(other.bpm);
             bpmScale = new SlmToggleValue<float>(other.bpmScale);
-            // staggerDelay = new SlmToggleValue<float>(other.staggerDelay);
+            staggerDelay = new SlmToggleValue<float>(other.staggerDelay);
             loopType = new SlmToggleValue<LoopType>(other.loopType);
             clipProperty = new ClipProperty(other.clipProperty);
             offsetTime = new SlmToggleValue<float>(other.offsetTime);

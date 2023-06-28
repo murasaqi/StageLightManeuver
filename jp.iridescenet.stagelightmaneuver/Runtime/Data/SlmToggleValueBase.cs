@@ -82,9 +82,9 @@ namespace StageLightManeuver
       public class ClockOverride
     {
         [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
-        [DisplayName("Offset Time")] public float offsetTime;
-        [DisplayName("BPM Scale")]public float bpmScale;
-        [DisplayName("Child Stagger")]public float childStagger;
+        [DisplayName("Offset Time")] public float offsetTime = 0f;
+        [DisplayName("BPM Scale")]public float bpmScale = 1f;
+        [DisplayName("Child Stagger")]public float childStagger = 0f;
         public ArrayStaggerValue arrayStaggerValue = new ArrayStaggerValue();
 
         public ClockOverride()

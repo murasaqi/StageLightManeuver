@@ -25,6 +25,7 @@ namespace StageLightManeuver
         public LightColorProperty( LightColorProperty other )
         {
             propertyName = other.propertyName;
+            propertyOverride = other.propertyOverride;
             clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             lightToggleColor = new SlmToggleValue<Gradient>()
             {

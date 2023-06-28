@@ -27,6 +27,7 @@ namespace StageLightManeuver
     {
         public List<StageLight> stageLights = new List<StageLight>();
 
+        public float weight = 0;
         // public List<StageLight> AllStageLights => stageLights;
         
         public List<StageLightOrderSetting> stageLightOrderSettings = new List<StageLightOrderSetting>();
@@ -66,6 +67,7 @@ namespace StageLightManeuver
 
         public void AddQue(StageLightQueueData stageLightQueData)
         {
+            weight = stageLightQueData.weight;
             foreach (var stageLight in stageLights)
             {
                 if(stageLight != null)stageLight.AddQue(stageLightQueData);

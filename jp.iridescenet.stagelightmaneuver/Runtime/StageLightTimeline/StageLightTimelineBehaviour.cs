@@ -11,7 +11,7 @@ namespace StageLightManeuver
     public class StageLightTimelineBehaviour : PlayableBehaviour
     {
         [FormerlySerializedAs("stageLightQueData")] [SerializeField] public StageLightQueueData stageLightQueueData = new StageLightQueueData();
-        // [SerializeField] public StageLightProfile stageLightProfile;
+        public StageLightQueueData syncStageLightQueData = new StageLightQueueData();
         public override void OnPlayableCreate(Playable playable)
         {
             // stageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
@@ -23,10 +23,11 @@ namespace StageLightManeuver
         public void Init()
         {
             stageLightQueueData = new StageLightQueueData();
-            
-         
-
+            syncStageLightQueData = new StageLightQueueData();
         }
+        
+        
+        
         
         public void CheckRequiredProperties()
         {
@@ -45,6 +46,8 @@ namespace StageLightManeuver
             {
                 stageLightQueueData.stageLightProperties.Insert(1,new StageLightOrderProperty());
             }
+            
+            
         }
         public void RemoveNullProperties()
         {

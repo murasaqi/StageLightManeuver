@@ -16,7 +16,21 @@ namespace StageLightManeuver
 
         [SerializeReference]public StageLightProfile referenceStageLightProfile;
         [HideInInspector] public StageLightTimelineBehaviour behaviour = new StageLightTimelineBehaviour();
-        public StageLightQueueData StageLightQueueData => behaviour.stageLightQueueData;
+
+        public StageLightQueueData StageLightQueueData
+        {
+            get
+            {
+                if (syncReferenceProfile)
+                {
+                    return behaviour.syncStageLightQueData; 
+                }
+                else
+                {
+                    return behaviour.stageLightQueueData;
+                }
+            }
+        }
         public bool forceTimelineClipUpdate;
         public bool syncReferenceProfile = false;
         public StageLightTimelineTrack track;

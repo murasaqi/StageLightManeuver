@@ -31,6 +31,7 @@ namespace StageLightManeuver
         public LightIntensityProperty( LightIntensityProperty other )
         {
             propertyName = other.propertyName;
+            propertyOverride = other.propertyOverride;
             clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             lightToggleIntensity = new SlmToggleValue<MinMaxEasingValue>()
             {
