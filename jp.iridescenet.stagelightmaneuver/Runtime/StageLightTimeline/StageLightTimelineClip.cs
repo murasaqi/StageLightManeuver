@@ -125,7 +125,7 @@ namespace StageLightManeuver
         [ContextMenu("Apply")]
         public void LoadProfile()
         {
-            if (referenceStageLightProfile == null || syncReferenceProfile) return;
+            if (referenceStageLightProfile == null) return;
 
 
             var copy = new List<SlmProperty>();
@@ -154,6 +154,12 @@ namespace StageLightManeuver
             StageLightQueueData.stageLightProperties = copy;
             stopEditorUiUpdate = false;
         }
+        
+        public void SetProperties(List<SlmProperty> properties)
+        {
+            StageLightQueueData.stageLightProperties = properties;
+            stopEditorUiUpdate = false;
+        }
 
         public void SaveProfile()
         {
@@ -174,44 +180,30 @@ namespace StageLightManeuver
             referenceStageLightProfile.isUpdateGuiFlag = true;
             EditorUtility.SetDirty(referenceStageLightProfile);
             AssetDatabase.SaveAssets();
+            
+            track.ApplyProfileAllClip( referenceStageLightProfile);
 #endif
         }
 
         public void InitSyncData()
         {
-            if (syncReferenceProfile)
+            
+            if (referenceStageLightProfile != null)
             {
-                if (referenceStageLightProfile != null)
+
+                var copy = new List<SlmProperty>();
+                foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
                 {
-
-                    foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
-                    {
-                        if(stageLightProperty == null) continue;
-                        stageLightProperty.propertyOverride = true;
-                    }
-
-                    StageLightQueueData.stageLightProperties =
-                        referenceStageLightProfile.stageLightProperties;
+                    if(stageLightProperty == null) continue;
+                    var type = stageLightProperty.GetType();
+                    copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
+                            new object[] { stageLightProperty }, null)
+                        as SlmProperty);
                 }
-            }
-            else
-            {
-                if (referenceStageLightProfile != null)
-                {
 
-                    var copy = new List<SlmProperty>();
-                    foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
-                    {
-                        if(stageLightProperty == null) continue;
-                        var type = stageLightProperty.GetType();
-                        copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
-                                new object[] { stageLightProperty }, null)
-                            as SlmProperty);
-                    }
-
-                    StageLightQueueData.stageLightProperties = copy;
-                }
+                StageLightQueueData.stageLightProperties = copy;
             }
+            
         }
 
 

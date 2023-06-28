@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using System.Reflection;
 using UnityEngine.SceneManagement;
 
 // using System.Reflection;
@@ -47,15 +48,44 @@ namespace StageLightManeuver
             if(clockOverride.bpmScale.value <= 0) clockOverride.bpmScale.value = 1;
             if(clockOverride.bpm.value <= 0) clockOverride.bpm.value = 120;
             if(slmAdditionalProperty.clockOverride.value.bpmScale <= 0) slmAdditionalProperty.clockOverride.value.bpmScale = 1;
-            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.value.childStagger : clockOverride.staggerDelay.value;
+            Debug.Log(bpmOverrideData.propertyOverride);
+            Debug.Log(bpmOverrideData.value.childStagger);
+            Debug.Log(clockOverride.staggerDelay.value);
+            var stagger =bpmOverrideData.propertyOverride ? bpmOverrideData.value.childStagger : clockOverride.staggerDelay.value;
             var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.value.bpmScale : clockOverride.bpmScale.value;
             var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.value.loopType : clockOverride.loopType.value;
             
             var arrayStaggerValue = bpmOverrideData.propertyOverride ? bpmOverrideData.value.arrayStaggerValue: clockOverride.arrayStaggerValue;
-            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, bpmOffset,bpmScale,clockOverride.clipProperty, loopType,arrayStaggerValue);
+            return SlmUtility.GetNormalizedTime(currentTime+offsetTime, bpm, stagger,bpmScale,clockOverride.clipProperty, loopType,arrayStaggerValue);
         }
 
-        
+        public static List<SlmProperty> CopyProperties(StageLightProfile referenceStageLightProfile)
+        {
+            var copy = new List<SlmProperty>();
+            foreach (var stageLightProperty in referenceStageLightProfile.stageLightProperties)
+            {
+                if(stageLightProperty == null) continue;
+                var type = stageLightProperty.GetType();
+                copy.Add(Activator.CreateInstance(type, BindingFlags.CreateInstance, null,
+                        new object[] { stageLightProperty }, null)
+                    as SlmProperty);
+            }
+
+            var timeProperty = copy.Find(x => x.GetType() == typeof(ClockProperty));
+
+            if (timeProperty == null)
+            {
+                copy.Insert(0, new ClockProperty());
+            }
+            
+            var orderProperty = copy.Find(x => x.GetType() == typeof(StageLightOrderProperty));
+            if(orderProperty == null)
+            {
+                copy.Insert(1, new StageLightOrderProperty());
+            }
+            return copy;
+        }
+
         public static float GetNormalizedTime(float time ,StageLightQueueData queData, Type propertyType,int index = 0)
         {
             
@@ -67,6 +97,9 @@ namespace StageLightManeuver
             if(clockProperty.bpmScale.value <= 0) clockProperty.bpmScale.value = 1;
             if(additionalProperty.clockOverride.value.bpmScale <= 0) additionalProperty.clockOverride.value.bpmScale = 1;
             var bpm = clockProperty.bpm.value;
+            Debug.Log(additionalProperty.propertyOverride);
+            Debug.Log(additionalProperty.clockOverride.value.childStagger);
+            Debug.Log(additionalProperty.clockOverride.staggerDelay.value);
             var stagger = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
             var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
 
