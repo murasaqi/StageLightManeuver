@@ -60,6 +60,7 @@ namespace StageLightManeuver
         public MinMaxEasingValue(MinMaxEasingValue other)
         {
             mode = other.mode;
+            inverse = other.inverse;
             minMaxLimit = new Vector2( other.minMaxLimit.x, other.minMaxLimit.y);
             minMaxValue = new Vector2( other.minMaxValue.x, other.minMaxValue.y);
             easeType = other.easeType;

@@ -53,8 +53,8 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 var stageLightProperties = new List<SlmProperty>();
                 SerializedProperty serializedProperty;
                 
-                stageLightProperties = stageLightTimelineClip.behaviour.stageLightQueueData.stageLightProperties;
-                if(stageLightTimelineClip.behaviour.stageLightQueueData == null) stageLightTimelineClip.behaviour.Init();
+                stageLightProperties = stageLightTimelineClip.StageLightQueueData.stageLightProperties;
+                if(stageLightTimelineClip.StageLightQueueData == null) stageLightTimelineClip.behaviour.Init();
                 var behaviourProperty = serializedObject.FindProperty("behaviour");
                 var stageLightQueDataProperty = behaviourProperty.FindPropertyRelative("stageLightQueueData");
                 serializedProperty =stageLightQueDataProperty.FindPropertyRelative("stageLightProperties");
@@ -304,6 +304,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                 
                 serializedObject.ApplyModifiedProperties();
                 stageLightTimelineClip.InitSyncData();
+                
             }
             
            

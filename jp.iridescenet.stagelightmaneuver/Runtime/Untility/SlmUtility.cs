@@ -47,7 +47,7 @@ namespace StageLightManeuver
             if(clockOverride.bpmScale.value <= 0) clockOverride.bpmScale.value = 1;
             if(clockOverride.bpm.value <= 0) clockOverride.bpm.value = 120;
             if(slmAdditionalProperty.clockOverride.value.bpmScale <= 0) slmAdditionalProperty.clockOverride.value.bpmScale = 1;
-            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.value.childStagger : clockOverride.staggerDelay.value;
+            var bpmOffset =bpmOverrideData.propertyOverride ? bpmOverrideData.value.offsetTime : clockOverride.offsetTime.value;
             var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.value.bpmScale : clockOverride.bpmScale.value;
             var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.value.loopType : clockOverride.loopType.value;
             
