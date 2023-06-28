@@ -48,9 +48,6 @@ namespace StageLightManeuver
             if(clockOverride.bpmScale.value <= 0) clockOverride.bpmScale.value = 1;
             if(clockOverride.bpm.value <= 0) clockOverride.bpm.value = 120;
             if(slmAdditionalProperty.clockOverride.value.bpmScale <= 0) slmAdditionalProperty.clockOverride.value.bpmScale = 1;
-            Debug.Log(bpmOverrideData.propertyOverride);
-            Debug.Log(bpmOverrideData.value.childStagger);
-            Debug.Log(clockOverride.staggerDelay.value);
             var stagger =bpmOverrideData.propertyOverride ? bpmOverrideData.value.childStagger : clockOverride.staggerDelay.value;
             var bpmScale = bpmOverrideData.propertyOverride ? bpmOverrideData.value.bpmScale : clockOverride.bpmScale.value;
             var loopType = bpmOverrideData.propertyOverride ? bpmOverrideData.value.loopType : clockOverride.loopType.value;
@@ -97,9 +94,6 @@ namespace StageLightManeuver
             if(clockProperty.bpmScale.value <= 0) clockProperty.bpmScale.value = 1;
             if(additionalProperty.clockOverride.value.bpmScale <= 0) additionalProperty.clockOverride.value.bpmScale = 1;
             var bpm = clockProperty.bpm.value;
-            Debug.Log(additionalProperty.propertyOverride);
-            Debug.Log(additionalProperty.clockOverride.value.childStagger);
-            Debug.Log(additionalProperty.clockOverride.staggerDelay.value);
             var stagger = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.childStagger : clockProperty.staggerDelay.value;
             var bpmScale = additionalProperty.clockOverride.propertyOverride ? additionalProperty.clockOverride.value.bpmScale : clockProperty.bpmScale.value;
 

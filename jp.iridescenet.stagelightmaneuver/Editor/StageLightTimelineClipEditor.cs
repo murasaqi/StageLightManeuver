@@ -83,8 +83,6 @@ namespace StageLightManeuver
         public override void DrawBackground(TimelineClip clip, ClipBackgroundRegion region)
         {
             base.DrawBackground(clip, region);
-
-
             if(syncIconTexture == null)syncIconTexture = Resources.Load<Texture2D>("SLSAssets/Texture/icon_sync");
             var stageLightTimelineClip = (StageLightTimelineClip) clip.asset;
             stageLightTimelineClip.clipDisplayName = clip.displayName;
@@ -128,19 +126,22 @@ namespace StageLightManeuver
             }
 
             if (tex)
-                GUI.DrawTexture(
-                    new Rect(region.position.x, region.position.height - colorHeight, region.position.width,
-                        colorHeight), tex);
+            {
+                GUI.DrawTexture(new Rect(region.position.x, region.position.height - colorHeight, region.position.width, colorHeight), tex);
+            }
 
 
             var iconSize = 12;
             var margin = 4;
-            if(syncIconTexture)if (stageLightTimelineClip.syncReferenceProfile)
+            if(syncIconTexture && stageLightTimelineClip.referenceStageLightProfile != null && stageLightTimelineClip.syncReferenceProfile)
+            {
                 GUI.DrawTexture(new Rect(region.position.width - iconSize - margin, margin, iconSize, iconSize),
                     syncIconTexture, ScaleMode.ScaleAndCrop,
                     true,
                     0,
                     new Color(1, 1, 1, 0.5f), 0, 0);
+                
+            }
             
             stageLightTimelineClip.forceTimelineClipUpdate = false;
         }
