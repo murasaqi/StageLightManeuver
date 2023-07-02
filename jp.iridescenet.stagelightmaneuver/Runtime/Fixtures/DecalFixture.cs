@@ -124,7 +124,6 @@ namespace StageLightManeuver
             {
                 _autoDisableDecalTime = autoDisableDecalTime;
             }
-            Debug.Log(_autoDisableDecalTime);
             
             if (_autoDisableDecalTime <= 0f)
             {
