@@ -6,7 +6,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
-    public class AutoSpotTwinner : MonoBehaviour
+    public class SmoothLookAt : MonoBehaviour
     {
 
         public Vector3 initialRotation = Vector3.zero;
@@ -45,6 +45,7 @@ namespace StageLightManeuver
         // Update is called once per frame
         void Update()
         {
+            if(target == null ) return;
             var targetRotation = Quaternion.LookRotation(target.position - transform.position);
             var startRotation = transform.rotation;
             transform.rotation = Quaternion.Slerp(startRotation, targetRotation, speed * Time.fixedTime);
