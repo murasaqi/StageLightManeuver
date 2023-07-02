@@ -118,7 +118,6 @@ namespace StageLightManeuver
             if(!autoDisableDecal || decalProjector == null)  return;
             if (stageLightDataQueue.Count == 0)
             {
-                Debug.Log(Time.deltaTime);
                 if(_autoDisableDecalTime > 0f)_autoDisableDecalTime -= Time.deltaTime;
             }
             else
@@ -129,7 +128,6 @@ namespace StageLightManeuver
             
             if (_autoDisableDecalTime <= 0f)
             {
-                Debug.Log("fade out");
                 opacity = Mathf.SmoothDampAngle(opacity, 0f, ref opacityVelocity, 0.1f);
 
                 decalProjector.material.SetFloat("_Alpha",opacity*
