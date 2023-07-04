@@ -11,13 +11,13 @@ namespace StageLightManeuver
     public class MaterialColorFixture:StageLightFixtureBase
     {
         public MeshRenderer meshRenderer;
-        public List<MeshRenderer> syncMeshRenderers = new List<MeshRenderer>();
+        public List<Renderer> syncMeshRenderers = new List<Renderer>();
         public int materialIndex;
         private MaterialPropertyBlock _materialPropertyBlock;
         [SerializeField] private float intensity = 1;
         [SerializeField] private Color color = Color.white;
         [SerializeField] private string colorPropertyName = "_MainColor";
-        private Dictionary<MeshRenderer,MaterialPropertyBlock> _materialPropertyBlocks = null;
+        private Dictionary<Renderer,MaterialPropertyBlock> _materialPropertyBlocks = null;
         private int propertyId;
         void Start()
         {
@@ -41,7 +41,7 @@ namespace StageLightManeuver
             
             _materialPropertyBlock = new MaterialPropertyBlock();
             if(meshRenderer)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
-            _materialPropertyBlocks = new Dictionary<MeshRenderer, MaterialPropertyBlock>();
+            _materialPropertyBlocks = new Dictionary<Renderer, MaterialPropertyBlock>();
             foreach (var meshRenderer in syncMeshRenderers)
             {
                 if(meshRenderer == null) continue;
