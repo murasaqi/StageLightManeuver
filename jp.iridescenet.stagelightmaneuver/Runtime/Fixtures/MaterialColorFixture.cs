@@ -10,7 +10,7 @@ namespace StageLightManeuver
     [AddComponentMenu("")]
     public class MaterialColorFixture:StageLightFixtureBase
     {
-        public MeshRenderer meshRenderer;
+        public Renderer meshRenderer;
         public List<Renderer> syncMeshRenderers = new List<Renderer>();
         public int materialIndex;
         private MaterialPropertyBlock _materialPropertyBlock;
