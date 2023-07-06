@@ -33,6 +33,7 @@ namespace StageLightManeuver
 
         public virtual void Init()
         {
+            PropertyTypes.Clear();
             SyncStageLight = new List<StageLightBase>();
             foreach (var stageLightFixtureBase in GetComponentsInChildren<StageLightBase>())
             {

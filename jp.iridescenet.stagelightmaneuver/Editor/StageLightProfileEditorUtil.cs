@@ -39,7 +39,7 @@ namespace StageLightManeuver
             {
                 GUIStyle style = new GUIStyle();
                 style.normal.background =null;
-                style.fixedWidth = 40;
+                style.fixedWidth = 60;
                 style.alignment = TextAnchor.MiddleCenter;
                 style.normal.textColor = Color.gray;
                 // GUILayout.FlexibleSpace();
@@ -198,7 +198,7 @@ namespace StageLightManeuver
              
                 var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
                 EditorGUI.BeginChangeCheck();
-                var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue,GUILayout.Width(120));
+                var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue,GUILayout.Width(160));
                 if (EditorGUI.EndChangeCheck())
                 {
                     propertyOverride.boolValue = isOverride;

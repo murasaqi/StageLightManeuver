@@ -33,7 +33,6 @@ namespace StageLightManeuver
         public void GetMeshRenderer()
         {
             meshRenderer = GetComponent<MeshRenderer>();
-         
         }
 
         public override void Init()
