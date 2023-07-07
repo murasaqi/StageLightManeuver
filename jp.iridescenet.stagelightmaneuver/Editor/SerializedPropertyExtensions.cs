@@ -7,6 +7,7 @@
 //   Ref: http://answers.unity3d.com/questions/627090/convert-serializedproperty-to-custom-class.html
 // </author>
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,5 +157,8 @@ namespace StageLightManeuver
 
             return false;
         }
+        
+        
+      
     }
 }

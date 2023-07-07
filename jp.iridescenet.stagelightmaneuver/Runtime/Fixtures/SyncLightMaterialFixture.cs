@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if USE_HDRP
 using UnityEngine.Rendering.HighDefinition;
@@ -28,6 +29,7 @@ namespace StageLightManeuver
         public float maxIntensityLimit = 3;
         public bool brightnessDecreasesToBlack = true;
         private Dictionary<MeshRenderer,MaterialPropertyBlock> _materialPropertyBlocks;
+        [FormerlySerializedAs("lightFixtureFixture")] [FormerlySerializedAs("lightFxFixture")]
         public LightFixture lightFixture;
         private void Start()
         {
@@ -44,7 +46,6 @@ namespace StageLightManeuver
         {
             if(_materialPropertyBlocks != null) _materialPropertyBlocks.Clear();
             _materialPropertyBlocks = new Dictionary<MeshRenderer, MaterialPropertyBlock>();
-            // if(meshRenderers)meshRenderer.GetPropertyBlock(_materialPropertyBlock);
 
             foreach (var meshRenderer in meshRenderers)
             {
@@ -67,7 +68,7 @@ namespace StageLightManeuver
                 var data = stageLightDataQueue.Dequeue();
                 // var t=GetNormalizedTime(currentTime,data,typeof(SyncLightMaterialProperty));
 
-                var syncLightMaterialProperty = data.TryGet<SyncLightMaterialProperty>();
+                var syncLightMaterialProperty = data.TryGetActiveProperty<SyncLightMaterialProperty>();
                 if(syncLightMaterialProperty != null)
                 {
                     intensityMultiplier += syncLightMaterialProperty.intensitymultiplier.value * data.weight;

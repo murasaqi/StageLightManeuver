@@ -50,7 +50,7 @@ namespace StageLightManeuver
                     );
                     MethodInfo bound = mi.MakeGenericMethod(type);
                     var fixture =bound.Invoke(targetStageLight.gameObject, null) as StageLightFixtureBase;
-                    fixture.Init();
+                    if(fixture)fixture.Init();
                     targetStageLight.FindFixtures();
                 }
             }));

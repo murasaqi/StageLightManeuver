@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using StageLightManeuver.StageLightTimeline.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -38,7 +39,7 @@ namespace StageLightManeuver
             {
                 GUIStyle style = new GUIStyle();
                 style.normal.background =null;
-                style.fixedWidth = 40;
+                style.fixedWidth = 60;
                 style.alignment = TextAnchor.MiddleCenter;
                 style.normal.textColor = Color.gray;
                 // GUILayout.FlexibleSpace();
@@ -62,6 +63,7 @@ namespace StageLightManeuver
             foreach (SerializedProperty property in serializedProperty)
             {
                 var marginBottom =slmProperty.GetType() == typeof(ClockProperty) ? 0 : 4;
+                Debug.Log(slmProperty.GetType());
                 if (slmProperty.GetType() == typeof(ClockProperty))
                 {
                     var clockProperty = slmProperty as ClockProperty;
@@ -86,10 +88,7 @@ namespace StageLightManeuver
                 {
                     DrawSlmToggleValue(property,marginBottom);
                 }
-
-                // if(property.name == "propertyOverride" ||
-                //    property.name == "propertyName") continue;
-                // DrawSlmToggleValue(property);
+                
 
             }
 
@@ -121,6 +120,7 @@ namespace StageLightManeuver
                 {
                     onRemove?.Invoke();
                     serializedObject.ApplyModifiedProperties();
+                    
                 }
                 GUILayout.FlexibleSpace();
             }
@@ -169,26 +169,36 @@ namespace StageLightManeuver
         {
             if(serializedProperty == null) return;
             
+            
             if (serializedProperty.FindPropertyRelative("propertyOverride") != null)
             {
                 SerializedProperty value = serializedProperty.FindPropertyRelative("value");
                 if (value == null) return;
                 var valueObject = value.GetValue<object>();
-                if(valueObject == null) return;
+                // GetCustomAttributes
+             
+               if(valueObject == null) return;
 
-                if (valueObject.GetType() == typeof(SlmToggleValue<ClockOverride>))
+                if (valueObject.GetType() == typeof(SlmToggleValue<ClockProperty>))
                 {
-                    var slmToggleValue = valueObject as SlmToggleValue<ClockOverride>;
+                    var slmToggleValue = valueObject as SlmToggleValue<ClockProperty>;
                     slmToggleValue.sortOrder = -999;
                     serializedProperty.serializedObject.ApplyModifiedProperties();
                 }
-                
+
+                // if (valueObject.GetType() == typeof(SlmToggleValue<StageLightOrderProperty>))
+                // {
+                //     var slmToggleValue = valueObject as SlmToggleValue<StageLightOrderProperty>;
+                //     slmToggleValue.sortOrder = -998;
+                //     serializedProperty.serializedObject.ApplyModifiedProperties();
+                // }
+
                 var hasMultiLineObject = IsVerticalLayoutField(valueObject);
                 if (!hasMultiLineObject) EditorGUILayout.BeginHorizontal();
              
                 var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
                 EditorGUI.BeginChangeCheck();
-                var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue,GUILayout.Width(120));
+                var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue,GUILayout.Width(160));
                 if (EditorGUI.EndChangeCheck())
                 {
                     propertyOverride.boolValue = isOverride;
@@ -199,12 +209,21 @@ namespace StageLightManeuver
                 if (hasMultiLineObject) EditorGUI.indentLevel++;
 
                 EditorGUI.BeginDisabledGroup(!isOverride);
+                
+              
 
 
                 if (valueObject.GetType() == typeof(MinMaxEasingValue))
                 {
                     DrawMinMaxEaseUI(value);
-                }else if (valueObject.GetType() == typeof(ClockOverride))
+                    
+                }else if (valueObject.GetType() == typeof(ArrayStaggerValue))
+                {
+                    
+                    ArrayStaggerValue(value, valueObject as ArrayStaggerValue);
+                    
+                }
+                else if (valueObject.GetType() == typeof(ClockOverride))
                 {
                     var loopType = value.FindPropertyRelative("loopType");
                     var childDepth = value.depth+1;
@@ -212,7 +231,7 @@ namespace StageLightManeuver
                     {
                         if (value.depth == childDepth)
                         {
-                            if (loopType.enumValueIndex == 3)
+                            if (loopType.propertyType == SerializedPropertyType.Enum  &&  loopType.enumValueIndex == 3)
                             {
                                 if (value.name == "arrayStaggerValue")
                                 {
@@ -252,6 +271,7 @@ namespace StageLightManeuver
                         if (childProperty.name == "propertyOverride" ||
                             childProperty.name == "propertyName") continue;
                         EditorGUI.BeginChangeCheck();
+
                         EditorGUILayout.PropertyField(childProperty);
                         if (EditorGUI.EndChangeCheck())
                         {
@@ -267,7 +287,6 @@ namespace StageLightManeuver
                     if (EditorGUI.EndChangeCheck())
                     {
                         serializedProperty.serializedObject.ApplyModifiedProperties();
-                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
                     }
                 }
                 EditorGUI.EndDisabledGroup();
@@ -280,13 +299,40 @@ namespace StageLightManeuver
             }
             else
             {
+                
+            
                 var serializedObject = serializedProperty.GetValue<object>();
                 if(serializedObject == null) return;
                 if(serializedObject.GetType() == typeof(ArrayStaggerValue))
                 {
                     ArrayStaggerValue(serializedProperty, serializedObject as ArrayStaggerValue);
                 }
+                else if (serializedObject.GetType() == typeof(StageLightOrderQueue))
+                {
+                    var stageLightOrderQueue = serializedObject as StageLightOrderQueue;
+                    var settingListName = new List<string>();
+                    if(stageLightOrderQueue == null) return;
+                    settingListName.Add("(0) None");
+                    var stageLightOrderSettingList = stageLightOrderQueue.stageLightOrderSettingList;
+                    foreach (var stageLightOrderSetting in stageLightOrderSettingList)
+                    {
+                        var dropDownIndex = stageLightOrderSettingList.IndexOf(stageLightOrderSetting)+1;
+                        settingListName.Add($"({dropDownIndex}) {stageLightOrderSetting.name}");
+                    }
+                    EditorGUI.BeginChangeCheck();
+                    var index = EditorGUILayout.Popup( "Settings", stageLightOrderQueue.index+1, settingListName.ToArray());
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        stageLightOrderQueue.index = index-1;
+                        Debug.Log(stageLightOrderQueue.index);
+                        serializedProperty.serializedObject.ApplyModifiedProperties();
+                        
+                    }
+                   
+                }
+                    
             }
+            
             
             
            
@@ -599,7 +645,7 @@ namespace StageLightManeuver
         {
             EditorGUI.BeginChangeCheck();
             var selectList = new List<string>();
-            SlmUtility.SlmPropertyTypes.ForEach(t =>
+            SlmEditorUtility.SlmPropertyTypes.ForEach(t =>
             {
                 if(t != typeof(RollProperty))selectList.Add(t.Name);
             });
@@ -619,7 +665,7 @@ namespace StageLightManeuver
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(stageLightProfile);   
-                var type = SlmUtility.GetTypeByClassName(selectList[select]);
+                var type = SlmEditorUtility.GetTypeByClassName(selectList[select]);
                 var property = Activator.CreateInstance(type) as SlmProperty;
 
                 if (property.GetType() == typeof(ManualLightArrayProperty))

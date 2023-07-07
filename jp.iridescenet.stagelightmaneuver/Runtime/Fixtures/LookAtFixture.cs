@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Serialization;
 
 namespace StageLightManeuver
 {
     public class LookAtFixture:StageLightFixtureBase
     {
         
-        public LightPanFixture panFixture;
+        [FormerlySerializedAs("panFixtureFixture")] [FormerlySerializedAs("fxPanFixture")] public LightPanFixture panFixture;
+        [FormerlySerializedAs("tiltFixtureFixture")] [FormerlySerializedAs("fxTiltFixture")]
         public LightTiltFixture tiltFixture;
         public List<Transform> lookAtTransforms = new List<Transform>();
         public int lookAtTransformIndex = 0;
@@ -63,13 +65,14 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperties = queueData.TryGet<ClockProperty>() as ClockProperty;
-                var lookAtProperty = queueData.TryGet<LookAtProperty>() as LookAtProperty;
-
+                var stageLightBaseProperties = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var lookAtProperty = queueData.TryGetActiveProperty<LookAtProperty>() as LookAtProperty;
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (lookAtProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(LookAtProperty), Index);
+                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(LookAtProperty), index);
 
                 lookAtTransformIndex = queueData.weight >= 0.5f ? lookAtProperty.lookAtIndex.value : lookAtTransformIndex;
                 // calculate the angle between this transform and the target

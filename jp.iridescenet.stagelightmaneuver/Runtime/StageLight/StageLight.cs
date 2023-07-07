@@ -6,20 +6,22 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [ExecuteAlways]
-    public class StageLight:StageLightBase, IStageLightFixture
+    public class StageLight: MonoBehaviour,IStageLight
     {
         
         [SerializeReference] private List<StageLightFixtureBase> stageLightFixtures = new List<StageLightFixtureBase>();
         public List<StageLightFixtureBase> StageLightFixtures { get => stageLightFixtures; set => stageLightFixtures = value; }
-
+ 
+        public int order = 0;
         [ContextMenu("Init")]
-        public override void Init()
+        public void Init()
         {
             FindFixtures();
             stageLightFixtures.Sort( (a,b) => a.updateOrder.CompareTo(b.updateOrder));
             foreach (var stageLightFixture in StageLightFixtures)
             {
                 stageLightFixture.Init();
+                stageLightFixture.parentStageLight = this;
             }
         }
 
@@ -29,29 +31,29 @@ namespace StageLightManeuver
             Init();
         }
 
-        public override void AddQue(StageLightQueueData stageLightQueData)
+        public void AddQue(StageLightQueueData stageLightQueData)
         {
-            base.AddQue(stageLightQueData);
+            // base.AddQue(stageLightQueData);
             foreach (var stageLightFixture in StageLightFixtures)
             {
                 if(stageLightFixture != null)stageLightFixture.stageLightDataQueue.Enqueue(stageLightQueData);
             }
         }
 
-        public override void EvaluateQue(float time)
+        public void EvaluateQue(float time)
         {
-            base.EvaluateQue(time);
+            // base.EvaluateQue(time);
             foreach (var stageLightFixture in StageLightFixtures)
             {
                 if (stageLightFixture != null)
                 {
                     stageLightFixture.EvaluateQue(time);
-                    stageLightFixture.Index = Index;
+                    // stageLightFixture.Index = Index;
                 }
             }
         }
 
-        public override void UpdateFixture()
+        public void UpdateFixture()
         {
             if(stageLightFixtures == null) stageLightFixtures = new List<StageLightFixtureBase>();
             foreach (var stageLightFixture in stageLightFixtures)
@@ -95,7 +97,7 @@ namespace StageLightManeuver
             {
                 stageLightFixtures = new List<StageLightFixtureBase>();
             }
-            StageLightFixtures = GetComponentsInChildren<StageLightFixtureBase>().ToList();
+            StageLightFixtures = GetComponents<StageLightFixtureBase>().ToList();
         }
     }
 }

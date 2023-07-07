@@ -58,13 +58,14 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperties = queueData.TryGet<TimeProperty>() as TimeProperty;
-                var goboProperty = queueData.TryGet<GoboProperty>() as GoboProperty;
-                
+                var stageLightBaseProperties = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var goboProperty = queueData.TryGetActiveProperty<GoboProperty>() as GoboProperty;
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index =stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if(goboProperty == null || stageLightBaseProperties == null)continue;
 
-                var t = SlmUtility.GetNormalizedTime(time, queueData, typeof(GoboProperty), Index);
-               timelineTime += (time+SlmUtility.GetOffsetTime(time,queueData,typeof(GoboProperty),Index)) * queueData.weight;
+                var t = SlmUtility.GetNormalizedTime(time, queueData, typeof(GoboProperty), index);
+               timelineTime += (time+SlmUtility.GetOffsetTime(time,queueData,typeof(GoboProperty),index)) * queueData.weight;
                 if (queueData.weight > 0.5f)
                 {
                     goboTexture = goboProperty.goboTexture.value;

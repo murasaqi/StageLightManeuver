@@ -45,8 +45,16 @@ namespace StageLightManeuver
 
 
     [Serializable]
+    public enum StageLightPropertyType
+    {
+        None,
+        Array,
+    }
+
+    [Serializable]
     public class SlmProperty:SlmToggleValueBase
     {
+        public StageLightPropertyType propertyType = StageLightPropertyType.None;
         public string propertyName;
         public int propertyOrder = 0;
         public virtual void ToggleOverride(bool toggle)
@@ -62,6 +70,10 @@ namespace StageLightManeuver
         public virtual void OverwriteProperty(SlmProperty other)
         {
         }
+        
+        public virtual void InitStageLightSupervisor(StageLightSupervisor stageLightSupervisor)
+        {
+        }
 
     }
     
@@ -70,9 +82,9 @@ namespace StageLightManeuver
       public class ClockOverride
     {
         [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
-        [DisplayName("Offset Time")] public float offsetTime;
-        [DisplayName("BPM Scale")]public float bpmScale;
-        [DisplayName("Child Stagger")]public float childStagger;
+        [DisplayName("Offset Time")] public float offsetTime = 0f;
+        [DisplayName("BPM Scale")]public float bpmScale = 1f;
+        [DisplayName("Child Stagger")]public float childStagger = 0f;
         public ArrayStaggerValue arrayStaggerValue = new ArrayStaggerValue();
 
         public ClockOverride()
@@ -100,25 +112,40 @@ namespace StageLightManeuver
       
       public interface IArrayProperty
       {
-          void ResyncArraySize(StageLightSupervisor stageLightSupervisor);
+          // void ResyncArraySize(StageLightSupervisor stageLightSupervisor);
+          public void ResyncArraySize(List<StageLight> stageLights);
       } 
     
     [Serializable]
     public class SlmAdditionalProperty:SlmProperty,IArrayProperty
     {
+        
         public SlmToggleValue<ClockOverride> clockOverride = new  SlmToggleValue<ClockOverride>()
         {
             value = new ClockOverride(),
-            sortOrder = -999
+            sortOrder = -999,
         };
+        
+        public SlmAdditionalProperty()
+        {
+            propertyType = StageLightPropertyType.Array;
+            propertyOverride = true;
+        }
 
-        public virtual void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public virtual void ResyncArraySize(List<StageLight> stageLights)
         {
             if(clockOverride.value != null && clockOverride.value.arrayStaggerValue != null)
-                clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
+                clockOverride.value.arrayStaggerValue.ResyncArraySize(stageLights);
         }
     }
-    
+
+    [Serializable]
+    public class SlmBarLightProperty : SlmAdditionalProperty
+    {
+        public virtual void ResizeBarLightArray(List<LightFixture> lightFixtures)
+        {
+        }
+    }
  
     
     // [Serializable]

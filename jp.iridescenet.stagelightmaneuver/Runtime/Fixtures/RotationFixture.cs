@@ -10,6 +10,7 @@ namespace StageLightManeuver
     {
         public Transform target;
         public Vector3 rotationAxis = new Vector3(0,0,1);
+        public Vector3 offsetRotation = new Vector3(0,0,0);
         [FormerlySerializedAs("rotationScalar")] public float rotationSpeed = 0f;
         private float rotation = 0f;
 
@@ -35,14 +36,15 @@ namespace StageLightManeuver
             while (stageLightDataQueue.Count > 0)
             {
                 var queueData = stageLightDataQueue.Dequeue();
-                var stageLightBaseProperties = queueData.TryGet<ClockProperty>() as ClockProperty;
-                var rotationProperty = queueData.TryGet<RotationProperty>() as RotationProperty;
-
+                var stageLightBaseProperties = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var rotationProperty = queueData.TryGetActiveProperty<RotationProperty>() as RotationProperty;
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
                 if (rotationProperty == null || stageLightBaseProperties == null)
                     return;
 
-                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(RotationProperty),Index);
-                offsetTime += SlmUtility.GetOffsetTime(time, queueData, typeof(RotationProperty),Index) * queueData.weight;
+                var normalizedTime = SlmUtility.GetNormalizedTime(time, queueData, typeof(RotationProperty),index);
+                offsetTime += SlmUtility.GetOffsetTime(time, queueData, typeof(RotationProperty),index) * queueData.weight;
                 rotationSpeed += rotationProperty.rotationSpeed.value.Evaluate(normalizedTime) * queueData.weight;
               
             }
@@ -52,8 +54,7 @@ namespace StageLightManeuver
 
         public override void UpdateFixture()
         {
-            
-            if(target) target.localEulerAngles = rotationAxis * rotation;
+            if(target) target.localEulerAngles = offsetRotation + rotationAxis * rotation;
         }
     }
     

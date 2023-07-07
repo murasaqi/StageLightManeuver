@@ -7,7 +7,7 @@ namespace StageLightManeuver
     [Serializable]
     public class StageLightQueueData
     {
-
+        public Dictionary<StageLight,int> stageLightOrder = new Dictionary<StageLight, int>();
         [SerializeReference]public List<SlmProperty> stageLightProperties = new List<SlmProperty>();
         public float weight = 1;
         
@@ -18,14 +18,25 @@ namespace StageLightManeuver
             this.weight = stageLightQueueData.weight;
         }
         
+        public int GetOrder(StageLight stageLight)
+        {
+            if (stageLightOrder.ContainsKey(stageLight))
+            {
+                return stageLightOrder[stageLight];
+            }
+            else
+            {
+                stageLightOrder.Add(stageLight, 0);
+                return 0;
+            }
+        }
         public StageLightQueueData()
         {
             stageLightProperties = new List<SlmProperty>();
             stageLightProperties.Clear();
-            stageLightProperties.Add(new ClockProperty());
             weight = 1f;
         }
-        public T TryGet<T>() where T : SlmProperty
+        public T TryGetActiveProperty<T>() where T : SlmProperty
         {
             foreach (var property in stageLightProperties)
             {
@@ -33,7 +44,7 @@ namespace StageLightManeuver
                 {
                     continue;
                 }
-                if (property.GetType() == typeof(T))
+                if (property.GetType() == typeof(T) && property.propertyOverride)
                 {
                     return property as T;
                 }
@@ -41,7 +52,7 @@ namespace StageLightManeuver
             return null;
         }
         
-        public SlmAdditionalProperty TryGet(Type T) 
+        public SlmAdditionalProperty TryGetActiveProperty(Type T) 
         {
             foreach (var property in stageLightProperties)
             {
@@ -49,7 +60,7 @@ namespace StageLightManeuver
                 {
                     continue;
                 }
-                if (property.GetType() ==T)
+                if (property.GetType() ==T && property.propertyOverride)
                 {
                     return property as SlmAdditionalProperty;
                 }
@@ -58,9 +69,28 @@ namespace StageLightManeuver
         }
         
         
-        
+        public bool TryAddProperty(Type T)
+        {
+           
+            foreach (var property in stageLightProperties)
+            {
+                if (property == null)
+                {
+                    continue;
+                }
+                if (property.GetType() == T)
+                {
+                    return false;
+                }
+            }
+            
+            
+            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmAdditionalProperty;
+            stageLightProperties.Add(instance);
+            return true;
+        }
 
-        public SlmAdditionalProperty TryAdd(Type T) 
+        public SlmProperty TryAddGetProperty(Type T) 
         {
             
             foreach (var property in stageLightProperties)
@@ -71,73 +101,15 @@ namespace StageLightManeuver
                 }
                 if (property.GetType() == T)
                 {
-                    return property as SlmAdditionalProperty;
+                    return property as SlmProperty;
                 }
             }
             
             
-            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmAdditionalProperty;
+            var instance =  Activator.CreateInstance(T, new object[] { }) as SlmProperty;
             stageLightProperties.Add(instance);
 
             return instance;
-            // if (T == typeof(LightFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(LightProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(lightProperty);
-            //         var lightProperty = find as LightProperty;
-            //         stageLightProperties.Add(lightProperty);
-            //         return lightProperty;
-            //     }
-            //     
-            // }
-            //
-            // if (T == typeof(LightPanFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(PanProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(panProperty);
-            //         var panProperty = find as PanProperty;
-            //         stageLightProperties.Add(new PanProperty());
-            //     }
-            //     
-            // }
-            //
-            // if (T == typeof(LightTiltFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(TiltProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(tiltProperty);
-            //         stageLightProperties.Add(new TiltProperty());
-            //     }
-            //     
-            // }
-            //
-            // if (T == typeof(GoboFixture))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(GoboProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(goboProperty);
-            //         stageLightProperties.Add(new GoboProperty());
-            //     }
-            // }
-            //
-            // if (T == typeof(DecalProperty))
-            // {
-            //     var find = stageLightProperties.Find(x => x.GetType() == typeof(DecalProperty));
-            //     if (find != null)
-            //     {
-            //         // stageLightProperties.Add(decalProperty);
-            //         stageLightProperties.Add(new DecalProperty());
-            //     }
-            // }
-
-
-
         }
     }
 }

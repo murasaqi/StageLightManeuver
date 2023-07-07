@@ -29,41 +29,15 @@ namespace StageLightManeuver
         [SerializeField] public bool drawBeat = true;
         [SerializeField] public Color beatLineColor = new Color(0, 1, 0.7126422f, 0.2f);
         [SerializeField] public bool updateOnOutOfClip = false;
-
-        // private StageLightProfile referenceStageLightProfile;
-        
+        public List<StageLightTimelineClip> stageLightTimelineClips = new List<StageLightTimelineClip>();
         public List<StageLightTimelineClip> selectedClips = new List<StageLightTimelineClip>();
          // public List<SlmProperty> slmProperties;
 
 #if UNITY_EDITOR
         
         private SerializedObject serializedProfile;
-        // public SerializedObject SerializedProfile
-        // {
-        //     get
-        //     {
-        //
-        //         if (serializedProfile == null || serializedProfile.targetObject == null)
-        //             serializedProfile = new SerializedObject(ReferenceStageLightProfile);
-        //         return serializedProfile;
-        //     }
-        //     
-        // }
-        #endif
-        
-        // public StageLightProfile ReferenceStageLightProfile
-        // {
-        //     get
-        //     {
-        //         if (referenceStageLightProfile == null || referenceStageLightProfile.stageLightProperties == null)
-        //         {
-        //             referenceStageLightProfile =  ScriptableObject.CreateInstance<StageLightProfile>();
-        //         }
-        //
-        //         return referenceStageLightProfile;
-        //     }
-        //     set => referenceStageLightProfile = value;
-        // }
+#endif
+
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
         {
             #if UNITY_EDITOR
@@ -72,19 +46,38 @@ namespace StageLightManeuver
             #endif
             var mixer = ScriptPlayable<StageLightTimelineMixerBehaviour>.Create(graph, inputCount);
             var stageLightTimelineMixer = mixer.GetBehaviour();
+            stageLightTimelineClips.Clear();
             stageLightTimelineMixer.stageLightTimelineTrack = this;
-            var clips = GetClips().ToList();
-            stageLightTimelineMixer.clips = clips;
+            var timelineClips = GetClips().ToList();
+            stageLightTimelineMixer.clips = timelineClips;
             var director = go.GetComponent<PlayableDirector>();
-            foreach (var clip in clips)
+            foreach (var clip in timelineClips)
             {
                 var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
                 stageLightTimelineClip.track = this;
                 stageLightTimelineClip.mixer = stageLightTimelineMixer;
                 stageLightTimelineClip.clipDisplayName = clip.displayName;
+                stageLightTimelineClips.Add(stageLightTimelineClip);
             }
 
             return mixer;
+        }
+
+        public void SortProperty()
+        {
+            var clips = GetClips().ToList();
+            foreach (var clip in clips)
+            {
+                var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
+                if(stageLightTimelineClip == null || stageLightTimelineClip.StageLightQueueData == null) continue;
+                
+                // Debug.Log(stageLightTimelineClip.StageLightQueueData.stageLightProperties.Count) as ClockProperty;
+                var clockProperty = stageLightTimelineClip.StageLightQueueData.TryAddGetProperty(typeof(ClockProperty));
+                Debug.Log(clockProperty);
+                clockProperty.sortOrder = -999;
+                stageLightTimelineClip.StageLightQueueData.TryAddGetProperty(typeof(StageLightOrderProperty)).sortOrder = -0;
+                stageLightTimelineClip.StageLightQueueData.stageLightProperties.Sort((a, b) => a.propertyOrder.CompareTo(b.propertyOrder));
+            }
         }
 
         public void OnEnable()
@@ -134,6 +127,31 @@ namespace StageLightManeuver
 
                     }
                 }
+                
+            }
+        }
+        
+        public void ApplyProfileAllClip(StageLightProfile stageLightProfile)
+        {
+            // var copy = SlmUtility.CopyProperties(stageLightProfile);
+            foreach (var clip in stageLightTimelineClips)
+            {
+                if(clip.referenceStageLightProfile != stageLightProfile) continue;
+                // if(clip.syncReferenceProfile) clip.SetProperties(copy);
+                clip.InitSyncData();
+            }
+        }
+
+        public void ApplyBPM()
+        {
+            var clips = GetClips().ToList();
+            foreach (var clip in clips)
+            {
+                var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
+                var clockProperty = stageLightTimelineClip.behaviour.stageLightQueueData.TryGetActiveProperty<ClockProperty>();
+                clockProperty.bpm.value = bpm;
+                // Set dirty
+                EditorUtility.SetDirty(stageLightTimelineClip);
                 
             }
         }

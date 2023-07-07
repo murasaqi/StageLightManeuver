@@ -9,6 +9,7 @@ namespace StageLightManeuver
         [DisplayName("Color")]public SlmToggleValue<Gradient> lightToggleColor;// = new StageLightProperty<float>(){value = 1f};
         public LightColorProperty()
         {
+            propertyOverride = true;
             propertyName = "Light Color";
             clockOverride = new SlmToggleValue<ClockOverride>();
             lightToggleColor = new SlmToggleValue<Gradient>(){value = new Gradient()};
@@ -24,6 +25,7 @@ namespace StageLightManeuver
         public LightColorProperty( LightColorProperty other )
         {
             propertyName = other.propertyName;
+            propertyOverride = other.propertyOverride;
             clockOverride = new SlmToggleValue<ClockOverride>(other.clockOverride);
             lightToggleColor = new SlmToggleValue<Gradient>()
             {

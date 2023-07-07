@@ -13,11 +13,9 @@ namespace StageLightManeuver
         public List<TimelineClip> clips;
 
         public StageLightTimelineTrack stageLightTimelineTrack;
-        private bool firstFrameHapend = false;
+        private bool firstFrameHappened = false;
 
         public StageLightSupervisor trackBinding;
-
-        // NOTE: This function is called at runtime and edit time.  Keep that in mind when setting the values of properties.
         public override void ProcessFrame(Playable playable, FrameData info, object playerData)
         {
             trackBinding = playerData as StageLightSupervisor;
@@ -25,10 +23,10 @@ namespace StageLightManeuver
             if (!trackBinding)
                 return;
 
-            if (firstFrameHapend)
+            if (firstFrameHappened)
             {
                 trackBinding.Init();
-                firstFrameHapend = true;
+                firstFrameHappened = true;
             }
 
 
@@ -40,9 +38,7 @@ namespace StageLightManeuver
                 var stageLightTimelineClip = clip.asset as StageLightTimelineClip;
                 if (stageLightTimelineClip == null) continue;
                 float inputWeight = playable.GetInputWeight(i);
-                ScriptPlayable<StageLightTimelineBehaviour> inputPlayable =
-                    (ScriptPlayable<StageLightTimelineBehaviour>)playable.GetInput(i);
-                var timeProperty = stageLightTimelineClip.StageLightQueueData.TryGet<ClockProperty>();
+                var timeProperty = stageLightTimelineClip.StageLightQueueData.TryGetActiveProperty<ClockProperty>();
                 if (timeProperty != null)
                 {
                     timeProperty.clipProperty.clipStartTime = (float)clip.start;
@@ -52,10 +48,11 @@ namespace StageLightManeuver
                 foreach (var stageLightProperty in stageLightTimelineClip.StageLightQueueData.stageLightProperties)
                 {
                     if(stageLightProperty == null) continue;
-                    if (stageLightProperty.GetType().GetInterfaces().Contains(typeof(IArrayProperty)) )
+                    stageLightProperty.InitStageLightSupervisor(trackBinding);
+                    if (stageLightProperty.propertyType == StageLightPropertyType.Array )
                     {
                         var additionalArrayProperty = stageLightProperty as IArrayProperty;
-                        additionalArrayProperty?.ResyncArraySize(trackBinding);
+                        additionalArrayProperty?.ResyncArraySize(trackBinding.stageLights);
                     }
                 }
                 
@@ -64,7 +61,6 @@ namespace StageLightManeuver
                     stageLightTimelineClip.StageLightQueueData.weight = inputWeight;
                     trackBinding.AddQue(stageLightTimelineClip.StageLightQueueData);
                     hasAnyClipPlaying = true;
-                    // Debug.Log($"{clip.displayName},{inputWeight}");
                 }
             }
 

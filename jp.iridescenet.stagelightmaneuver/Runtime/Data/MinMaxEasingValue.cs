@@ -7,26 +7,6 @@ using UnityEngine.Serialization;
 namespace StageLightManeuver
 {
 
-// #if UNITY_EDITOR
-//     [CustomEditor(typeof(MinMaxEasingValue))]
-//     public class MinMaxEasingValuePropertyDrawer:PropertyDrawer
-//     {
-//         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-//         {
-//             EditorGUI.BeginProperty(position, label, property);
-//             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-//
-//             // Don't make child fields be indented
-//             var indent = EditorGUI.indentLevel;
-//             EditorGUI.indentLevel = 0;
-//             // Set indent back to what it was
-//             EditorGUI.indentLevel = indent;
-//
-//             EditorGUI.EndProperty();
-//         }
-//     }
-//     
-// #endif
     [Serializable]
     public class MinMaxEasingValue
     {
@@ -60,6 +40,7 @@ namespace StageLightManeuver
         public MinMaxEasingValue(MinMaxEasingValue other)
         {
             mode = other.mode;
+            inverse = other.inverse;
             minMaxLimit = new Vector2( other.minMaxLimit.x, other.minMaxLimit.y);
             minMaxValue = new Vector2( other.minMaxValue.x, other.minMaxValue.y);
             easeType = other.easeType;

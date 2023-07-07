@@ -21,7 +21,7 @@ namespace StageLightManeuver
     {
         public StaggerCalculationType staggerCalculationType = StaggerCalculationType.StaggerInOut;
        
-        static float animationDuration = 1f;
+        public float animationDuration = 1f;
         // [FormerlySerializedAs("staticDuration")] public float animationDuration = 1f;
         [FormerlySerializedAs("staticDelay")] [Range(0,1)]public float delayRatio = 0.1f;
         public AnimationCurve animationCurve = AnimationCurve.EaseInOut(0,0,1,1);
@@ -35,21 +35,22 @@ namespace StageLightManeuver
             animationDuration = 1f;
             delayRatio = 0.1f;
             animationCurve = AnimationCurve.EaseInOut(0,0,1,1);
-            // lightStaggerInfo = new List<Vector2>();
+            lightStaggerInfo = new List<Vector2>();
             randomStaggerInfo = new List<Vector2>();
         }
         
         public ArrayStaggerValue(ArrayStaggerValue arrayStaggerValue)
         {
             staggerCalculationType = arrayStaggerValue.staggerCalculationType;
+            animationDuration = arrayStaggerValue.animationDuration;
             delayRatio = arrayStaggerValue.delayRatio;
             animationCurve = SlmUtility.CopyAnimationCurve(arrayStaggerValue.animationCurve);
             lightStaggerInfo = new List<Vector2>(arrayStaggerValue.lightStaggerInfo);
             randomStaggerInfo = new List<Vector2>(arrayStaggerValue.randomStaggerInfo);
         }
-        public void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public void ResyncArraySize(List<StageLight> stageLights)
         {
-            var countDifference = stageLightSupervisor.AllStageLights.Count - lightStaggerInfo.Count;
+            var countDifference = stageLights.Count - lightStaggerInfo.Count;
             if (countDifference > 0)
             {
                 for (int i = 0; i < countDifference; i++)
@@ -62,7 +63,7 @@ namespace StageLightManeuver
                 lightStaggerInfo.RemoveRange(lightStaggerInfo.Count + countDifference, -countDifference);
             }
             
-            countDifference = stageLightSupervisor.AllStageLights.Count - randomStaggerInfo.Count;
+            countDifference = stageLights.Count - randomStaggerInfo.Count;
             if (countDifference > 0)
             {
                 for (int i = 0; i < countDifference; i++)
@@ -161,18 +162,18 @@ namespace StageLightManeuver
         {
             propertyName = "Clock";
             propertyOrder = -999;
-            propertyOverride = false;
-            loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop};
+            propertyOverride = true;
+            loopType = new SlmToggleValue<LoopType>(){value = LoopType.Loop, propertyOverride = true};
             clipProperty = new ClipProperty(){clipStartTime = 0, clipEndTime = 0};
-            bpm = new SlmToggleValue<float>() { value = 60 };
-            bpmScale = new SlmToggleValue<float>() { value = 1f };
-            // staggerDelay = new SlmToggleValue<float>() { value = 0f };
-            offsetTime = new SlmToggleValue<float>() { value = 0f };
+            bpm = new SlmToggleValue<float>() { value = 60 , propertyOverride = true};
+            bpmScale = new SlmToggleValue<float>() { value = 1f , propertyOverride = true};
+            staggerDelay = new SlmToggleValue<float>() { value = 0f , propertyOverride = false};
+            offsetTime = new SlmToggleValue<float>() { value = 0f , propertyOverride = true};
         }
 
-        public void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public void ResyncArraySize(List<StageLight> stageLights)
         {
-            arrayStaggerValue.ResyncArraySize(stageLightSupervisor);
+            arrayStaggerValue.ResyncArraySize(stageLights);
         }
         public override void ToggleOverride(bool toggle)
         {
@@ -192,7 +193,7 @@ namespace StageLightManeuver
             propertyName = other.propertyName;
             bpm = new SlmToggleValue<float>(other.bpm);
             bpmScale = new SlmToggleValue<float>(other.bpmScale);
-            // staggerDelay = new SlmToggleValue<float>(other.staggerDelay);
+            staggerDelay = new SlmToggleValue<float>(other.staggerDelay);
             loopType = new SlmToggleValue<LoopType>(other.loopType);
             clipProperty = new ClipProperty(other.clipProperty);
             offsetTime = new SlmToggleValue<float>(other.offsetTime);

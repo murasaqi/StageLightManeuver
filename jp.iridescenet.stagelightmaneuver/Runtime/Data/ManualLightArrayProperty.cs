@@ -89,35 +89,35 @@ namespace StageLightManeuver
             
         }
 
-        public override void ResyncArraySize(StageLightSupervisor stageLightSupervisor)
+        public override void ResyncArraySize(List<StageLight> stageLights)
         {
             
             var lightPrimitiveValues = lightValues.value;
-            if (lightPrimitiveValues.Count < stageLightSupervisor.AllStageLights.Count)
+            if (lightPrimitiveValues.Count < stageLights.Count)
             {
-                while (lightPrimitiveValues.Count < stageLightSupervisor.AllStageLights.Count)
+                while (lightPrimitiveValues.Count < stageLights.Count)
                 {
                     AddLightPrimitive();
                 }
 
             }
 
-            if (lightPrimitiveValues.Count > stageLightSupervisor.AllStageLights.Count)
+            if (lightPrimitiveValues.Count > stageLights.Count)
             {
-                while (lightPrimitiveValues.Count > stageLightSupervisor.AllStageLights.Count)
+                while (lightPrimitiveValues.Count > stageLights.Count)
                 {
                     lightPrimitiveValues.RemoveAt(lightPrimitiveValues.Count - 1);
                 }
             }
 
-            for (int j = 0; j < stageLightSupervisor.AllStageLights.Count; j++)
+            for (int j = 0; j < stageLights.Count; j++)
             {
                 // if not index is out of range
-                if (j < lightPrimitiveValues.Count && j < stageLightSupervisor.AllStageLights.Count)
+                if (j < lightPrimitiveValues.Count && j < stageLights.Count)
                 {
-                    if (lightPrimitiveValues[j] != null && stageLightSupervisor.AllStageLights[j] != null)
+                    if (lightPrimitiveValues[j] != null && stageLights[j] != null)
                     {
-                        lightPrimitiveValues[j].name = stageLightSupervisor.AllStageLights[j].name;
+                        lightPrimitiveValues[j].name = stageLights[j].name;
                     }
 
                 }

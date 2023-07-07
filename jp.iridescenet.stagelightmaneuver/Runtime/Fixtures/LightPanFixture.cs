@@ -21,7 +21,7 @@ namespace StageLightManeuver
     [AddComponentMenu("")]
     public class LightPanFixture: StageLightFixtureBase
     {
-        private LightTransformType _lightTransformType = LightTransformType.Pan;
+        // private LightTransformType _lightTransformType = LightTransformType.Pan;
         private float _angle;
         public Vector3 rotationVector = Vector3.up;
         public Transform rotateTransform;
@@ -58,29 +58,30 @@ namespace StageLightManeuver
             {
                 var queueData = stageLightDataQueue.Dequeue();
 
-                var qLightBaseProperty = queueData.TryGet<ClockProperty>() as ClockProperty;
-                var qPanProperty = queueData.TryGet<PanProperty>() as PanProperty;
+                var qLightBaseProperty = queueData.TryGetActiveProperty<ClockProperty>() as ClockProperty;
+                var qPanProperty = queueData.TryGetActiveProperty<PanProperty>() as PanProperty;
                 var weight = queueData.weight;
                 if (qPanProperty == null || qLightBaseProperty == null) continue;
-              
-                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime,queueData,typeof(PanProperty),Index);
+                var stageLightOrderProperty = queueData.TryGetActiveProperty<StageLightOrderProperty>() as StageLightOrderProperty;
+                var index = stageLightOrderProperty!=null? stageLightOrderProperty.stageLightOrderQueue.GetStageLightIndex(parentStageLight) :  parentStageLight.order;
+                var normalizedTime = SlmUtility.GetNormalizedTime(currentTime,queueData,typeof(PanProperty),index);
 
-                var manualPanTiltProperty = queueData.TryGet<ManualPanTiltProperty>();
-               var lookAtProperty = queueData.TryGet<LookAtProperty>();
+                var manualPanTiltProperty = queueData.TryGetActiveProperty<ManualPanTiltProperty>();
+               var lookAtProperty = queueData.TryGetActiveProperty<LookAtProperty>();
                ignore = lookAtProperty != null;
                    if(manualPanTiltProperty != null)
                 {
                     var positions = manualPanTiltProperty.positions.value;
                     var mode = manualPanTiltProperty.mode.value;
-                    if (Index < positions.Count)
+                    if (index < positions.Count)
                     {
                        switch (mode)
                         {
                             case ManualPanTiltMode.Overwrite:
-                                _angle += positions[Index].pan * weight;
+                                _angle += positions[index].pan * weight;
                                 break;
                             case ManualPanTiltMode.Add:
-                                _angle += (positions[Index].pan+qPanProperty.rollTransform.value.Evaluate(normalizedTime)) * weight;
+                                _angle += (positions[index].pan+qPanProperty.rollTransform.value.Evaluate(normalizedTime)) * weight;
                                 break;
                         }
                     }
