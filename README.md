@@ -12,4 +12,4 @@ Assets以下に展開された状態では機能しません。
 
 Copyright (c) 2022 Murasaqi
 Released under the MIT license
-https://github.com/YukinobuKurata/YouTubeMagicBuyButton/blob/master/MIT-LICENSE.txt
+
