@@ -177,7 +177,7 @@ namespace StageLightManeuver
                 var valueObject = value.GetValue<object>();
                 // GetCustomAttributes
              
-               if(valueObject == null) return;
+                if(valueObject == null) return;
 
                 if (valueObject.GetType() == typeof(SlmToggleValue<ClockProperty>))
                 {
@@ -215,53 +215,15 @@ namespace StageLightManeuver
 
                 if (valueObject.GetType() == typeof(MinMaxEasingValue))
                 {
-                    DrawMinMaxEaseUI(value);
-                    
-                }else if (valueObject.GetType() == typeof(ArrayStaggerValue))
+                    EditorGUILayout.PropertyField(value, GUIContent.none);
+                }
+                else if (valueObject.GetType() == typeof(ArrayStaggerValue))
                 {
-                    
-                    ArrayStaggerValue(value, valueObject as ArrayStaggerValue);
-                    
+                    EditorGUILayout.PropertyField(value, GUIContent.none);
                 }
                 else if (valueObject.GetType() == typeof(ClockOverride))
                 {
-                    var loopType = value.FindPropertyRelative("loopType");
-                    var childDepth = value.depth+1;
-                    while(value.NextVisible(true) && value.depth >= childDepth)
-                    {
-                        if (value.depth == childDepth)
-                        {
-                            if (loopType.propertyType == SerializedPropertyType.Enum  &&  loopType.enumValueIndex == 3)
-                            {
-                                if (value.name == "arrayStaggerValue")
-                                {
-                                    var serializedObject = value.GetValue<object>();
-                                    ArrayStaggerValue(value, serializedObject as ArrayStaggerValue);
-                                }
-
-                                if (value.name == "loopType")
-                                {
-                                    EditorGUI.BeginChangeCheck();
-                                    EditorGUILayout.PropertyField(value);
-                                    if (EditorGUI.EndChangeCheck())
-                                    {
-                                        serializedProperty.serializedObject.ApplyModifiedProperties();
-                                    }    
-                                }
-                            }
-                            else
-                            {
-                                if (value.name == "arrayStaggerValue" )continue;
-                                EditorGUI.BeginChangeCheck();
-                                EditorGUILayout.PropertyField(value);
-                                if (EditorGUI.EndChangeCheck())
-                                {
-                                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                                    // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                                }    
-                            }
-                        }
-                    }
+                    EditorGUILayout.PropertyField(value, GUIContent.none);
                 }
                 else if (valueObject.GetType().BaseType == typeof(SlmProperty))
                 {
@@ -305,7 +267,7 @@ namespace StageLightManeuver
                 if(serializedObject == null) return;
                 if(serializedObject.GetType() == typeof(ArrayStaggerValue))
                 {
-                    ArrayStaggerValue(serializedProperty, serializedObject as ArrayStaggerValue);
+                    EditorGUILayout.PropertyField(serializedProperty);
                 }
                 else if (serializedObject.GetType() == typeof(StageLightOrderQueue))
                 {
@@ -338,98 +300,6 @@ namespace StageLightManeuver
            
         }
 
-        public static void DrawStaggerMinMaxSliders(ArrayStaggerValue arrayStaggerValue, SerializedProperty serializedProperty)
-        {
-         
-            var expand =EditorGUILayout.Foldout(serializedProperty.isExpanded, serializedProperty.displayName);
-            if (expand != serializedProperty.isExpanded)
-            {
-                serializedProperty.isExpanded = expand;
-                serializedProperty.serializedObject.ApplyModifiedProperties();
-            }
-
-            if (!expand)
-            {
-                EditorGUILayout.EndFoldoutHeaderGroup();
-                return;
-            }
-
-            EditorGUI.indentLevel++;
-            var arrayValue = serializedProperty.GetValue<object>() as List<Vector2>;
-            if (arrayValue == null) return;
-
-
-            foreach (var value in arrayValue)
-            {
-                var min = value.x;
-                var max = value.y;
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.MinMaxSlider(ref min,ref max,0,1f);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    var index = arrayValue.IndexOf(value);
-                    serializedProperty.GetArrayElementAtIndex(index).vector2Value = new Vector2(min,max);
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                }
-                            
-            }
-
-            EditorGUI.indentLevel--;
-            EditorGUILayout.EndFoldoutHeaderGroup();
-        }
-
-        public static void ArrayStaggerValue(SerializedProperty serializedProperty, ArrayStaggerValue arrayStaggerValue)
-        {
-            var childDepth = serializedProperty.depth+1;
-            while(serializedProperty.NextVisible(true) && serializedProperty.depth >= childDepth)
-            {
-                if (serializedProperty.depth == childDepth)
-                {
-                    if (serializedProperty.name == "lightStaggerInfo" || serializedProperty.name == "randomStaggerInfo")
-                    {
-                        if (arrayStaggerValue.staggerCalculationType == StaggerCalculationType.Random &&
-                            serializedProperty.name == "randomStaggerInfo")
-                        {
-                            using (new EditorGUILayout.HorizontalScope())
-                            {
-                                GUILayout.FlexibleSpace();
-                                if(GUILayout.Button("Set Random",GUILayout.Width(100)))
-                                {
-                                    arrayStaggerValue.CalculateRandomStaggerTime();
-                                }
-                                GUILayout.FlexibleSpace();
-                            }
-                            DrawStaggerMinMaxSliders( arrayStaggerValue, serializedProperty);
-                            EditorGUILayout.EndFoldoutHeaderGroup();
-                        }
-                        if( arrayStaggerValue.staggerCalculationType != StaggerCalculationType.Random &&
-                            serializedProperty.name == "lightStaggerInfo")
-                        {
-                            DrawStaggerMinMaxSliders( arrayStaggerValue, serializedProperty);
-                        }
-                    }else if (serializedProperty.name == "staggerCalculationType")
-                    {
-                        EditorGUI.BeginChangeCheck();
-                        EditorGUILayout.PropertyField(serializedProperty);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                        }
-                    }
-                    else
-                    {
-                        EditorGUI.BeginChangeCheck();
-                        EditorGUILayout.PropertyField(serializedProperty);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                        }     
-                    }
-                   
-                }
-            }
-            
-        }
         public static bool DrawHeader(SerializedProperty serializedProperty, string propertyName, bool headerBackground = true)
         {
             // var stageLightProfile = serializedObject.targetObject as StageLightProfile;
@@ -463,182 +333,6 @@ namespace StageLightManeuver
             return expanded;
 
         }
-        
-        public static void DrawMinMaxEaseUI(SerializedProperty serializedProperty)
-        {
-            
-            // var stageLightProfile = serializedObject.targetObject as StageLightProfile;
-            using (new EditorGUILayout.VerticalScope())
-            {
-                var inverse = serializedProperty.FindPropertyRelative("inverse");
-                var mode = serializedProperty.FindPropertyRelative("mode");
-               
-                EditorGUI.BeginChangeCheck();
-             
-                EditorGUILayout.PropertyField(inverse);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                    
-                }
-               
-              
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(mode);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    serializedProperty.serializedObject.ApplyModifiedProperties();
-                }
-                EditorGUI.indentLevel++;
-                
-                var minMaxLimitProperty = serializedProperty.FindPropertyRelative("minMaxLimit");
-                var minMaxValueProperty = serializedProperty.FindPropertyRelative("minMaxValue");
-                var minMaxValue = minMaxValueProperty.vector2Value;
-                var minMaxLimit = minMaxLimitProperty.vector2Value;
-
-
-
-                if (mode.propertyType == SerializedPropertyType.Enum)
-                {
-                    if (mode.enumValueIndex == 0)
-                    {
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            var easeType = serializedProperty.FindPropertyRelative("easeType");
-                            EditorGUI.BeginChangeCheck();
-                            EditorGUILayout.PropertyField(easeType);
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                serializedProperty.serializedObject.ApplyModifiedProperties();
-                                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                            }
-                        }
-
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-                            EditorGUILayout.BeginHorizontal();
-                            using (new EditorGUILayout.HorizontalScope())
-                            {
-                                using (new LabelWidth(110))
-                                {
-                                    EditorGUI.BeginChangeCheck();
-                                    var min = EditorGUILayout.FloatField("Min Limit",
-                                        minMaxLimitProperty.vector2Value.x);
-                                    if (EditorGUI.EndChangeCheck())
-                                    {
-                                        min = min >= minMaxLimit.y ? minMaxLimit.y - 1 : min;
-                                        minMaxLimitProperty.vector2Value =
-                                            new Vector2(min, minMaxLimitProperty.vector2Value.y);
-                                        serializedProperty.serializedObject.ApplyModifiedProperties();
-
-                                        // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                                    }
-                                }
-                            }
-
-                            GUILayout.FlexibleSpace();
-                            using (new EditorGUILayout.HorizontalScope())
-                            {
-                                using (new LabelWidth(110))
-                                {
-                                    EditorGUI.BeginChangeCheck();
-                                    var max = EditorGUILayout.FloatField("Max Limit",
-                                        minMaxLimitProperty.vector2Value.y);
-                                    if (EditorGUI.EndChangeCheck())
-                                    {
-                                        max = max <= minMaxLimit.x ? minMaxLimit.x + 1 : max;
-                                        minMaxLimitProperty.vector2Value =
-                                            new Vector2(minMaxLimitProperty.vector2Value.x, max);
-                                        serializedProperty.serializedObject.ApplyModifiedProperties();
-                                    }
-                                }
-                            }
-
-                            EditorGUILayout.EndHorizontal();
-                        }
-
-                        using (new EditorGUILayout.HorizontalScope())
-                        {
-
-                            var minValue = minMaxValueProperty.vector2Value.x;
-                            var maxValue = minMaxValueProperty.vector2Value.y;
-
-                            if (minMaxLimit.x > minMaxValueProperty.vector2Value.x)
-                            {
-                                minMaxValueProperty.vector2Value =
-                                    new Vector2(minMaxLimit.x, minMaxValueProperty.vector2Value.y);
-                                serializedProperty.serializedObject.ApplyModifiedProperties();
-                            }
-
-                            if (minMaxLimit.y < minMaxValueProperty.vector2Value.y)
-                            {
-                                minMaxValueProperty.vector2Value =
-                                    new Vector2(minMaxValueProperty.vector2Value.x, minMaxLimit.y);
-                                serializedProperty.serializedObject.ApplyModifiedProperties();
-                            }
-
-                            EditorGUI.BeginChangeCheck();
-                            var x = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.x, GUILayout.Width(80));
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                minMaxValueProperty.vector2Value = new Vector2(x, minMaxValueProperty.vector2Value.y);
-                                serializedProperty.serializedObject.ApplyModifiedProperties();
-                                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                            }
-
-                            EditorGUI.BeginChangeCheck();
-                            EditorGUILayout.MinMaxSlider(ref minValue,
-                                ref maxValue,
-                                minMaxLimitProperty.vector2Value.x, minMaxLimitProperty.vector2Value.y);
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                minMaxValueProperty.vector2Value = new Vector2(minValue, maxValue);
-                                serializedProperty.serializedObject.ApplyModifiedProperties();
-                                // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                            }
-
-                            EditorGUI.BeginChangeCheck();
-                            var y = EditorGUILayout.FloatField(minMaxValueProperty.vector2Value.y, GUILayout.Width(80));
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                minMaxValueProperty.vector2Value = new Vector2(x, y);
-                                serializedProperty.serializedObject.ApplyModifiedProperties();
-                                // if(stageLightProfile) stageLightProfile.isUpdateGuiFlag = true;
-                            }
-                        }
-                    }
-
-                    if (mode.enumValueIndex == 1)
-                    {
-                        var curve = serializedProperty.FindPropertyRelative("animationCurve");
-                        EditorGUI.BeginChangeCheck();
-
-                        EditorGUILayout.PropertyField(curve);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                            // stageLightProfile.isUpdateGuiFlag = true;
-                        }
-                    }
-
-                    if (mode.enumValueIndex == 2)
-                    {
-                        var constant = serializedProperty.FindPropertyRelative("constant");
-                        EditorGUI.BeginChangeCheck();
-                        EditorGUILayout.PropertyField(constant);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            serializedProperty.serializedObject.ApplyModifiedProperties();
-                            // if(stageLightProfile)stageLightProfile.isUpdateGuiFlag = true;
-                        }
-                    }
-                }
-
-                EditorGUI.indentLevel--;
-            }
-        }
-
-      
         
           
         private static void DrawAddPropertyButton(SerializedObject serializedObject, StageLightProfile stageLightProfile)
