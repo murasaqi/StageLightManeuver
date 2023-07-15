@@ -13,21 +13,24 @@ namespace StageLightManeuver
     [Serializable]
     public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     {
-
+        
         [SerializeReference]public StageLightProfile referenceStageLightProfile;
         [HideInInspector] public StageLightTimelineBehaviour behaviour = new StageLightTimelineBehaviour();
 
+        private StageLightQueueData _stageLightQueData = new StageLightQueueData();
         public StageLightQueueData StageLightQueueData
         {
             get
             {
                 if (syncReferenceProfile)
                 {
-                    return behaviour.syncStageLightQueData; 
+                    _stageLightQueData.stageLightProperties = referenceStageLightProfile.stageLightProperties;
+                    return _stageLightQueData;
                 }
                 else
                 {
-                    return behaviour.stageLightQueueData;
+                    _stageLightQueData.stageLightProperties = behaviour.stageLightQueueData.stageLightProperties;
+                    return _stageLightQueData;
                 }
             }
         }
