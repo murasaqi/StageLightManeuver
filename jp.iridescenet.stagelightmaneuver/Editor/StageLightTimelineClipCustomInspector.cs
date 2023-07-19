@@ -87,77 +87,24 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                       return;
                     }
                     var serializedSlmProperty = serializedProperty.GetArrayElementAtIndex(i);
-                    var expanded = StageLightProfileEditorUtil.DrawHeader(serializedSlmProperty, slmProperty.propertyName);
                     
-                    if (!expanded)
+
+                    EditorGUI.BeginChangeCheck();
+                    EditorGUILayout.PropertyField(serializedSlmProperty);
+                    if (EditorGUI.EndChangeCheck())
                     {
-                        continue;
+                        serializedSlmProperty.serializedObject.ApplyModifiedProperties();
                     }
-                    EditorGUI.BeginDisabledGroup(!slmProperty.propertyOverride);
-                    
-                    using (new EditorGUILayout.HorizontalScope())
+
+                    if (serializedSlmProperty.isExpanded)
                     {
-                        GUIStyle style = new GUIStyle();
-                        style.normal.background =null;
-                        style.fixedWidth = 40;
-                        style.alignment = TextAnchor.MiddleCenter;
-                        style.normal.textColor = Color.gray;
-                        // GUILayout.FlexibleSpace();
-                        if (GUILayout.Button("All", style))
+                        var action = new Action(() =>
                         {
-                            slmProperty.ToggleOverride(true);
-                        }
-                
-                        GUILayout.Space(2);
-                        if (GUILayout.Button("None", style))
-                        {
-                            slmProperty.ToggleOverride(false);
-                            slmProperty.propertyOverride = true;
-                        }
+                            stageLightProperties.Remove(slmProperty);
+                            return;
+                        });
+                        if(slmProperty.GetType() != typeof(ClockProperty))StageLightProfileEditorUtil.DrawRemoveButton(serializedObject, stageLightProperties, action);
                     }
-                    var marginBottom =slmProperty.GetType() == typeof(ClockProperty) ? 0 : 4;
-                    
-                    var fields = slmProperty.GetType().GetFields().ToList();
-                    var clockOverride = fields.Find(x => x.FieldType == typeof(SlmToggleValue<ClockOverride>));
-                    if (clockOverride != null)
-                    {
-                        fields.Remove(clockOverride);
-                        fields.Insert(0,clockOverride);
-                    }
-                    
-                    
-                    fields.ForEach(f =>
-                    {
-                        if (slmProperty.GetType() == typeof(ClockProperty))
-                        {
-                            var clockProperty = slmProperty as ClockProperty;
-                            var loopType = clockProperty.loopType.value;
-                            if (loopType == LoopType.FixedStagger)
-                            {
-                                if (f.Name == "arrayStaggerValue" || f.Name == "loopType")
-                                {
-                                    StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
-                                }
-                            }
-                            else
-                            {
-                                if (f.Name != "arrayStaggerValue")
-                                {
-                                    StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            StageLightProfileEditorUtil.DrawSlmToggleValue(serializedSlmProperty.FindPropertyRelative(f.Name),marginBottom);
-                        }
-                    });
-                    var action = new Action(() =>
-                    {
-                        stageLightProperties.Remove(slmProperty);
-                    });     
-                    EditorGUI.EndDisabledGroup();
-                    if(slmProperty.GetType() != typeof(ClockProperty))StageLightProfileEditorUtil.DrawRemoveButton(serializedObject,stageLightProperties, action);
                     
                 }
             
