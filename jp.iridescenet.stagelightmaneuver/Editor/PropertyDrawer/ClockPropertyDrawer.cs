@@ -10,9 +10,52 @@ namespace StageLightManeuver
     [CustomPropertyDrawer(typeof(ClockProperty))]
     public class ClockPropertyDrawer : SlmPropertyDrawer
     {
-        public ClockPropertyDrawer()
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            base._marginBottom = 0;
+            var clockProperty = property.GetValue<object>() as ClockProperty;
+            if (clockProperty == null) return;
+            label.text = clockProperty.propertyName;
+
+            DrawHeader(position, property, label);
+            if (property.isExpanded == false) return;
+            DrawToggleController(clockProperty);
+
+            var fields = clockProperty.GetType().GetFields().ToList();
+            fields = RemoveHiddenField(fields);
+            fields.Remove(fields.Find(x => x.FieldType == typeof(ClipProperty)));
+
+            var loopType = clockProperty.loopType.value;
+
+            EditorGUI.indentLevel++;
+            fields.ForEach(f =>
+            {
+                if (loopType == LoopType.FixedStagger)
+                {
+                    if (f.Name == "arrayStaggerValue" || f.Name == "loopType")
+                    {
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(property.FindPropertyRelative(f.Name));
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            property.serializedObject.ApplyModifiedProperties();
+                        }
+                    }
+                }
+                else
+                {
+                    if (f.Name != "arrayStaggerValue")
+                    {
+                        EditorGUI.BeginChangeCheck();
+                        EditorGUILayout.PropertyField(property.FindPropertyRelative(f.Name));
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            property.serializedObject.ApplyModifiedProperties();
+                        }
+                    }
+                }
+            });
+            EditorGUI.indentLevel--;
         }
+
     }
 }

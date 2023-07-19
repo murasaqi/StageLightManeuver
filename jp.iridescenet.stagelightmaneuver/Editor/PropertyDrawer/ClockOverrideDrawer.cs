@@ -50,5 +50,10 @@ namespace StageLightManeuver
                 }
             }
         }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return 0f;
+        }
     }
 }

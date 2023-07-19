@@ -10,6 +10,14 @@ namespace StageLightManeuver
     [CustomPropertyDrawer(typeof(SlmToggleValue<>), true)]
     public class SlmToggleValueDrawer : SlmBaseDrawer
     {
+        protected static bool IsVerticalLayoutField(object value)
+        {
+            var hasVerticalLayoutType = (value.GetType() == typeof(MinMaxEasingValue) ||
+                    value.GetType() == typeof(ClockOverride) ||
+                    value.GetType().IsArray || value.GetType().IsGenericType);
+            return hasVerticalLayoutType;
+        }
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             DrawSlmToggleValue(property);
@@ -19,19 +27,18 @@ namespace StageLightManeuver
         /// SlmToggleValue の共通描画処理
         /// </summary>
         /// <param name="property"></param>
-        /// <param name="marginBottom"></param>
-        protected static void DrawSlmToggleValue(SerializedProperty property, int marginBottom = 0)
+        protected static void DrawSlmToggleValue(SerializedProperty property)
         {
             if (property == null) return;
 
             var propertyOverride = property.FindPropertyRelative("propertyOverride");
+            SerializedProperty value = property.FindPropertyRelative("value");
+            if (value == null) return;
+            var valueObject = value.GetValue<object>();
+            if (valueObject == null) return;
+
             if (propertyOverride != null)
             {
-                SerializedProperty value = property.FindPropertyRelative("value");
-                if (value == null) return;
-                var valueObject = value.GetValue<object>();
-                if (valueObject == null) return;
-
                 if (valueObject.GetType() == typeof(SlmToggleValue<ClockProperty>))
                 {
                     var slmToggleValue = valueObject as SlmToggleValue<ClockProperty>;
@@ -42,7 +49,6 @@ namespace StageLightManeuver
                 var hasMultiLineObject = IsVerticalLayoutField(valueObject);
                 if (!hasMultiLineObject) EditorGUILayout.BeginHorizontal();
 
-                // propertyOverride = property.FindPropertyRelative("propertyOverride");
                 EditorGUI.BeginChangeCheck();
                 var isOverride = EditorGUILayout.ToggleLeft(property.displayName, propertyOverride.boolValue, GUILayout.Width(160));
                 if (EditorGUI.EndChangeCheck())
@@ -85,27 +91,25 @@ namespace StageLightManeuver
                 if (!hasMultiLineObject) EditorGUILayout.EndHorizontal();
                 // EditorGUI.IndentedRect(EditorGUILayout.GetControlRect(false, 1));
 
-                GUILayout.Space(marginBottom);
                 if (hasMultiLineObject) EditorGUI.indentLevel--;
             }
             else
             {
-                var serializedObject = property.GetValue<object>();
-                if (serializedObject == null) return;
-                if (serializedObject.GetType() == typeof(ArrayStaggerValue) ||
-                    serializedObject.GetType() == typeof(StageLightOrderQueue))
+                if (valueObject.GetType() == typeof(ArrayStaggerValue) ||
+                    valueObject.GetType() == typeof(StageLightOrderQueue))
                 {
-                    EditorGUILayout.PropertyField(property);
+                    EditorGUI.BeginChangeCheck();
+                    EditorGUILayout.PropertyField(value, GUIContent.none);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        property.serializedObject.ApplyModifiedProperties();
+                    }
                 }
             }
         }
-
-        protected static bool IsVerticalLayoutField(object value)
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var hasVerticalLayoutType = (value.GetType() == typeof(MinMaxEasingValue) ||
-                    value.GetType() == typeof(ClockOverride) ||
-                    value.GetType().IsArray || value.GetType().IsGenericType);
-            return hasVerticalLayoutType;
+            return 0f;
         }
     }
 }

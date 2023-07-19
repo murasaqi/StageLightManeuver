@@ -49,23 +49,9 @@ namespace StageLightManeuver
             return labelCopy;
         }
 
-        // public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        // {
-        //     return EditorGUI.GetPropertyHeight(property);
-        // }
-
-        // public Rect CalcPosition(SerializedProperty property)
-        // {
-        //     var position = EditorGUILayout.GetControlRect();
-        //     // var height = EditorGUI.GetPropertyHeight(property);
-        //     return CalcPosition(position, property);
-        // }
-
-        // public Rect CalcPosition(Rect position, SerializedProperty property)
-        // {
-        //     position.y -= EditorGUI.GetPropertyHeight(property, true);
-        //     // position.height = height;
-        //     return position;
-        // }
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUI.GetPropertyHeight(property);
+        }
     }
 }

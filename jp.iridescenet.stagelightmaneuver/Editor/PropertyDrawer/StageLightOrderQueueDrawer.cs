@@ -12,9 +12,7 @@ namespace StageLightManeuver
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var serializedObject = property.GetValue<object>();
-            if (serializedObject == null) return;
-            var stageLightOrderQueue = serializedObject as StageLightOrderQueue;
+            var stageLightOrderQueue = property.GetValue<object>() as StageLightOrderQueue;
             var settingListName = new List<string>();
             if (stageLightOrderQueue == null) return;
             settingListName.Add("(0) None");
@@ -32,6 +30,11 @@ namespace StageLightManeuver
                 // Debug.Log(stageLightOrderQueue.index);
                 property.serializedObject.ApplyModifiedProperties();
             }
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return 0f;
         }
 
     }

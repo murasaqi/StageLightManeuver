@@ -182,5 +182,10 @@ namespace StageLightManeuver
                 EditorGUI.indentLevel--;
             }
         }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return 0f;
+        }
     }
 }

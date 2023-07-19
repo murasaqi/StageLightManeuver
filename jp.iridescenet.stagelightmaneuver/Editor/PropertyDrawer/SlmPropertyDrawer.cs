@@ -13,24 +13,53 @@ namespace StageLightManeuver
     [CustomPropertyDrawer(typeof(SlmProperty), true)]
     public class SlmPropertyDrawer : SlmTogglePropertyDrawer
     {
-        protected int _marginBottom = 4;
-
         public SlmPropertyDrawer() : base(true) { }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             // Get SlmProperty from SerializedObject
             var slmProperty = property.GetValue<object>() as SlmProperty;
             if (slmProperty == null) return;
-            // Debug.Log(slmProperty);
             label.text = slmProperty.propertyName;
 
             //  Draw header
-            base.OnGUI(position, property, label);
+            DrawHeader(position, property, label);
             if (property.isExpanded == false) return;
 
             var propertyOverride = slmProperty.propertyOverride;
             EditorGUI.BeginDisabledGroup(propertyOverride == false);
+            DrawToggleController(slmProperty);
 
+            var fields = slmProperty.GetType().GetFields().ToList();
+            var clockOverride = fields.Find(x => x.FieldType == typeof(SlmToggleValue<ClockOverride>));
+            if (clockOverride != null)
+            {
+                fields.Remove(clockOverride);
+                fields.Insert(0, clockOverride);
+            }
+            fields = RemoveHiddenField(fields);
+
+            EditorGUI.indentLevel++;
+            fields.ForEach(f =>
+            {
+                // Draw SlmToggleValue
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(f.Name));
+                if (EditorGUI.EndChangeCheck())
+                {
+                    property.serializedObject.ApplyModifiedProperties();
+                }
+            });
+            EditorGUI.indentLevel--;
+
+            GUILayout.Space(4);
+            EditorGUI.EndDisabledGroup();
+        }
+
+
+        protected void DrawHeader(Rect position, SerializedProperty property, GUIContent label) => base.OnGUI(position, property, label);
+
+        protected static void DrawToggleController(SlmProperty slmProperty)
+        {
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUIStyle style = new GUIStyle();
@@ -51,28 +80,19 @@ namespace StageLightManeuver
                     slmProperty.propertyOverride = true;
                 }
             }
-
-            var fields = slmProperty.GetType().GetFields().ToList();
-            var clockOverride = fields.Find(x => x.FieldType == typeof(SlmToggleValue<ClockOverride>));
-            if (clockOverride != null)
+        }
+        protected static List<FieldInfo> RemoveHiddenField(List<FieldInfo> fields)
+        {
+            var hiddenFields = fields.FindAll(x => x.Name == "propertyType" ||
+                                                        x.Name == "propertyName" ||
+                                                        x.Name == "propertyOrder" ||
+                                                        x.Name == "propertyOverride" ||
+                                                        x.Name == "sortOrder");
+            if (hiddenFields != null)
             {
-                fields.Remove(clockOverride);
-                fields.Insert(0, clockOverride);
+                hiddenFields.ForEach(x => fields.Remove(x));
             }
-
-            fields.ForEach(f =>
-            {
-                // Draw SlmToggleValue
-                EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(property.FindPropertyRelative(f.Name));
-                if (EditorGUI.EndChangeCheck())
-                {
-                    property.serializedObject.ApplyModifiedProperties();
-                }
-            });
-
-            GUILayout.Space(_marginBottom);
-            EditorGUI.EndDisabledGroup();
+            return fields;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace StageLightManeuver
                         stageLightProperties.Remove(slmProperty);
                         return;
                     });
-                    StageLightProfileEditorUtil.DrawRemoveButton(serializedObject, stageLightProperties, action);
+                    if(slmProperty.GetType() != typeof(ClockProperty))StageLightProfileEditorUtil.DrawRemoveButton(serializedObject, stageLightProperties, action);
                 }
             }
 
