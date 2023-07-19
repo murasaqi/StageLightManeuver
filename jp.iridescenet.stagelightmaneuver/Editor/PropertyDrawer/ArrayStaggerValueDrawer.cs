@@ -67,7 +67,6 @@ namespace StageLightManeuver
 
         private static void DrawStaggerMinMaxSliders(ArrayStaggerValue arrayStaggerValue, SerializedProperty serializedProperty)
         {
-
             var expand = EditorGUILayout.Foldout(serializedProperty.isExpanded, serializedProperty.displayName);
             if (expand != serializedProperty.isExpanded)
             {

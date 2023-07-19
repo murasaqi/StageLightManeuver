@@ -38,7 +38,8 @@ namespace StageLightManeuver
             }
             fields = RemoveHiddenField(fields);
 
-            EditorGUI.indentLevel++;
+            var useIndent = property.serializedObject.targetObject.GetType() != typeof(StageLightTimelineClip);
+            if (useIndent) EditorGUI.indentLevel++;
             fields.ForEach(f =>
             {
                 // Draw SlmToggleValue
@@ -49,7 +50,7 @@ namespace StageLightManeuver
                     property.serializedObject.ApplyModifiedProperties();
                 }
             });
-            EditorGUI.indentLevel--;
+            if (useIndent) EditorGUI.indentLevel--;
 
             GUILayout.Space(4);
             EditorGUI.EndDisabledGroup();
