@@ -27,8 +27,6 @@ namespace StageLightManeuver
 
             for (int i = 0; i < stageLightProperties.Count; i++)
             {
-                // Debug.Log("i:" + i);
-
                 var slmProperty = stageLightProperties[i];
                 if (slmProperty == null) continue;
 

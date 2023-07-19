@@ -26,7 +26,8 @@ namespace StageLightManeuver
 
             var loopType = clockProperty.loopType.value;
 
-            EditorGUI.indentLevel++;
+            var useIndent = property.serializedObject.targetObject.GetType() != typeof(StageLightTimelineClip);
+            if (useIndent) EditorGUI.indentLevel++;
             fields.ForEach(f =>
             {
                 if (loopType == LoopType.FixedStagger)
@@ -54,7 +55,7 @@ namespace StageLightManeuver
                     }
                 }
             });
-            EditorGUI.indentLevel--;
+            if (useIndent) EditorGUI.indentLevel--;
         }
 
     }
