@@ -9,7 +9,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [CustomPropertyDrawer(typeof(ArrayStaggerValue))]
-    public class ArrayStaggerValueDrawer : PropertyDrawer
+    public class ArrayStaggerValueDrawer : SlmBaseDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
