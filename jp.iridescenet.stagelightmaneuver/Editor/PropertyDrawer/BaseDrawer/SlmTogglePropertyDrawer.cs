@@ -20,7 +20,6 @@ namespace StageLightManeuver
         public SlmTogglePropertyDrawer(bool canFoldout = false) : base(canFoldout) { }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            label = GetDisplayName(label);
             DrawToggleHeader(position, property, label);
         }
 

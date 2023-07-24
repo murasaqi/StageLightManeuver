@@ -22,7 +22,6 @@ namespace StageLightManeuver
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            label = GetDisplayName(label);
             var expanded = DrawHeader(position, property, label, canFoldout: _canFoldout);
             if (expanded != property.isExpanded)
             {
