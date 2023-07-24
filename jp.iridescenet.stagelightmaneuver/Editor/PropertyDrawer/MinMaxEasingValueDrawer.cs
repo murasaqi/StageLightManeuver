@@ -9,7 +9,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [CustomPropertyDrawer(typeof(MinMaxEasingValue))]
-    public class MinMaxEasingValueDrawer : PropertyDrawer
+    public class MinMaxEasingValueDrawer : SlmBaseDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

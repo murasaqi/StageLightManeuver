@@ -10,13 +10,13 @@ namespace StageLightManeuver
     [Serializable]
     public class MinMaxEasingValue
     {
-        [DisplayName("Mode")] public AnimationMode mode = AnimationMode.Ease;
-        [DisplayName("Inverse")] public bool inverse = false;
-        [FormerlySerializedAs("valueRange")] [DisplayName("Range")]public Vector2 minMaxLimit = new Vector2(-180, 180);
+        [SlmValue("Mode")] public AnimationMode mode = AnimationMode.Ease;
+        [SlmValue("Inverse")] public bool inverse = false;
+        [FormerlySerializedAs("valueRange")] [SlmValue("Range")]public Vector2 minMaxLimit = new Vector2(-180, 180);
         [FormerlySerializedAs("valueMinMax")] public Vector2 minMaxValue = new Vector2(-180, 180);
-        [DisplayName("Easing")]public EaseType easeType = EaseType.Linear;
-        [DisplayName("Constant")]public float constant = 0;
-        [DisplayName("Curve")]public AnimationCurve animationCurve = new AnimationCurve(new Keyframe[]
+        [SlmValue("Easing")]public EaseType easeType = EaseType.Linear;
+        [SlmValue("Constant")]public float constant = 0;
+        [SlmValue("Curve")]public AnimationCurve animationCurve = new AnimationCurve(new Keyframe[]
         {
             new Keyframe(0,0),
             new Keyframe(1,1)

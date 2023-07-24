@@ -36,10 +36,10 @@ namespace StageLightManeuver
                 fields.Remove(clockOverride);
                 fields.Insert(0, clockOverride);
             }
-            fields = RemoveHiddenField(fields);
 
             var useIndent = property.serializedObject.targetObject.GetType() != typeof(StageLightTimelineClip);
             if (useIndent) EditorGUI.indentLevel++;
+            // EditorGUI.indentLevel++;
             fields.ForEach(f =>
             {
                 // Draw SlmToggleValue
@@ -50,6 +50,7 @@ namespace StageLightManeuver
                     property.serializedObject.ApplyModifiedProperties();
                 }
             });
+            // EditorGUI.indentLevel--;
             if (useIndent) EditorGUI.indentLevel--;
 
             GUILayout.Space(4);
@@ -81,19 +82,6 @@ namespace StageLightManeuver
                     slmProperty.propertyOverride = true;
                 }
             }
-        }
-        protected static List<FieldInfo> RemoveHiddenField(List<FieldInfo> fields)
-        {
-            var hiddenFields = fields.FindAll(x => x.Name == "propertyType" ||
-                                                        x.Name == "propertyName" ||
-                                                        x.Name == "propertyOrder" ||
-                                                        x.Name == "propertyOverride" ||
-                                                        x.Name == "sortOrder");
-            if (hiddenFields != null)
-            {
-                hiddenFields.ForEach(x => fields.Remove(x));
-            }
-            return fields;
         }
     }
 }

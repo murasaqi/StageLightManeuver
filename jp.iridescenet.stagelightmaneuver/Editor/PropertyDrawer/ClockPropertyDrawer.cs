@@ -21,9 +21,6 @@ namespace StageLightManeuver
             DrawToggleController(clockProperty);
 
             var fields = clockProperty.GetType().GetFields().ToList();
-            fields = RemoveHiddenField(fields);
-            fields.Remove(fields.Find(x => x.FieldType == typeof(ClipProperty)));
-
             var loopType = clockProperty.loopType.value;
 
             var useIndent = property.serializedObject.targetObject.GetType() != typeof(StageLightTimelineClip);

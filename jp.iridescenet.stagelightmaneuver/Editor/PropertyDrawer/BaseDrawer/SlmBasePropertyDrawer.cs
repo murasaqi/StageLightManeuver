@@ -18,7 +18,7 @@ namespace StageLightManeuver
         /// 引数に<c>true</c>を指定すると折りたたみ可能になる
         /// </summary>
         /// <param name="canFoldout">折りたたみ可能か</param>
-        public SlmBasePropertyDrawer(bool canFoldout = false) => this._canFoldout = canFoldout;
+        public SlmBasePropertyDrawer(bool canFoldout = true) => this._canFoldout = canFoldout;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

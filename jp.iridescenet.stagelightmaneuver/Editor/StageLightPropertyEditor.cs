@@ -60,7 +60,7 @@ namespace StageLightManeuver.StageLightTimeline.Editor
                             
 
                             EditorGUI.BeginDisabledGroup(false);
-                            var displayName = fieldInfo.GetCustomAttribute<DisplayNameAttribute>();
+                            var displayName = fieldInfo.GetCustomAttribute<SlmValueAttribute>();
                             var labelValue = displayName != null ? displayName.name : fieldInfo.Name;
 
                             object resultValue = null;

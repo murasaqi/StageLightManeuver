@@ -150,12 +150,12 @@ namespace StageLightManeuver
     [Serializable]
     public class ClockProperty: SlmProperty,IArrayProperty
     {
-        [HideInInspector,DisplayName("Clip Duration")] public ClipProperty clipProperty;
-        [DisplayName("Loop Type")] public SlmToggleValue<LoopType> loopType;
-        [DisplayName("BPM")]public SlmToggleValue<float> bpm;
-        [DisplayName("BPM Scale")]public SlmToggleValue<float> bpmScale;
-        [DisplayName("Offset Time")] public SlmToggleValue<float> offsetTime;
-        [FormerlySerializedAs("childStagger")] [DisplayName("Child Stagger")]public SlmToggleValue<float> staggerDelay;
+        [SlmValue("Clip Duration", true)] public ClipProperty clipProperty;
+        [SlmValue("Loop Type")] public SlmToggleValue<LoopType> loopType;
+        [SlmValue("BPM")]public SlmToggleValue<float> bpm;
+        [SlmValue("BPM Scale")]public SlmToggleValue<float> bpmScale;
+        [SlmValue("Offset Time")] public SlmToggleValue<float> offsetTime;
+        [FormerlySerializedAs("childStagger")] [SlmValue("Child Stagger")]public SlmToggleValue<float> staggerDelay;
         public ArrayStaggerValue arrayStaggerValue = new ArrayStaggerValue();
 
         public ClockProperty()

@@ -9,7 +9,7 @@ namespace StageLightManeuver
     public class RotationProperty : SlmAdditionalProperty
     {
         // public SlmToggleValue<Vector3> rotationAxis;
-        [DisplayName("Rotation Speed")] public SlmToggleValue<MinMaxEasingValue> rotationSpeed;
+        [SlmValue("Rotation Speed")] public SlmToggleValue<MinMaxEasingValue> rotationSpeed;
         public RotationProperty()
         {
             propertyName = "Rotation";

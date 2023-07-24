@@ -66,10 +66,7 @@ namespace StageLightManeuver
                 {
                     foreach (SerializedProperty childProperty in value)
                     {
-                        if (childProperty.name == "propertyOverride" ||
-                            childProperty.name == "propertyName") continue;
                         EditorGUI.BeginChangeCheck();
-
                         EditorGUILayout.PropertyField(childProperty);
                         if (EditorGUI.EndChangeCheck())
                         {

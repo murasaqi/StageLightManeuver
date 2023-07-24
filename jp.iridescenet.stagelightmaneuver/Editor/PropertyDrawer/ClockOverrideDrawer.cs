@@ -9,7 +9,7 @@ using UnityEngine;
 namespace StageLightManeuver
 {
     [CustomPropertyDrawer(typeof(ClockOverride))]
-    public class ClockOverrideDrawer : PropertyDrawer
+    public class ClockOverrideDrawer : SlmBaseDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

@@ -13,45 +13,77 @@ namespace StageLightManeuver
     /// </summary> 
     public class SlmBaseDrawer : PropertyDrawer
     {
-        /// <summary>
-        /// プロパティーの表示名
-        /// <see cref="GetDisplayName(GUIContent)"/>で初期化される
-        /// </summary>
-        public string DiaplayName { get; protected set; }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            label = GetDisplayName(label);
             EditorGUI.LabelField(position, label);
-        }
-
-        /// <summary>
-        /// <see cref="DiaplayName"/>を初期化する
-        /// </summary>
-        /// <param name="label"></param>
-        /// <returns></returns>
-        public GUIContent GetDisplayName(GUIContent label)
-        {
-            if (label == GUIContent.none)
-            {
-                DiaplayName = label.text;
-                return label;
-            }
-            var labelCopy = new GUIContent(label);
-
-            // DisplayNameAttribute がある場合は、そちらのnameプロパティーを使用する
-            var displayNameAttribute = fieldInfo.GetCustomAttributes(typeof(DisplayNameAttribute), true).OfType<DisplayNameAttribute>().ToList().FirstOrDefault();
-            if (displayNameAttribute != null && displayNameAttribute.name != null)
-            {
-                labelCopy.text = displayNameAttribute.name;
-            }
-            DiaplayName = labelCopy.text;
-            return labelCopy;
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return EditorGUI.GetPropertyHeight(property);
+        }
+
+        protected static Type GetPropertyDrawerTypeForType(Type valueType)
+        {
+            var scriptAttributeUtilityType = typeof(EditorGUI).Assembly.GetType("UnityEditor.ScriptAttributeUtility");
+
+            var getDrawerTypeForTypeMethod = scriptAttributeUtilityType.GetMethod("GetDrawerTypeForType", BindingFlags.Static | BindingFlags.NonPublic);
+            var drawerType = getDrawerTypeForTypeMethod.Invoke(null, new object[] { valueType }) as Type;
+            return drawerType;
+        }
+    }
+
+
+    /// <summary>
+    /// <see cref="SlmValueAttribute"/>が付与されたプロパティーの表示を変更
+    /// </summary>
+    [CustomPropertyDrawer(typeof(SlmValueAttribute), true)]
+    public class SlmValueAttributeDrawer : SlmBaseDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            var attribute = (SlmValueAttribute)this.attribute;
+            if (attribute.isHidden) return;
+            var displayName = attribute.name;
+            if (displayName == null) displayName = label.text;
+            var displayLabel = new GUIContent(displayName);
+
+            var valueType = property.GetValue<object>()?.GetType();
+            var drawerType = GetPropertyDrawerTypeForType(valueType);
+            if (drawerType != null)
+            {
+                var drawer = Activator.CreateInstance(drawerType) as PropertyDrawer;
+                drawer.OnGUI(position, property, displayLabel);
+            }
+            else
+            {
+                // Debug.Log($"PropertyDrawer not found for {valueType}");
+                EditorGUILayout.PropertyField(property, displayLabel);
+            }
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            var attribute = (SlmValueAttribute)this.attribute;
+            if (attribute.isHidden)
+            {
+                return -2f;
+            }
+            else
+            {
+                var valueType = property.GetValue<object>()?.GetType();
+                var drawerType = GetPropertyDrawerTypeForType(valueType);
+                if (drawerType != null)
+                {
+                    var drawer = Activator.CreateInstance(drawerType) as PropertyDrawer;
+                    return drawer.GetPropertyHeight(property, label);
+                }
+                else
+                {
+                    // return base.GetPropertyHeight(property, label);
+                    return 0f;
+                }
+            }
         }
     }
 }

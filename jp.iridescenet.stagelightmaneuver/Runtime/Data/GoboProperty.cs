@@ -8,9 +8,9 @@ namespace StageLightManeuver
     [Serializable]
     public class GoboProperty:SlmAdditionalProperty
     {
-        [DisplayName("Gobo Texture")]public SlmToggleValue<Texture2D> goboTexture;
-        [DisplayName("Gobo Property Name")]public SlmToggleValue<string> goboPropertyName;
-        [FormerlySerializedAs("goroRotationSpeed")] [DisplayName("Rotation Speed")]public SlmToggleValue<MinMaxEasingValue> goboRotationSpeed;
+        [SlmValue("Gobo Texture")]public SlmToggleValue<Texture2D> goboTexture;
+        [SlmValue("Gobo Property Name")]public SlmToggleValue<string> goboPropertyName;
+        [FormerlySerializedAs("goroRotationSpeed")] [SlmValue("Rotation Speed")]public SlmToggleValue<MinMaxEasingValue> goboRotationSpeed;
 
         public GoboProperty()
         {
