@@ -27,7 +27,7 @@ namespace StageLightManeuver
     {
         public List<StageLight> stageLights = new List<StageLight>();
 
-        public float weight = 0;
+        [HideInInspector] public float weight = 0;
         // public List<StageLight> AllStageLights => stageLights;
         
         public List<StageLightOrderSetting> stageLightOrderSettings = new List<StageLightOrderSetting>();
