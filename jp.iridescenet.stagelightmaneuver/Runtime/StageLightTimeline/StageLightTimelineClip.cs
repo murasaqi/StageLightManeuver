@@ -22,7 +22,7 @@ namespace StageLightManeuver
         {
             get
             {
-                if (syncReferenceProfile)
+                if (syncReferenceProfile && referenceStageLightProfile != null)
                 {
                     _stageLightQueData.stageLightProperties = referenceStageLightProfile.stageLightProperties;
                     return _stageLightQueData;
@@ -168,7 +168,7 @@ namespace StageLightManeuver
                 copy.Insert(1, new StageLightOrderProperty());
             }
             
-            StageLightQueueData.stageLightProperties = copy;
+            behaviour.stageLightQueueData.stageLightProperties = copy;
             stopEditorUiUpdate = false;
         }
         
