@@ -44,10 +44,5 @@ namespace StageLightManeuver
                 return false;
             }
         }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight;
-        }
     }
 }

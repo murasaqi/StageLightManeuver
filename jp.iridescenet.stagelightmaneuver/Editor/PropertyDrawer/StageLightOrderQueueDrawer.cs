@@ -27,14 +27,13 @@ namespace StageLightManeuver
             if (EditorGUI.EndChangeCheck())
             {
                 stageLightOrderQueue.index = index - 1;
-                // Debug.Log(stageLightOrderQueue.index);
                 property.serializedObject.ApplyModifiedProperties();
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 0f;
+            return SlmDrawerConst.NoMarginHeight;
         }
 
     }

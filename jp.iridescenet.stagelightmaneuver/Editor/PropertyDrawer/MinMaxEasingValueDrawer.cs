@@ -45,9 +45,9 @@ namespace StageLightManeuver
 
                 if (mode.propertyType == SerializedPropertyType.Enum)
                 {
-                    if (mode.enumValueIndex == 0)
+                    if (mode.enumValueIndex == 0) //Easing
                     {
-                        using (new EditorGUILayout.HorizontalScope())
+                        // using (new EditorGUILayout.HorizontalScope())
                         {
                             var easeType = property.FindPropertyRelative("easeType");
                             EditorGUI.BeginChangeCheck();
@@ -153,7 +153,7 @@ namespace StageLightManeuver
                         }
                     }
 
-                    if (mode.enumValueIndex == 1)
+                    if (mode.enumValueIndex == 1) //AnimationCurve
                     {
                         var curve = property.FindPropertyRelative("animationCurve");
                         EditorGUI.BeginChangeCheck();
@@ -166,7 +166,7 @@ namespace StageLightManeuver
                         }
                     }
 
-                    if (mode.enumValueIndex == 2)
+                    if (mode.enumValueIndex == 2) //Constant
                     {
                         var constant = property.FindPropertyRelative("constant");
                         EditorGUI.BeginChangeCheck();
@@ -185,7 +185,7 @@ namespace StageLightManeuver
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 0f;
+            return SlmDrawerConst.NoMarginHeight;
         }
     }
 }

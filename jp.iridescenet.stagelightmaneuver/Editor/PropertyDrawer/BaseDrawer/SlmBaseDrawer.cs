@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,20 @@ using UnityEngine;
 
 namespace StageLightManeuver
 {
+    /// <summary>
+    /// <see cref="StageLightManeuver"/>のUI用定数を保持する
+    /// </summary>
+    public struct SlmDrawerConst
+    {
+        public const float Spacing = 2f;
+        // public static readonly float SingleLineHeight = EditorGUIUtility.singleLineHeight;
+        // public static readonly float SpacingHeight = SingleLineHeight + Spacing;
+        public const float NoSpacing = -4f;
+        public const float NoMarginHeight = 0f;
+        public const float SlmValuePropertyBottomMargin = 4f;
+        public const float SlmPropertyBottomMargin = 4f;
+    }
+
     /// <summary>
     /// プロパティーの名前とPositionのみを保持する規定Drawer
     /// </summary> 
@@ -20,7 +35,7 @@ namespace StageLightManeuver
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUI.GetPropertyHeight(property);
+            return EditorGUIUtility.singleLineHeight;
         }
 
         protected static Type GetPropertyDrawerTypeForType(Type valueType)

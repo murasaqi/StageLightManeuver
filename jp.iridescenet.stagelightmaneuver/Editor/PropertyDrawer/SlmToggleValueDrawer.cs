@@ -24,7 +24,7 @@ namespace StageLightManeuver
         }
 
         /// <summary>
-        /// SlmToggleValue の共通描画処理
+        /// <see ref="SlmToggleValue"/> の共通描画処理
         /// </summary>
         /// <param name="property"></param>
         protected static void DrawSlmToggleValue(SerializedProperty property)
@@ -37,6 +37,7 @@ namespace StageLightManeuver
             var valueObject = value.GetValue<object>();
             if (valueObject == null) return;
 
+            GUILayout.Space(SlmDrawerConst.NoSpacing);
             if (propertyOverride != null)
             {
                 if (valueObject.GetType() == typeof(SlmToggleValue<ClockProperty>))
@@ -47,10 +48,12 @@ namespace StageLightManeuver
                 }
 
                 var hasMultiLineObject = IsVerticalLayoutField(valueObject);
+                if (!hasMultiLineObject) GUILayout.Space(SlmDrawerConst.NoSpacing);
                 if (!hasMultiLineObject) EditorGUILayout.BeginHorizontal();
 
                 EditorGUI.BeginChangeCheck();
                 var isOverride = EditorGUILayout.ToggleLeft(property.displayName, propertyOverride.boolValue, GUILayout.Width(160));
+                GUILayout.Space(SlmDrawerConst.NoSpacing);
                 if (EditorGUI.EndChangeCheck())
                 {
                     propertyOverride.boolValue = isOverride;
@@ -89,24 +92,32 @@ namespace StageLightManeuver
                 // EditorGUI.IndentedRect(EditorGUILayout.GetControlRect(false, 1));
 
                 if (hasMultiLineObject) EditorGUI.indentLevel--;
+                GUILayout.Space(SlmDrawerConst.SlmValuePropertyBottomMargin);
             }
-            else
-            {
-                if (valueObject.GetType() == typeof(ArrayStaggerValue) ||
-                    valueObject.GetType() == typeof(StageLightOrderQueue))
-                {
-                    EditorGUI.BeginChangeCheck();
-                    EditorGUILayout.PropertyField(value, GUIContent.none);
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        property.serializedObject.ApplyModifiedProperties();
-                    }
-                }
-            }
+            // else
+            // {
+            //     if (valueObject.GetType() == typeof(ArrayStaggerValue) ||
+            //         valueObject.GetType() == typeof(StageLightOrderQueue))
+            //     {
+            //         EditorGUI.BeginChangeCheck();
+            //         EditorGUILayout.PropertyField(value, GUIContent.none);
+            //         if (EditorGUI.EndChangeCheck())
+            //         {
+            //             property.serializedObject.ApplyModifiedProperties();
+            //         }
+            //     }
+            // }
         }
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 0f;
+            var value = property.FindPropertyRelative("value");
+            if (value == null) return SlmDrawerConst.NoMarginHeight;
+            var valueObject = value.GetValue<object>();
+            if (valueObject == null) return SlmDrawerConst.NoMarginHeight;
+            if (IsVerticalLayoutField(valueObject)) return SlmDrawerConst.NoMarginHeight;
+
+            return SlmDrawerConst.Spacing;
         }
     }
 }

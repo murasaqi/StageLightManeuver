@@ -53,7 +53,7 @@ namespace StageLightManeuver
             // EditorGUI.indentLevel--;
             if (useIndent) EditorGUI.indentLevel--;
 
-            GUILayout.Space(4);
+            GUILayout.Space(SlmDrawerConst.SlmPropertyBottomMargin);
             EditorGUI.EndDisabledGroup();
         }
 
@@ -62,6 +62,7 @@ namespace StageLightManeuver
 
         protected static void DrawToggleController(SlmProperty slmProperty)
         {
+            GUILayout.Space(SlmDrawerConst.Spacing);
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUIStyle style = new GUIStyle();
@@ -75,13 +76,14 @@ namespace StageLightManeuver
                     slmProperty.ToggleOverride(true);
                 }
 
-                GUILayout.Space(2);
+                GUILayout.Space(SlmDrawerConst.Spacing);
                 if (GUILayout.Button("None", style))
                 {
                     slmProperty.ToggleOverride(false);
                     slmProperty.propertyOverride = true;
                 }
             }
+            GUILayout.Space(SlmDrawerConst.Spacing);
         }
     }
 }
