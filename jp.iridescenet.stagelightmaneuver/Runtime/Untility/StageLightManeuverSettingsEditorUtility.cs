@@ -45,7 +45,8 @@ namespace StageLightManeuver
             typeof(SlmAdditionalProperty),
         };
 
-        public static string? stageLightManeuverSettingsPath;
+        public static string? stageLightManeuverSettingsPath = _defaultStageLightManeuverSettingsPath;
+        private const string _defaultStageLightManeuverSettingsPath = "Assets/StageLightManeuverSettings.asset";
 
         /// <summary>
         /// <paramref name="stageLightProperties"/>の順番を<paramref name="slmPropertyOrder"/>に従って登録する
@@ -64,21 +65,24 @@ namespace StageLightManeuver
         public static Dictionary<Type, int> GetPropertyOrders()
         {
             Dictionary<Type, int> slmPropertyOrder = null;
-            var guids = AssetDatabase.FindAssets("t:StageLightManeuverSettings");
-            if (guids.Length > 0)
+            var stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
+            if (stageLightManeuverSettingsAsset == null)
             {
-                var stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);
-                var stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
-                slmPropertyOrder = stageLightManeuverSettingsAsset.SlmPropertyOrder;
+                var guids = AssetDatabase.FindAssets("t:StageLightManeuverSettings");
+                // Debug.Log([StageLightManeuverSettings] Search Settings asset");
+                if (guids.Length <= 0)
+                {
+                    var slmSettings = StageLightManeuverSettings.CreateInstance<StageLightManeuverSettings>();
+                    stageLightManeuverSettingsPath = _defaultStageLightManeuverSettingsPath;
+                    AssetDatabase.CreateAsset(slmSettings, _defaultStageLightManeuverSettingsPath);
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                    return slmPropertyOrder = slmSettings.SlmPropertyOrder;
+                }
+                stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+                stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
             }
-            else
-            {
-                var slmSettings = StageLightManeuverSettings.CreateInstance<StageLightManeuverSettings>();
-                AssetDatabase.CreateAsset(slmSettings, "Assets/StageLightManeuverSettings.asset");
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-                slmPropertyOrder = slmSettings.SlmPropertyOrder;
-            }
+            slmPropertyOrder = stageLightManeuverSettingsAsset.SlmPropertyOrder;
             return slmPropertyOrder;
         }
 

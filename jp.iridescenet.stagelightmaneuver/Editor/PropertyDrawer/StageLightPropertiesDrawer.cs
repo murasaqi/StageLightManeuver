@@ -62,6 +62,30 @@ namespace StageLightManeuver
             DrawAddPropertyButton(property.serializedObject, stageLightProperties);
         }
 
+        // private static void NewMethod(List<SlmProperty> stageLightProperties)
+        // {
+        //     // StageLightManeuverSettingsのSlmPropertyOrderを参照して、順番を並び替える
+        //     Dictionary<Type, int> slmPropertyOrder = null;
+        //     var guids = AssetDatabase.FindAssets("t:StageLightManeuverSettings");
+        //     // Debug.Log("Get StageLightManeuverSettings");
+        //     if (guids.Length > 0)
+        //     {
+        //         var stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);
+        //         var stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
+        //         slmPropertyOrder = stageLightManeuverSettingsAsset.SlmPropertyOrder;
+        //     }
+        //     else
+        //     {
+        //         slmPropertyOrder = StageLightManeuverSettingsUtility.defaultSettings.SlmPropertyOrder;
+        //     }
+        //     for (int i = 0; i < stageLightProperties.Count; i++)
+        //     {
+        //         var slmProperty = stageLightProperties[i];
+        //         slmProperty.propertyOrder = slmPropertyOrder[slmProperty.GetType()];
+        //         // Debug.Log(slmProperty.propertyName + "'s order is " + slmProperty.propertyOrder);
+        //     }
+        // }
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             float height = 0f;
