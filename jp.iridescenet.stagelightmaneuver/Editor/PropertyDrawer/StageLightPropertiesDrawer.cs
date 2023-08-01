@@ -13,11 +13,17 @@ namespace StageLightManeuver
     // [CustomPropertyDrawer(typeof(List<SlmProperty>))]
     public class StageLightPropertiesDrawer : SlmBaseDrawer
     {
+        bool isInitialized = false;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var stageLightProperties = property.GetValue<object>() as List<SlmProperty>;
-            stageLightProperties.RemoveAll(x => x == null);
-            stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
+            if (isInitialized == false)
+            {
+                stageLightProperties = StageLightManeuverSettingsUtility.SortByPropertyOrder(stageLightProperties);
+                isInitialized = true;
+            }
+            // stageLightProperties.RemoveAll(x => x == null);
+            // stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
             for (int i = 0; i < stageLightProperties.Count; i++)
             {
                 var slmProperty = stageLightProperties[i];
@@ -29,7 +35,7 @@ namespace StageLightManeuver
 
                 var serializedSlmProperty = property.GetArrayElementAtIndex(i);
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(serializedSlmProperty);
+                EditorGUILayout.PropertyField(serializedSlmProperty, true);
                 if (EditorGUI.EndChangeCheck())
                 {
                     serializedSlmProperty.serializedObject.ApplyModifiedProperties();
@@ -50,6 +56,9 @@ namespace StageLightManeuver
                 }
             }
 
+            GUILayout.Space(SlmDrawerConst.AddPropertyButtonTopMargin / 2);
+            // EditorGUI.DrawRect(EditorGUILayout.GetControlRect(false, 1), Color.gray);
+            GUILayout.Space(SlmDrawerConst.AddPropertyButtonTopMargin / 2);
             DrawAddPropertyButton(property.serializedObject, stageLightProperties);
         }
 
@@ -136,25 +145,4 @@ namespace StageLightManeuver
             }
         }
     }
-
-
-    // [CustomPropertyDrawer(typeof(StageLightQueueData))]
-    // public class StageLightQueueDataDrawer : SlmBaseDrawer
-    // {
-    //     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    //     {
-    //         var stageLightPropertys = property.FindPropertyRelative("stageLightProperties");
-    //         var drawerType = GetPropertyDrawerTypeForType(typeof(List<SlmProperty>));
-    //         if (drawerType != null)
-    //         {
-    //             var drawer = Activator.CreateInstance(drawerType) as PropertyDrawer;
-    //             drawer.OnGUI(position, stageLightPropertys, label);
-    //         }
-    //     }
-
-    //     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-    //     {
-    //         return SlmDrawerConst.NoMarginHeight;
-    //     }
-    // }
 }

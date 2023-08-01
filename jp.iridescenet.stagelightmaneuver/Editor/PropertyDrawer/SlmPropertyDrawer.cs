@@ -44,7 +44,7 @@ namespace StageLightManeuver
             {
                 // Draw SlmToggleValue
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(property.FindPropertyRelative(f.Name));
+                EditorGUILayout.PropertyField(property.FindPropertyRelative(f.Name), true);
                 if (EditorGUI.EndChangeCheck())
                 {
                     property.serializedObject.ApplyModifiedProperties();

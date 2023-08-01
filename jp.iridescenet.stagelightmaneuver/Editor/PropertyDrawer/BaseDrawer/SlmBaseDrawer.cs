@@ -21,6 +21,7 @@ namespace StageLightManeuver
         public const float NoMarginHeight = 0f;
         public const float SlmValuePropertyBottomMargin = 4f;
         public const float SlmPropertyBottomMargin = 4f;
+        public const float AddPropertyButtonTopMargin = 4f;
     }
 
     /// <summary>

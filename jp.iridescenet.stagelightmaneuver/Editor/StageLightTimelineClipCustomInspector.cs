@@ -79,7 +79,6 @@ namespace StageLightManeuver.StageLightTimeline.Editor
 
                 EditorGUI.BeginChangeCheck();
                 EditorUtility.SetDirty(stageLightTimelineClip);
-                // EditorGUILayout.PropertyField(stageLightQueDataProperty);
                 var drawer = new StageLightPropertiesDrawer();
                 drawer.OnGUI(EditorGUILayout.GetControlRect(), serializedProperty, GUIContent.none);
                 if (EditorGUI.EndChangeCheck())

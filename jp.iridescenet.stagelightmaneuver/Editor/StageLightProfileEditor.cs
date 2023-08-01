@@ -37,7 +37,7 @@ namespace StageLightManeuver
                 AssetDatabase.Refresh();
                 Repaint();
                 ReloadPreviewInstances();
-            }            
+            }
         }
         void OnInspectorUpdate()
         {
