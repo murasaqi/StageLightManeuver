@@ -17,7 +17,7 @@ namespace StageLightManeuver
         /// <summary>
         /// 全ての<see cref="SlmProperty"/>を含むリストを返す。このリストの順番が<see cref="StageLightProfile"/>のデフォルトの順番になる。
         /// </summary>
-        public static List<Type> SlmPropertys = new List<Type>
+        public static readonly List<Type> SlmPropertys = new List<Type>
         {
             typeof(ClockProperty),
             typeof(StageLightOrderProperty),
@@ -72,6 +72,8 @@ namespace StageLightManeuver
                     AssetDatabase.CreateAsset(slmSettings, _defaultStageLightManeuverSettingsPath);
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();
+                    stageLightManeuverSettingsAsset =
+                        AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
                     return stageLightManeuverSettingsAsset;
                 }
 
