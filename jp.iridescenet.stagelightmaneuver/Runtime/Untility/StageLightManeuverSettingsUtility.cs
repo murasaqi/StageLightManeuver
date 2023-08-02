@@ -48,24 +48,10 @@ namespace StageLightManeuver
         public static string? stageLightManeuverSettingsPath = _defaultStageLightManeuverSettingsPath;
         private const string _defaultStageLightManeuverSettingsPath = "Assets/StageLightManeuverSettings.asset";
 
-        /// <summary>
-        /// <paramref name="stageLightProperties"/>の順番を<paramref name="slmPropertyOrder"/>に従って登録する
-        /// </summary>
-        public static List<SlmProperty> SetPropertyOrder(List<SlmProperty> stageLightProperties, Dictionary<Type, int> slmPropertyOrder)
+        public static StageLightManeuverSettings GetStageLightManeuverSettingsAsset()
         {
-            for (int i = 0; i < stageLightProperties.Count; i++)
-            {
-                var slmProperty = stageLightProperties[i];
-                slmProperty.propertyOrder = slmPropertyOrder[slmProperty.GetType()];
-                // Debug.Log(slmProperty.propertyName + "'s order is " + slmProperty.propertyOrder);
-            }
-            return stageLightProperties;
-        }
-
-        public static Dictionary<Type, int> GetPropertyOrders()
-        {
-            Dictionary<Type, int> slmPropertyOrder = null;
-            var stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
+            var stageLightManeuverSettingsAsset =
+                AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
             if (stageLightManeuverSettingsAsset == null)
             {
                 var guids = AssetDatabase.FindAssets("t:StageLightManeuverSettings");
@@ -77,14 +63,39 @@ namespace StageLightManeuver
                     AssetDatabase.CreateAsset(slmSettings, _defaultStageLightManeuverSettingsPath);
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();
-                    return slmPropertyOrder = slmSettings.SlmPropertyOrder;
+                    return stageLightManeuverSettingsAsset;
                 }
+
                 stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);
-                stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
+                stageLightManeuverSettingsAsset =
+                    AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
             }
+
+            return stageLightManeuverSettingsAsset;
+        }
+
+
+        /// <summary>
+        /// <paramref name="stageLightProperties"/>の順番を<paramref name="slmPropertyOrder"/>に従って登録する
+        /// </summary>
+        private static List<SlmProperty> SetPropertyOrder(List<SlmProperty> stageLightProperties, Dictionary<Type, int> slmPropertyOrder)
+        {
+            foreach (var slmProperty in stageLightProperties)
+            {
+                slmProperty.propertyOrder = slmPropertyOrder[slmProperty.GetType()];
+            }
+
+            return stageLightProperties;
+        }
+
+        private static Dictionary<Type, int> GetPropertyOrders()
+        {
+            Dictionary<Type, int> slmPropertyOrder = null;
+            var stageLightManeuverSettingsAsset = GetStageLightManeuverSettingsAsset();
             slmPropertyOrder = stageLightManeuverSettingsAsset.SlmPropertyOrder;
             return slmPropertyOrder;
         }
+
 
         /// <summary>
         /// <paramref name="stageLightProperties"/>に<see cref="StageLightManeuverSettings"/>の設定を適用して並び変えたリストを返す
