@@ -37,7 +37,7 @@ namespace StageLightManeuver
             var valueObject = value.GetValue<object>();
             if (valueObject == null) return;
 
-            GUILayout.Space(SlmDrawerConst.NoSpacing);
+            GUILayout.Space(SlmEditorStyleConst.NoSpacing);
             if (propertyOverride != null)
             {
                 if (valueObject.GetType() == typeof(SlmToggleValue<ClockProperty>))
@@ -48,12 +48,12 @@ namespace StageLightManeuver
                 }
 
                 var hasMultiLineObject = IsVerticalLayoutField(valueObject);
-                if (!hasMultiLineObject) GUILayout.Space(SlmDrawerConst.NoSpacing);
+                if (!hasMultiLineObject) GUILayout.Space(SlmEditorStyleConst.NoSpacing);
                 if (!hasMultiLineObject) EditorGUILayout.BeginHorizontal();
 
                 EditorGUI.BeginChangeCheck();
                 var isOverride = EditorGUILayout.ToggleLeft(property.displayName, propertyOverride.boolValue, GUILayout.Width(160));
-                GUILayout.Space(SlmDrawerConst.NoSpacing);
+                GUILayout.Space(SlmEditorStyleConst.NoSpacing);
                 if (EditorGUI.EndChangeCheck())
                 {
                     propertyOverride.boolValue = isOverride;
@@ -92,7 +92,7 @@ namespace StageLightManeuver
                 // EditorGUI.IndentedRect(EditorGUILayout.GetControlRect(false, 1));
 
                 if (hasMultiLineObject) EditorGUI.indentLevel--;
-                GUILayout.Space(SlmDrawerConst.SlmValuePropertyBottomMargin);
+                GUILayout.Space(SlmEditorStyleConst.SlmValuePropertyBottomMargin);
             }
             // else
             // {
@@ -112,12 +112,12 @@ namespace StageLightManeuver
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var value = property.FindPropertyRelative("value");
-            if (value == null) return SlmDrawerConst.NoMarginHeight;
+            if (value == null) return SlmEditorStyleConst.NoMarginHeight;
             var valueObject = value.GetValue<object>();
-            if (valueObject == null) return SlmDrawerConst.NoMarginHeight;
-            if (IsVerticalLayoutField(valueObject)) return SlmDrawerConst.NoMarginHeight;
+            if (valueObject == null) return SlmEditorStyleConst.NoMarginHeight;
+            if (IsVerticalLayoutField(valueObject)) return SlmEditorStyleConst.NoMarginHeight;
 
-            return SlmDrawerConst.Spacing;
+            return SlmEditorStyleConst.Spacing;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace StageLightManeuver
     /// <summary>
     /// <see cref="StageLightManeuver"/>のUI用定数を保持する
     /// </summary>
-    public struct SlmDrawerConst
+    public struct SlmEditorStyleConst
     {
         public const float Spacing = 2f;
         // public static readonly float SingleLineHeight = EditorGUIUtility.singleLineHeight;

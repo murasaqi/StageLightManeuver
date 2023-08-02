@@ -22,8 +22,6 @@ namespace StageLightManeuver
                 stageLightProperties = StageLightManeuverSettingsUtility.SortByPropertyOrder(stageLightProperties);
                 isInitialized = true;
             }
-            // stageLightProperties.RemoveAll(x => x == null);
-            // stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
             for (int i = 0; i < stageLightProperties.Count; i++)
             {
                 var slmProperty = stageLightProperties[i];
@@ -51,40 +49,16 @@ namespace StageLightManeuver
                     if (slmProperty.GetType() != typeof(ClockProperty))
                     {
                         DrawRemoveButton(property.serializedObject, stageLightProperties, action);
-                        GUILayout.Space(SlmDrawerConst.Spacing);
+                        GUILayout.Space(SlmEditorStyleConst.Spacing);
                     }
                 }
             }
 
-            GUILayout.Space(SlmDrawerConst.AddPropertyButtonTopMargin / 2);
+            GUILayout.Space(SlmEditorStyleConst.AddPropertyButtonTopMargin / 2);
             // EditorGUI.DrawRect(EditorGUILayout.GetControlRect(false, 1), Color.gray);
-            GUILayout.Space(SlmDrawerConst.AddPropertyButtonTopMargin / 2);
+            GUILayout.Space(SlmEditorStyleConst.AddPropertyButtonTopMargin / 2);
             DrawAddPropertyButton(property.serializedObject, stageLightProperties);
         }
-
-        // private static void NewMethod(List<SlmProperty> stageLightProperties)
-        // {
-        //     // StageLightManeuverSettingsのSlmPropertyOrderを参照して、順番を並び替える
-        //     Dictionary<Type, int> slmPropertyOrder = null;
-        //     var guids = AssetDatabase.FindAssets("t:StageLightManeuverSettings");
-        //     // Debug.Log("Get StageLightManeuverSettings");
-        //     if (guids.Length > 0)
-        //     {
-        //         var stageLightManeuverSettingsPath = AssetDatabase.GUIDToAssetPath(guids[0]);
-        //         var stageLightManeuverSettingsAsset = AssetDatabase.LoadAssetAtPath<StageLightManeuverSettings>(stageLightManeuverSettingsPath);
-        //         slmPropertyOrder = stageLightManeuverSettingsAsset.SlmPropertyOrder;
-        //     }
-        //     else
-        //     {
-        //         slmPropertyOrder = StageLightManeuverSettingsUtility.defaultSettings.SlmPropertyOrder;
-        //     }
-        //     for (int i = 0; i < stageLightProperties.Count; i++)
-        //     {
-        //         var slmProperty = stageLightProperties[i];
-        //         slmProperty.propertyOrder = slmPropertyOrder[slmProperty.GetType()];
-        //         // Debug.Log(slmProperty.propertyName + "'s order is " + slmProperty.propertyOrder);
-        //     }
-        // }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -105,7 +79,7 @@ namespace StageLightManeuver
 
         private static void DrawRemoveButton(SerializedObject serializedObject, List<SlmProperty> properties, Action onRemove)
         {
-            GUILayout.Space(SlmDrawerConst.Spacing);
+            GUILayout.Space(SlmEditorStyleConst.Spacing);
             using (new EditorGUILayout.HorizontalScope())
             {
                 GUILayout.FlexibleSpace();
@@ -117,7 +91,7 @@ namespace StageLightManeuver
                 }
                 GUILayout.FlexibleSpace();
             }
-            GUILayout.Space(SlmDrawerConst.Spacing);
+            GUILayout.Space(SlmEditorStyleConst.Spacing);
         }
 
         private void DrawAddPropertyButton(SerializedObject serializedObject, List<SlmProperty> stageLightProperties)

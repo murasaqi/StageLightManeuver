@@ -53,7 +53,7 @@ namespace StageLightManeuver
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return SlmDrawerConst.NoMarginHeight;
+            return SlmEditorStyleConst.NoMarginHeight;
         }
     }
 }
