@@ -7,12 +7,11 @@ using UnityEngine;
 
 namespace StageLightManeuver
 {
-
     [CreateAssetMenu(fileName = "StageLightManeuverSetting", menuName = "StageLightManeuver/Settings")]
     public class StageLightManeuverSettings : ScriptableObject
     {
         public string exportProfilePath = SlmSettingsUtility.BaseExportProfilePath;
-        public Dictionary<Type, int> SlmPropertyOrder; //! 分離予定
+        public Dictionary<Type, int> SlmPropertyOrder;
         // public GUIStyle[] SlmPropertyStyles;
 
         public void OnEnable()

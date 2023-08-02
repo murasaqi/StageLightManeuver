@@ -20,7 +20,7 @@ namespace StageLightManeuver
             stageLightProperties.RemoveAll(x => x == null);
             if (isInitialized == false)
             {
-                stageLightProperties = SlmSettingsUtility.SortByPropertyOrder(stageLightProperties);
+                stageLightProperties = SlmEditorSettingsUtility.SortByPropertyOrder(stageLightProperties);
                 isInitialized = true;
             }
             for (int i = 0; i < stageLightProperties.Count; i++)
