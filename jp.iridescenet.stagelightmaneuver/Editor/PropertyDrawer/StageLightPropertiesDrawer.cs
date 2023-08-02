@@ -19,7 +19,7 @@ namespace StageLightManeuver
             var stageLightProperties = property.GetValue<object>() as List<SlmProperty>;
             if (isInitialized == false)
             {
-                stageLightProperties = StageLightManeuverSettingsUtility.SortByPropertyOrder(stageLightProperties);
+                stageLightProperties = SlmSettingsUtility.SortByPropertyOrder(stageLightProperties);
                 isInitialized = true;
             }
             for (int i = 0; i < stageLightProperties.Count; i++)

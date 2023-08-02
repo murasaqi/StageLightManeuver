@@ -71,7 +71,7 @@ namespace StageLightManeuver
             {
                 GUILayout.FlexibleSpace();
                 var buttonMinWidth = 60;
-                if (GUILayout.Button("Apply", GUILayout.MinWidth(buttonMinWidth)))
+                if (GUILayout.Button("Save", GUILayout.MinWidth(buttonMinWidth)))
                 {
                     UpdatePropertyOrder();
                     serializedObject.ApplyModifiedProperties();
@@ -79,7 +79,7 @@ namespace StageLightManeuver
                     AssetDatabase.Refresh();
                     Repaint();
                     ReloadPreviewInstances();
-                    Debug.Log("[StageLightManeuverSettings] Apply modified settings");
+                    // Debug.Log("[StageLightManeuverSettings] Apply modified settings");
                 }
                 //TODO: revert と reset の実装
 
@@ -94,7 +94,7 @@ namespace StageLightManeuver
                 // }
                 // if (GUILayout.Button("Reset", GUILayout.MinWidth(buttonMinWidth)))
                 // {
-                //     stageLightManeuverSettings = StageLightManeuverSettingsUtility.defaultSettings;
+                //     stageLightManeuverSettings = StageLightManeuverSettings.CreateInstance<StageLightManeuverSettings>();;
                 //     UpdatePropertyOrder();
                 //     AssetDatabase.SaveAssets();
                 //     AssetDatabase.Refresh();
