@@ -17,6 +17,7 @@ namespace StageLightManeuver
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var stageLightProperties = property.GetValue<object>() as List<SlmProperty>;
+            stageLightProperties.RemoveAll(x => x == null);
             if (isInitialized == false)
             {
                 stageLightProperties = SlmSettingsUtility.SortByPropertyOrder(stageLightProperties);
