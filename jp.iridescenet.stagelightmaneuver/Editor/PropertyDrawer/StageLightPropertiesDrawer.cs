@@ -38,6 +38,7 @@ namespace StageLightManeuver
                 if (EditorGUI.EndChangeCheck())
                 {
                     serializedSlmProperty.serializedObject.ApplyModifiedProperties();
+                    // serializedSlmProperty.serializedObject.Update();
                 }
 
                 if (serializedSlmProperty.isExpanded)
@@ -87,6 +88,7 @@ namespace StageLightManeuver
                 if (GUILayout.Button("Remove", GUILayout.Width(120)))
                 {
                     onRemove?.Invoke();
+                    serializedObject.Update();
                     serializedObject.ApplyModifiedProperties();
 
                 }
@@ -140,6 +142,7 @@ namespace StageLightManeuver
                 }
                 stageLightProperties.Add(property);
 
+                serializedObject.Update();
                 serializedObject.ApplyModifiedProperties();
             }
         }
