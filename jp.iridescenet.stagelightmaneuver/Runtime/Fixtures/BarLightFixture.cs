@@ -14,6 +14,10 @@ using UnityEngine.Rendering.Universal;
 #endif
 
 
+#if USE_VLB
+using VLB;
+#endif
+
 #if USE_VLB_ALTER
 using VLB;
 #endif
@@ -65,8 +69,8 @@ namespace StageLightManeuver
 #endif
 
 #if USE_VLB
-                volumetricLightBeamHd = light.GetComponent<VolumetricLightBeamHD>();
-                volumetricCookieHd = light.GetComponent<VolumetricCookieHD>();
+                // volumetricLightBeamHd = light.GetComponent<VolumetricLightBeamHD>();
+                // volumetricCookieHd = light.GetComponent<VolumetricCookieHD>();
 #endif
                 
 #if USE_VLB_ALTER
@@ -110,7 +114,7 @@ namespace StageLightManeuver
                 if (weight > 0.5f)
                 {
 #if USE_VLB
-                    if(volumetricCookieHd)volumetricCookieHd.cookieTexture = lightProperty.cookie.value;
+                    // if(volumetricCookieHd != null)volumetricCookieHd. = lightProperty.cookie.value;
 #endif
                 }
             }

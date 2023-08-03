@@ -41,9 +41,7 @@ namespace StageLightManeuver
         public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
         {
             #if UNITY_EDITOR
-            // serializedProfile = new SerializedObject(ReferenceStageLightProfile);
-            // slmProperties = referenceStageLightProfile.stageLightProperties;
-            #endif
+#endif
             var mixer = ScriptPlayable<StageLightTimelineMixerBehaviour>.Create(graph, inputCount);
             var stageLightTimelineMixer = mixer.GetBehaviour();
             stageLightTimelineClips.Clear();
@@ -82,23 +80,10 @@ namespace StageLightManeuver
 
         public void OnEnable()
         {
-            // if (referenceStageLightProfile == null)
-            // {
-            //     referenceStageLightProfile = ScriptableObject.CreateInstance<StageLightProfile>();
-            //     referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
-            // }
-            //
-            //
-            // if (referenceStageLightProfile.stageLightProperties == null)
-            //     referenceStageLightProfile.stageLightProperties = new List<SlmProperty>();
-            //
-            // if(serializedProfile == null)
-            //     serializedProfile = new SerializedObject(ReferenceStageLightProfile);
 #if UNITY_EDITOR
             Selection.selectionChanged -= OnSelection;
             Selection.selectionChanged += OnSelection;
 #endif
-            // slmProperties = referenceStageLightProfile.stageLightProperties;
         }
 
 #if UNITY_EDITOR
@@ -120,7 +105,6 @@ namespace StageLightManeuver
                     if(timelineClip == null) continue;
                     if (timelineClip.asset.GetType() == typeof(StageLightTimelineClip))
                     {
-                        // stringBuilder.AppendLine(timelineClip.displayName);
                         var asset = timelineClip.asset as StageLightTimelineClip;
                         
                         selectedClips.Add(asset);

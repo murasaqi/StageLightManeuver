@@ -1,48 +1,56 @@
 
 #if USE_VLB
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace VLB
 {
-    [HelpURL(Consts.Help.UrlEffectPulse)]
- [ExecuteAlways]
-    public class VLBSideThicknessAutoModifier : EffectAbstractBase
+    // [HelpURL(Consts.Help.UrlEffectPulse)]
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(VolumetricLightBeamAbstractBase))]
+    [ExecuteAlways]
+    public class VLBSideThicknessAutoModifier : MonoBehaviour
     {
         public new const string ClassName = "VLBSideThicknessModifier";
-        
-        
-        public AnimationCurve thicknessCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-        // [Range(0f, 0.999f)]
-        // public float thicknessMin = 0f;
-        //
-        // [Range(0.001f,1f)]
-        // public float thicknessMax = 1f;
 
+        private VolumetricLightBeamHD _volumetricLightBeamHd;
+        private VolumetricLightBeamSD _volumetricLightBeamSd;
+        private Light m_Light;
+        public AnimationCurve thicknessCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+     
         private const float fresnelPowMax = 10f;
 
-        protected override void OnEnable()
+        void OnEnable()
         {
-            base.OnEnable();
-            StartCoroutine(CoUpdate());
+            _volumetricLightBeamHd = GetComponent<VolumetricLightBeamHD>();
+            _volumetricLightBeamSd = GetComponent<VolumetricLightBeamSD>();
+            if(_volumetricLightBeamSd == null && _volumetricLightBeamHd == null) return;
+            m_Light = _volumetricLightBeamHd != null
+                ? _volumetricLightBeamHd.lightSpotAttached
+                : _volumetricLightBeamSd.lightSpotAttached;
+            // Debug.Assert(m_Beam != null);
+
         }
 
-        IEnumerator CoUpdate()
-        {
-          
-            var t = 0.0f;
-            while (true)
-            {
-                if (m_Light != null)
-                {
-                    var angleDiff = Mathf.Clamp(Mathf.Max(m_Light.spotAngle - m_Light.innerSpotAngle,0)/ 180f,0f,1f);
-                    m_Beam.fresnelPow = Mathf.Lerp(0, fresnelPowMax, thicknessCurve.Evaluate(angleDiff));
-                }
 
-                yield return null;
-                t += Time.deltaTime;
+        private void LateUpdate()
+        {
+            // m_Beam.
+            if(m_Light == null) return;
+            var angleDiff = Mathf.Clamp(Mathf.Max(m_Light.spotAngle - m_Light.innerSpotAngle,0)/ 180f,0f,1f);
+            var softness = Mathf.Lerp(0, fresnelPowMax, thicknessCurve.Evaluate(angleDiff));
+            if (_volumetricLightBeamHd != null)
+            {
+                _volumetricLightBeamHd.sideSoftness = softness;
+            }
+            
+            if (_volumetricLightBeamSd != null)
+            {
+                _volumetricLightBeamSd.fresnelPow = softness;
             }
         }
+ 
     }
 }
 #endif

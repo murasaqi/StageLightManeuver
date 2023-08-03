@@ -13,21 +13,24 @@ namespace StageLightManeuver
     [Serializable]
     public class StageLightTimelineClip : PlayableAsset, ITimelineClipAsset
     {
-
+        
         [SerializeReference]public StageLightProfile referenceStageLightProfile;
         [HideInInspector] public StageLightTimelineBehaviour behaviour = new StageLightTimelineBehaviour();
 
+        private StageLightQueueData _stageLightQueData = new StageLightQueueData();
         public StageLightQueueData StageLightQueueData
         {
             get
             {
-                if (syncReferenceProfile)
+                if (syncReferenceProfile && referenceStageLightProfile != null)
                 {
-                    return behaviour.syncStageLightQueData; 
+                    _stageLightQueData.stageLightProperties = referenceStageLightProfile.stageLightProperties;
+                    return _stageLightQueData;
                 }
                 else
                 {
-                    return behaviour.stageLightQueueData;
+                    _stageLightQueData.stageLightProperties = behaviour.stageLightQueueData.stageLightProperties;
+                    return _stageLightQueData;
                 }
             }
         }
@@ -165,7 +168,7 @@ namespace StageLightManeuver
                 copy.Insert(1, new StageLightOrderProperty());
             }
             
-            StageLightQueueData.stageLightProperties = copy;
+            behaviour.stageLightQueueData.stageLightProperties = copy;
             stopEditorUiUpdate = false;
         }
         
