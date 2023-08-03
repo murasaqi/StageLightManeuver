@@ -94,7 +94,14 @@ namespace StageLightManeuver
                 }
                 var serializedProperty = stageLightPropertiesProperty.GetArrayElementAtIndex(i);
                 // serializedProperty.isExpanded = true;
-                StageLightProfileEditorUtil.DrawStageLightProperty(stageLightProfileCopy.stageLightProperties,serializedProperty ,false);
+
+                // EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(serializedProperty,true);
+                // if (EditorGUI.EndChangeCheck())
+                // {
+                //     serializedObject.ApplyModifiedProperties();
+                // }
+
 
                 GUILayout.Space(2);
                 using (new EditorGUILayout.HorizontalScope())

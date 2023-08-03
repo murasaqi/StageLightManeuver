@@ -108,6 +108,30 @@ namespace StageLightManeuver
             //     }
             // }
         }
+        
+        public static void DrawOneLineSlmToggleValue(SerializedProperty serializedProperty,int marginBottom = 0)
+        {
+           
+            var propertyOverride = serializedProperty.FindPropertyRelative("propertyOverride");
+            if(propertyOverride == null) return;
+            EditorGUILayout.BeginHorizontal();
+            EditorGUI.BeginChangeCheck();
+            var isOverride = EditorGUILayout.ToggleLeft(serializedProperty.displayName, propertyOverride.boolValue, GUILayout.Width(120));
+            if (EditorGUI.EndChangeCheck())
+            {
+                propertyOverride.boolValue = isOverride;
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+            }
+            
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(serializedProperty.FindPropertyRelative("value"), GUIContent.none);
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedProperty.serializedObject.ApplyModifiedProperties();
+            }
+            
+            EditorGUILayout.EndHorizontal();
+        }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
