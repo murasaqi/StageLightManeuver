@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace StageLightManeuver
 {
-    public class SlmEditorSettingsUtility
+    public static class SlmEditorSettingsUtility
     {
         private static string? stageLightManeuverSettingsPath = _defaultStageLightManeuverSettingsPath;
         private const string _defaultStageLightManeuverSettingsPath = "Assets/StageLightManeuverSettings.asset";
@@ -46,21 +47,21 @@ namespace StageLightManeuver
         /// </summary>
         /// <returns></returns>
         private static List<SlmProperty> SetPropertyOrder(List<SlmProperty> stageLightProperties,
-            Dictionary<Type, int> slmPropertyOrder)
+            Dictionary<string, int> slmPropertyOrder)
         {
             // stageLightProperties.RemoveAll(x => x == null);
             foreach (var slmProperty in stageLightProperties)
             {
                 if (slmProperty == null) continue;
-                slmProperty.propertyOrder = slmPropertyOrder[slmProperty.GetType()];
+                slmProperty.propertyOrder = slmPropertyOrder[slmProperty.GetType().Name];
             }
 
             return stageLightProperties;
         }
 
-        private static Dictionary<Type, int> GetPropertyOrders()
+        private static Dictionary<string, int> GetPropertyOrders()
         {
-            Dictionary<Type, int> slmPropertyOrder = null;
+            Dictionary<string, int> slmPropertyOrder = null;
             var stageLightManeuverSettingsAsset = GetStageLightManeuverSettingsAsset();
             slmPropertyOrder = stageLightManeuverSettingsAsset.SlmPropertyOrder;
             return slmPropertyOrder;
@@ -71,7 +72,7 @@ namespace StageLightManeuver
         /// <paramref name="stageLightProperties"/>に<see cref="StageLightManeuverSettings"/>の設定を適用して並び変えたリストを返す
         /// </summary>
         public static List<SlmProperty> SortByPropertyOrder(List<SlmProperty> stageLightProperties,
-            in Dictionary<Type, int> slmPropertyOrder)
+            in Dictionary<string, int> slmPropertyOrder)
         {
             stageLightProperties = SetPropertyOrder(stageLightProperties, slmPropertyOrder);
             stageLightProperties.Sort((x, y) => x.propertyOrder.CompareTo(y.propertyOrder));
