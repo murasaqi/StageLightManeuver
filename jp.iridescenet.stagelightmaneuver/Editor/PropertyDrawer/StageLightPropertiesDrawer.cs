@@ -43,16 +43,15 @@ namespace StageLightManeuver
 
                 if (serializedSlmProperty.isExpanded)
                 {
+                    var propertyAttribute = slmProperty.GetType().GetCustomAttribute<SlmPropertyAttribute>();
+                    if (propertyAttribute is { isRemovable: false }) continue;
                     var action = new Action(() =>
                     {
                         stageLightProperties.Remove(slmProperty);
                         return;
                     });
-                    if (slmProperty.GetType() != typeof(ClockProperty))
-                    {
-                        DrawRemoveButton(property.serializedObject, stageLightProperties, action);
-                        GUILayout.Space(SlmEditorStyleConst.Spacing);
-                    }
+                    DrawRemoveButton(property.serializedObject, stageLightProperties, action);
+                    GUILayout.Space(SlmEditorStyleConst.Spacing);
                 }
             }
 

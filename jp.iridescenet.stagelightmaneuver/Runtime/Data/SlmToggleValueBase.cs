@@ -19,6 +19,16 @@ namespace StageLightManeuver
             this.isHidden = isHidden;
         }
     }
+
+    [System.AttributeUsage(System.AttributeTargets.Class)]
+    public class SlmPropertyAttribute : PropertyAttribute
+    {
+        public readonly bool isRemovable;
+        public SlmPropertyAttribute(bool isRemovable = true)
+        {
+            this.isRemovable = isRemovable;
+        }
+    }
     
     
     [Serializable]

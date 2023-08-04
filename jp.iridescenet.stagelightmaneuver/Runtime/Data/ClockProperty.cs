@@ -147,7 +147,7 @@ namespace StageLightManeuver
         }
     }
   
-    [Serializable]
+    [Serializable, SlmProperty(isRemovable: false)]
     public class ClockProperty: SlmProperty,IArrayProperty
     {
         [SlmValue("Clip Duration", true)] public ClipProperty clipProperty;

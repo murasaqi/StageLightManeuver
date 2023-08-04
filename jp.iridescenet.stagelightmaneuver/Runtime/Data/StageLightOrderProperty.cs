@@ -35,6 +35,7 @@ namespace StageLightManeuver
             return stageLight.order;
         }
     }
+    [SlmProperty(isRemovable: false)]
     public class StageLightOrderProperty:SlmProperty
     {
         public StageLightOrderQueue stageLightOrderQueue = new StageLightOrderQueue();

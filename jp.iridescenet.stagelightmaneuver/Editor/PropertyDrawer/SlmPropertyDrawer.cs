@@ -19,6 +19,7 @@ namespace StageLightManeuver
             // Get SlmProperty from SerializedObject
             var slmProperty = property.GetValue<object>() as SlmProperty;
             if (slmProperty == null) return;
+            // if (slmProperty.propertyName != null)
             label.text = slmProperty.propertyName;
 
             //  Draw header
