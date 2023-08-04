@@ -32,8 +32,7 @@ namespace StageLightManeuver
             
 
             var exportProfilePathProp = serializedObject.FindProperty("exportProfilePath");
-            // var exportProfilePath = stageLightManeuverSettings.exportProfilePath.Clone() as string;
-            // EditorGUILayout.TextField(exportProfilePathProp.displayName, exportProfilePath);
+
             EditorGUILayout.PropertyField(exportProfilePathProp);
             if (_reorderableSlmProperties == null)
             {
@@ -68,53 +67,18 @@ namespace StageLightManeuver
                 EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
             }
 
-            // "apply", "revert", "reset to default" button
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                GUILayout.FlexibleSpace();
-                var buttonMinWidth = 60;
-                if (GUILayout.Button("Save", GUILayout.MinWidth(buttonMinWidth)))
-                {
-                    UpdatePropertyOrder();
-                    stageLightManeuverSettings.SaveSlmPropertyOrder();
-                    serializedObject.ApplyModifiedProperties();
-
-                    EditorUtility.SetDirty(stageLightManeuverSettings);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                    Repaint();
-                    ReloadPreviewInstances();
-                    // Debug.Log("[StageLightManeuverSettings] Apply modified settings");
-                }
-                //TODO: revert と reset の実装
-
-                // if (GUILayout.Button("Revert", GUILayout.MinWidth(buttonMinWidth)))
-                // {
-                //     // reload scriptable object
-                //     AssetDatabase.Refresh();
-                //     stageLightManeuverSettings = AssetDatabase.LoadAssetAtPath(
-                //         AssetDatabase.GetAssetPath(stageLightManeuverSettings), 
-                //         typeof(StageLightManeuverSettings)) as StageLightManeuverSettings;
-                //
-                //     UpdatePropertyOrder();
-                //     Repaint();
-                //     Debug.Log("[StageLightManeuverSettings] Revert modified settings");
-                // }
-                // if (GUILayout.Button("Reset", GUILayout.MinWidth(buttonMinWidth)))
-                // {
-                //     stageLightManeuverSettings = StageLightManeuverSettings.CreateInstance<StageLightManeuverSettings>();;
-                //     UpdatePropertyOrder();
-                //     AssetDatabase.SaveAssets();
-                //     AssetDatabase.Refresh();
-                //     Debug.Log("[StageLightManeuverSettings] Reset to default");
-                // }
-                GUILayout.Space(4);
-            }
 
             if (EditorGUI.EndChangeCheck())
             {
-                // Undo.RecordObject(stageLightManeuverSettings, "StageLightManeuverSettings");
+                UpdatePropertyOrder();
+                stageLightManeuverSettings.SaveSlmPropertyOrder();
                 serializedObject.ApplyModifiedProperties();
+
+                EditorUtility.SetDirty(stageLightManeuverSettings);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                Repaint();
+                ReloadPreviewInstances();
             }
         }
 
