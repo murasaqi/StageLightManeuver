@@ -9,12 +9,24 @@ namespace StageLightManeuver
 {
 
     [System.AttributeUsage(System.AttributeTargets.Field)]
-    public class DisplayNameAttribute : System.Attribute
+    public class SlmValueAttribute : PropertyAttribute
     {
-        public string name;
-        public DisplayNameAttribute(string name)
+        public readonly string? name;
+        public readonly bool isHidden;
+        public SlmValueAttribute(string? name = null, bool isHidden = false)
         {
             this.name = name;
+            this.isHidden = isHidden;
+        }
+    }
+
+    [System.AttributeUsage(System.AttributeTargets.Class)]
+    public class SlmPropertyAttribute : PropertyAttribute
+    {
+        public readonly bool isRemovable;
+        public SlmPropertyAttribute(bool isRemovable = true)
+        {
+            this.isRemovable = isRemovable;
         }
     }
     
@@ -22,8 +34,8 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmToggleValueBase
     {
-        [SerializeField] public bool propertyOverride = false;
-        public int sortOrder = 0;
+        [SerializeField, SlmValue(isHidden: true)] public bool propertyOverride = false;
+        [SlmValue(isHidden: true)] public int sortOrder = 0;
     }
 
     [Serializable]
@@ -54,9 +66,9 @@ namespace StageLightManeuver
     [Serializable]
     public class SlmProperty:SlmToggleValueBase
     {
-        public StageLightPropertyType propertyType = StageLightPropertyType.None;
-        public string propertyName;
-        public int propertyOrder = 0;
+        [SlmValue(isHidden: true)] public StageLightPropertyType propertyType = StageLightPropertyType.None;
+        [SlmValue(isHidden: true)] public string propertyName;
+        [SlmValue(isHidden: true)] public int propertyOrder = 0;
         public virtual void ToggleOverride(bool toggle)
         {
             propertyOverride = toggle;
@@ -81,10 +93,10 @@ namespace StageLightManeuver
     [Serializable]
       public class ClockOverride
     {
-        [DisplayName("Loop Type")] public LoopType loopType = LoopType.Loop;
-        [DisplayName("Offset Time")] public float offsetTime = 0f;
-        [DisplayName("BPM Scale")]public float bpmScale = 1f;
-        [DisplayName("Child Stagger")]public float childStagger = 0f;
+        [SlmValue("Loop Type")] public LoopType loopType = LoopType.Loop;
+        [SlmValue("Offset Time")] public float offsetTime = 0f;
+        [SlmValue("BPM Scale")]public float bpmScale = 1f;
+        [SlmValue("Child Stagger")]public float childStagger = 0f;
         public ArrayStaggerValue arrayStaggerValue = new ArrayStaggerValue();
 
         public ClockOverride()

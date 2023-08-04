@@ -8,7 +8,7 @@ namespace StageLightManeuver
     [Serializable]
     public class LightIntensityProperty:SlmAdditionalProperty
     {
-        [DisplayName("Intensity")]public SlmToggleValue<MinMaxEasingValue> lightToggleIntensity;// = new StageLightProperty<float>(){value = 1f};
+        [SlmValue("Intensity")]public SlmToggleValue<MinMaxEasingValue> lightToggleIntensity;// = new StageLightProperty<float>(){value = 1f};
         public LightIntensityProperty()
         {
             propertyName = "Intensity";

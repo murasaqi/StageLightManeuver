@@ -6,10 +6,10 @@ namespace StageLightManeuver
     [Serializable]
     public class LightProperty: SlmAdditionalProperty
     {
-        [DisplayName("Spot Angle")]public SlmToggleValue<MinMaxEasingValue> spotAngle;// = new StageLightProperty<float>(){value = 15f};
-        [DisplayName("Inner Spot Angle")]public SlmToggleValue<MinMaxEasingValue> innerSpotAngle;// = new StageLightProperty<float>(){value = 10f};
-        [DisplayName("Range")]public SlmToggleValue<MinMaxEasingValue> range;
-        [DisplayName("Cookie")]public SlmToggleValue<Texture> cookie;
+        [SlmValue("Spot Angle")]public SlmToggleValue<MinMaxEasingValue> spotAngle;// = new StageLightProperty<float>(){value = 15f};
+        [SlmValue("Inner Spot Angle")]public SlmToggleValue<MinMaxEasingValue> innerSpotAngle;// = new StageLightProperty<float>(){value = 10f};
+        [SlmValue("Range")]public SlmToggleValue<MinMaxEasingValue> range;
+        [SlmValue("Cookie")]public SlmToggleValue<Texture> cookie;
         public LightProperty()
         {
             propertyName = "Light";

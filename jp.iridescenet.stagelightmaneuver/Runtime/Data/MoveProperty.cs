@@ -6,7 +6,7 @@ namespace StageLightManeuver
     [Serializable]
     public class XTransformProperty:SlmAdditionalProperty
     {
-        [DisplayName("X Transform")]public SlmToggleValue<MinMaxEasingValue> positionX; 
+        [SlmValue("X Transform")]public SlmToggleValue<MinMaxEasingValue> positionX; 
         public SlmToggleValue<float> smoothTime = new SlmToggleValue<float>(); 
         public SlmToggleValue<bool> useSmoothness = new SlmToggleValue<bool>();
 
@@ -79,7 +79,7 @@ namespace StageLightManeuver
     [Serializable]
     public class YTransformProperty : SlmAdditionalProperty
     {
-        [DisplayName("Y Transform")]public SlmToggleValue<MinMaxEasingValue> positionY; 
+        [SlmValue("Y Transform")]public SlmToggleValue<MinMaxEasingValue> positionY; 
         public SlmToggleValue<float> smoothTime = new SlmToggleValue<float>(); 
         public SlmToggleValue<bool> useSmoothness = new SlmToggleValue<bool>(); 
         
@@ -152,7 +152,7 @@ namespace StageLightManeuver
     [Serializable]
     public class ZTransformProperty : SlmAdditionalProperty
     {
-        [DisplayName("Z Transform")]public SlmToggleValue<MinMaxEasingValue> positionZ; 
+        [SlmValue("Z Transform")]public SlmToggleValue<MinMaxEasingValue> positionZ; 
         public SlmToggleValue<float> smoothTime = new SlmToggleValue<float>(); 
         public SlmToggleValue<bool> useSmoothness = new SlmToggleValue<bool>(); 
         

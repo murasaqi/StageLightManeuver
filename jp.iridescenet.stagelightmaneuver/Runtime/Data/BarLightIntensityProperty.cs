@@ -8,7 +8,7 @@ namespace StageLightManeuver
     [Serializable]
     public class BarLightIntensityProperty:SlmAdditionalProperty
     {   
-        [DisplayName("Intensity")]public SlmToggleValue<MinMaxEasingValue> intensity;
+        [SlmValue("Intensity")]public SlmToggleValue<MinMaxEasingValue> intensity;
         public SlmToggleValue<AnimationCurve> arrayLightIntensityMultiplier;
         // public SlmToggleValue<float> barLightIntensityMin
         public BarLightIntensityProperty()

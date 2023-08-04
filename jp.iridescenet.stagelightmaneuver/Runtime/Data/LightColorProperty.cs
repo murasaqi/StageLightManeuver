@@ -6,7 +6,7 @@ namespace StageLightManeuver
     [Serializable]
     public class LightColorProperty:SlmAdditionalProperty
     {
-        [DisplayName("Color")]public SlmToggleValue<Gradient> lightToggleColor;// = new StageLightProperty<float>(){value = 1f};
+        [SlmValue("Color")]public SlmToggleValue<Gradient> lightToggleColor;// = new StageLightProperty<float>(){value = 1f};
         public LightColorProperty()
         {
             propertyOverride = true;

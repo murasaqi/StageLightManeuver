@@ -19,7 +19,7 @@ namespace StageLightManeuver
         public string type;
         public string jsonInfo;
     }
-    [CreateAssetMenu(fileName = "New StageLightSetting", menuName = "ScriptableObject/StageLightSetting")]
+    [CreateAssetMenu(fileName = "New StageLightSetting", menuName = "StageLightManeuver/StageLightSetting")]
     public class StageLightProfile: ScriptableObject
     {
        

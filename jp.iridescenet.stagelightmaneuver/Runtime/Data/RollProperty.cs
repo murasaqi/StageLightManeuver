@@ -9,8 +9,8 @@ namespace StageLightManeuver
     [Serializable]
     public class RollProperty:SlmAdditionalProperty
     {
-        [DisplayName("Roll Transform")]public SlmToggleValue<MinMaxEasingValue> rollTransform; 
-        public SlmToggleValue<float> smoothTime = new SlmToggleValue<float>(); 
+        [SlmValue("Roll Transform")] public SlmToggleValue<MinMaxEasingValue> rollTransform; 
+        [SlmValue("Smooth Time")] public SlmToggleValue<float> smoothTime = new SlmToggleValue<float>(); 
         public SlmToggleValue<bool> useSmoothness = new SlmToggleValue<bool>();
         public RollProperty(RollProperty rollProperty)
         {

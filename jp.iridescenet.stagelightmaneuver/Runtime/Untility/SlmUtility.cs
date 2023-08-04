@@ -14,7 +14,7 @@ namespace StageLightManeuver
     {
 
 
-        public static string BaseExportPath = "Assets/StageLightManeuver/Profiles/<Scene>/<ClipName>";
+        public static string BaseExportPath = SlmSettingsUtility.BaseExportProfilePath;
 
         public static string GetExportPath(string path, string clipName)
         {
