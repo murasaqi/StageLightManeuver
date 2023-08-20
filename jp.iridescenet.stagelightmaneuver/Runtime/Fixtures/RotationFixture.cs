@@ -31,7 +31,6 @@ namespace StageLightManeuver
         {
 
             rotationSpeed = 0f;
-            rotation = 0f;
             var offsetTime = 0f;
             while (stageLightDataQueue.Count > 0)
             {
@@ -49,11 +48,12 @@ namespace StageLightManeuver
               
             }
 
-            rotation = (rotationSpeed * offsetTime) % 360;
+            // rotation = (rotationSpeed * time) % 360;
         }
 
         public override void UpdateFixture()
         {
+            rotation += rotationSpeed;
             if(target) target.localEulerAngles = offsetRotation + rotationAxis * rotation;
         }
     }
