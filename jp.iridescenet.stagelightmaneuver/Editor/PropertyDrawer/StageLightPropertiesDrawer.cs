@@ -14,6 +14,7 @@ namespace StageLightManeuver
     public class StageLightPropertiesDrawer : SlmBaseDrawer
     {
         bool isInitialized = false;
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var stageLightProperties = GetValueFromCache(property) as List<SlmProperty>;
@@ -23,6 +24,7 @@ namespace StageLightManeuver
                 stageLightProperties = SlmEditorSettingsUtility.SortByPropertyOrder(stageLightProperties);
                 isInitialized = true;
             }
+
             for (int i = 0; i < stageLightProperties.Count; i++)
             {
                 var slmProperty = stageLightProperties[i];
@@ -74,11 +76,13 @@ namespace StageLightManeuver
                 height += EditorGUI.GetPropertyHeight(property.GetArrayElementAtIndex(i));
                 height += EditorGUIUtility.singleLineHeight;
             }
+
             height += EditorGUIUtility.singleLineHeight;
             return height;
         }
 
-        private static void DrawRemoveButton(SerializedObject serializedObject, List<SlmProperty> properties, Action onRemove)
+        private static void DrawRemoveButton(SerializedObject serializedObject, List<SlmProperty> properties,
+            Action onRemove)
         {
             GUILayout.Space(SlmEditorStyleConst.Spacing);
             using (new EditorGUILayout.HorizontalScope())
@@ -89,10 +93,11 @@ namespace StageLightManeuver
                     onRemove?.Invoke();
                     serializedObject.Update();
                     serializedObject.ApplyModifiedProperties();
-
                 }
+
                 GUILayout.FlexibleSpace();
             }
+
             GUILayout.Space(SlmEditorStyleConst.Spacing);
         }
 
@@ -115,6 +120,7 @@ namespace StageLightManeuver
                     selectList.Remove(property.GetType().Name);
                 }
             }
+
             EditorGUI.BeginDisabledGroup(selectList.Count <= 1);
             var select = EditorGUILayout.Popup(0, selectList.ToArray(), GUILayout.MinWidth(200));
             EditorGUI.EndDisabledGroup();
@@ -126,23 +132,47 @@ namespace StageLightManeuver
                 if (property.GetType() == typeof(ManualLightArrayProperty))
                 {
                     var manualLightArrayProperty = property as ManualLightArrayProperty;
-                    var lightProperty = stageLightProperties.Find(x => x.GetType() == typeof(LightProperty)) as LightProperty;
-                    var lightIntensityProperty = stageLightProperties.Find(x => x.GetType() == typeof(LightIntensityProperty)) as LightIntensityProperty;
+                    var lightProperty =
+                        stageLightProperties.Find(x => x.GetType() == typeof(LightProperty)) as LightProperty;
+                    var lightIntensityProperty =
+                        stageLightProperties.Find(x => x.GetType() == typeof(LightIntensityProperty)) as
+                            LightIntensityProperty;
                     if (lightProperty != null)
                     {
                         manualLightArrayProperty.initialValue.angle = lightProperty.spotAngle.value.constant;
                         manualLightArrayProperty.initialValue.innerAngle = lightProperty.innerSpotAngle.value.constant;
                         manualLightArrayProperty.initialValue.range = lightProperty.range.value.constant;
                     }
+
                     if (lightIntensityProperty != null)
                     {
-                        manualLightArrayProperty.initialValue.intensity = lightIntensityProperty.lightToggleIntensity.value.constant;
+                        manualLightArrayProperty.initialValue.intensity =
+                            lightIntensityProperty.lightToggleIntensity.value.constant;
                     }
                 }
+
                 stageLightProperties.Add(property);
 
-                serializedObject.Update();
                 serializedObject.ApplyModifiedProperties();
+                EditorUtility.SetDirty(serializedObject.targetObject);
+            }
+        }
+    }
+
+    
+    /// <summary>
+    /// Unity外でAssetが保存された場合に<see cref="SlmBaseDrawer._cachedValue"/>をクリアするクラス
+    /// </summary>
+    public class SlmAssetPostprocessor : AssetPostprocessor
+    {
+        static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        {
+            foreach (string str in importedAssets)
+            {
+                if (str.Contains(".asset") || str.Contains(".playable"))
+                {
+                    SlmBaseDrawer.ClearCache();
+                }
             }
         }
     }
